@@ -1,8 +1,11 @@
 DEBUG
 RELEASE
+.vs
+CHANGES.txt
 Assets
 Bin
 Logs
+Build
 ThirdParty
 *.cur
 *.wav
@@ -19,3 +22,5 @@ ThirdParty
 *.png
 *.wav
 *.ilk
+*.vcxproj*
+

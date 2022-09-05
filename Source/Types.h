@@ -1,20 +1,20 @@
 #ifndef TYPES_H_
 #define TYPES_H_
 
-#include <stddef.h> // NULL
+#include <stdint.h>
 
 // Integer
-typedef char      s8;
-typedef short int s16;
-typedef int       s32;
-typedef long      ls32;
-typedef __int64   s64;
+typedef int8_t  s8;
+typedef int16_t s16;
+typedef int     s32; // just int instead of int32_t
+typedef long    ls32;
+typedef int64_t s64;
 
-typedef unsigned char      u8;
-typedef unsigned short int u16;
-typedef unsigned int       u32;
-typedef unsigned long      lu32;
-typedef unsigned __int64   u64;
+typedef uint8_t       u8;
+typedef uint16_t      u16;
+typedef unsigned int  u32;
+typedef unsigned long lu32;
+typedef uint64_t      u64;
 
 // Float
 typedef float  f32;

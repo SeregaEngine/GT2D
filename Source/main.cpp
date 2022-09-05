@@ -1,57 +1,51 @@
-/* ====== TODO ======
- * - Windowed mode
- * - Maybe put all .lib and .dll files in project directory?
- *
- * - DirectDraw Getcaps info
- * - BMP converters
- * - Structs aligning?
- * - Make engine multithreaded?
- */
+//#include "DebugLogManager.h"
+//#include "WindowsModule.h"
+//#include "ClockManager.h"
+//#include "GraphicsModule.h"
+//#include "InputModule.h"
+//#include "SoundModule.h"
+//#include "Game.h"
 
-#include "DebugLogManager.h"
-#include "WindowsModule.h"
-#include "ClockManager.h"
-#include "GraphicsModule.h"
-#include "InputModule.h"
-#include "SoundModule.h"
-#include "Game.h"
+#include "SDL.h" // SDL main function
 
-#define FPS 30
+#include "GT2D.h"
 
 namespace GT
 {
 
-static b32 StartUp(HINSTANCE hInstance)
+static b32 StartUp()
 {
-    if (!g_debugLogMgr.StartUp())
-        return false;
+    /*if (!g_debugLogMgr.StartUp())
+        return false;*/
 
+    /*
     if (!g_windowsModule.StartUp(hInstance))
-        return false;
-
+        return false; */
+    /*
     if (!g_clockMgr.StartUp(FPS))
-        return false;
+        return false;*/
 
-    if (!GTM::StartUp())
-        return false;
+    /*if (!GTM::StartUp())
+        return false;*/
 
-    if (!g_graphicsModule.StartUp(g_windowsModule.GetWindow()))
-        return false;
+    /*if (!g_graphicsModule.StartUp(g_windowsModule.GetWindow()))
+        return false;*/
 
-    if (!g_inputModule.StartUp(g_windowsModule.GetInstance(), g_windowsModule.GetWindow()))
-        return false;
+    /*if (!g_inputModule.StartUp(g_windowsModule.GetInstance(), g_windowsModule.GetWindow()))
+        return false;*/
 
-    if (!g_soundModule.StartUp(g_windowsModule.GetWindow()))
-        return false;
+    /*if (!g_soundModule.StartUp(g_windowsModule.GetWindow()))
+        return false;*/
 
-    if (!g_game.StartUp())
-        return false;
+    /*if (!g_game.StartUp())
+        return false;*/
 
     return true;
 }
 
 static void ShutDown()
 {
+    /*
     g_game.ShutDown();
     g_soundModule.ShutDown();
     g_inputModule.ShutDown();
@@ -60,12 +54,22 @@ static void ShutDown()
     g_clockMgr.ShutDown();
     g_windowsModule.ShutDown();
     g_debugLogMgr.ShutDown();
+    */
 }
 
 } // namespace GT
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
+int main(int argc, char** argv)
 {
+    if (!g_GT2D.StartUp())
+        return 1;
+
+    s32 exitCode = g_GT2D.Run();
+
+    g_GT2D.ShutDown();
+    return exitCode;
+
+    /*
     if (!GT::StartUp(hInstance))
         return WindowsModule::EC_ERROR;
 
@@ -88,5 +92,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
     GT::ShutDown();
 
-    return g_windowsModule.GetExitCode();
+    */
+
+    //return g_windowsModule.GetExitCode();
 }
