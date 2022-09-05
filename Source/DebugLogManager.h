@@ -2,6 +2,8 @@
 #define DEBUGLOGMANAGER_H_
 
 /* ====== INCLUDES ======= */
+#include <stdio.h>
+
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
@@ -12,10 +14,8 @@
 // Each channel represent engine's module
 enum eDebugLogChannel
 {
-    CHANNEL_LOG      = 1 << 0,
-    CHANNEL_WINDOWS  = 1 << 1,
-    CHANNEL_CLOCK    = 1 << 2,
-    CHANNEL_MATH     = 1 << 3,
+    CHANNEL_LOGMGR   = 1 << 0,
+    CHANNEL_GT2D     = 1 << 1,
     CHANNEL_GRAPHICS = 1 << 4,
     CHANNEL_INPUT    = 1 << 5,
     CHANNEL_SOUND    = 1 << 6,
@@ -33,14 +33,14 @@ enum eDebugLogPriority
 class DebugLogManager
 {
     HANDLE hConsole;
-    HFILE hFullLog;
+    FILE* hLogFull;
 
-    HFILE hLog;
-    HFILE hWindows;
-    HFILE hGraphics;
-    HFILE hInput;
-    HFILE hSound;
-    HFILE hGame;
+    FILE* hLogMgr;
+    FILE* hGT2D;
+    FILE* hGraphics;
+    FILE* hInput;
+    FILE* hSound;
+    FILE* hGame;
 
 public:
     b32 StartUp();

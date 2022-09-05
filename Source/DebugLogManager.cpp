@@ -1,14 +1,13 @@
 /* ====== TODO ======
  * - Timestamp
- * - Use Win32 funcs for files handling
  * - Filter
  * - Verbosity
  * - Enable, disable console
  */
 
 /* ====== INCLUDES ====== */
-#include <stdio.h>
 #include <stdlib.h>
+#include <filesystem>
 
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -33,7 +32,7 @@ DebugLogManager g_debugLogMgr;
 
 #define FILENAME_LOGFULL         DIR_LOGS ## "LogFull" ## LOGS_EXTENSION
 #define FILENAME_DEBUGLOGMANAGER DIR_LOGS ## "DebugLogManager" ## LOGS_EXTENSION
-#define FILENAME_WINDOWSMODULE   DIR_LOGS ## "WindowsModule" ## LOGS_EXTENSION
+#define FILENAME_GT2D            DIR_LOGS ## "GT2D" ## LOGS_EXTENSION
 #define FILENAME_GRAPHICSMODULE  DIR_LOGS ## "GraphicsModule" ## LOGS_EXTENSION
 #define FILENAME_INPUTMODULE     DIR_LOGS ## "InputModule" ## LOGS_EXTENSION
 #define FILENAME_SOUNDMODULE     DIR_LOGS ## "SoundModule" ## LOGS_EXTENSION
@@ -81,8 +80,8 @@ enum eBgColor
 enum eChannelColor
 {
     CHANNEL_COLOR_UNDEFINED = FG_LIGHTMAGENTA,
-    CHANNEL_COLOR_LOG       = FG_WHITE,
-    CHANNEL_COLOR_WINDOWS   = FG_LIGHTBLUE,
+    CHANNEL_COLOR_LOGMGR    = FG_WHITE,
+    CHANNEL_COLOR_GT2D      = FG_LIGHTBLUE,
     CHANNEL_COLOR_FREE1     = FG_YELLOW,
     CHANNEL_COLOR_FREE2     = FG_LIGHTRED,
     CHANNEL_COLOR_GRAPHICS  = FG_LIGHTGREEN,
@@ -109,26 +108,24 @@ b32 DebugLogManager::StartUp()
     hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
     // Open all log files
-    CreateDirectory(DIR_LOGS, NULL);
-
-    OFSTRUCT fileInfo;
-    // TODO(sean) Module*.txt -> *Module.txt
-    if (-1 == (hFullLog = OpenFile(FILENAME_LOGFULL, &fileInfo, OF_CREATE)) )
+    std::filesystem::create_directory(DIR_LOGS);
+    
+    if ( nullptr == (hLogFull = fopen(FILENAME_LOGFULL, "w")) )
         return false;
-    if (-1 == (hLog = OpenFile(FILENAME_DEBUGLOGMANAGER, &fileInfo, OF_CREATE)) )
+    if ( nullptr == (hLogMgr = fopen(FILENAME_DEBUGLOGMANAGER, "w")) )
         return false;
-    if (-1 == (hWindows = OpenFile(FILENAME_WINDOWSMODULE, &fileInfo, OF_CREATE)) )
+    if ( nullptr == (hGT2D = fopen(FILENAME_GT2D, "w")) )
         return false;
-    if (-1 == (hGraphics = OpenFile(FILENAME_GRAPHICSMODULE, &fileInfo, OF_CREATE)) )
+    if ( nullptr == (hGraphics = fopen(FILENAME_GRAPHICSMODULE, "w")) )
         return false;
-    if (-1 == (hInput = OpenFile(FILENAME_INPUTMODULE, &fileInfo, OF_CREATE)) )
+    if ( nullptr == (hInput = fopen(FILENAME_INPUTMODULE, "w")) )
         return false;
-    if (-1 == (hSound = OpenFile(FILENAME_SOUNDMODULE, &fileInfo, OF_CREATE)) )
+    if ( nullptr == (hSound = fopen(FILENAME_SOUNDMODULE, "w")) )
         return false;
-    if (-1 == (hGame = OpenFile(FILENAME_GAME, &fileInfo, OF_CREATE)) )
+    if ( nullptr == (hGame = fopen(FILENAME_GAME, "w")) )
         return false;
 
-    AddNote(CHANNEL_LOG, PR_NOTE, "DebugLogManager", "Manager started");
+    AddNote(CHANNEL_LOGMGR, PR_NOTE, "DebugLogManager", "Manager started");
 
     return true;
 #endif
@@ -137,16 +134,16 @@ b32 DebugLogManager::StartUp()
 void DebugLogManager::ShutDown()
 {
 #ifdef _DEBUG
-    AddNote(CHANNEL_LOG, PR_NOTE, "DebugLogManager", "Manager shut down");
+    AddNote(CHANNEL_LOGMGR, PR_NOTE, "DebugLogManager", "Manager shut down");
 
     // Close log files
-    _lclose(hFullLog);
-    _lclose(hLog);
-    _lclose(hWindows);
-    _lclose(hInput);
-    _lclose(hSound);
-    _lclose(hGraphics);
-    _lclose(hGame);
+    fclose(hLogFull);
+    fclose(hLogMgr);
+    fclose(hGT2D);
+    fclose(hInput);
+    fclose(hSound);
+    fclose(hGraphics);
+    fclose(hGame);
 
     // Detach console
     FreeConsole();
@@ -156,7 +153,7 @@ void DebugLogManager::ShutDown()
 void DebugLogManager::VAddNote(s32 channel, s32 priority, const char* name, const char* fmt, va_list vl)
 {
 #ifdef _DEBUG
-    HFILE hFile;
+    FILE* hFile;
     const char* priorityPrefix = ""; // TODO(sean) prefix -> name
     WORD noteColor = 0;
 
@@ -164,16 +161,16 @@ void DebugLogManager::VAddNote(s32 channel, s32 priority, const char* name, cons
     switch (channel)
     {
 
-    case CHANNEL_LOG:
+    case CHANNEL_LOGMGR:
     {
-        hFile = hLog;
-        noteColor |= CHANNEL_COLOR_LOG;
+        hFile = hLogMgr;
+        noteColor |= CHANNEL_COLOR_LOGMGR;
     } break;
 
-    case CHANNEL_WINDOWS:
+    case CHANNEL_GT2D:
     {
-        hFile = hWindows;
-        noteColor |= CHANNEL_COLOR_WINDOWS;
+        hFile = hGT2D;
+        noteColor |= CHANNEL_COLOR_GT2D;
     } break;
 
     case CHANNEL_GRAPHICS:
@@ -202,7 +199,7 @@ void DebugLogManager::VAddNote(s32 channel, s32 priority, const char* name, cons
 
     default:
     {
-        hFile = -1;
+        hFile = nullptr;
         noteColor |= CHANNEL_COLOR_UNDEFINED;
     } break;
 
@@ -248,19 +245,19 @@ void DebugLogManager::VAddNote(s32 channel, s32 priority, const char* name, cons
     // Get final note
     char noteFinal[NOTE_FINAL_BUFSIZE];
     _snprintf(noteFinal, NOTE_FINAL_BUFSIZE, "%s: %s\r\n", notePrefix, noteMessage);
-    s32 noteLength = strlen(noteFinal);
+    size_t noteLength = strlen(noteFinal);
 
     // Output
     SetConsoleTextAttribute(hConsole, noteColor);
-    WriteConsole(hConsole, noteFinal, noteLength, NULL, NULL);
+    WriteConsoleA(hConsole, noteFinal, (DWORD)noteLength, NULL, NULL);
 
-    _lwrite(hFullLog, noteFinal, noteLength);
-    if (hFile != -1)
-        _lwrite(hFile, noteFinal, noteLength);
+    fwrite(noteFinal, 1, noteLength, hLogFull);
+    if (hFile)
+        fwrite(noteFinal, 1, noteLength, hFile);
 
     // Flush stuff
-    FlushFileBuffers((HANDLE)hFullLog);
-    FlushFileBuffers((HANDLE)hFile);
+    fflush(hLogFull);
+    fflush(hFile);
 #endif
 }
 
