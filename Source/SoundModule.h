@@ -29,6 +29,7 @@ public:
     b32 LoadMusic(const char* fileName);
     void UnloadMusic();
     b32 PlayMusic();
+    void HaltMusic() { Mix_HaltMusic(); }
 };
 
 extern SoundModule g_soundModule;

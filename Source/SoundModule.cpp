@@ -1,6 +1,7 @@
 /* ====== TODO ======
  * - Loop sounds, music
  * - Array of music
+ * - Fade out music
  */
 
 /* ====== INCLUDES ====== */
