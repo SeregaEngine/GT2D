@@ -1,7 +1,5 @@
 /* ====== INCLUDES ====== */
-#include "GraphicsModule.h"
 #include "InputModule.h"
-#include "SoundModule.h"
 
 #include "Game.h"
 
@@ -11,17 +9,8 @@ Game g_game;
 /* ====== METHODS====== */
 b32 Game::StartUp()
 {
-    // Set module info
-    SetModuleInfo("Game", CHANNEL_GAME);
-
     // Defaults
     m_bRunning = true;
-
-    { // DEBUG(sean)
-        fixed16 f1 = F32_TO_FIXED16(123.5f);
-        f1 = GTM::MulFixed16(f1, F32_TO_FIXED16(2));
-        AddNote(PR_NOTE, "%f\n", FIXED16_TO_F32(f1));
-    }
 
     AddNote(PR_NOTE, "Module started");
 
@@ -37,12 +26,13 @@ void Game::Update(f32 dtTime)
 {
     m_dtTime = dtTime;
 
-    if (g_inputModule.KeyDown(DIK_ESCAPE))
+    if (g_inputModule.IsKeyDown(SDLK_ESCAPE))
         m_bRunning = false;
 }
 
 void Game::Render() const
 {
+    /*
     u8* screen;
     s32 pitch;
 
@@ -63,4 +53,5 @@ void Game::Render() const
 
     // Flip screen
     g_graphicsModule.Flip();
+    */
 }

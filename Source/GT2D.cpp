@@ -7,6 +7,7 @@
 #include "ClockManager.h"
 #include "GTMath.h"
 #include "InputModule.h"
+#include "Game.h"
 
 #include "GT2D.h"
 
@@ -39,6 +40,8 @@ b32 GT2D::StartUp()
         return false;
     if (!g_inputModule.StartUp())
         return false;
+    if (!g_game.StartUp())
+        return false;
 
     // Success
     return true;
@@ -54,6 +57,7 @@ void GT2D::ShutDown()
     SDL_Quit();
 
     // Shut down engine's modules
+    g_game.ShutDown();
     g_inputModule.ShutDown();
     GTM::ShutDown();
     g_clockMgr.ShutDown();
@@ -64,16 +68,13 @@ void GT2D::ShutDown()
 
 s32 GT2D::Run()
 {
-    while (1) // while (g_game.Running())
+    while (g_game.Running())
     {
         if (!g_inputModule.HandleEvents())
             break;
 
-        g_debugLogMgr.AddNote(CHANNEL_GT2D, PR_NOTE, "GT2D", "%f", 1000.0f/g_clockMgr.GetDelta());// DEBUG(sean)
-
-        /*
         g_game.Update(g_clockMgr.GetDelta());
-        g_game.Render();*/
+        //g_game.Render();
 
         g_clockMgr.Sync();
     }

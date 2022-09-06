@@ -3,7 +3,6 @@
 
 /* ====== INCLUDES ====== */
 #include "Types.h"
-#include "GraphicsModule.h"
 
 /* ====== STRUCTURES ====== */
 class Game : public EngineModule
@@ -11,6 +10,9 @@ class Game : public EngineModule
     f32 m_dtTime;
     b32 m_bRunning;
 public:
+    Game() : EngineModule("Game", CHANNEL_GAME) {}
+    virtual ~Game() {}
+
     b32 StartUp();
     void ShutDown();
 
