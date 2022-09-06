@@ -4,10 +4,10 @@
 /* ====== INCLUDES ====== */
 #include "SDL.h"
 
-#include "Types.h"
+#include "EngineModule.h"
 
 /* ====== STRUCTURES ====== */
-class GT2D
+class GT2D : public EngineModule
 {
 public:
     enum eExitCode
@@ -20,6 +20,9 @@ private:
     SDL_Window* m_pWindow;
     SDL_Renderer* m_pRenderer;
 public:
+    GT2D() : EngineModule("GT2D", CHANNEL_GT2D) {}
+    virtual ~GT2D() {}
+
     b32 StartUp();
     void ShutDown();
     s32 Run();

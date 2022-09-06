@@ -77,6 +77,8 @@ b32 GT2D::StartUp()
             return false;
     }
 
+    AddNote(PR_NOTE, "Engine started successfully");
+
     // Success
     return true;
 }
@@ -98,6 +100,8 @@ void GT2D::ShutDown()
         GTM::ShutDown();
         g_clockMgr.ShutDown();
     }
+
+    AddNote(PR_NOTE, "Engine shut down");
 
     // Shut down log manager
     g_debugLogMgr.ShutDown();
