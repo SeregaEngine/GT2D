@@ -6,7 +6,9 @@
  */
 
 /* ====== INCLUDES ====== */
+#include <stdio.h>
 #include <stdlib.h>
+#include <errno.h>
 #include <filesystem>
 
 #define WIN32_LEAN_AND_MEAN
@@ -111,19 +113,19 @@ b32 DebugLogManager::StartUp()
     std::filesystem::create_directory(DIR_LOGS);
     
     if ( nullptr == (hLogFull = fopen(FILENAME_LOGFULL, "w")) )
-        return false;
+        AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
     if ( nullptr == (hLogMgr = fopen(FILENAME_DEBUGLOGMANAGER, "w")) )
-        return false;
+        AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
     if ( nullptr == (hGT2D = fopen(FILENAME_GT2D, "w")) )
-        return false;
+        AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
     if ( nullptr == (hGraphics = fopen(FILENAME_GRAPHICSMODULE, "w")) )
-        return false;
+        AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
     if ( nullptr == (hInput = fopen(FILENAME_INPUTMODULE, "w")) )
-        return false;
+        AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
     if ( nullptr == (hSound = fopen(FILENAME_SOUNDMODULE, "w")) )
-        return false;
+        AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
     if ( nullptr == (hGame = fopen(FILENAME_GAME, "w")) )
-        return false;
+        AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
 
     AddNote(CHANNEL_LOGMGR, PR_NOTE, "DebugLogManager", "Manager started");
 
@@ -150,7 +152,7 @@ void DebugLogManager::ShutDown()
 void DebugLogManager::VAddNote(s32 channel, s32 priority, const char* name, const char* fmt, va_list vl)
 {
     FILE* hFile;
-    const char* priorityPrefix = ""; // TODO(sean) prefix -> name
+    const char* priorityName = "";
     WORD noteColor = 0;
 
     // Foreground color and channel prefix
@@ -206,25 +208,25 @@ void DebugLogManager::VAddNote(s32 channel, s32 priority, const char* name, cons
     {
     case PR_ERROR:
     {
-        priorityPrefix = PRIORITY_PREFIX_ERROR;
+        priorityName = PRIORITY_PREFIX_ERROR;
         noteColor |= PRIORITY_COLOR_ERROR;
     } break;
 
     case PR_WARNING:
     {
-        priorityPrefix = PRIORITY_PREFIX_WARNING;
+        priorityName = PRIORITY_PREFIX_WARNING;
         noteColor |= PRIORITY_COLOR_WARNING;
     } break;
 
     case PR_NOTE:
     {
-        priorityPrefix = PRIORITY_PREFIX_NOTE;
+        priorityName = PRIORITY_PREFIX_NOTE;
         noteColor |= PRIORITY_COLOR_NOTE;
     } break;
 
     default:
     {
-        priorityPrefix = PRIORITY_PREFIX_UNDEFINED;
+        priorityName = PRIORITY_PREFIX_UNDEFINED;
         noteColor |= PRIORITY_COLOR_UNDEFINED;
     } break;
 
@@ -232,7 +234,7 @@ void DebugLogManager::VAddNote(s32 channel, s32 priority, const char* name, cons
 
     // Get note prefix
     char notePrefix[NOTE_PREFIX_BUFSIZE];
-    _snprintf(notePrefix, NOTE_PREFIX_BUFSIZE, "<%s> %s", name, priorityPrefix);
+    _snprintf(notePrefix, NOTE_PREFIX_BUFSIZE, "<%s> %s", name, priorityName);
 
     // Get note message
     char noteMessage[NOTE_MESSAGE_BUFSIZE];

@@ -31,6 +31,7 @@ b32 InputModule::HandleEvents()
 
         case SDL_QUIT:
         {
+            AddNote(PR_NOTE, "SDL_QUIT event");
             return false;
         } break;
 
