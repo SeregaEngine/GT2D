@@ -1,9 +1,17 @@
+/* TODO
+ * - Make GT2D engine it's module? just for AddNote()
+ */
+
 /* ====== INCLUDES ====== */
 #include "DebugLogManager.h"
+#include "ClockManager.h"
 #include "GTMath.h"
 #include "InputModule.h"
 
 #include "GT2D.h"
+
+/* ====== DEFINES ====== */
+#define FPS 60
 
 /* ====== VARIABLES ====== */
 GT2D g_GT2D;
@@ -25,6 +33,8 @@ b32 GT2D::StartUp()
                                 &m_pWindow, &m_pRenderer);
 
     // Start up engine`s modules
+    if (!g_clockMgr.StartUp(FPS))
+        return false;
     if (!GTM::StartUp())
         return false;
     if (!g_inputModule.StartUp())
@@ -46,6 +56,7 @@ void GT2D::ShutDown()
     // Shut down engine's modules
     g_inputModule.ShutDown();
     GTM::ShutDown();
+    g_clockMgr.ShutDown();
 
     // Shut down log manager
     g_debugLogMgr.ShutDown();
@@ -58,14 +69,13 @@ s32 GT2D::Run()
         if (!g_inputModule.HandleEvents())
             break;
 
-        if (g_inputModule.IsMouseDown(IMB_LEFT))
-            break;
+        g_debugLogMgr.AddNote(CHANNEL_GT2D, PR_NOTE, "GT2D", "%f", 1000.0f/g_clockMgr.GetDelta());// DEBUG(sean)
 
         /*
         g_game.Update(g_clockMgr.GetDelta());
-        g_game.Render();
+        g_game.Render();*/
 
-        g_clockMgr.Sync();*/
+        g_clockMgr.Sync();
     }
 
     return EC_OK;

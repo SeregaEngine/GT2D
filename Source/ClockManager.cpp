@@ -1,6 +1,5 @@
 /* ====== INCLUDES ====== */
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
+#include "SDL.h"
 
 #include "ClockManager.h"
 
@@ -10,7 +9,7 @@ ClockManager g_clockMgr;
 /* ====== METHODS ====== */
 b32 ClockManager::StartUp(s32 fps)
 {
-    m_startTime = GetTickCount();
+    m_startTime = SDL_GetTicks();
     m_msSyncDelay = (u32)(1000.0f / fps);
 
     return true;
@@ -22,7 +21,7 @@ void ClockManager::ShutDown()
 
 f32 ClockManager::GetDelta()
 {
-    u32 curTime = GetTickCount();
+    u32 curTime = SDL_GetTicks();
     f32 dtTime = (f32)(curTime - m_startTime);
     m_startTime = curTime;
 
@@ -31,6 +30,6 @@ f32 ClockManager::GetDelta()
 
 void ClockManager::Sync() const
 {
-    while (GetTickCount() - m_startTime < m_msSyncDelay)
+    while (SDL_GetTicks() - m_startTime < m_msSyncDelay)
         {}
 }
