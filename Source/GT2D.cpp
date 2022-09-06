@@ -1,5 +1,6 @@
 /* ====== INCLUDES ====== */
 #include "DebugLogManager.h"
+#include "GTMath.h"
 
 #include "GT2D.h"
 
@@ -23,7 +24,10 @@ b32 GT2D::StartUp()
                                 &m_pWindow, &m_pRenderer);
 
     // Start up engine`s modules
-    //
+    if (!GTM::StartUp())
+        return false;
+
+    g_debugLogMgr.AddNote(CHANNEL_GT2D, PR_NOTE, "GT2D", "%f", GTM::sinLook[90]);
 
     SDL_Delay(10000); // DEBUG(sean) remove this
 
@@ -41,7 +45,7 @@ void GT2D::ShutDown()
     SDL_Quit();
 
     // Shut down engine's modules
-    //
+    GTM::ShutDown();
 
     // Shut down log manager
     g_debugLogMgr.ShutDown();

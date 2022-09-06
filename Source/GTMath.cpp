@@ -7,8 +7,8 @@
 #include "GTMath.h"
 
 /* ====== VARIABLES ====== */
-static f32 m_sinLook[361];
-static f32 m_cosLook[361];
+f32 GTM::sinLook[361];
+f32 GTM::cosLook[361];
 
 const Mat44 g_IMat44 = { 1, 0, 0, 0,
                          0, 1, 0, 0,
@@ -34,8 +34,8 @@ b32 GTM::StartUp()
     for (s32 i = 0; i < 361; ++i)
     {
         f32 angle = DEG_TO_RAD((f32)i);
-        m_sinLook[i] = sinf(angle);
-        m_cosLook[i] = cosf(angle);
+        sinLook[i] = sinf(angle);
+        cosLook[i] = cosf(angle);
     }
 
     return true;
@@ -43,16 +43,6 @@ b32 GTM::StartUp()
 
 void GTM::ShutDown()
 {
-}
-
-f32 SinLook(s32 angle)
-{
-    return m_sinLook[angle];
-}
-
-f32 CosLook(s32 angle)
-{
-    return m_cosLook[angle];
 }
 
 s32 GTM::FastDist2(s32 x, s32 y)
@@ -101,8 +91,8 @@ void GTM::RotatePoly2(Poly2* poly, s32 angle)
 
     for (s32 i = 0; i < poly->vtxCount; ++i)
     {
-        f32 x = poly->aVtx[i].x*m_cosLook[angle] - poly->aVtx[i].y*m_sinLook[angle];
-        f32 y = poly->aVtx[i].x*m_sinLook[angle] + poly->aVtx[i].y*m_cosLook[angle];
+        f32 x = poly->aVtx[i].x*cosLook[angle] - poly->aVtx[i].y*sinLook[angle];
+        f32 y = poly->aVtx[i].x*sinLook[angle] + poly->aVtx[i].y*cosLook[angle];
 
         poly->aVtx[i].x = x;
         poly->aVtx[i].y = y;
@@ -194,22 +184,3 @@ void GTM::MulMat12x32(const Mat12* m1, const Mat32* m2, Mat12* mr)
     }
 }
 
-fixed16 GTM::MulFixed16(fixed16 f1, fixed16 f2)
-{
-    fixed16 res;
-
-    _asm
-    {
-        mov     eax, f1         // f1 -> eax
-        imul    f2              // f1 * f2 = EDX:EAX
-        shrd    eax, edx, 16    // 16 low bits of eax -> edx
-        mov     res, eax        // eax -> res
-    }
-
-    return res;
-}
-
-fixed16 GTM::DivFixed16(fixed16 f1, fixed16 f2)
-{
-    return 0; // TODO(sean)
-}

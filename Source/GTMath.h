@@ -7,24 +7,6 @@
 #include "Types.h"
 
 /* ====== DEFINES ====== */
-
-/* === Fixed Point === */
-typedef s32 fixed16;
-
-#define FIXED16_SHIFT    16
-#define FIXED16_MAG      65536
-#define FIXED16_DP_MASK  0x0000ffff
-#define FIXED16_WP_MASK  0xffff0000
-#define FIXED16_ROUND_UP 0x00008000
-
-#define FIXED16_WP(FP) ((FP) >> FIXED16_SHIFT)
-#define FIXED16_DP(FP) ((FP) && FIXED16_DP_MASK) // FIXME(sean) what && mean here? Maybe & mask?
-
-#define S32_TO_FIXED16(N) ((N) << FIXED16_SHIFT)
-#define F32_TO_FIXED16(F) ( (fixed16)((f32)(F) * (f32)FIXED16_MAG + 0.5f) )
-#define FIXED16_TO_F32(FP) ( (f32)(FP)/(f32)FIXED16_MAG )
-
-/* === Other === */
 #define PI       3.1415926535f
 #define PI2      6.283185307f
 #define PI_DIV_2 1.570796327f
@@ -46,9 +28,7 @@ typedef s32 fixed16;
 
 #define MAX(A, B) ((A) > (B) ? (A) : (B))
 #define MIN(A, B) ((A) < (B) ? (A) : (B))
-
 #define SWAP(A, B, T) { T = A; A = B; B = T; }
-
 #define RAND_RANGE(MIN, MAX) ( (MIN) + ( rand() % ((MAX) - (MIN) + 1)) )
 
 /* ====== STRUCTURES ====== */
@@ -269,20 +249,21 @@ struct Poly2
     Vtx2* aVtx;
 };
 
-/* ====== VARIABLES ====== */
-extern const Mat44 g_IMat44;
-extern const Mat43 g_IMat43;
-extern const Mat33 g_IMat33;
-extern const Mat22 g_IMat22;
-
 /* ====== LIBRARY NAMESPACE ====== */
 namespace GTM
 {
+    /* === Variables === */
+    extern f32 sinLook[361];
+    extern f32 cosLook[361];
+
+    extern const Mat44 g_IMat44;
+    extern const Mat43 g_IMat43;
+    extern const Mat33 g_IMat33;
+    extern const Mat22 g_IMat22;
+
+    /* === Functions === */
     b32 StartUp();
     void ShutDown();
-
-    f32 SinLook(s32 angle);
-    f32 CosLook(s32 angle);
 
     // Fast distance functions return distance between zero point and xy/xyz point
     s32 FastDist2(s32 x, s32 y);
@@ -377,10 +358,6 @@ namespace GTM
     void RotatePoly2(Poly2* poly, s32 angle);
     void ScalePoly2(Poly2* poly, f32 scaleX, f32 scaleY);
     b32 FindBoxPoly2(Poly2* poly, f32 minX, f32 minY, f32 maxX, f32 maxY);
-
-    /* Fixed16 */
-    fixed16 MulFixed16(fixed16 f1, fixed16 f2);
-    fixed16 DivFixed16(fixed16 f1, fixed16 f2);
 };
 
 #endif // GTMATH_H_
