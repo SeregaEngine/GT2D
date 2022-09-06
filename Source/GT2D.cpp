@@ -18,6 +18,8 @@
 
 /* ====== DEFINES ====== */
 #define FPS 60
+#define SCREEN_WIDTH 1280
+#define SCREEN_HEIGHT 720
 
 /* ====== VARIABLES ====== */
 GT2D g_GT2D;
@@ -36,11 +38,21 @@ b32 GT2D::StartUp()
             return false;
         }
 
-        // Create window and renderer
-        if (0 != SDL_CreateWindowAndRenderer(1280, 720,
-                                             SDL_WINDOW_SHOWN | SDL_WINDOW_INPUT_FOCUS,
-                                             &m_pWindow, &m_pRenderer))
+        // Create window
+        if ( nullptr == (m_pWindow = SDL_CreateWindow(
+                            "GT2D",
+                            SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+                            SCREEN_WIDTH, SCREEN_HEIGHT,
+                            SDL_WINDOW_SHOWN | SDL_WINDOW_INPUT_FOCUS)) )
         {
+            // SDL_GetError()
+            return false;
+        }
+
+        // Create renderer
+        if ( nullptr == (m_pRenderer = SDL_CreateRenderer(m_pWindow, -1, SDL_RENDERER_ACCELERATED)) )
+        {
+            // SDL_GetError()
             return false;
         }
 
