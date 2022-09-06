@@ -1,16 +1,23 @@
 /* ====== INCLUDES ====== */
 #include "InputModule.h"
+#include "SoundModule.h"
 
 #include "Game.h"
 
 /* ====== VARIABLES ====== */
 Game g_game;
 
+static s32 soundID; // DEBUG(sean) remove this
+
 /* ====== METHODS====== */
 b32 Game::StartUp()
 {
     // Defaults
     m_bRunning = true;
+
+    // DEBUG(sean)
+    soundID = g_soundModule.LoadWAV("123.wav");
+    g_soundModule.PlaySound(soundID);
 
     AddNote(PR_NOTE, "Module started");
 
@@ -19,6 +26,9 @@ b32 Game::StartUp()
 
 void Game::ShutDown()
 {
+    // DEBUG(sean)
+    g_soundModule.UnloadSound(soundID);
+
     AddNote(PR_NOTE, "Module shut down");
 }
 
