@@ -10,6 +10,7 @@
 #include "DebugLogManager.h"
 #include "ClockManager.h"
 #include "GTMath.h"
+#include "GraphicsModule.h"
 #include "InputModule.h"
 #include "SoundModule.h"
 #include "Game.h"
@@ -69,6 +70,8 @@ b32 GT2D::StartUp()
             return false;
         if (!GTM::StartUp())
             return false;
+        if (!g_graphicsModule.StartUp(SCREEN_WIDTH, SCREEN_HEIGHT))
+            return false;
         if (!g_inputModule.StartUp())
             return false;
         if (!g_soundModule.StartUp())
@@ -97,6 +100,7 @@ void GT2D::ShutDown()
         g_game.ShutDown();
         g_soundModule.ShutDown();
         g_inputModule.ShutDown();
+        g_graphicsModule.ShutDown();
         GTM::ShutDown();
         g_clockMgr.ShutDown();
     }

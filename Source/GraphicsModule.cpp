@@ -1,105 +1,25 @@
 /* ====== TODO ======
- * - Use my surface or texture structure
- * - DrawFilledPoly2()
- * - DrawRect()
- * - FillRect()
+ *
  */
 
 /* ====== INCLUDES ====== */
 #include <stdio.h>
 
-#include "BMP.h"
 #include "GTMath.h"
-
-#define INITGUID // For DirectX in "Graphics.h"
 #include "GraphicsModule.h"
-#undef INITGUID
 
 /* ====== DEFINES ====== */
-#define PALETTE_COLORS 256
-#define COLOR_KEY 0
-
-#define DDRAW_INIT_STRUCT(STRUCT) { memset(&STRUCT, 0, sizeof(STRUCT)); STRUCT.dwSize = sizeof(STRUCT); }
 
 /* ====== VARIABLES ====== */
 GraphicsModule g_graphicsModule;
 
 /* ====== METHODS ====== */
-b32 GraphicsModule::StartUp(HWND hWindow, s32 width, s32 height, s32 bpp)
+b32 GraphicsModule::StartUp(s32 width, s32 height)
 {
-    // Set module info
-    SetModuleInfo("GraphicsModule", CHANNEL_GRAPHICS);
-
     // Set screen variables
     m_screenWidth = width;
     m_screenHeight = height;
-    m_screenBPP = bpp;
 
-    // Initialize DirectDraw
-    if ( FAILED(DirectDrawCreateEx(NULL, (void**)&m_pDDraw, IID_IDirectDraw7, NULL)) )
-        return false;
-    // Cooperative level with window
-    if ( FAILED(m_pDDraw->SetCooperativeLevel(hWindow,
-                                              DDSCL_FULLSCREEN|DDSCL_EXCLUSIVE|
-                                              DDSCL_ALLOWMODEX|DDSCL_ALLOWREBOOT)) )
-        return false;
-    // Display mode
-    if ( FAILED(m_pDDraw->SetDisplayMode(width, height, bpp, 0, 0)) )
-        return false;
-
-    // Primary surface
-    DDSURFACEDESC2 DDSurfaceDesc;
-    DDRAW_INIT_STRUCT(DDSurfaceDesc);
-
-    DDSurfaceDesc.dwFlags = DDSD_CAPS|DDSD_BACKBUFFERCOUNT;
-    DDSurfaceDesc.ddsCaps.dwCaps = DDSCAPS_PRIMARYSURFACE|DDSCAPS_COMPLEX|DDSCAPS_FLIP;
-    DDSurfaceDesc.dwBackBufferCount = 1;
-
-    if ( FAILED(m_pDDraw->CreateSurface(&DDSurfaceDesc, &m_pDDScreen, NULL)) )
-        return false;
-
-    // Back surface
-    DDSurfaceDesc.ddsCaps.dwCaps = DDSCAPS_BACKBUFFER;
-    if ( FAILED(m_pDDScreen->GetAttachedSurface(&DDSurfaceDesc.ddsCaps, &m_pDDScreenBack)) )
-        return false;
-
-    // Palette
-    if (bpp == 8)
-    {
-        PALETTEENTRY palette[PALETTE_COLORS];
-
-        for (s32 i = 1; i < PALETTE_COLORS-1; ++i)
-        {
-            palette[i].peRed = rand() % 256;
-            palette[i].peGreen = rand() % 256;
-            palette[i].peBlue = rand() % 256;
-            palette[i].peFlags = PC_NOCOLLAPSE;
-        }
-
-        palette[0].peRed = 0;
-        palette[0].peGreen = 0;
-        palette[0].peBlue = 0;
-        palette[0].peFlags = PC_NOCOLLAPSE;
-
-        palette[255].peRed = 255;
-        palette[255].peGreen = 255;
-        palette[255].peBlue = 255;
-        palette[255].peFlags = PC_NOCOLLAPSE;
-
-        if ( FAILED(m_pDDraw->CreatePalette(DDPCAPS_8BIT|DDPCAPS_ALLOW256|DDPCAPS_INITIALIZE, palette, &m_pDDPalette, NULL)) )
-            return false;
-        if ( FAILED(m_pDDScreen->SetPalette(m_pDDPalette)) )
-            return false;
-    }
-
-    // Clipper
-    RECT clipList[1] = { { 0, 0, width, height } };
-
-    m_pDDClipper = AttachClipper(m_pDDScreenBack, clipList, 1);
-    if (!m_pDDClipper)
-        return false;
-
-    // Make note
     AddNote(PR_NOTE, "Module started");
 
     return true;
@@ -107,86 +27,11 @@ b32 GraphicsModule::StartUp(HWND hWindow, s32 width, s32 height, s32 bpp)
 
 void GraphicsModule::ShutDown()
 {
-    if (m_pDDClipper)
-    {
-        m_pDDClipper->Release();
-        m_pDDClipper = NULL;
-    }
-
-    if (m_pDDPalette)
-    {
-        m_pDDPalette->Release();
-        m_pDDPalette = NULL;
-    }
-
-    if (m_pDDScreenBack)
-    {
-        m_pDDScreenBack->Release();
-        m_pDDScreenBack = NULL;
-    }
-
-    if (m_pDDScreen)
-    {
-        m_pDDScreen->SetPalette(NULL);
-        m_pDDScreen->SetClipper(NULL);
-        m_pDDScreen->Release();
-        m_pDDScreen = NULL;
-    }
-
-    if (m_pDDraw)
-    {
-        m_pDDraw->Release();
-        m_pDDraw= NULL;
-    }
 
     AddNote(PR_NOTE, "Module shut down");
 }
 
-void GraphicsModule::ClearScreen()
-{
-    DDBLTFX DDBltFx;
-    DDRAW_INIT_STRUCT(DDBltFx);
-    DDBltFx.dwFillColor = 0;
-
-    m_pDDScreenBack->Blt(NULL, NULL, NULL, DDBLT_WAIT|DDBLT_COLORFILL, &DDBltFx);
-}
-
-b32 GraphicsModule::LockScreen(u8*& buffer, s32& pitch)
-{
-    DDSURFACEDESC2 DDSurfaceDesc;
-    DDRAW_INIT_STRUCT(DDSurfaceDesc);
-
-    if ( FAILED(m_pDDScreen->Lock(NULL, &DDSurfaceDesc, DDLOCK_WAIT|DDLOCK_SURFACEMEMORYPTR, NULL)) )
-        return false;
-
-    buffer = (u8*)DDSurfaceDesc.lpSurface;
-    pitch = DDSurfaceDesc.lPitch;
-
-    return true;
-}
-
-b32 GraphicsModule::LockBack(u8*& buffer, s32& pitch)
-{
-    DDSURFACEDESC2 DDSurfaceDesc;
-    DDRAW_INIT_STRUCT(DDSurfaceDesc);
-
-    if ( FAILED(m_pDDScreenBack->Lock(NULL, &DDSurfaceDesc, DDLOCK_WAIT|DDLOCK_SURFACEMEMORYPTR, NULL)) )
-        return false;
-
-    buffer = (u8*)DDSurfaceDesc.lpSurface;
-    pitch = DDSurfaceDesc.lPitch;
-
-    return true;
-}
-
-void GraphicsModule::PlotPixel24(u8* videoBuffer, s32 pitch, s32 x, s32 y, s32 r, s32 g, s32 b) const
-{
-    s32 addr = y*pitch + (x+x+x);
-    videoBuffer[addr] = (u8)r;
-    videoBuffer[addr+1] = (u8)g;
-    videoBuffer[addr+2] = (u8)b;
-}
-
+/*
 void GraphicsModule::DrawLine8(u8* videoBuffer, s32 pitch, s32 color, s32 fromX, s32 fromY, s32 toX, s32 toY) const
 {
     // Clip lines and check if we can draw it
@@ -828,7 +673,7 @@ LPDIRECTDRAWSURFACE7 GraphicsModule::CreateSurface(s32 width, s32 height, b32 bV
 
     return pDDSurface;
 }
-
+*/
 b32 GraphicsModule::ClipLine(s32& fromX, s32& fromY, s32& toX, s32& toY) const
 {
     // Cohen-Sutherland algorithm
@@ -1078,91 +923,4 @@ b32 GraphicsModule::ClipLine(s32& fromX, s32& fromY, s32& toX, s32& toY) const
     toY   = y2;
 
     return true;
-}
-
-void GraphicsModule::EmulationBlit(u32* videoBuffer, s32 pitch32, s32 posX, s32 posY, u32* bitMap, s32 w, s32 h) const
-{
-    videoBuffer += posY*pitch32 + posX; // Start position for videoBuffer pointer
-
-    for (s32 y = 0; y < h; ++y)
-    {
-        for (s32 x = 0; x < w; ++x)
-        {
-            u32 pixel;
-            if ((pixel = bitMap[x])) // Plot opaque pixels only
-                videoBuffer[x] = pixel;
-        }
-        videoBuffer += pitch32;
-        bitMap += w;
-    }
-}
-
-void GraphicsModule::EmulationBlitClipped(u32* videoBuffer, s32 pitch32, s32 posX, s32 posY, u32* bitMap, s32 w, s32 h) const
-{
-    // Check if it's visible
-    if (posX >= m_screenWidth  || posX + w <= 0 ||
-        posY >= m_screenHeight || posY + h <= 0)
-        return;
-
-    // Align rectangles
-    RECT dst;
-    s32 srcOffsetX, srcOffsetY;
-    s32 dX, dY;
-
-    // Left
-    if (posX < 0)
-    {
-        dst.left = 0;
-        srcOffsetX = dst.left - posX;
-    }
-    else
-    {
-        dst.left = posX;
-        srcOffsetX = 0;
-    }
-
-    // Right
-    if (posX + w > m_screenWidth)
-        dst.right = m_screenWidth - 1;
-    else
-        dst.right = (posX + w) - 1;
-
-    // Top
-    if (posY < 0)
-    {
-        dst.top = 0;
-        srcOffsetY = dst.top - posY;
-    }
-    else
-    {
-        dst.top = posY;
-        srcOffsetY = 0;
-    }
-
-    // Bottom
-    if (posY + h > m_screenHeight)
-        dst.bottom = m_screenHeight - 1;
-    else
-        dst.bottom = (posY + h) - 1;
-
-    // Difference
-    dX = dst.right - dst.left + 1;
-    dY = dst.bottom - dst.top + 1;
-
-    // Start position
-    videoBuffer += dst.top*pitch32 + dst.left;
-    bitMap += srcOffsetY*w + srcOffsetX;
-
-    // Blitting
-    for (s32 y = 0; y < dY; ++y)
-    {
-        for (s32 x = 0; x < dX; ++x)
-        {
-            u32 pixel;
-            if ((pixel = bitMap[x]) != _RGB32BIT(255, 0, 0, 0)) // Plot opaque pixels only
-                videoBuffer[x] = pixel;
-        }
-        videoBuffer += pitch32;
-        bitMap += w;
-    }
 }
