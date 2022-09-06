@@ -244,7 +244,7 @@ void DebugLogManager::VAddNote(s32 channel, s32 priority, const char* name, cons
 
     // Get final note
     char noteFinal[NOTE_FINAL_BUFSIZE];
-    _snprintf(noteFinal, NOTE_FINAL_BUFSIZE, "%s: %s\r\n", notePrefix, noteMessage);
+    _snprintf(noteFinal, NOTE_FINAL_BUFSIZE, "%s: %s\n", notePrefix, noteMessage);
     size_t noteLength = strlen(noteFinal);
 
     // Output
