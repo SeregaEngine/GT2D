@@ -102,7 +102,6 @@ enum ePriorityColor
 /* ====== METHODS ====== */
 b32 DebugLogManager::StartUp()
 {
-#ifdef _DEBUG
     // Allocate console
     if (!AllocConsole())
         return false;
@@ -129,12 +128,10 @@ b32 DebugLogManager::StartUp()
     AddNote(CHANNEL_LOGMGR, PR_NOTE, "DebugLogManager", "Manager started");
 
     return true;
-#endif
 }
 
 void DebugLogManager::ShutDown()
 {
-#ifdef _DEBUG
     AddNote(CHANNEL_LOGMGR, PR_NOTE, "DebugLogManager", "Manager shut down");
 
     // Close log files
@@ -148,12 +145,10 @@ void DebugLogManager::ShutDown()
 
     // Detach console
     FreeConsole();
-#endif
 }
 
 void DebugLogManager::VAddNote(s32 channel, s32 priority, const char* name, const char* fmt, va_list vl)
 {
-#ifdef _DEBUG
     FILE* hFile;
     const char* priorityPrefix = ""; // TODO(sean) prefix -> name
     WORD noteColor = 0;
@@ -259,17 +254,14 @@ void DebugLogManager::VAddNote(s32 channel, s32 priority, const char* name, cons
     // Flush stuff
     fflush(hLogFull);
     fflush(hFile);
-#endif
 }
 
 void DebugLogManager::AddNote(s32 channel, s32 priority, const char* name, const char* fmt, ...)
 {
-#ifdef _DEBUG
     va_list vl;
     va_start(vl, fmt);
 
     VAddNote(channel, priority, name, fmt, vl);
 
     va_end(vl);
-#endif
 }
