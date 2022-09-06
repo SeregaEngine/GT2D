@@ -7,9 +7,6 @@ InputModule g_inputModule;
 /* ====== METHODS ====== */
 b32 InputModule::StartUp()
 {
-    // Set module info
-    SetModuleInfo("InputModule", CHANNEL_INPUT);
-
     // Get snapshot of keyboard state
     m_keyState = SDL_GetKeyboardState(nullptr);
 
@@ -41,6 +38,8 @@ b32 InputModule::HandleEvents()
 
         }
     }
+
+    m_mouseState = SDL_GetMouseState(&m_mousePosX, &m_mousePosY);
 
     return true;
 }

@@ -58,7 +58,7 @@ s32 GT2D::Run()
         if (!g_inputModule.HandleEvents())
             break;
 
-        if (g_inputModule.IsKeyDown_s(SDL_SCANCODE_ESCAPE))
+        if (g_inputModule.IsMouseDown(IMB_LEFT))
             break;
 
         /*
