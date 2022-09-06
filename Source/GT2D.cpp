@@ -34,7 +34,7 @@ b32 GT2D::StartUp()
     { // Init all SDL stuff
         if (0 != SDL_Init(SDL_INIT_EVERYTHING))
         {
-            // SDL_GetError()
+            AddNote(PR_ERROR, "Error on SDL initialization: %s", SDL_GetError());
             return false;
         }
 
@@ -45,21 +45,21 @@ b32 GT2D::StartUp()
                             SCREEN_WIDTH, SCREEN_HEIGHT,
                             SDL_WINDOW_SHOWN | SDL_WINDOW_INPUT_FOCUS)) )
         {
-            // SDL_GetError()
+            AddNote(PR_ERROR, "Error on creating window: %s", SDL_GetError());
             return false;
         }
 
         // Create renderer
         if ( nullptr == (m_pRenderer = SDL_CreateRenderer(m_pWindow, -1, SDL_RENDERER_ACCELERATED)) )
         {
-            // SDL_GetError()
+            AddNote(PR_ERROR, "Error on creating renderer: %s", SDL_GetError());
             return false;
         }
 
         // Init SDL Mixer
         if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
         {
-            // Mix_GetError()
+            AddNote(PR_ERROR, "Error on SDL Mixer initialization: %s", Mix_GetError());
             return false;
         }
     }
