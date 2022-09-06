@@ -27,7 +27,7 @@ DebugLogManager g_debugLogMgr;
 #define PRIORITY_PREFIX_WARNING   "Warning"
 #define PRIORITY_PREFIX_NOTE      "Note"
 
-#define DIR_LOGS "logs\\"
+#define DIR_LOGS "Logs\\"
 #define LOGS_EXTENSION ".log"
 
 #define FILENAME_LOGFULL         DIR_LOGS ## "LogFull" ## LOGS_EXTENSION
