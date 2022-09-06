@@ -1,5 +1,6 @@
 /* ====== TODO ======
- *
+ * - Loop sounds, music
+ * - Array of music
  */
 
 /* ====== INCLUDES ====== */
@@ -13,7 +14,8 @@ SoundModule g_soundModule;
 /* ====== METHODS ====== */
 b32 SoundModule::StartUp()
 {
-    // Init array of sounds
+    // Init sounds
+    m_pMusic = nullptr;
     for (s32 i = 0; i < MAX_SOUNDS; ++i)
         m_aSounds[i] = nullptr;
 
@@ -70,3 +72,41 @@ b32 SoundModule::PlaySound(s32 id)
     }
 }
 
+b32 SoundModule::LoadMusic(const char* fileName)
+{
+    // Check if we already have one
+    if (m_pMusic)
+        UnloadMusic();
+
+    // Try to load
+    m_pMusic = Mix_LoadMUS(fileName);
+    if (!m_pMusic)
+    {
+        AddNote(PR_WARNING, "Can't load music %s: %s", fileName, Mix_GetError());
+        return false;
+    }
+
+    return true;
+}
+
+void SoundModule::UnloadMusic()
+{
+    if (m_pMusic)
+    {
+        Mix_FreeMusic(m_pMusic);
+        m_pMusic = nullptr;
+    }
+}
+
+b32 SoundModule::PlayMusic()
+{
+    if (m_pMusic)
+    {
+        return 0 == Mix_PlayMusic(m_pMusic, 0) ? true : false;
+    }
+    else
+    {
+        AddNote(PR_WARNING, "There're no music to play");
+        return false;
+    }
+}

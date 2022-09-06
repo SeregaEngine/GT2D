@@ -13,6 +13,7 @@
 /* ====== STRUCTURES ====== */
 class SoundModule : public EngineModule
 {
+    Mix_Music* m_pMusic;
     Mix_Chunk* m_aSounds[MAX_SOUNDS];
 public:
     SoundModule() : EngineModule("SoundModule", CHANNEL_SOUND) {}
@@ -23,8 +24,11 @@ public:
 
     s32 LoadWAV(const char* fileName); // -1 on error
     void UnloadSound(s32 id);
-
     b32 PlaySound(s32 id);
+
+    b32 LoadMusic(const char* fileName);
+    void UnloadMusic();
+    b32 PlayMusic();
 };
 
 extern SoundModule g_soundModule;

@@ -7,8 +7,6 @@
 /* ====== VARIABLES ====== */
 Game g_game;
 
-static s32 soundID; // DEBUG(sean) remove this
-
 /* ====== METHODS====== */
 b32 Game::StartUp()
 {
@@ -16,8 +14,8 @@ b32 Game::StartUp()
     m_bRunning = true;
 
     // DEBUG(sean)
-    soundID = g_soundModule.LoadWAV("123.wav");
-    g_soundModule.PlaySound(soundID);
+    g_soundModule.LoadMusic("123.mp3");
+    g_soundModule.PlayMusic();
 
     AddNote(PR_NOTE, "Module started");
 
@@ -27,7 +25,7 @@ b32 Game::StartUp()
 void Game::ShutDown()
 {
     // DEBUG(sean)
-    g_soundModule.UnloadSound(soundID);
+    g_soundModule.UnloadMusic();
 
     AddNote(PR_NOTE, "Module shut down");
 }
