@@ -2,61 +2,23 @@
 #define SOUNDMODULE_H_
 
 /* ====== INCLUDES ====== */
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#include <mmsystem.h>
-
-#include <dsound.h>
-#include <dmksctrl.h>
-#include <dmusici.h>
-#include <dmusicc.h>
-#include <dmusicf.h>
-
 #include "Types.h"
 #include "EngineModule.h"
 
 /* ====== DEFINES====== */
-#define MAX_SOUNDS 256
-#define MAX_MIDI 64
+#define MAX_SOUNDS 256 // NOTE(sean) check if we need this
 
 /* ====== STRUCTURES ====== */
 class SoundModule : public EngineModule
 {
-private:
-    enum eState
-    {
-        STATE_NULL = 0,
-        STATE_LOADED,
-        STATE_PLAYING,
-        STATE_STOPPED
-    };
-
-    struct Buffer
-    {
-        LPDIRECTSOUNDBUFFER pDSBuffer;
-        eState state;
-        s32 rate;
-        s32 size;
-    };
-
-    struct Midi
-    {
-        IDirectMusicSegment* pDMSeg;
-        IDirectMusicSegmentState* pDMSegState;
-        eState state;
-    };
-
-    LPDIRECTSOUND m_pDSound;
-    Buffer m_aSounds[MAX_SOUNDS];
-
-    IDirectMusicPerformance* m_pDMPerf;
-    IDirectMusicLoader* m_pDMLoader;
-    Midi m_aMIDI[MAX_MIDI];
-
 public:
-    b32 StartUp(HWND hWindow);
+    SoundModule() : EngineModule("SoundModule", CHANNEL_SOUND) {}
+    virtual ~SoundModule() {}
+
+    b32 StartUp();
     void ShutDown();
 
+#if 0 // TODO(sean)
     /* Sound */
     // Returns buffer's ID, -1 on error
     s32 LoadWAV(const char* fileName);
@@ -78,7 +40,8 @@ public:
     void UnloadMIDI(s32 id);
 
     b32 PlayMIDI(s32 id);
-    b32 StopMIDI(s32 id);
+    b32 StopMIDI(s32 id)
+#endif
 };
 
 extern SoundModule g_soundModule;

@@ -1,95 +1,18 @@
 /* ====== TODO ======
- * - Maybe give classes instead of id's and classes will call Sound's functions
- * - Check if id == -1 and state == STATE_NULL
- * - GetCaps()
- * - GetStatus()
+ *
  */
 
 /* ====== INCLUDES ====== */
-#include <direct.h> // _getcwd()
-
-#define INITGUID
 #include "SoundModule.h"
-#undef INITGUID
 
 /* ====== DEFINES ====== */
-#define MULTI_TO_WIDE(W, M) MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, M, -1, W, _MAX_PATH)
 
 /* ====== VARIABLES ====== */
 SoundModule g_soundModule;
 
 /* ====== METHODS ====== */
-b32 SoundModule::StartUp(HWND hWindow)
+b32 SoundModule::StartUp()
 {
-    // Set module info
-    SetModuleInfo("SoundModule", CHANNEL_SOUND);
-
-    // Start up DirectSound
-    if ( FAILED(DirectSoundCreate(NULL, &m_pDSound, NULL)) )
-        return false;
-
-    // Set cooperative level
-    if ( FAILED(m_pDSound->SetCooperativeLevel(hWindow, DSSCL_NORMAL)) )
-        return false;
-
-    // Initialize buffers
-    for (s32 i = 0; i < MAX_SOUNDS; ++i)
-    {
-        m_aSounds[i].pDSBuffer = NULL;
-        m_aSounds[i].state = STATE_NULL;
-    }
-
-    // Inititialize DirectMusic
-    if ( FAILED(CoInitialize(NULL)) )
-    {
-        // TODO(sean)
-        return false;
-    }
-
-    // COM init
-    if ( FAILED(CoCreateInstance(CLSID_DirectMusicPerformance,
-                                 NULL,
-                                 CLSCTX_INPROC,
-                                 IID_IDirectMusicPerformance,
-                                 (void**)&m_pDMPerf)) )
-    {
-        // TODO(sean)
-        return false;
-    }
-
-    // Init DirectMusic Perfomance
-    if ( FAILED(m_pDMPerf->Init(NULL, m_pDSound, hWindow)) )
-    {
-        // TODO(sean)
-        return false;
-    }
-
-    // Add default port
-    if ( FAILED(m_pDMPerf->AddPort(NULL)) )
-    {
-        // TODO(sean)
-        return false;
-    }
-
-    // Initialize DirectMusic Loader
-    if ( FAILED(CoCreateInstance(CLSID_DirectMusicLoader,
-                                 NULL,
-                                 CLSCTX_INPROC,
-                                 IID_IDirectMusicLoader,
-                                 (void**)&m_pDMLoader)) )
-    {
-        // TODO(sean)
-        return false;
-    }
-
-    // Initialize array of midi
-    for (s32 id = 0; id < MAX_MIDI; ++id)
-    {
-        m_aMIDI[id].pDMSeg = NULL;
-        m_aMIDI[id].pDMSegState = NULL;
-        m_aMIDI[id].state = STATE_NULL;
-    }
-
     AddNote(PR_NOTE, "Module started");
 
     return true;
@@ -97,57 +20,10 @@ b32 SoundModule::StartUp(HWND hWindow)
 
 void SoundModule::ShutDown()
 {
-    s32 i;
-
-    // DirectMusic
-    if (m_pDMPerf)
-        m_pDMPerf->Stop(NULL, NULL, 0, 0);
-
-    for (i = 0; i < MAX_MIDI; ++i)
-    {
-        if (m_aMIDI[i].state != STATE_NULL && m_aMIDI[i].pDMSeg)
-        {
-            m_aMIDI[i].pDMSeg->SetParam(GUID_Unload, -1, 0, 0, (void*)m_pDMPerf);
-            m_aMIDI[i].pDMSeg->Release();
-            m_aMIDI[i].pDMSeg = NULL;
-        }
-    }
-
-    if (m_pDMLoader)
-    {
-        m_pDMLoader->Release();
-        m_pDMLoader = NULL;
-    }
-
-    if (m_pDMPerf)
-    {
-        m_pDMPerf->CloseDown();
-        m_pDMPerf->Release();
-        m_pDMPerf = NULL;
-    }
-
-    CoUninitialize();
-
-    // DirectSound
-    for (i = 0; i < MAX_SOUNDS; ++i)
-    {
-        if (m_aSounds[i].state != STATE_NULL && m_aSounds[i].pDSBuffer)
-        {
-            m_aSounds[i].pDSBuffer->Stop();
-            m_aSounds[i].pDSBuffer->Release();
-            m_aSounds[i].pDSBuffer = NULL;
-        }
-    }
-
-    if (m_pDSound)
-    {
-        m_pDSound->Release();
-        m_pDSound = NULL;
-    }
-
     AddNote(PR_NOTE, "Module shut down");
 }
 
+#if 0 // TODO(sean)
 s32 SoundModule::LoadWAV(const char *fileName)
 {
     // Find free sound id
@@ -413,3 +289,5 @@ b32 SoundModule::StopMIDI(s32 id)
     m_aMIDI[id].state = STATE_STOPPED;
     return SUCCEEDED(m_pDMPerf->Stop(m_aMIDI[id].pDMSeg, NULL, 0, 0));
 }
+
+#endif // 0
