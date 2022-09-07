@@ -8,11 +8,12 @@
 #include "EngineModule.h"
 
 /* ====== DEFINES====== */
-#define MAX_SOUNDS 256
 
 /* ====== STRUCTURES ====== */
 class SoundModule : public EngineModule
 {
+    static const s32 MAX_SOUNDS = 256;
+
     Mix_Music* m_pMusic;
     Mix_Chunk* m_aSounds[MAX_SOUNDS];
 public:

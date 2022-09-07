@@ -70,7 +70,7 @@ b32 GT2D::StartUp()
             return false;
         if (!GTM::StartUp())
             return false;
-        if (!g_graphicsModule.StartUp(SCREEN_WIDTH, SCREEN_HEIGHT))
+        if (!g_graphicsModule.StartUp(m_pRenderer, SCREEN_WIDTH, SCREEN_HEIGHT))
             return false;
         if (!g_inputModule.StartUp())
             return false;

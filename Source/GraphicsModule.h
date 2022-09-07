@@ -2,27 +2,39 @@
 #define GRAPHICSMODULE_H_
 
 /* ====== INCLUDES ====== */
+#include "SDL.h"
+
 #include "Types.h"
 #include "GTMath.h"
 #include "EngineModule.h"
 
 /* ====== DEFINES ====== */
+struct GT_Texture;
 
 /* ====== STRUCTURES ====== */
 class GraphicsModule : public EngineModule
 {
+    SDL_Renderer* m_pRenderer;
     s32 m_screenWidth;
     s32 m_screenHeight;
+
+    GT_Texture* m_aTextures;
 
 public:
     GraphicsModule() : EngineModule("GraphicsModule", CHANNEL_GRAPHICS) {}
     virtual ~GraphicsModule() {}
 
-    b32 StartUp(s32 width, s32 height);
+    b32 StartUp(SDL_Renderer* pRenderer, s32 width, s32 height);
     void ShutDown();
 
     s32 GetScreenWidth() const { return m_screenWidth; }
     s32 GetScreenHeight() const { return m_screenHeight; }
+
+    void ClearScreen()
+        { SDL_SetRenderDrawColor(m_pRenderer, 0, 0, 0, 255); SDL_RenderClear(m_pRenderer); }
+    void FlipScreen() { SDL_RenderPresent(m_pRenderer); }
+
+    GT_Texture* LoadTexture(const char* fileName); // null on error
 
     /*
     void PlotPixel32(u32* videoBuffer, s32 pitch32, s32 x, s32 y, s32 a, s32 r, s32 g, s32 b) const

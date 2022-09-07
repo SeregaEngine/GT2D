@@ -1,5 +1,5 @@
 /* ====== TODO ======
- *
+ * - Translate all drawing stuff to SDL textures
  */
 
 /* ====== INCLUDES ====== */
@@ -9,16 +9,34 @@
 #include "GraphicsModule.h"
 
 /* ====== DEFINES ====== */
+#define MAX_TEXTURES 256
+
+/* ====== STRUCTURES ====== */
+struct GT_Texture
+{
+    SDL_Texture* pTexture;
+    s32 textureWidth, textureHeight;
+    s32 spriteWidth, spriteHeight;
+
+    s32 id;
+    s32 refsCount;
+};
 
 /* ====== VARIABLES ====== */
 GraphicsModule g_graphicsModule;
 
 /* ====== METHODS ====== */
-b32 GraphicsModule::StartUp(s32 width, s32 height)
+b32 GraphicsModule::StartUp(SDL_Renderer* pRenderer, s32 width, s32 height)
 {
-    // Set screen variables
+    // Defaults
+    m_pRenderer = pRenderer;
     m_screenWidth = width;
     m_screenHeight = height;
+
+    // Allocate textures
+    m_aTextures = new GT_Texture[MAX_TEXTURES];
+    for (s32 i = 0; i < MAX_TEXTURES; ++i)
+        m_aTextures[i].pTexture = nullptr;
 
     AddNote(PR_NOTE, "Module started");
 
@@ -27,8 +45,28 @@ b32 GraphicsModule::StartUp(s32 width, s32 height)
 
 void GraphicsModule::ShutDown()
 {
+    // Free memory
+    for (s32 i = 0; i < MAX_TEXTURES; ++i)
+        SDL_DestroyTexture(m_aTextures[i].pTexture);
+    delete[] m_aTextures;
 
     AddNote(PR_NOTE, "Module shut down");
+}
+
+GT_Texture* GraphicsModule::LoadTexture(const char* fileName)
+{
+    s32 i;
+    for (i = 0; i < MAX_TEXTURES; ++i)
+        if (!m_aTextures[i].pTexture)
+            break;
+
+    if (i >= MAX_TEXTURES)
+    {
+        AddNote(PR_WARNING, "There're no free slot for texture: %s");
+        return nullptr;
+    }
+
+    return nullptr; // DEBUG(sean)
 }
 
 /*

@@ -1,4 +1,5 @@
 /* ====== INCLUDES ====== */
+#include "GraphicsModule.h"
 #include "InputModule.h"
 #include "SoundModule.h"
 
@@ -13,10 +14,6 @@ b32 Game::StartUp()
     // Defaults
     m_bRunning = true;
 
-    // DEBUG(sean)
-    g_soundModule.LoadMusic("123.mp3");
-    g_soundModule.PlayMusic();
-
     AddNote(PR_NOTE, "Module started");
 
     return true;
@@ -24,9 +21,6 @@ b32 Game::StartUp()
 
 void Game::ShutDown()
 {
-    // DEBUG(sean)
-    g_soundModule.UnloadMusic();
-
     AddNote(PR_NOTE, "Module shut down");
 }
 
@@ -40,26 +34,9 @@ void Game::Update(f32 dtTime)
 
 void Game::Render() const
 {
-    /*
-    u8* screen;
-    s32 pitch;
+    g_graphicsModule.ClearScreen();
 
-    { // Render game objects
-        g_graphicsModule.ClearScreen();
-        if (!g_graphicsModule.LockBack(screen, pitch))
-            return;
 
-        g_graphicsModule.DrawQuad2(screen, pitch, 50, 300, 200, 250, 300, 400, 300, 400, 200);
 
-        g_graphicsModule.UnlockBack();
-    }
-
-    { // Render debug stuff
-        g_graphicsModule.DrawText_GDI(0, 0, 0, 255, 0, "FPS: %f", 1000.0f/m_dtTime);
-        g_graphicsModule.DrawText_GDI(0, 100, 0, 255, 0, "X:%d Y:%d Z:%d", g_inputModule.GetMouseRelX(), g_inputModule.GetMouseRelY(), g_inputModule.GetMouseRelZ());
-    }
-
-    // Flip screen
-    g_graphicsModule.Flip();
-    */
+    g_graphicsModule.FlipScreen();
 }
