@@ -1,4 +1,5 @@
 /* ====== TODO ======
+ * - class Vec2 with operators
  */
 
 /* ====== INCLUDES ====== */

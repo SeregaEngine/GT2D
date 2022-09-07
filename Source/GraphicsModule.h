@@ -35,7 +35,7 @@ public:
     void FlipScreen() { SDL_RenderPresent(m_pRenderer); }
 
     GT_Texture* LoadTexture(s32 id, const char* fileName, s32 spriteWidth, s32 spriteHeight); // null on error
-    // void UnloadTexture(GT_Texture* pTexture)
+    void UnloadTexture(GT_Texture* pTexture);
 
     void Draw(GT_Texture* pTexture, s32 col, s32 row,
               SDL_Rect* dstRect, f32 angle = 0.0f, SDL_RendererFlip flip = SDL_FLIP_NONE);

@@ -99,6 +99,24 @@ GT_Texture* GraphicsModule::LoadTexture(s32 id, const char* fileName, s32 sprite
     return &m_aTextures[i];
 }
 
+void GraphicsModule::UnloadTexture(GT_Texture* pTexture)
+{
+    // Check for null
+    if (!pTexture)
+    {
+        AddNote(PR_WARNING, "UnloadTexture() called with null texture");
+        return;
+    }
+
+    // Decrease reference count and delete texture
+    --pTexture->refCount;
+    if (pTexture->refCount <= 0)
+    {
+        SDL_DestroyTexture(pTexture->pTexture);
+        pTexture->pTexture = nullptr;
+    }
+}
+
 void GraphicsModule::Draw(GT_Texture* pTexture, s32 col, s32 row, SDL_Rect* dstRect, f32 angle, SDL_RendererFlip flip)
 {
     if (pTexture)
@@ -109,7 +127,7 @@ void GraphicsModule::Draw(GT_Texture* pTexture, s32 col, s32 row, SDL_Rect* dstR
     }
     else
     {
-        AddNote(PR_WARNING, "Draw called with null texture");
+        AddNote(PR_WARNING, "Draw() called with null texture");
     }
 }
 

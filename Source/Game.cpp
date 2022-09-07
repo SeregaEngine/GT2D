@@ -32,6 +32,8 @@ b32 Game::StartUp()
 
 void Game::ShutDown()
 {
+    g_graphicsModule.UnloadTexture(debug);
+
     AddNote(PR_NOTE, "Module shut down");
 }
 
@@ -51,7 +53,8 @@ void Game::Update(f32 dtTime)
     if (g_inputModule.IsKeyDown(SDLK_d))
         debugEntity.SetVelocity({ 5.0f, debugEntity.GetVelocity().y });
 
-    debugEntity.SetPosition({debugEntity.GetPosition().x + debugEntity.GetVelocity().x, debugEntity.GetPosition().y + debugEntity.GetVelocity().y});
+    debugEntity.SetPosition({debugEntity.GetPosition().x + debugEntity.GetVelocity().x,
+                             debugEntity.GetPosition().y + debugEntity.GetVelocity().y});
 }
 
 void Game::Render() const
