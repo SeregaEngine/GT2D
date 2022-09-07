@@ -8,11 +8,15 @@
 /* ====== VARIABLES ====== */
 Game g_game;
 
+static GT_Texture* debug;
+
 /* ====== METHODS====== */
 b32 Game::StartUp()
 {
     // Defaults
     m_bRunning = true;
+
+    debug = g_graphicsModule.LoadTexture(0, "Locations/Garage.png", 128, 72);
 
     AddNote(PR_NOTE, "Module started");
 
@@ -36,7 +40,7 @@ void Game::Render() const
 {
     g_graphicsModule.ClearScreen();
 
-
+    g_graphicsModule.Draw(debug, 0, 0, nullptr);
 
     g_graphicsModule.FlipScreen();
 }

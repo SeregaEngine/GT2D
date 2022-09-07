@@ -5,6 +5,7 @@
 
 /* ====== INCLUDES ====== */
 #include "SDL.h"
+#include "SDL_image.h"
 #include "SDL_mixer.h"
 
 #include "DebugLogManager.h"
@@ -57,6 +58,13 @@ b32 GT2D::StartUp()
             return false;
         }
 
+        // Init SDL Image
+        if (~IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)
+        {
+            AddNote(PR_ERROR, "Error on SDL Image initialization: %s", IMG_GetError());
+            return false;
+        }
+
         // Init SDL Mixer
         if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
         {
@@ -93,6 +101,7 @@ void GT2D::ShutDown()
         SDL_DestroyWindow(m_pWindow);
 
         Mix_Quit();
+        IMG_Quit();
         SDL_Quit();
     }
 

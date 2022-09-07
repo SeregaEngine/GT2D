@@ -34,8 +34,11 @@ public:
         { SDL_SetRenderDrawColor(m_pRenderer, 0, 0, 0, 255); SDL_RenderClear(m_pRenderer); }
     void FlipScreen() { SDL_RenderPresent(m_pRenderer); }
 
-    GT_Texture* LoadTexture(const char* fileName); // null on error
+    GT_Texture* LoadTexture(s32 id, const char* fileName, s32 spriteWidth, s32 spriteHeight); // null on error
+    // void UnloadTexture(GT_Texture* pTexture)
 
+    void Draw(GT_Texture* pTexture, s32 col, s32 row,
+              SDL_Rect* dstRect, f32 angle = 0.0f, SDL_RendererFlip flip = SDL_FLIP_NONE);
     /*
     void PlotPixel32(u32* videoBuffer, s32 pitch32, s32 x, s32 y, s32 a, s32 r, s32 g, s32 b) const
         { videoBuffer[y*pitch32 + x] = _RGB32BIT(a, r, g, b); }

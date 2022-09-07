@@ -5,6 +5,8 @@
 /* ====== INCLUDES ====== */
 #include <stdio.h>
 
+#include "SDL_image.h"
+
 #include "GTMath.h"
 #include "GraphicsModule.h"
 
@@ -14,12 +16,12 @@
 /* ====== STRUCTURES ====== */
 struct GT_Texture
 {
+    s32 id;
+    s32 refCount;
+
     SDL_Texture* pTexture;
     s32 textureWidth, textureHeight;
     s32 spriteWidth, spriteHeight;
-
-    s32 id;
-    s32 refsCount;
 };
 
 /* ====== VARIABLES ====== */
@@ -53,20 +55,56 @@ void GraphicsModule::ShutDown()
     AddNote(PR_NOTE, "Module shut down");
 }
 
-GT_Texture* GraphicsModule::LoadTexture(const char* fileName)
+GT_Texture* GraphicsModule::LoadTexture(s32 id, const char* fileName, s32 spriteWidth, s32 spriteHeight)
 {
+    // Try to find free slot
     s32 i;
     for (i = 0; i < MAX_TEXTURES; ++i)
         if (!m_aTextures[i].pTexture)
             break;
 
+    // If not slots available...
     if (i >= MAX_TEXTURES)
     {
-        AddNote(PR_WARNING, "There're no free slot for texture: %s");
+        AddNote(PR_WARNING, "There're no free slot for texture [%d]: %s", id, fileName);
         return nullptr;
     }
 
-    return nullptr; // DEBUG(sean)
+    // Load surface
+    SDL_Surface* pSurface = IMG_Load(fileName);
+    if (!pSurface)
+    {
+        AddNote(PR_WARNING, "Can't load surface from file [%d]: %s", id, fileName);
+        return nullptr;
+    }
+
+    // Set info from surface
+    m_aTextures[i].textureWidth = pSurface->w;
+    m_aTextures[i].textureHeight = pSurface->h;
+    m_aTextures[i].spriteWidth = spriteWidth;
+    m_aTextures[i].spriteHeight = spriteHeight;
+
+    // Create texture
+    m_aTextures[i].pTexture = SDL_CreateTextureFromSurface(m_pRenderer, pSurface);
+    SDL_FreeSurface(pSurface);
+    if (!m_aTextures[i].pTexture)
+    {
+        AddNote(PR_WARNING, "Can't create texture from surface [%d]: %s", id, fileName);
+        return nullptr;
+    }
+
+    // Set reference count
+    m_aTextures[i].refCount = 1;
+
+    return &m_aTextures[i];
+}
+
+void GraphicsModule::Draw(GT_Texture* pTexture, s32 col, s32 row, SDL_Rect* dstRect, f32 angle, SDL_RendererFlip flip)
+{
+    SDL_Rect srcRect = { pTexture->spriteWidth * col, pTexture->spriteHeight * row,
+                         pTexture->spriteWidth, pTexture->spriteHeight };
+
+    SDL_RenderCopyEx(m_pRenderer, pTexture->pTexture, &srcRect, dstRect, angle, nullptr, flip);
 }
 
 /*
