@@ -111,7 +111,7 @@ void GTM::ScalePoly2(Poly2* poly, f32 scaleX, f32 scaleY)
     }
 }
 
-b32 GTM::FindBoxPoly2(Poly2* poly, f32 minX, f32 minY, f32 maxX, f32 maxY)
+b32 GTM::FindBoxPoly2(const Poly2* poly, f32 minX, f32 minY, f32 maxX, f32 maxY)
 {
     // Check if polygon is correct
     if (!poly || poly->vtxCount <= 0)

@@ -44,6 +44,10 @@ typedef struct Vec2_t
             f32 x, y;
         };
     };
+
+    Vec2_t() {}
+    Vec2_t(f32 _x, f32 _y) : x(_x), y(_y) {}
+    Vec2_t(const Vec2_t& v) : x(v.x), y(v.y) {}
 } Vec2, Point2, Vtx2;
 
 typedef struct Vec3_t
@@ -278,9 +282,12 @@ namespace GTM
     inline void InitVec3(Vec3* v, f32 x, f32 y, f32 z) { v->x = x; v->y = y; v->z = z; }
     inline void InitVec4(Vec4* v, f32 x, f32 y, f32 z) { v->x = x; v->y = y; v->z = z; v->w = 1; }
 
-    inline void CopyVec2(Vec2* dst, Vec2* src) { dst->x = src->x; dst->y = src->y; }
-    inline void CopyVec3(Vec3* dst, Vec3* src) { dst->x = src->x; dst->y = src->y; dst->z = src->z; }
-    inline void CopyVec4(Vec4* dst, Vec4* src) { dst->x = src->x; dst->y = src->y; dst->z = src->z; dst->w = src->w; }
+    inline void CopyVec2(Vec2* dst, const Vec2* src) { dst->x = src->x; dst->y = src->y; }
+    inline void CopyVec3(Vec3* dst, const Vec3* src) { dst->x = src->x; dst->y = src->y; dst->z = src->z; }
+    inline void CopyVec4(Vec4* dst, const Vec4* src) { dst->x = src->x; dst->y = src->y; dst->z = src->z; dst->w = src->w; }
+
+    inline Vec2 AddVec2(const Vec2* v1, const Vec2* v2) { return { v1->x + v2->x, v1->y + v2->y }; }
+    inline void AddVec2(const Vec2* v1, const Vec2* v2, Vec2* vr) { vr->x = v1->x + v2->x; vr->y = v1->y + v2->y; }
 
     /* Matrice */
     inline void ZeroMat22(Mat22* m) { memset(m, 0, sizeof(m)); }
@@ -293,10 +300,10 @@ namespace GTM
     inline void IdentityMat44(Mat44* m) { memcpy(m, &g_IMat44, sizeof(m)); }
     inline void IdentityMat43(Mat43* m) { memcpy(m, &g_IMat43, sizeof(m)); }
 
-    inline void CopyMat22(Mat22* dst, Mat22* src) { memcpy(dst, src, sizeof(dst)); }
-    inline void CopyMat33(Mat33* dst, Mat33* src) { memcpy(dst, src, sizeof(dst)); }
-    inline void CopyMat44(Mat44* dst, Mat44* src) { memcpy(dst, src, sizeof(dst)); }
-    inline void CopyMat43(Mat43* dst, Mat43* src) { memcpy(dst, src, sizeof(dst)); }
+    inline void CopyMat22(Mat22* dst, const Mat22* src) { memcpy(dst, src, sizeof(dst)); }
+    inline void CopyMat33(Mat33* dst, const Mat33* src) { memcpy(dst, src, sizeof(dst)); }
+    inline void CopyMat44(Mat44* dst, const Mat44* src) { memcpy(dst, src, sizeof(dst)); }
+    inline void CopyMat43(Mat43* dst, const Mat43* src) { memcpy(dst, src, sizeof(dst)); }
 
     inline void TransposeMat33(Mat33* m)
     {
@@ -330,16 +337,16 @@ namespace GTM
         dst->c30 = src->c03; dst->c31 = src->c13; dst->c32 = src->c23; dst->c33 = src->c33;
     }
 
-    inline void SwapColumnMat22(Mat22* m, s32 c, Mat12* v)
+    inline void SwapColumnMat22(Mat22* m, s32 c, const Mat12* v)
         { m->c[0][c] = v->c[0]; m->c[1][c] = v->c[1]; }
 
-    inline void SwapColumnMat33(Mat33* m, s32 c, Mat13* v)
+    inline void SwapColumnMat33(Mat33* m, s32 c, const Mat13* v)
         { m->c[0][c] = v->c[0]; m->c[1][c] = v->c[1]; m->c[2][c] = v->c[2]; }
 
-    inline void SwapColumnMat44(Mat44* m, s32 c, Mat14* v)
+    inline void SwapColumnMat44(Mat44* m, s32 c, const Mat14* v)
         { m->c[0][c] = v->c[0]; m->c[1][c] = v->c[1]; m->c[2][c] = v->c[2]; m->c[3][c] = v->c[3]; }
 
-    inline void SwapColumnMat43(Mat43* m, s32 c, Mat14* v)
+    inline void SwapColumnMat43(Mat43* m, s32 c, const Mat14* v)
         { m->c[0][c] = v->c[0]; m->c[1][c] = v->c[1]; m->c[2][c] = v->c[2]; m->c[3][c] = v->c[3]; }
 
     void MulMat33(const Mat33* m1, const Mat33* m2, Mat33* mr);
@@ -350,14 +357,14 @@ namespace GTM
     inline void ZeroQuat(Quat* q) { q->w = q->x = q->y = q->z = 0.0f; }
     inline void InitQuat(Quat* q, f32 w, f32 x, f32 y, f32 z) { q->w = w; q->x = x; q->y = y; q->z = z; }
     inline void InitQuat(Quat* q, Vec3* v) { q->w = 0.0f; q->x = v->x; q->y = v->y; q->z = v->z; }
-    inline void InitQuat(Quat* dst, Quat* src) { dst->w = src->w; dst->x = src->x; dst->y = src->y; dst->z = src->z; }
-    inline void CopyQuat(Quat* dst, Quat* src) { dst->w = src->w; dst->x = src->x; dst->y = src->y; dst->z = src->z; }
+    inline void InitQuat(Quat* dst, const Quat* src) { dst->w = src->w; dst->x = src->x; dst->y = src->y; dst->z = src->z; }
+    inline void CopyQuat(Quat* dst, const Quat* src) { dst->w = src->w; dst->x = src->x; dst->y = src->y; dst->z = src->z; }
 
     /* Polygon */
     void TranslatePoly2(Poly2* poly, f32 dx, f32 dy);
     void RotatePoly2(Poly2* poly, s32 angle);
     void ScalePoly2(Poly2* poly, f32 scaleX, f32 scaleY);
-    b32 FindBoxPoly2(Poly2* poly, f32 minX, f32 minY, f32 maxX, f32 maxY);
+    b32 FindBoxPoly2(const Poly2* poly, f32 minX, f32 minY, f32 maxX, f32 maxY);
 };
 
 #endif // GTMATH_H_

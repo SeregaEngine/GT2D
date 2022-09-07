@@ -101,10 +101,16 @@ GT_Texture* GraphicsModule::LoadTexture(s32 id, const char* fileName, s32 sprite
 
 void GraphicsModule::Draw(GT_Texture* pTexture, s32 col, s32 row, SDL_Rect* dstRect, f32 angle, SDL_RendererFlip flip)
 {
-    SDL_Rect srcRect = { pTexture->spriteWidth * col, pTexture->spriteHeight * row,
-                         pTexture->spriteWidth, pTexture->spriteHeight };
-
-    SDL_RenderCopyEx(m_pRenderer, pTexture->pTexture, &srcRect, dstRect, angle, nullptr, flip);
+    if (pTexture)
+    {
+        SDL_Rect srcRect = { pTexture->spriteWidth * col, pTexture->spriteHeight * row,
+                             pTexture->spriteWidth, pTexture->spriteHeight };
+        SDL_RenderCopyEx(m_pRenderer, pTexture->pTexture, &srcRect, dstRect, angle, nullptr, flip);
+    }
+    else
+    {
+        AddNote(PR_WARNING, "Draw called with null texture");
+    }
 }
 
 /*
