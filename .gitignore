@@ -3,7 +3,7 @@ RELEASE
 .vs
 CHANGES.txt
 Assets
-Bin
+Textures
 Logs
 Build
 ThirdParty
@@ -13,6 +13,7 @@ ThirdParty
 *.aps
 *.exe
 *.obj
+*.pdb
 *.plg
 *.dsp
 *.dsw
@@ -23,4 +24,4 @@ ThirdParty
 *.wav
 *.ilk
 *.vcxproj*
-
+*.dll

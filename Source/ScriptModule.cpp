@@ -18,15 +18,13 @@ b32 ScriptModule::StartUp()
     L = luaL_newstate();
     luaL_openlibs(L);
 
-    s32 res = luaL_dostring(L, "a = 7 + 11 + math.sin(0.5)");
-
-    if (Lua_Check(res))
+    if ( Lua_Check(luaL_dofile(L, "Scripts/Test.lua")) )
     {
         lua_getglobal(L, "a");
         if (lua_isnumber(L, -1))
         {
             f32 a = (f32)lua_tonumber(L, -1);
-            Lua_AddNote(PR_NOTE, "7 + 11 = %f", a);
+            Lua_AddNote(PR_NOTE, "res: %f", a);
         }
     }
 
