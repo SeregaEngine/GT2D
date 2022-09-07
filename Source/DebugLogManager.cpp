@@ -38,6 +38,7 @@ DebugLogManager g_debugLogMgr;
 #define FILENAME_GRAPHICSMODULE  DIR_LOGS ## "GraphicsModule" ## LOGS_EXTENSION
 #define FILENAME_INPUTMODULE     DIR_LOGS ## "InputModule" ## LOGS_EXTENSION
 #define FILENAME_SOUNDMODULE     DIR_LOGS ## "SoundModule" ## LOGS_EXTENSION
+#define FILENAME_SCRIPTMODULE    DIR_LOGS ## "ScriptModule" ## LOGS_EXTENSION
 #define FILENAME_GAME            DIR_LOGS ## "Game" ## LOGS_EXTENSION
 
 enum eFgColor
@@ -90,6 +91,7 @@ enum eChannelColor
     CHANNEL_COLOR_GRAPHICS  = FG_LIGHTGREEN,
     CHANNEL_COLOR_INPUT     = FG_LIGHTCYAN,
     CHANNEL_COLOR_SOUND     = FG_LIGHTRED,
+    CHANNEL_COLOR_SCRIPT    = FG_YELLOW,
     CHANNEL_COLOR_GAME      = FG_BROWN
 };
 
@@ -124,6 +126,8 @@ b32 DebugLogManager::StartUp()
         AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
     if ( nullptr == (hSound = fopen(FILENAME_SOUNDMODULE, "w")) )
         AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
+    if (nullptr == (hScript = fopen(FILENAME_SCRIPTMODULE, "w")))
+        AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
     if ( nullptr == (hGame = fopen(FILENAME_GAME, "w")) )
         AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
 
@@ -143,6 +147,7 @@ void DebugLogManager::ShutDown()
     fclose(hInput);
     fclose(hSound);
     fclose(hGraphics);
+    fclose(hScript);
     fclose(hGame);
 
     // Detach console
@@ -187,6 +192,12 @@ void DebugLogManager::VAddNote(s32 channel, s32 priority, const char* name, cons
     {
         hFile = hSound;
         noteColor |= CHANNEL_COLOR_SOUND;
+    } break;
+
+    case CHANNEL_SCRIPT:
+    {
+        hFile = hScript;
+        noteColor |= CHANNEL_COLOR_SCRIPT;
     } break;
 
     case CHANNEL_GAME:

@@ -14,6 +14,7 @@
 #include "GraphicsModule.h"
 #include "InputModule.h"
 #include "SoundModule.h"
+#include "ScriptModule.h"
 #include "Game.h"
 
 #include "GT2D.h"
@@ -84,6 +85,8 @@ b32 GT2D::StartUp()
             return false;
         if (!g_soundModule.StartUp())
             return false;
+        if (!g_scriptModule.StartUp())
+            return false;
         if (!g_game.StartUp())
             return false;
     }
@@ -107,6 +110,7 @@ void GT2D::ShutDown()
 
     { // Shut down engine's modules
         g_game.ShutDown();
+        g_scriptModule.ShutDown();
         g_soundModule.ShutDown();
         g_inputModule.ShutDown();
         g_graphicsModule.ShutDown();

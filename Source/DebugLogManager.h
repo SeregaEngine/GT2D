@@ -19,7 +19,8 @@ enum eDebugLogChannel
     CHANNEL_GRAPHICS = 1 << 4,
     CHANNEL_INPUT    = 1 << 5,
     CHANNEL_SOUND    = 1 << 6,
-    CHANNEL_GAME     = 1 << 7
+    CHANNEL_SCRIPT   = 1 << 7,
+    CHANNEL_GAME     = 1 << 8
 };
 
 enum eDebugLogPriority
@@ -40,6 +41,7 @@ class DebugLogManager
     FILE* hGraphics;
     FILE* hInput;
     FILE* hSound;
+    FILE* hScript;
     FILE* hGame;
 
 public:
