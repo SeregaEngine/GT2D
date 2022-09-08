@@ -19,6 +19,9 @@ public:
         m_angle(0.0f), m_animCol(0), m_animRow(0), m_pTexture(nullptr) {}
     virtual ~Entity() {}
 
+    virtual void Init(const Vec2& vPosition, s32 width, s32 height, GT_Texture* pTexture);
+    virtual void Clean() {}
+
     virtual void Update(f32 dtTime) {}
     virtual void Draw();
 
@@ -42,10 +45,16 @@ public:
     void SetTexture(GT_Texture* pTexture) { m_pTexture = pTexture; }
 };
 
-inline void Entity::Draw()
-{
+inline void Entity::Draw() {
     SDL_Rect dstRect = { (s32)m_vPosition.x, (s32)m_vPosition.y, m_width, m_height };
     g_graphicsModule.Draw(m_pTexture, m_animCol, m_animRow, &dstRect, m_angle);
+}
+
+inline void Entity::Init(const Vec2& vPosition, s32 width, s32 height, GT_Texture* pTexture) {
+    m_vPosition = vPosition;
+    m_width = width;
+    m_height = height;
+    m_pTexture = pTexture;
 }
 
 #endif // ENTITY_H_

@@ -22,7 +22,7 @@ struct GT_Texture
     s32 textureWidth, textureHeight;
     s32 spriteWidth, spriteHeight;
 
-    const char* id;
+    s32 id;
     s32 refCount;
 };
 
@@ -57,7 +57,7 @@ void GraphicsModule::ShutDown()
     AddNote(PR_NOTE, "Module shut down");
 }
 
-GT_Texture* GraphicsModule::LoadTexture(const char* id, const char* fileName, s32 spriteWidth, s32 spriteHeight)
+GT_Texture* GraphicsModule::LoadTexture(s32 id, const char* fileName, s32 spriteWidth, s32 spriteHeight)
 {
     // Try to find free slot or already loaded texture
     GT_Texture* free = nullptr;

@@ -8,7 +8,7 @@
 class PlayState final: public GameState
 {
     GT_Texture* m_pBackground;
-    Entity m_player;
+    Entity* m_player;
 public:
     PlayState() : GameState() {}
     virtual ~PlayState() {}

@@ -2,17 +2,17 @@
 
 b32 PlayState::OnEnter()
 {
-    m_pBackground = g_graphicsModule.LoadTexture(TID_MISSION1, "Textures/Locations/Mission1.png", TW_LOCATION, TH_LOCATION);
-    m_player.SetWidth(160);
-    m_player.SetHeight(160);
-    m_player.SetPosition(100.0f, 200.0f);
-    m_player.SetTexture(g_graphicsModule.LoadTexture(TID_PLAYER, "Textures/Actors/Player.png", 160, 160));
+    m_pBackground = g_graphicsModule.LoadTexture(TID_MISSION1, TFN_MISSION1, TW_LOCATION, TH_LOCATION);
+
+    m_player = new Entity();
+    m_player->Init(Vec2(0.0f, 0.0f), 160, 160, g_graphicsModule.LoadTexture(TID_PLAYER, TFN_PLAYER, 160, 160));
 
     return true;
 }
 
 void PlayState::OnExit()
 {
+    delete m_player;
     g_graphicsModule.UnloadTexture(m_pBackground);
 }
 
@@ -24,5 +24,5 @@ void PlayState::Render()
     // Draw background
     g_graphicsModule.Draw(m_pBackground, 0, 0, nullptr);
     // Draw player
-    m_player.Draw();
+    m_player->Draw();
 }
