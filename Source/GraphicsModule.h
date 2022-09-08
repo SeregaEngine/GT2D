@@ -15,18 +15,20 @@
 // Default sizes of sprites
 #define TW_LOCATION 128
 #define TH_LOCATION 72
-#define TW_PLAYER 16
-#define TH_PLAYER 16
+#define TW_ACTOR 16
+#define TH_ACTOR 16
 
 // Texture ids
 enum eTextureID
 {
     TID_MISSION1 = 0,
+    TID_GARAGE,
     TID_PLAYER
 };
 
 // Texture file names
 #define TFN_MISSION1 "Textures/Locations/Mission1.png"
+#define TFN_GARAGE "Textures/Locations/Garage.png"
 #define TFN_PLAYER "Textures/Actors/Player.png"
 
 /* ====== STRUCTURES ====== */

@@ -4,10 +4,10 @@
 
 b32 PlayState::OnEnter()
 {
-    m_pBackground = g_graphicsModule.LoadTexture(TID_MISSION1, TFN_MISSION1, TW_LOCATION, TH_LOCATION);
+    m_pBackground = g_graphicsModule.LoadTexture(TID_GARAGE, TFN_GARAGE, TW_LOCATION, TH_LOCATION);
 
     m_player = new Player();
-    m_player->Init(Vec2(0.0f, 0.0f), 160, 160, g_graphicsModule.LoadTexture(TID_PLAYER, TFN_PLAYER, 160, 160));
+    m_player->Init(Vec2(100.0f, 0.0f), 160, 160, HitBox(-80, -80, 80, 80), g_graphicsModule.LoadTexture(TID_PLAYER, TFN_PLAYER, TW_ACTOR, TH_ACTOR));
 
     return true;
 }
