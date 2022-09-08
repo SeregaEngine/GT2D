@@ -1,5 +1,7 @@
 /* ====== TODO ======
  * - Translate all drawing stuff to SDL textures
+ * - Set camera here
+ * - ID should be const char* and we'll have table of strings
  */
 
 /* ====== INCLUDES ====== */

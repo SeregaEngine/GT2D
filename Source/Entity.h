@@ -14,10 +14,12 @@ protected:
     s32 m_animCol, m_animRow;
     GT_Texture* m_pTexture;
 public:
-    Entity() : m_angle(0.0f), m_animCol(0), m_animRow(0), m_pTexture(nullptr) {}
+    Entity() :
+        m_vPosition(-1000.0f, -1000.0f), m_vVelocity(0.0f, 0.0f), m_width(0), m_height(0),
+        m_angle(0.0f), m_animCol(0), m_animRow(0), m_pTexture(nullptr) {}
     virtual ~Entity() {}
 
-    virtual void Update() {}
+    virtual void Update(f32 dtTime) {}
     virtual void Draw();
 
     const Vec2& GetPosition() const { return m_vPosition; }

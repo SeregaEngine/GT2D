@@ -9,9 +9,15 @@
 #include "EngineModule.h"
 
 /* ====== DEFINES ====== */
-struct GT_Texture;
+// Default sizes of sprites
+#define TW_LOCATION 128
+#define TH_LOCATION 72
+#define TW_PLAYER 16
+#define TH_PLAYER 16
 
 /* ====== STRUCTURES ====== */
+struct GT_Texture;
+
 class GraphicsModule : public EngineModule
 {
     SDL_Renderer* m_pRenderer;

@@ -3,12 +3,14 @@
 
 /* ====== INCLUDES ====== */
 #include "Types.h"
+#include "GameState.h"
 
 /* ====== STRUCTURES ====== */
 class Game : public EngineModule
 {
-    f32 m_dtTime;
     b32 m_bRunning;
+
+    GameState* m_curState;
 public:
     Game() : EngineModule("Game", CHANNEL_GAME) {}
     virtual ~Game() {}
