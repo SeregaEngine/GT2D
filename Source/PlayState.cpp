@@ -1,12 +1,5 @@
 #include "PlayState.h"
 
-// TODO(sean) remove this
-enum eTextureID
-{
-    TID_MISSION1 = 0,
-    TID_PLAYER
-};
-
 b32 PlayState::OnEnter()
 {
     m_pBackground = g_graphicsModule.LoadTexture(TID_MISSION1, "Textures/Locations/Mission1.png", TW_LOCATION, TH_LOCATION);

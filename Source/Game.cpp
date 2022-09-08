@@ -37,8 +37,6 @@ void Game::Update(f32 dtTime)
 void Game::Render() const
 {
     g_graphicsModule.ClearScreen();
-
     m_curState->Render();
-
     g_graphicsModule.FlipScreen();
 }

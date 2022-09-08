@@ -15,6 +15,10 @@
 #define TW_PLAYER 16
 #define TH_PLAYER 16
 
+// Texture ids
+#define TID_MISSION1 "Textures/Locations/Mission1.png"
+#define TID_PLAYER "Textures/Actors/Player.png"
+
 /* ====== STRUCTURES ====== */
 struct GT_Texture;
 
@@ -40,7 +44,7 @@ public:
         { SDL_SetRenderDrawColor(m_pRenderer, 0, 0, 0, 255); SDL_RenderClear(m_pRenderer); }
     void FlipScreen() { SDL_RenderPresent(m_pRenderer); }
 
-    GT_Texture* LoadTexture(s32 id, const char* fileName, s32 spriteWidth, s32 spriteHeight); // null on error
+    GT_Texture* LoadTexture(const char* id, const char* fileName, s32 spriteWidth, s32 spriteHeight); // null on error
     void UnloadTexture(GT_Texture* pTexture);
 
     void Draw(GT_Texture* pTexture, s32 col, s32 row,
