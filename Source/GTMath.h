@@ -48,6 +48,7 @@ typedef struct Vec2_t
     Vec2_t() {}
     Vec2_t(f32 _x, f32 _y) : x(_x), y(_y) {}
     Vec2_t(const Vec2_t& v) : x(v.x), y(v.y) {}
+    Vec2_t operator=(const Vec2_t& v) { x = v.x; y = v.y; return *this; }
 } Vec2, Point2, Vtx2;
 
 typedef struct Vec3_t

@@ -19,6 +19,7 @@ public:
     void ShutDown();
 
     b32 Running() const { return m_bRunning; }
+    void Stop() { m_bRunning = false; }
 
     void Update(f32 dtTime);
     void Render() const;

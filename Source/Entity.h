@@ -1,3 +1,7 @@
+/* TODO
+ * - Entity position is middle point
+ */
+
 #ifndef ENTITY_H_
 #define ENTITY_H_
 
