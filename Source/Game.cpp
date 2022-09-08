@@ -23,8 +23,11 @@ b32 Game::StartUp()
 
 void Game::ShutDown()
 {
-    m_curState->OnExit();
-    delete m_curState;
+    if (m_curState)
+    {
+        m_curState->OnExit();
+        delete m_curState;
+    }
 
     AddNote(PR_NOTE, "Module shut down");
 }
