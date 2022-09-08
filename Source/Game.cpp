@@ -19,10 +19,10 @@ b32 Game::StartUp()
     m_bRunning = true;
 
     debug = g_graphicsModule.LoadTexture(0, "Textures/Locations/Garage.png", 128, 72);
-    debugEntity.SetTexture(g_graphicsModule.LoadTexture(1, "Textures/Actors/actor.png", 72, 80));
-    debugEntity.SetWidth(72);
-    debugEntity.SetHeight(80);
-    debugEntity.SetPosition({ 500.0f, 200.0f });
+    debugEntity.SetTexture(g_graphicsModule.LoadTexture(1, "Textures/Actors/index.png", 160, 160));
+    debugEntity.SetWidth(160);
+    debugEntity.SetHeight(160);
+    debugEntity.SetPosition({ 0.0f, 0.0f });
     debugEntity.SetVelocity({ 0.0f, 0.0f });
 
     AddNote(PR_NOTE, "Module started");
@@ -45,16 +45,14 @@ void Game::Update(f32 dtTime)
         m_bRunning = false;
 
     if (g_inputModule.IsKeyDown(SDLK_w))
-        debugEntity.SetVelocity({ debugEntity.GetVelocity().x, -5.0f });
+        debugEntity.SetPosition({ debugEntity.GetPosition().x, debugEntity.GetPosition().y - 3.0f });
     if (g_inputModule.IsKeyDown(SDLK_s))
-        debugEntity.SetVelocity({ debugEntity.GetVelocity().x, 5.0f });
+        debugEntity.SetPosition({ debugEntity.GetPosition().x, debugEntity.GetPosition().y + 3.0f });
     if (g_inputModule.IsKeyDown(SDLK_a))
-        debugEntity.SetVelocity({ -5.0f, debugEntity.GetVelocity().y});
+        debugEntity.SetPosition({ debugEntity.GetPosition().x - 3.0f, debugEntity.GetPosition().y });
     if (g_inputModule.IsKeyDown(SDLK_d))
-        debugEntity.SetVelocity({ 5.0f, debugEntity.GetVelocity().y });
+        debugEntity.SetPosition({ debugEntity.GetPosition().x + 3.0f, debugEntity.GetPosition().y });
 
-    debugEntity.SetPosition({debugEntity.GetPosition().x + debugEntity.GetVelocity().x,
-                             debugEntity.GetPosition().y + debugEntity.GetVelocity().y});
 }
 
 void Game::Render() const

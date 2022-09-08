@@ -1,2 +1,1 @@
-a = 7 + 11
-a = math.sin(90)
+GT_LOG(PR_NOTE, string.format("%s", "Hello world!"))

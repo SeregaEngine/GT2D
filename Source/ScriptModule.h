@@ -20,6 +20,8 @@ public:
 private:
     void Lua_AddNote(s32 priority, const char* fmt, ...) const;
     b32 Lua_Check(s32 res);
+
+    static s32 _GT_LOG(lua_State* L);
 };
 
 extern ScriptModule g_scriptModule;

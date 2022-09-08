@@ -18,14 +18,19 @@ b32 ScriptModule::StartUp()
     L = luaL_newstate();
     luaL_openlibs(L);
 
+    // Functions
+    lua_register(L, "GT_LOG", _GT_LOG);
+
+    // Defines
+    lua_pushinteger(L, PR_NOTE);
+    lua_setglobal(L, "PR_NOTE");
+    lua_pushinteger(L, PR_WARNING);
+    lua_setglobal(L, "PR_WARNING");
+    lua_pushinteger(L, PR_ERROR);
+    lua_setglobal(L, "PR_ERROR");
+
     if ( Lua_Check(luaL_dofile(L, "Scripts/Test.lua")) )
     {
-        lua_getglobal(L, "a");
-        if (lua_isnumber(L, -1))
-        {
-            f32 a = (f32)lua_tonumber(L, -1);
-            Lua_AddNote(PR_NOTE, "res: %f", a);
-        }
     }
 
     return true;
@@ -55,4 +60,13 @@ b32 ScriptModule::Lua_Check(s32 res)
     }
 
     return true;
+}
+
+s32 ScriptModule::_GT_LOG(lua_State* L)
+{
+    if (lua_gettop(L) == 2)
+        if (lua_isinteger(L, 1) && lua_isstring(L, 2))
+            g_scriptModule.Lua_AddNote((s32)lua_tointeger(L, 1), lua_tostring(L, 2));
+
+    return 0;
 }
