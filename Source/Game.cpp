@@ -22,8 +22,8 @@ b32 Game::StartUp()
     debugEntity.SetTexture(g_graphicsModule.LoadTexture(1, "Textures/Actors/index.png", 160, 160));
     debugEntity.SetWidth(160);
     debugEntity.SetHeight(160);
-    debugEntity.SetPosition({ 0.0f, 0.0f });
-    debugEntity.SetVelocity({ 0.0f, 0.0f });
+    debugEntity.SetPosition(0.0f , 0.0f);
+    debugEntity.SetVelocity(0.0f, 0.0f);
 
     AddNote(PR_NOTE, "Module started");
 

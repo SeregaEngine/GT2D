@@ -28,6 +28,9 @@ public:
 
     void SetPosition(const Vec2& vPosition) { GTM::CopyVec2(&m_vPosition, &vPosition); }
     void SetVelocity(const Vec2& vVelocity) { GTM::CopyVec2(&m_vVelocity, &vVelocity); }
+    void SetPosition(f32 x, f32 y) { m_vPosition.x = x; m_vPosition.y = y; }
+    void SetVelocity(f32 x, f32 y) { m_vVelocity.x = x; m_vVelocity.y = y; }
+
     void SetWidth(s32 width) { m_width = width; }
     void SetHeight(s32 height) { m_height = height; }
     void SetAngle(f32 angle) { m_angle = angle; }
