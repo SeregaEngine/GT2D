@@ -1,10 +1,12 @@
 #ifndef PLAYSTATE_H_
 #define PLAYSTATE_H_
 
+/* ====== INCLUDES ====== */
 #include "GraphicsModule.h"
 #include "GameState.h"
 #include "Entity.h"
 
+/* ====== STRUCTURES ====== */
 class PlayState final: public GameState
 {
     GT_Texture* m_pBackground;

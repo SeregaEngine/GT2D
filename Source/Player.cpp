@@ -11,7 +11,8 @@
 /* ====== DEFINES ====== */
 enum eAnimation
 {
-    ANIM_IDLE = 0,
+    ANIM_IDLE_RIGHT = 0,
+    ANIM_IDLE_LEFT,
     ANIM_RIGHT,
     ANIM_LEFT,
     ANIM_TOP,
@@ -21,6 +22,7 @@ enum eAnimation
 static const GT_Animation s_aAnims[] =
 {
     { 0, 2, 1000.0f / 1.0f, SDL_FLIP_NONE },
+    { 0, 2, 1000.0f / 1.0f, SDL_FLIP_HORIZONTAL },
     { 1, 5, 1000.0f / 15.0f, SDL_FLIP_NONE },
     { 1, 5, 1000.0f / 15.0f, SDL_FLIP_HORIZONTAL },
     { 2, 3, 1000.0f / 5.0f, SDL_FLIP_NONE },
@@ -77,13 +79,10 @@ void Player::HandleEvents(f32 dtTime)
 
 void Player::HandleAnimation(f32 dtTime)
 {
-    // Update timer
-    m_animElapsed += dtTime;
-
     // Set default animation if we don't have
     if (!m_pAnim)
     {
-        m_pAnim = &s_aAnims[ANIM_IDLE];
+        m_pAnim = &s_aAnims[ANIM_IDLE_RIGHT];
         m_animFrame = 0;
         m_animElapsed = 0.0f;
         return;
@@ -91,15 +90,31 @@ void Player::HandleAnimation(f32 dtTime)
 
     // Set animation according to actor velocity
     if (m_vVelocity.x > 0)
+    {
         m_pAnim = &s_aAnims[ANIM_RIGHT];
+    }
     else if (m_vVelocity.x < 0)
+    {
         m_pAnim = &s_aAnims[ANIM_LEFT];
+    }
     else if (m_vVelocity.y > 0)
+    {
         m_pAnim = &s_aAnims[ANIM_BOTTOM];
+    }
     else if (m_vVelocity.y < 0)
+    {
         m_pAnim = &s_aAnims[ANIM_TOP];
+    }
     else
-        m_pAnim = &s_aAnims[ANIM_IDLE];
+    {
+            if (m_pAnim == &s_aAnims[ANIM_LEFT])
+                m_pAnim = &s_aAnims[ANIM_IDLE_LEFT];
+            else if (m_pAnim != &s_aAnims[ANIM_IDLE_LEFT])
+                m_pAnim = &s_aAnims[ANIM_IDLE_RIGHT];
+    }
+
+    // Update timer
+    m_animElapsed += dtTime;
 
     // Check if we have to update animation frame
     if (m_animElapsed >= m_pAnim->frameDuration)

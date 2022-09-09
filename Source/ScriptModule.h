@@ -1,6 +1,7 @@
 #ifndef SCRIPTMODULE_H_
 #define SCRIPTMODULE_H_
 
+/* ====== INCLUDES ====== */
 extern "C"
 {
 #include "lua.h"
@@ -8,11 +9,12 @@ extern "C"
 
 #include "EngineModule.h"
 
+/* ====== STRUCTURES ====== */
 class ScriptModule : public EngineModule
 {
     lua_State* L;
 public:
-    ScriptModule() : EngineModule("ScriptModule", CHANNEL_SCRIPT) {}
+    ScriptModule() : L(nullptr), EngineModule("ScriptModule", CHANNEL_SCRIPT) {}
     virtual ~ScriptModule() {}
 
     b32 StartUp();
