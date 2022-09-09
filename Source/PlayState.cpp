@@ -1,7 +1,9 @@
+/* ====== INCLUDES ====== */
 #include "Player.h"
 
 #include "PlayState.h"
 
+/* ====== METHODS ====== */
 b32 PlayState::OnEnter()
 {
     // Background
@@ -10,10 +12,14 @@ b32 PlayState::OnEnter()
 
     // Player
     m_pPlayer = new Player();
-    m_pPlayer->Init(Vec2(100.0f, 0.0f), 160, 160, FRect(-80, -80, 80, 80), g_graphicsModule.LoadTexture(TID_PLAYER, TFN_PLAYER, TW_ACTOR, TH_ACTOR));
+    m_pPlayer->Init(Vec2(10.0f * g_unitX, 0.0f * g_unitY),
+                    TW_ACTOR * g_unitX, TH_ACTOR * g_unitY,
+                    FRect(-8.0f * (f32)g_unitX, -8.0f * (f32)g_unitY, 8.0f * (f32)g_unitX, 8.0f * (f32)g_unitY),
+                    g_graphicsModule.LoadTexture(TID_PLAYER, TFN_PLAYER, TW_ACTOR, TH_ACTOR));
 
     // Set camera
-    g_graphicsModule.GetCamera().SetBoundary({ 0, 0, 1280 * 2 - 1, 720 - 1 });
+    g_graphicsModule.GetCamera().SetBoundary({ 0, 0, (TW_LOCATION * g_unitX * 2) - 1,
+                                                     (TH_LOCATION * g_unitY) - 1 });
     g_graphicsModule.GetCamera().Attach(m_pPlayer);
 
     return true;

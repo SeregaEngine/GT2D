@@ -11,6 +11,9 @@
 #include "GraphicsModule.h"
 
 /* ====== DEFINES ====== */
+#define UNIT_SCREEN_WIDTH 128
+#define UNIT_SCREEN_HEIGHT 72
+
 #define MAX_TEXTURES 256
 
 /* ====== STRUCTURES ====== */
@@ -24,16 +27,20 @@ struct GT_Texture
     s32 refCount;
 };
 
-/* ====== VARIABLES ====== */
+/* ====== GLOBALS ====== */
 GraphicsModule g_graphicsModule;
+s32 g_unitX = 0;
+s32 g_unitY = 0;
 
 /* ====== METHODS ====== */
 b32 GraphicsModule::StartUp(SDL_Renderer* pRenderer, s32 width, s32 height)
 {
     // Defaults
-    m_pRenderer = pRenderer;
     m_screenWidth = width;
     m_screenHeight = height;
+    g_unitX = m_screenWidth / UNIT_SCREEN_WIDTH;
+    g_unitY = m_screenHeight / UNIT_SCREEN_HEIGHT;
+    m_pRenderer = pRenderer;
 
     // Allocate textures
     m_aTextures = new GT_Texture[MAX_TEXTURES];

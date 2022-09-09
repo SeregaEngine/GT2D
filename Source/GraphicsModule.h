@@ -34,9 +34,13 @@ enum eTextureID
 
 // Texture file names
 #define TFN_MISSION1 "Textures/Locations/Mission1-1.png"
-#define TFN_MISSION1_PARALLAX "Textures/Locations/Mission1-1_PARALLAX.png"
+#define TFN_MISSION1_PARALLAX "Textures/Locations/Mission1-1_Parallax.png"
 #define TFN_GARAGE "Textures/Locations/Garage.png"
 #define TFN_PLAYER "Textures/Actors/Player.png"
+
+/* ====== GLOBALS ====== */
+extern s32 g_unitX; // Pixels per unit
+extern s32 g_unitY;
 
 /* ====== STRUCTURES ====== */
 struct GT_Texture;
@@ -61,7 +65,7 @@ public:
     Camera& GetCamera() { return m_camera; }
 
     void ClearScreen()
-        { SDL_SetRenderDrawColor(m_pRenderer, 0, 0, 0, 255); SDL_RenderClear(m_pRenderer); }
+        { SDL_SetRenderDrawColor(m_pRenderer, 0x00, 0x00, 0x00, 0xFF); SDL_RenderClear(m_pRenderer); }
     void FlipScreen() { SDL_RenderPresent(m_pRenderer); }
 
     GT_Texture* LoadTexture(s32 id, const char* fileName, s32 spriteWidth, s32 spriteHeight); // null on error
