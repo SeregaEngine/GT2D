@@ -132,8 +132,24 @@ void GraphicsModule::Draw(GT_Texture* pTexture, s32 row, s32 col, SDL_Rect* dstR
 {
     if (pTexture)
     {
+        // Get camera position
+        s32 cameraX, cameraY;
+        m_camera.GetPosition(cameraX, cameraY);
+
+        // Correct destination rectangle
+        dstRect->x -= cameraX;
+        dstRect->y -= cameraY;
+
+        // Check if we shouldn't draw it
+        if (dstRect->x + dstRect->w <= 0 || dstRect->y + dstRect->h <= 0 ||
+            dstRect->x >= cameraX + m_screenWidth || dstRect->y >= cameraY + m_screenHeight)
+            return;
+
+        // Find sprite
         SDL_Rect srcRect = { pTexture->spriteWidth * col, pTexture->spriteHeight * row,
                              pTexture->spriteWidth, pTexture->spriteHeight };
+
+        // Blit
         SDL_RenderCopyEx(m_pRenderer, pTexture->pTexture, &srcRect, dstRect, angle, nullptr, flip);
     }
     else
