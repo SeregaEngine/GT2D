@@ -5,18 +5,6 @@
 #include "GraphicsModule.h"
 
 /* ====== STRUCTURES ====== */
-struct HitBox
-{
-    // Relative to entity position
-    f32 x1, y1;
-    f32 x2, y2;
-
-    HitBox()
-        : x1(0.0f), y1(0.0f), x2(0.0f), y2(0.0f) {}
-    HitBox(f32 _x1, f32 _y1, f32 _x2, f32 _y2)
-        : x1(_x1), y1(_y1), x2(_x2), y2(_y2) {}
-};
-
 struct GT_Animation
 {
     s32 row;
@@ -31,7 +19,7 @@ protected:
     Vec2 m_vPosition;
     Vec2 m_vVelocity;
     s32 m_width, m_height;
-    HitBox m_hitBox;
+    FRect m_hitBox; // Relative entity position
     f32 m_angle;
 
     s32 m_animFrame;
@@ -43,7 +31,7 @@ public:
     virtual ~Entity() {}
 
     virtual void Init(const Vec2& vPosition, s32 width, s32 height,
-                      const HitBox& hitBox, GT_Texture* pTexture);
+                      const FRect& hitBox, GT_Texture* pTexture);
     virtual void Clean() {}
 
     virtual void Update(f32 dtTime) {}
@@ -53,7 +41,7 @@ public:
     const Vec2& GetVelocity() const { return m_vVelocity; }
     s32 GetWidth() const { return m_width; }
     s32 GetHeight() const { return m_height; }
-    const HitBox& GetHitBox() const { return m_hitBox; }
+    const FRect& GetHitBox() const { return m_hitBox; }
     f32 GetAngle() const { return m_angle; }
 
     void SetPosition(const Vec2& vPosition) { m_vPosition = vPosition; }
@@ -86,7 +74,7 @@ inline void Entity::Draw() {
         g_graphicsModule.Draw(m_pTexture, 0, 0, &dstRect, m_angle);
 }
 
-inline void Entity::Init(const Vec2& vPosition, s32 width, s32 height, const HitBox& hitBox, GT_Texture* pTexture) {
+inline void Entity::Init(const Vec2& vPosition, s32 width, s32 height, const FRect& hitBox, GT_Texture* pTexture) {
     m_vPosition = vPosition;
     m_width = width;
     m_height = height;

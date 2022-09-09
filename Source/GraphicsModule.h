@@ -7,6 +7,7 @@
 #include "Types.h"
 #include "GTMath.h"
 #include "EngineModule.h"
+#include "Camera.h"
 
 /* ====== DEFINES ====== */
 
@@ -36,14 +37,14 @@ struct GT_Texture;
 
 class GraphicsModule : public EngineModule
 {
-    SDL_Renderer* m_pRenderer;
     s32 m_screenWidth;
     s32 m_screenHeight;
 
+    Camera m_camera;
+    SDL_Renderer* m_pRenderer;
     GT_Texture* m_aTextures;
-
 public:
-    GraphicsModule() : EngineModule("GraphicsModule", CHANNEL_GRAPHICS) {}
+    GraphicsModule();
     virtual ~GraphicsModule() {}
 
     b32 StartUp(SDL_Renderer* pRenderer, s32 width, s32 height);
@@ -51,6 +52,7 @@ public:
 
     s32 GetScreenWidth() const { return m_screenWidth; }
     s32 GetScreenHeight() const { return m_screenHeight; }
+    Camera& GetCamera() { return m_camera; }
 
     void ClearScreen()
         { SDL_SetRenderDrawColor(m_pRenderer, 0, 0, 0, 255); SDL_RenderClear(m_pRenderer); }
@@ -79,5 +81,11 @@ private:
 };
 
 extern GraphicsModule g_graphicsModule;
+
+/* ====== METHODS ====== */
+inline GraphicsModule::GraphicsModule() :
+    EngineModule("GraphicsModule", CHANNEL_GRAPHICS),
+    m_screenWidth(0), m_screenHeight(0), m_camera(),
+    m_pRenderer(nullptr), m_aTextures(nullptr) {}
 
 #endif // GRAPHICSMODULE_H_

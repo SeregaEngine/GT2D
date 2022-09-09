@@ -254,6 +254,37 @@ struct Poly2
     Vtx2* aVtx;
 };
 
+/* === Rectangle === */
+struct FRect
+{
+    f32 x1, y1;
+    f32 x2, y2;
+
+    FRect()
+        : x1(0.0f), y1(0.0f), x2(0.0f), y2(0.0f) {}
+    FRect(f32 _x1, f32 _y1, f32 _x2, f32 _y2)
+        : x1(_x1), y1(_y1), x2(_x2), y2(_y2) {}
+    FRect operator=(const FRect& rect)
+    {
+        x1 = rect.x1; y1 = rect.y1; x2 = rect.x2; y2 = rect.y2; return *this;
+    }
+};
+
+struct SRect
+{
+    s32 x1, y1;
+    s32 x2, y2;
+
+    SRect()
+        : x1(0), y1(0), x2(0), y2(0) {}
+    SRect(s32 _x1, s32 _y1, s32 _x2, s32 _y2)
+        : x1(_x1), y1(_y1), x2(_x2), y2(_y2) {}
+    SRect operator=(const SRect& rect)
+    {
+        x1 = rect.x1; y1 = rect.y1; x2 = rect.x2; y2 = rect.y2; return *this;
+    }
+};
+
 /* ====== LIBRARY NAMESPACE ====== */
 namespace GTM
 {
