@@ -25,7 +25,7 @@ protected:
     s32 m_animFrame;
     f32 m_animElapsed;
     const GT_Animation* m_pAnim;
-    GT_Texture* m_pTexture; // TODO(sean) maybe const?
+    GT_Texture* m_pTexture;
 public:
     Entity();
     virtual ~Entity() {}
