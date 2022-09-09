@@ -36,14 +36,14 @@ void Player::Update(f32 dtTime)
 
     if (m_vPosition.x + m_hitBox.x1 < 0.0f)
         m_vPosition.x = 0.0f + m_hitBox.x2;
-    else if (m_vPosition.x + m_hitBox.x2 >= 1280.0f*2.0f)
-        m_vPosition.x = 1280.0f*2.0f + m_hitBox.x1;
+    else if (m_vPosition.x + m_hitBox.x2 >= TW_LOCATION * g_unitX * 2)
+        m_vPosition.x = TW_LOCATION * g_unitX * 2 + m_hitBox.x1;
 
     f32 legsY = m_vPosition.y + m_hitBox.y2;
-    if (legsY < 560.0f)
-        m_vPosition.y = 560.0f + m_hitBox.y1;
-    else if (legsY >= 720.0f)
-        m_vPosition.y = 720.0f + m_hitBox.y1;
+    if (legsY < (TH_LOCATION - 16) * g_unitY)
+        m_vPosition.y = (TH_LOCATION - 16) * g_unitY + m_hitBox.y1;
+    else if (legsY >= TH_LOCATION * g_unitY)
+        m_vPosition.y = TH_LOCATION * g_unitY + m_hitBox.y1;
 
     HandleAnimation(dtTime);
 }

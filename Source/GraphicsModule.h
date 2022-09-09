@@ -39,8 +39,8 @@ enum eTextureID
 #define TFN_PLAYER "Textures/Actors/Player.png"
 
 /* ====== GLOBALS ====== */
-extern s32 g_unitX; // Pixels per unit
-extern s32 g_unitY;
+extern f32 g_unitX; // Pixels per unit
+extern f32 g_unitY;
 
 /* ====== STRUCTURES ====== */
 struct GT_Texture;
