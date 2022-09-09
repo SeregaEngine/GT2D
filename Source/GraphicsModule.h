@@ -27,7 +27,7 @@ enum eTextureID
 };
 
 // Texture file names
-#define TFN_MISSION1 "Textures/Locations/Mission1.png"
+#define TFN_MISSION1 "Textures/Locations/Mission1-1.png"
 #define TFN_GARAGE "Textures/Locations/Garage.png"
 #define TFN_PLAYER "Textures/Actors/Player.png"
 
@@ -59,8 +59,7 @@ public:
     GT_Texture* LoadTexture(s32 id, const char* fileName, s32 spriteWidth, s32 spriteHeight); // null on error
     void UnloadTexture(GT_Texture* pTexture);
 
-    // TODO(sean) row and col swap places
-    void Draw(GT_Texture* pTexture, s32 col, s32 row,
+    void Draw(GT_Texture* pTexture, s32 row, s32 col,
               SDL_Rect* dstRect, f32 angle = 0.0f, SDL_RendererFlip flip = SDL_FLIP_NONE);
     /*
     void PlotPixel32(u32* videoBuffer, s32 pitch32, s32 x, s32 y, s32 a, s32 r, s32 g, s32 b) const

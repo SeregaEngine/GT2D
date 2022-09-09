@@ -81,7 +81,7 @@ inline void Entity::Draw() {
                          (s32)m_vPosition.y - (m_height >> 1),
                          m_width, m_height };
     if (m_pAnim)
-        g_graphicsModule.Draw(m_pTexture, m_animFrame, m_pAnim->row, &dstRect, m_angle, m_pAnim->flip);
+        g_graphicsModule.Draw(m_pTexture, m_pAnim->row, m_animFrame, &dstRect, m_angle, m_pAnim->flip);
     else
         g_graphicsModule.Draw(m_pTexture, 0, 0, &dstRect, m_angle);
 }

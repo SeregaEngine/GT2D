@@ -128,7 +128,7 @@ void GraphicsModule::UnloadTexture(GT_Texture* pTexture)
     }
 }
 
-void GraphicsModule::Draw(GT_Texture* pTexture, s32 col, s32 row, SDL_Rect* dstRect, f32 angle, SDL_RendererFlip flip)
+void GraphicsModule::Draw(GT_Texture* pTexture, s32 row, s32 col, SDL_Rect* dstRect, f32 angle, SDL_RendererFlip flip)
 {
     if (pTexture)
     {

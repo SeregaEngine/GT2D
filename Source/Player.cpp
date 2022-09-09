@@ -36,8 +36,8 @@ void Player::Update(f32 dtTime)
 
     if (m_vPosition.x + m_hitBox.x1 < 0.0f)
         m_vPosition.x = 0.0f + m_hitBox.x2;
-    else if (m_vPosition.x + m_hitBox.x2 >= 1280.0f)
-        m_vPosition.x = 1280.0f + m_hitBox.x1;
+    else if (m_vPosition.x + m_hitBox.x2 >= 1280.0f*2.0f)
+        m_vPosition.x = 1280.0f*2.0f + m_hitBox.x1;
 
     f32 legsY = m_vPosition.y + m_hitBox.y2;
     if (legsY < 560.0f)
