@@ -24,16 +24,27 @@ void Actor::Init(const Vec2& vPosition, s32 width, s32 height, GT_Texture* pText
 {
     Entity::Init(vPosition, width, height, pTexture);
 
+    // Init actor animations
     for (s32 i = 0; i < MAX_ACTOR_ANIMATIONS; ++i)
         m_aActorAnims[i] = nullptr;
 
-    // DEBUG(sean)
-    for (s32 i = 0; i < MAX_ACTOR_ANIMATIONS; ++i)
-        m_aActorAnims[i] = &s_aActorAnims[i];
+    { // DEBUG(sean)
+        const GT_Animation* aAnims[MAX_ACTOR_ANIMATIONS];
+        for (s32 i = 0; i < MAX_ACTOR_ANIMATIONS; ++i)
+            aAnims[i] = g_animModule.DefineAnimation(s_aActorAnims[i]);
+        SetActorAnims(aAnims);
+    }
 
+    // Init AI stuff
     m_bControllable = false;
     m_state = nullptr;
     m_cmdCounter = 0;
+}
+
+void Actor::SetActorAnims(const GT_Animation* aActorAnims[])
+{
+    for (s32 i = 0; i < MAX_ACTOR_ANIMATIONS; ++i)
+        m_aActorAnims[i] = aActorAnims[i];
 }
 
 void Actor::HandleCmd()
@@ -111,9 +122,9 @@ void Actor::HandleAnimation(f32 dtTime)
     else
     {
         if (m_pAnim == m_aActorAnims[ACTOR_ANIMATION_LEFT])
-            m_pAnim = m_aActorAnims[ACTOR_ANIMATION_LEFT];
-        else if (m_pAnim != m_aActorAnims[ACTOR_ANIMATION_LEFT])
-            m_pAnim = m_aActorAnims[ACTOR_ANIMATION_RIGHT];
+            m_pAnim = m_aActorAnims[ACTOR_ANIMATION_IDLE_LEFT];
+        else if (m_pAnim != m_aActorAnims[ACTOR_ANIMATION_IDLE_LEFT])
+            m_pAnim = m_aActorAnims[ACTOR_ANIMATION_IDLE_RIGHT];
     }
 
     // Update timer

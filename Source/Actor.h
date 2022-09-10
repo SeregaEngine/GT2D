@@ -5,7 +5,7 @@
 #include "Entity.h"
 
 /* ====== STRUCTURES ====== */
-struct GT_AIState
+struct GT_AIState // TODO(sean) AIModule
 {
     s32 (*cmd)[3]; // [0] - cmd, [1] - arg1, [2] - arg2
     s32 count;
@@ -35,6 +35,7 @@ protected:
 
 public:
     virtual void Init(const Vec2& vPosition, s32 width, s32 height, GT_Texture* pTexture) override;
+    void SetActorAnims(const GT_Animation* aActorAnims[]);
 protected:
     void HandleEvents(f32 dtTime);
     void HandleAnimation(f32 dtTime);
