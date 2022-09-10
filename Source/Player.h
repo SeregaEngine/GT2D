@@ -1,15 +1,13 @@
 #ifndef PLAYER_H_
 #define PLAYER_H_
 
-#include "Entity.h"
+#include "Actor.h"
 
-class Player final: public Entity
+class Player final: public Actor
 {
 public:
+    virtual void Init(const Vec2& vPosition, s32 width, s32 height, GT_Texture* pTexture) override;
     virtual void Update(f32 dtTime) override;
-private:
-    void HandleEvents(f32 dtTime);
-    void HandleAnimation(f32 dtTime);
 };
 
 #endif // PLAYER_H_

@@ -4,6 +4,7 @@
 /* ====== INCLUDES ====== */
 #include "Types.h"
 #include "GameState.h"
+#include "EngineModule.h"
 
 /* ====== STRUCTURES ====== */
 class Game final: public EngineModule

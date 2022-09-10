@@ -1,12 +1,16 @@
 DEBUG
 RELEASE
 .vs
-CHANGES.txt
+
 Assets
 Textures
 Logs
 Build
 ThirdParty
+
+CHANGES.txt
+TODO
+
 *.cur
 *.wav
 *.ico

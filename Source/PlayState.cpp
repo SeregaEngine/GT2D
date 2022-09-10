@@ -11,10 +11,16 @@ b32 PlayState::OnEnter()
     m_pParallax = g_graphicsModule.LoadTexture(TID_MISSION1_PARALLAX, TFN_MISSION1_PARALLAX, TW_PARALLAX, TH_PARALLAX);
 
     // Player
+    GT_Texture* pTemp = g_graphicsModule.LoadTexture(TID_PLAYER, TFN_PLAYER, TW_ACTOR, TH_ACTOR);
     m_pPlayer = new Player();
-    m_pPlayer->Init(Vec2(10.0f * g_unitX, 0.0f * g_unitY),
+    m_pPlayer->Init(Vec2(0.0f * g_unitX, 0.0f * g_unitY),
                     (s32)(TW_ACTOR * g_unitX), (s32)(TH_ACTOR * g_unitY),
-                    g_graphicsModule.LoadTexture(TID_PLAYER, TFN_PLAYER, TW_ACTOR, TH_ACTOR));
+                    pTemp);
+
+    m_pPlayer2 = new Player();
+    m_pPlayer2->Init(Vec2(20.0f * g_unitX, 65.0f * g_unitY),
+                     (s32)(TW_ACTOR * g_unitX), (s32)(TH_ACTOR * g_unitY),
+                     pTemp);
 
     // Set camera
     g_graphicsModule.GetCamera().SetBoundary({ 0, 0, (s32)(TW_LOCATION * g_unitX * 2) - 1,
@@ -29,6 +35,8 @@ void PlayState::OnExit()
     // TODO(sean) unload texture separately with entities
     m_pPlayer->Clean();
     delete m_pPlayer;
+    m_pPlayer2->Clean();
+    delete m_pPlayer2;
 
     g_graphicsModule.UnloadTexture(m_pBackground);
 }
@@ -36,6 +44,7 @@ void PlayState::OnExit()
 void PlayState::Update(f32 dtTime)
 {
     m_pPlayer->Update(dtTime);
+    m_pPlayer2->Update(dtTime);
 }
 
 void PlayState::Render()
@@ -51,4 +60,5 @@ void PlayState::Render()
 
     // Draw player
     m_pPlayer->Draw();
+    m_pPlayer2->Draw();
 }

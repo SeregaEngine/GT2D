@@ -96,7 +96,8 @@ GT_Texture* GraphicsModule::LoadTexture(s32 id, const char* fileName, s32 sprite
         return nullptr;
     }
 
-    // Set info from surface
+    // Set texture info
+    pFree->id = id;
     pFree->textureWidth = pSurface->w;
     pFree->textureHeight = pSurface->h;
     pFree->spriteWidth = spriteWidth;
