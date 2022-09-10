@@ -13,8 +13,6 @@ ScriptModule g_scriptModule;
 /* ====== METHODS ====== */
 b32 ScriptModule::StartUp()
 {
-    AddNote(PR_NOTE, "Module started");
-
     L = luaL_newstate();
     luaL_openlibs(L);
 
@@ -32,6 +30,8 @@ b32 ScriptModule::StartUp()
     if ( Lua_Check(luaL_dofile(L, "Scripts/Test.lua")) )
     {
     }
+
+    AddNote(PR_NOTE, "Module started");
 
     return true;
 }

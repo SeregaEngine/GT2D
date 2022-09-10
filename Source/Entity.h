@@ -41,19 +41,19 @@ public:
 
     const Vec2& GetPosition() const { return m_vPosition; }
     const Vec2& GetVelocity() const { return m_vVelocity; }
-    s32 GetWidth() const            { return m_width; }
-    s32 GetHeight() const           { return m_height; }
-    const FRect& GetHitBox() const  { return m_hitBox; }
-    f32 GetAngle() const            { return m_angle; }
+    s32 GetWidth() const { return m_width; }
+    s32 GetHeight() const { return m_height; }
+    const FRect& GetHitBox() const { return m_hitBox; }
+    f32 GetAngle() const { return m_angle; }
 
     void SetPosition(const Vec2& vPosition) { m_vPosition = vPosition; }
     void SetVelocity(const Vec2& vVelocity) { m_vVelocity = vVelocity; }
     void SetPosition(f32 x, f32 y) { m_vPosition.x = x; m_vPosition.y = y; }
     void SetVelocity(f32 x, f32 y) { m_vVelocity.x = x; m_vVelocity.y = y; }
 
-    void SetWidth(s32 width)   { m_width = width; }
+    void SetWidth(s32 width) { m_width = width; }
     void SetHeight(s32 height) { m_height = height; }
-    void SetAngle(f32 angle)   { m_angle = angle; }
+    void SetAngle(f32 angle) { m_angle = angle; }
 
     void SetTexture(GT_Texture* pTexture) { m_pTexture = pTexture; }
 };

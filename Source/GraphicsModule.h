@@ -54,7 +54,7 @@ class GraphicsModule final: public EngineModule
     SDL_Renderer* m_pRenderer;
     GT_Texture* m_aTextures;
 public:
-    GraphicsModule();
+    GraphicsModule() : EngineModule("GraphicsModule", CHANNEL_GRAPHICS) {}
 
     b32 StartUp(SDL_Renderer* pRenderer, s32 width, s32 height);
     void ShutDown();
@@ -90,11 +90,5 @@ private:
 };
 
 extern GraphicsModule g_graphicsModule;
-
-/* ====== METHODS ====== */
-inline GraphicsModule::GraphicsModule() :
-    EngineModule("GraphicsModule", CHANNEL_GRAPHICS),
-    m_screenWidth(0), m_screenHeight(0), m_camera(),
-    m_pRenderer(nullptr), m_aTextures(nullptr) {}
 
 #endif // GRAPHICSMODULE_H_

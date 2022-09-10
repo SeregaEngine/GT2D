@@ -24,7 +24,7 @@ class InputModule final: public EngineModule
     Uint32 m_mouseState;
     s32 m_mousePosX, m_mousePosY;
 public:
-    InputModule();
+    InputModule() : EngineModule("InputModule", CHANNEL_INPUT) {}
 
     b32 StartUp();
     void ShutDown();
@@ -42,11 +42,5 @@ public:
 };
 
 extern InputModule g_inputModule;
-
-/* ====== METHODS ====== */
-inline InputModule::InputModule() :
-    EngineModule("InputModule", CHANNEL_INPUT),
-    m_keyState(nullptr), m_mouseState(0),
-    m_mousePosX(0), m_mousePosY(0) {}
 
 #endif // INPUTMODULE_H_

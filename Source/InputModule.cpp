@@ -7,8 +7,11 @@ InputModule g_inputModule;
 /* ====== METHODS ====== */
 b32 InputModule::StartUp()
 {
-    // Get snapshot of keyboard state
+    // Defaults
     m_keyState = SDL_GetKeyboardState(nullptr);
+    m_mouseState = 0;
+    m_mousePosX = 0;
+    m_mousePosY = 0;
 
     AddNote(PR_NOTE, "Module started");
 

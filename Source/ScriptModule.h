@@ -14,7 +14,7 @@ class ScriptModule final: public EngineModule
 {
     lua_State* L;
 public:
-    ScriptModule() : EngineModule("ScriptModule", CHANNEL_SCRIPT), L(nullptr) {}
+    ScriptModule() : EngineModule("ScriptModule", CHANNEL_SCRIPT) {}
 
     b32 StartUp();
     void ShutDown();

@@ -12,9 +12,7 @@ class Game final: public EngineModule
 
     GameState* m_curState;
 public:
-    Game() :
-        EngineModule("Game", CHANNEL_GAME),
-        m_bRunning(true), m_curState(nullptr) {}
+    Game() : EngineModule("Game", CHANNEL_GAME) {}
 
     b32 StartUp();
     void ShutDown();
