@@ -29,7 +29,7 @@ protected:
     s32 m_animFrame;
     f32 m_animElapsed;
     const GT_Animation* m_pAnim;
-    GT_Texture* m_pTexture;
+    const GT_Texture* m_pTexture;
 public:
     virtual ~Entity() {}
 
@@ -55,7 +55,7 @@ public:
     void SetHeight(s32 height) { m_height = height; }
     void SetAngle(f32 angle) { m_angle = angle; }
 
-    void SetTexture(GT_Texture* pTexture) { m_pTexture = pTexture; }
+    void SetTexture(const GT_Texture* pTexture) { m_pTexture = pTexture; }
 };
 
 /* ====== METHODS ====== */
