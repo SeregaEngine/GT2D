@@ -67,8 +67,8 @@ inline Entity::Entity() :
     m_animFrame(0), m_animElapsed(0.0f), m_pAnim(nullptr), m_pTexture(nullptr) {}
 
 inline void Entity::Draw() {
-    // m_width >> 1 == m_width/2
     // TODO(sean) count w/2 and h/2 before drawing. Don't use HitBox because it can be different
+    // m_width >> 1 == m_width/2
     SDL_Rect dstRect = { (s32)m_vPosition.x - (m_width >> 1),
                          (s32)m_vPosition.y - (m_height >> 1),
                          m_width, m_height };

@@ -6,14 +6,15 @@
 #include "GameState.h"
 
 /* ====== STRUCTURES ====== */
-class Game : public EngineModule
+class Game final: public EngineModule
 {
     b32 m_bRunning;
 
     GameState* m_curState;
 public:
-    Game() : EngineModule("Game", CHANNEL_GAME) {}
-    virtual ~Game() {}
+    Game() :
+        EngineModule("Game", CHANNEL_GAME),
+        m_bRunning(true), m_curState(nullptr) {}
 
     b32 StartUp();
     void ShutDown();

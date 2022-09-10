@@ -20,8 +20,10 @@ private:
     SDL_Window* m_pWindow;
     SDL_Renderer* m_pRenderer;
 public:
-    GT2D() : EngineModule("GT2D", CHANNEL_GT2D) {}
-    virtual ~GT2D() {}
+    GT2D() :
+        EngineModule("GT2D", CHANNEL_GT2D),
+        m_pWindow(nullptr), m_pRenderer(nullptr) {}
+    ~GT2D() {}
 
     b32 StartUp();
     void ShutDown();

@@ -10,15 +10,14 @@
 /* ====== DEFINES====== */
 
 /* ====== STRUCTURES ====== */
-class SoundModule : public EngineModule
+class SoundModule final: public EngineModule
 {
     static const s32 MAX_SOUNDS = 256;
 
     Mix_Music* m_pMusic;
     Mix_Chunk* m_aSounds[MAX_SOUNDS];
 public:
-    SoundModule() : EngineModule("SoundModule", CHANNEL_SOUND) {}
-    virtual ~SoundModule() {}
+    SoundModule();
 
     b32 StartUp();
     void ShutDown();
@@ -34,5 +33,10 @@ public:
 };
 
 extern SoundModule g_soundModule;
+
+/* ====== METHODS ====== */
+inline SoundModule::SoundModule() :
+    EngineModule("SoundModule", CHANNEL_SOUND),
+    m_pMusic(nullptr), m_aSounds() {}
 
 #endif // SOUNDMODULE_H_

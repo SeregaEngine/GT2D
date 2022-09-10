@@ -45,7 +45,7 @@ extern f32 g_unitY;
 /* ====== STRUCTURES ====== */
 struct GT_Texture;
 
-class GraphicsModule : public EngineModule
+class GraphicsModule final: public EngineModule
 {
     s32 m_screenWidth;
     s32 m_screenHeight;
@@ -55,7 +55,6 @@ class GraphicsModule : public EngineModule
     GT_Texture* m_aTextures;
 public:
     GraphicsModule();
-    virtual ~GraphicsModule() {}
 
     b32 StartUp(SDL_Renderer* pRenderer, s32 width, s32 height);
     void ShutDown();

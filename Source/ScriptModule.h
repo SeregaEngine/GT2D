@@ -10,12 +10,11 @@ extern "C"
 #include "EngineModule.h"
 
 /* ====== STRUCTURES ====== */
-class ScriptModule : public EngineModule
+class ScriptModule final: public EngineModule
 {
     lua_State* L;
 public:
     ScriptModule() : EngineModule("ScriptModule", CHANNEL_SCRIPT), L(nullptr) {}
-    virtual ~ScriptModule() {}
 
     b32 StartUp();
     void ShutDown();

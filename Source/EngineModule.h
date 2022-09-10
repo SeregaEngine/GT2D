@@ -14,7 +14,8 @@ class EngineModule
 protected:
     void AddNote(s32 priority, const char* fmt, ...) const;
 public:
-    EngineModule(const char* name, s32 channel) : m_moduleName(name), m_moduleChannel(channel) {}
+    EngineModule(const char* name, s32 channel)
+        : m_moduleName(name), m_moduleChannel(channel) {}
     virtual ~EngineModule() {}
 
     const char* GetModuleName() const { return m_moduleName; }

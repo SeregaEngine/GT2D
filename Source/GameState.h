@@ -6,7 +6,6 @@
 class GameState
 {
 public:
-    GameState() {}
     virtual ~GameState() {}
 
     virtual b32 OnEnter() { return true; }

@@ -13,9 +13,6 @@ class PlayState final: public GameState
     GT_Texture* m_pParallax;
     Entity* m_pPlayer;
 public:
-    PlayState() : GameState() {}
-    virtual ~PlayState() {}
-
     virtual b32 OnEnter() override;
     virtual void OnExit() override;
 

@@ -15,7 +15,6 @@ class Camera
     const Entity* m_pAttached;
 public:
     Camera() : m_x(0), m_y(0), m_boundary(0, 0, 0, 0), m_pAttached(nullptr) {}
-    ~Camera() {}
 
     void SetPosition(s32 x, s32 y) { m_x = x; m_y = y; }
     void SetBoundary(const SRect& boundary) { m_boundary = boundary; }
