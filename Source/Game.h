@@ -7,7 +7,7 @@
 #include "EngineModule.h"
 
 /* ====== STRUCTURES ====== */
-class Game final: public EngineModule
+class Game final : public EngineModule
 {
     b32 m_bRunning;
 

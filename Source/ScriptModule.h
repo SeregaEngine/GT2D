@@ -10,7 +10,7 @@ extern "C"
 #include "EngineModule.h"
 
 /* ====== STRUCTURES ====== */
-class ScriptModule final: public EngineModule
+class ScriptModule final : public EngineModule
 {
     lua_State* L;
 public:

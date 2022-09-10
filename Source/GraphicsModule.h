@@ -45,7 +45,7 @@ extern f32 g_unitY;
 /* ====== STRUCTURES ====== */
 struct GT_Texture;
 
-class GraphicsModule final: public EngineModule
+class GraphicsModule final : public EngineModule
 {
     s32 m_screenWidth;
     s32 m_screenHeight;

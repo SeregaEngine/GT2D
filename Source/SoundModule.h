@@ -10,7 +10,7 @@
 /* ====== DEFINES====== */
 
 /* ====== STRUCTURES ====== */
-class SoundModule final: public EngineModule
+class SoundModule final : public EngineModule
 {
     static const s32 MAX_SOUNDS = 256;
 

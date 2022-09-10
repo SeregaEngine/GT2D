@@ -17,7 +17,7 @@ enum eMouseButton
     IMB_MIDDLE = SDL_BUTTON_MMASK
 };
 
-class InputModule final: public EngineModule
+class InputModule final : public EngineModule
 {
     const Uint8* m_keyState;
 

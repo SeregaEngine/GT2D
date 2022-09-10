@@ -7,7 +7,7 @@
 #include "Entity.h"
 
 /* ====== STRUCTURES ====== */
-class PlayState final: public GameState
+class PlayState final : public GameState
 {
     GT_Texture* m_pBackground;
     GT_Texture* m_pParallax;
