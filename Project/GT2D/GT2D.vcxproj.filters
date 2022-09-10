@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Module H">
+      <UniqueIdentifier>{b83fe2d7-c6e5-4d75-bb7f-4d2514ae5169}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Module CPP">
+      <UniqueIdentifier>{3a04975a-7259-4974-b9a5-ee5636b4c1b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripts">
+      <UniqueIdentifier>{cf39e093-c64c-4501-b65d-a7ade6640ad8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Source\Types.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\GT2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\DebugLogManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\GTMath.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\InputModule.h">
+      <Filter>Header Files\Module H</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\EngineModule.h">
+      <Filter>Header Files\Module H</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ClockManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Game.h">
+      <Filter>Header Files\Module H</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\SoundModule.h">
+      <Filter>Header Files\Module H</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\GraphicsModule.h">
+      <Filter>Header Files\Module H</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ScriptModule.h">
+      <Filter>Header Files\Module H</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\GameState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\PlayState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Actor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\GT2D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\DebugLogManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\GTMath.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\InputModule.cpp">
+      <Filter>Source Files\Module CPP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\EngineModule.cpp">
+      <Filter>Source Files\Module CPP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ClockManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Game.cpp">
+      <Filter>Source Files\Module CPP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\SoundModule.cpp">
+      <Filter>Source Files\Module CPP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\GraphicsModule.cpp">
+      <Filter>Source Files\Module CPP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Entity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ScriptModule.cpp">
+      <Filter>Source Files\Module CPP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\PlayState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Actor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Bin\Scripts\Test.lua">
+      <Filter>Scripts</Filter>
+    </None>
+  </ItemGroup>
+</Project>

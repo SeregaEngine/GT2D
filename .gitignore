@@ -23,5 +23,4 @@ ThirdParty
 *.png
 *.wav
 *.ilk
-*.vcxproj*
 *.dll
