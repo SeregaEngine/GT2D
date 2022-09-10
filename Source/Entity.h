@@ -59,27 +59,7 @@ public:
 };
 
 /* ====== METHODS ====== */
-inline void Entity::Init(const Vec2& vPosition, s32 width, s32 height, GT_Texture* pTexture) {
-    m_vPosition = vPosition;
-    m_vVelocity = { 0.0f, 0.0f };
-    m_width = width;
-    m_height = height;
-
-    f32 fWidthDiv2 = (f32)width/2.0f; 
-    f32 fHeightDiv2 = (f32)height/2.0f;
-    m_hitBox = { -fWidthDiv2, -fHeightDiv2, fWidthDiv2, fHeightDiv2 };
-
-    m_angle = 0.0f;
-
-    m_animFrame = 0;
-    m_animElapsed = 0.0f;
-    m_pAnim = nullptr;
-
-    m_pTexture = pTexture;
-}
-
 inline void Entity::Draw() {
-    // TODO(sean) count w/2 and h/2 before drawing. Don't use HitBox because it can be different
     // m_width >> 1 == m_width/2
     SDL_Rect dstRect = { (s32)m_vPosition.x - (m_width >> 1),
                          (s32)m_vPosition.y - (m_height >> 1),
@@ -89,6 +69,5 @@ inline void Entity::Draw() {
     else
         g_graphicsModule.Draw(m_pTexture, 0, 0, &dstRect, m_angle);
 }
-
 
 #endif // ENTITY_H_
