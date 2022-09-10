@@ -14,7 +14,6 @@ b32 PlayState::OnEnter()
     m_pPlayer = new Player();
     m_pPlayer->Init(Vec2(10.0f * g_unitX, 0.0f * g_unitY),
                     (s32)(TW_ACTOR * g_unitX), (s32)(TH_ACTOR * g_unitY),
-                    FRect(-8.0f * g_unitX, -8.0f * g_unitY, 8.0f * g_unitX, 8.0f * g_unitY),
                     g_graphicsModule.LoadTexture(TID_PLAYER, TFN_PLAYER, TW_ACTOR, TH_ACTOR));
 
     // Set camera

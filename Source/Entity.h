@@ -1,5 +1,4 @@
 /* TODO
- * - Maybe we can define hitbox in init without hitbox in args? We can use given width and height
  */
 
 #ifndef ENTITY_H_
@@ -34,8 +33,7 @@ protected:
 public:
     virtual ~Entity() {}
 
-    virtual void Init(const Vec2& vPosition, s32 width, s32 height,
-                      const FRect& hitBox, GT_Texture* pTexture);
+    virtual void Init(const Vec2& vPosition, s32 width, s32 height, GT_Texture* pTexture);
     virtual void Clean() {}
 
     virtual void Update(f32 dtTime) {}
@@ -61,12 +59,16 @@ public:
 };
 
 /* ====== METHODS ====== */
-inline void Entity::Init(const Vec2& vPosition, s32 width, s32 height, const FRect& hitBox, GT_Texture* pTexture) {
+inline void Entity::Init(const Vec2& vPosition, s32 width, s32 height, GT_Texture* pTexture) {
     m_vPosition = vPosition;
     m_vVelocity = { 0.0f, 0.0f };
     m_width = width;
     m_height = height;
-    m_hitBox = hitBox;
+
+    f32 fWidthDiv2 = (f32)width/2.0f; 
+    f32 fHeightDiv2 = (f32)height/2.0f;
+    m_hitBox = { -fWidthDiv2, -fHeightDiv2, fWidthDiv2, fHeightDiv2 };
+
     m_angle = 0.0f;
 
     m_animFrame = 0;
