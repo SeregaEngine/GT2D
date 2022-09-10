@@ -22,8 +22,9 @@ class Entity
 protected:
     Vec2 m_vPosition;
     Vec2 m_vVelocity;
-    s32 m_width, m_height;
-    FRect m_hitBox; // Relative entity position
+    s32 m_width;
+    s32 m_height;
+    FRect m_hitBox; // Relative to entity position
     f32 m_angle;
 
     s32 m_animFrame;
@@ -31,7 +32,6 @@ protected:
     const GT_Animation* m_pAnim;
     GT_Texture* m_pTexture;
 public:
-    Entity();
     virtual ~Entity() {}
 
     virtual void Init(const Vec2& vPosition, s32 width, s32 height,
@@ -43,28 +43,38 @@ public:
 
     const Vec2& GetPosition() const { return m_vPosition; }
     const Vec2& GetVelocity() const { return m_vVelocity; }
-    s32 GetWidth() const { return m_width; }
-    s32 GetHeight() const { return m_height; }
-    const FRect& GetHitBox() const { return m_hitBox; }
-    f32 GetAngle() const { return m_angle; }
+    s32 GetWidth() const            { return m_width; }
+    s32 GetHeight() const           { return m_height; }
+    const FRect& GetHitBox() const  { return m_hitBox; }
+    f32 GetAngle() const            { return m_angle; }
 
     void SetPosition(const Vec2& vPosition) { m_vPosition = vPosition; }
     void SetVelocity(const Vec2& vVelocity) { m_vVelocity = vVelocity; }
     void SetPosition(f32 x, f32 y) { m_vPosition.x = x; m_vPosition.y = y; }
     void SetVelocity(f32 x, f32 y) { m_vVelocity.x = x; m_vVelocity.y = y; }
 
-    void SetWidth(s32 width) { m_width = width; }
+    void SetWidth(s32 width)   { m_width = width; }
     void SetHeight(s32 height) { m_height = height; }
-    void SetAngle(f32 angle) { m_angle = angle; }
+    void SetAngle(f32 angle)   { m_angle = angle; }
 
     void SetTexture(GT_Texture* pTexture) { m_pTexture = pTexture; }
 };
 
-inline Entity::Entity() :
-    m_vPosition(-1000.0f, -1000.0f), m_vVelocity(0.0f, 0.0f),
-    m_width(0), m_height(0),
-    m_hitBox(), m_angle(0.0f),
-    m_animFrame(0), m_animElapsed(0.0f), m_pAnim(nullptr), m_pTexture(nullptr) {}
+/* ====== METHODS ====== */
+inline void Entity::Init(const Vec2& vPosition, s32 width, s32 height, const FRect& hitBox, GT_Texture* pTexture) {
+    m_vPosition = vPosition;
+    m_vVelocity = { 0.0f, 0.0f };
+    m_width = width;
+    m_height = height;
+    m_hitBox = hitBox;
+    m_angle = 0.0f;
+
+    m_animFrame = 0;
+    m_animElapsed = 0.0f;
+    m_pAnim = nullptr;
+
+    m_pTexture = pTexture;
+}
 
 inline void Entity::Draw() {
     // TODO(sean) count w/2 and h/2 before drawing. Don't use HitBox because it can be different
@@ -78,12 +88,5 @@ inline void Entity::Draw() {
         g_graphicsModule.Draw(m_pTexture, 0, 0, &dstRect, m_angle);
 }
 
-inline void Entity::Init(const Vec2& vPosition, s32 width, s32 height, const FRect& hitBox, GT_Texture* pTexture) {
-    m_vPosition = vPosition;
-    m_width = width;
-    m_height = height;
-    m_hitBox = hitBox;
-    m_pTexture = pTexture;
-}
 
 #endif // ENTITY_H_
