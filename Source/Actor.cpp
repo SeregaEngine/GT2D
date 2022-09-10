@@ -8,18 +8,8 @@
 #define ACTOR_SPEED_X 0.05f
 #define ACTOR_SPEED_Y 0.02f
 
-enum eAnimation
-{
-    ANIM_IDLE_RIGHT = 0,
-    ANIM_IDLE_LEFT,
-    ANIM_RIGHT,
-    ANIM_LEFT,
-    ANIM_TOP,
-    ANIM_BOTTOM
-};
-
 /* ====== VARIABLES ====== */
-static const GT_Animation s_aAnims[] =
+static const GT_Animation s_aActorAnims[] =
 {
     { 0, 2, 1000.0f / 1.0f, SDL_FLIP_NONE },
     { 0, 2, 1000.0f / 1.0f, SDL_FLIP_HORIZONTAL },
@@ -34,11 +24,19 @@ void Actor::Init(const Vec2& vPosition, s32 width, s32 height, GT_Texture* pText
 {
     Entity::Init(vPosition, width, height, pTexture);
 
+    for (s32 i = 0; i < MAX_ACTOR_ANIMATIONS; ++i)
+        m_aActorAnims[i] = nullptr;
+
+    // DEBUG(sean)
+    for (s32 i = 0; i < MAX_ACTOR_ANIMATIONS; ++i)
+        m_aActorAnims[i] = &s_aActorAnims[i];
+
+    m_bControllable = false;
     m_state = nullptr;
     m_cmdCounter = 0;
 }
 
-void Actor::HandleCommand()
+void Actor::HandleCmd()
 {
 
 }
@@ -75,15 +73,19 @@ void Actor::HandleEvents(f32 dtTime)
     if (m_bControllable)
         HandleInput(dtTime);
     else
-        HandleCommand();
+        HandleCmd();
 }
 
 void Actor::HandleAnimation(f32 dtTime)
 {
+    // Check if default animations aren't initialized
+    if (!m_aActorAnims[ACTOR_ANIMATION_IDLE_RIGHT])
+        return;
+
     // Set default animation if we don't have
     if (!m_pAnim)
     {
-        m_pAnim = &s_aAnims[ANIM_IDLE_RIGHT];
+        m_pAnim = m_aActorAnims[ACTOR_ANIMATION_IDLE_RIGHT];
         m_animFrame = 0;
         m_animElapsed = 0.0f;
         return;
@@ -92,26 +94,26 @@ void Actor::HandleAnimation(f32 dtTime)
     // Set animation according to actor velocity
     if (m_vVelocity.x > 0)
     {
-        m_pAnim = &s_aAnims[ANIM_RIGHT];
+        m_pAnim = m_aActorAnims[ACTOR_ANIMATION_RIGHT];
     }
     else if (m_vVelocity.x < 0)
     {
-        m_pAnim = &s_aAnims[ANIM_LEFT];
+        m_pAnim = m_aActorAnims[ACTOR_ANIMATION_LEFT];
     }
     else if (m_vVelocity.y > 0)
     {
-        m_pAnim = &s_aAnims[ANIM_BOTTOM];
+        m_pAnim = m_aActorAnims[ACTOR_ANIMATION_BOTTOM];
     }
     else if (m_vVelocity.y < 0)
     {
-        m_pAnim = &s_aAnims[ANIM_TOP];
+        m_pAnim = m_aActorAnims[ACTOR_ANIMATION_TOP];
     }
     else
     {
-        if (m_pAnim == &s_aAnims[ANIM_LEFT])
-            m_pAnim = &s_aAnims[ANIM_IDLE_LEFT];
-        else if (m_pAnim != &s_aAnims[ANIM_IDLE_LEFT])
-            m_pAnim = &s_aAnims[ANIM_IDLE_RIGHT];
+        if (m_pAnim == m_aActorAnims[ACTOR_ANIMATION_LEFT])
+            m_pAnim = m_aActorAnims[ACTOR_ANIMATION_LEFT];
+        else if (m_pAnim != m_aActorAnims[ACTOR_ANIMATION_LEFT])
+            m_pAnim = m_aActorAnims[ACTOR_ANIMATION_RIGHT];
     }
 
     // Update timer

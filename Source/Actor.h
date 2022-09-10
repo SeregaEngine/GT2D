@@ -13,9 +13,23 @@ struct GT_AIState
 
 class Actor : public Entity
 {
-protected:
-    b32 m_bControllable;
+public:
+    enum eActorAnimation
+    {
+        ACTOR_ANIMATION_IDLE_RIGHT = 0,
+        ACTOR_ANIMATION_IDLE_LEFT,
+        ACTOR_ANIMATION_RIGHT,
+        ACTOR_ANIMATION_LEFT,
+        ACTOR_ANIMATION_TOP,
+        ACTOR_ANIMATION_BOTTOM,
 
+        MAX_ACTOR_ANIMATIONS
+    };
+
+protected:
+    const GT_Animation* m_aActorAnims[MAX_ACTOR_ANIMATIONS]; // Default actor's animations
+
+    b32 m_bControllable;
     const GT_AIState* m_state;
     s32 m_cmdCounter;
 
@@ -25,7 +39,7 @@ protected:
     void HandleEvents(f32 dtTime);
     void HandleAnimation(f32 dtTime);
 private:
-    void HandleCommand();
+    void HandleCmd();
     void HandleInput(f32 dtTime);
 };
 
