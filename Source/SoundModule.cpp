@@ -2,6 +2,7 @@
  * - Loop sounds, music
  * - Array of music
  * - Fade out music
+ * - Dynamic allocation for arrays
  */
 
 /* ====== INCLUDES ====== */

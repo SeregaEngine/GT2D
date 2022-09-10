@@ -14,13 +14,14 @@
 // Each channel represent engine's module
 enum eDebugLogChannel
 {
-    CHANNEL_LOGMGR   = 1 << 0,
-    CHANNEL_GT2D     = 1 << 1,
-    CHANNEL_GRAPHICS = 1 << 4,
-    CHANNEL_INPUT    = 1 << 5,
-    CHANNEL_SOUND    = 1 << 6,
-    CHANNEL_SCRIPT   = 1 << 7,
-    CHANNEL_GAME     = 1 << 8
+    CHANNEL_LOGMGR    = 1 << 0,
+    CHANNEL_GT2D      = 1 << 1,
+    CHANNEL_GRAPHICS  = 1 << 4,
+    CHANNEL_INPUT     = 1 << 5,
+    CHANNEL_SOUND     = 1 << 6,
+    CHANNEL_ANIMATION = 1 << 7,
+    CHANNEL_SCRIPT    = 1 << 8,
+    CHANNEL_GAME      = 1 << 9
 };
 
 enum eDebugLogPriority
@@ -41,6 +42,7 @@ class DebugLogManager
     FILE* hGraphics;
     FILE* hInput;
     FILE* hSound;
+    FILE* hAnim;
     FILE* hScript;
     FILE* hGame;
 

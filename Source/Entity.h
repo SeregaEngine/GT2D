@@ -6,16 +6,9 @@
 
 /* ====== INCLUDES ====== */
 #include "GraphicsModule.h"
+#include "AnimationModule.h"
 
 /* ====== STRUCTURES ====== */
-struct GT_Animation
-{
-    s32 row;
-    s32 count;
-    f32 frameDuration;
-    SDL_RendererFlip flip;
-};
-
 class Entity
 {
 protected:

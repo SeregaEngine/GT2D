@@ -75,6 +75,9 @@
     <ClInclude Include="..\..\Source\Actor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\AnimationModule.h">
+      <Filter>Header Files\Module H</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\main.cpp">
@@ -124,6 +127,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Actor.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\AnimationModule.cpp">
+      <Filter>Source Files\Module CPP</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

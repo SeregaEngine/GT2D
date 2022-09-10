@@ -38,6 +38,7 @@ DebugLogManager g_debugLogMgr;
 #define FILENAME_GRAPHICSMODULE  DIR_LOGS "GraphicsModule" LOGS_EXTENSION
 #define FILENAME_INPUTMODULE     DIR_LOGS "InputModule" LOGS_EXTENSION
 #define FILENAME_SOUNDMODULE     DIR_LOGS "SoundModule" LOGS_EXTENSION
+#define FILENAME_ANIMATIONMODULE DIR_LOGS "AnimationModule" LOGS_EXTENSION
 #define FILENAME_SCRIPTMODULE    DIR_LOGS "ScriptModule" LOGS_EXTENSION
 #define FILENAME_GAME            DIR_LOGS "Game" LOGS_EXTENSION
 
@@ -82,15 +83,13 @@ enum eBgColor
 
 enum eChannelColor
 {
-    CHANNEL_COLOR_FREE1 = FG_GRAY,
-    CHANNEL_COLOR_FREE2 = FG_YELLOW,
-
     CHANNEL_COLOR_UNDEFINED = FG_LIGHTMAGENTA,
     CHANNEL_COLOR_LOGMGR    = FG_WHITE,
     CHANNEL_COLOR_GT2D      = FG_LIGHTBLUE,
     CHANNEL_COLOR_GRAPHICS  = FG_LIGHTGREEN,
     CHANNEL_COLOR_INPUT     = FG_LIGHTCYAN,
     CHANNEL_COLOR_SOUND     = FG_LIGHTRED,
+    CHANNEL_COLOR_ANIMATION = FG_GRAY,
     CHANNEL_COLOR_SCRIPT    = FG_YELLOW,
     CHANNEL_COLOR_GAME      = FG_BROWN
 };
@@ -126,6 +125,8 @@ b32 DebugLogManager::StartUp()
         AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
     if ( nullptr == (hSound = fopen(FILENAME_SOUNDMODULE, "w")) )
         AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
+    if ( nullptr == (hAnim = fopen(FILENAME_ANIMATIONMODULE, "w")) )
+        AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
     if (nullptr == (hScript = fopen(FILENAME_SCRIPTMODULE, "w")))
         AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
     if ( nullptr == (hGame = fopen(FILENAME_GAME, "w")) )
@@ -144,9 +145,10 @@ void DebugLogManager::ShutDown()
     fclose(hLogFull);
     fclose(hLogMgr);
     fclose(hGT2D);
+    fclose(hGraphics);
     fclose(hInput);
     fclose(hSound);
-    fclose(hGraphics);
+    fclose(hAnim);
     fclose(hScript);
     fclose(hGame);
 
@@ -192,6 +194,12 @@ void DebugLogManager::VAddNote(s32 channel, s32 priority, const char* name, cons
     {
         hFile = hSound;
         noteColor |= CHANNEL_COLOR_SOUND;
+    } break;
+
+    case CHANNEL_ANIMATION:
+    {
+        hFile = hAnim;
+        noteColor |= CHANNEL_COLOR_ANIMATION;
     } break;
 
     case CHANNEL_SCRIPT:
