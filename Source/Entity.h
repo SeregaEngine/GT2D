@@ -1,3 +1,7 @@
+/* TODO
+ * - Maybe we can define hitbox in init without hitbox in args? We can use given width and height
+ */
+
 #ifndef ENTITY_H_
 #define ENTITY_H_
 

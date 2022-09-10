@@ -11,6 +11,7 @@ void Camera::GetPosition(s32& x, s32& y) const
         x = (s32)vPosition.x - g_graphicsModule.GetScreenWidth() / 2;
         if (x < m_boundary.x1)
             x = m_boundary.x1;
+        // TODO(sean) fix else if stuff
         else if (x + g_graphicsModule.GetScreenWidth()-1 > m_boundary.x2)
             x = (m_boundary.x2 + 1) - g_graphicsModule.GetScreenWidth();
 

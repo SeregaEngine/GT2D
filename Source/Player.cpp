@@ -1,5 +1,4 @@
 /* TODO
- * - Remember to scale things like speed, boundaries
  */
 
 /* ====== INCLUDES ====== */
@@ -107,10 +106,10 @@ void Player::HandleAnimation(f32 dtTime)
     }
     else
     {
-            if (m_pAnim == &s_aAnims[ANIM_LEFT])
-                m_pAnim = &s_aAnims[ANIM_IDLE_LEFT];
-            else if (m_pAnim != &s_aAnims[ANIM_IDLE_LEFT])
-                m_pAnim = &s_aAnims[ANIM_IDLE_RIGHT];
+        if (m_pAnim == &s_aAnims[ANIM_LEFT])
+            m_pAnim = &s_aAnims[ANIM_IDLE_LEFT];
+        else if (m_pAnim != &s_aAnims[ANIM_IDLE_LEFT])
+            m_pAnim = &s_aAnims[ANIM_IDLE_RIGHT];
     }
 
     // Update timer

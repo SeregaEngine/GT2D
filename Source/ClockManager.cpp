@@ -32,4 +32,6 @@ void ClockManager::Sync() const
 {
     while (SDL_GetTicks() - m_startTime < m_msSyncDelay)
         {}
+    // TODO(sean) checkout different ways to synchronize
+    /* SDL_Delay(m_msSyncDelay - (SDL_GetTicks() - m_startTime)); */
 }

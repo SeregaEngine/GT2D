@@ -65,7 +65,7 @@ void GraphicsModule::ShutDown()
 GT_Texture* GraphicsModule::LoadTexture(s32 id, const char* fileName, s32 spriteWidth, s32 spriteHeight)
 {
     // Try to find free slot or already loaded texture
-    GT_Texture* free = nullptr;
+    GT_Texture* pFree = nullptr;
     for (s32 i = 0; i < MAX_TEXTURES; ++i)
     {
         // If texture is loaded and have the same id
@@ -75,14 +75,14 @@ GT_Texture* GraphicsModule::LoadTexture(s32 id, const char* fileName, s32 sprite
             return &m_aTextures[i];
         }
         // If we've not find free slot yet and this slot available
-        else if (!free && !m_aTextures[i].pTexture)
+        else if (!pFree && !m_aTextures[i].pTexture)
         {
-            free = &m_aTextures[i];
+            pFree = &m_aTextures[i];
         }
     }
 
     // There're not slots
-    if (!free)
+    if (!pFree)
     {
         AddNote(PR_WARNING, "There're no free slot for texture [%d]: %s", id, fileName);
         return nullptr;
@@ -97,24 +97,24 @@ GT_Texture* GraphicsModule::LoadTexture(s32 id, const char* fileName, s32 sprite
     }
 
     // Set info from surface
-    free->textureWidth = pSurface->w;
-    free->textureHeight = pSurface->h;
-    free->spriteWidth = spriteWidth;
-    free->spriteHeight = spriteHeight;
+    pFree->textureWidth = pSurface->w;
+    pFree->textureHeight = pSurface->h;
+    pFree->spriteWidth = spriteWidth;
+    pFree->spriteHeight = spriteHeight;
 
     // Create texture
-    free->pTexture = SDL_CreateTextureFromSurface(m_pRenderer, pSurface);
+    pFree->pTexture = SDL_CreateTextureFromSurface(m_pRenderer, pSurface);
     SDL_FreeSurface(pSurface);
-    if (!free->pTexture)
+    if (!pFree->pTexture)
     {
         AddNote(PR_WARNING, "Can't create texture from surface [%d]: %s", id, fileName);
         return nullptr;
     }
 
     // Set reference count
-    free->refCount = 1;
+    pFree->refCount = 1;
 
-    return free;
+    return pFree;
 }
 
 void GraphicsModule::UnloadTexture(GT_Texture* pTexture)
