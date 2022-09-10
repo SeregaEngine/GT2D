@@ -14,7 +14,7 @@ class ScriptModule : public EngineModule
 {
     lua_State* L;
 public:
-    ScriptModule() : L(nullptr), EngineModule("ScriptModule", CHANNEL_SCRIPT) {}
+    ScriptModule() : EngineModule("ScriptModule", CHANNEL_SCRIPT), L(nullptr) {}
     virtual ~ScriptModule() {}
 
     b32 StartUp();

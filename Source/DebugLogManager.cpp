@@ -32,14 +32,14 @@ DebugLogManager g_debugLogMgr;
 #define DIR_LOGS "Logs\\"
 #define LOGS_EXTENSION ".log"
 
-#define FILENAME_LOGFULL         DIR_LOGS ## "LogFull" ## LOGS_EXTENSION
-#define FILENAME_DEBUGLOGMANAGER DIR_LOGS ## "DebugLogManager" ## LOGS_EXTENSION
-#define FILENAME_GT2D            DIR_LOGS ## "GT2D" ## LOGS_EXTENSION
-#define FILENAME_GRAPHICSMODULE  DIR_LOGS ## "GraphicsModule" ## LOGS_EXTENSION
-#define FILENAME_INPUTMODULE     DIR_LOGS ## "InputModule" ## LOGS_EXTENSION
-#define FILENAME_SOUNDMODULE     DIR_LOGS ## "SoundModule" ## LOGS_EXTENSION
-#define FILENAME_SCRIPTMODULE    DIR_LOGS ## "ScriptModule" ## LOGS_EXTENSION
-#define FILENAME_GAME            DIR_LOGS ## "Game" ## LOGS_EXTENSION
+#define FILENAME_LOGFULL         DIR_LOGS "LogFull" LOGS_EXTENSION
+#define FILENAME_DEBUGLOGMANAGER DIR_LOGS "DebugLogManager" LOGS_EXTENSION
+#define FILENAME_GT2D            DIR_LOGS "GT2D" LOGS_EXTENSION
+#define FILENAME_GRAPHICSMODULE  DIR_LOGS "GraphicsModule" LOGS_EXTENSION
+#define FILENAME_INPUTMODULE     DIR_LOGS "InputModule" LOGS_EXTENSION
+#define FILENAME_SOUNDMODULE     DIR_LOGS "SoundModule" LOGS_EXTENSION
+#define FILENAME_SCRIPTMODULE    DIR_LOGS "ScriptModule" LOGS_EXTENSION
+#define FILENAME_GAME            DIR_LOGS "Game" LOGS_EXTENSION
 
 enum eFgColor
 {
@@ -245,15 +245,15 @@ void DebugLogManager::VAddNote(s32 channel, s32 priority, const char* name, cons
 
     // Get note prefix
     char notePrefix[NOTE_PREFIX_BUFSIZE];
-    _snprintf(notePrefix, NOTE_PREFIX_BUFSIZE, "<%s> %s", name, priorityName);
+    snprintf(notePrefix, NOTE_PREFIX_BUFSIZE, "<%s> %s", name, priorityName);
 
     // Get note message
     char noteMessage[NOTE_MESSAGE_BUFSIZE];
-    _vsnprintf(noteMessage, NOTE_MESSAGE_BUFSIZE, fmt, vl);
+    vsnprintf(noteMessage, NOTE_MESSAGE_BUFSIZE, fmt, vl);
 
     // Get final note
     char noteFinal[NOTE_FINAL_BUFSIZE];
-    _snprintf(noteFinal, NOTE_FINAL_BUFSIZE, "%s: %s\n", notePrefix, noteMessage);
+    snprintf(noteFinal, NOTE_FINAL_BUFSIZE, "%s: %s\n", notePrefix, noteMessage);
     size_t noteLength = strlen(noteFinal);
 
     // Output

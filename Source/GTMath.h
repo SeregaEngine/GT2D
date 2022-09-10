@@ -322,27 +322,27 @@ namespace GTM
     inline void AddVec2(const Vec2* v1, const Vec2* v2, Vec2* vr) { vr->x = v1->x + v2->x; vr->y = v1->y + v2->y; }
 
     /* Matrice */
-    inline void ZeroMat22(Mat22* m) { memset(m, 0, sizeof(m)); }
-    inline void ZeroMat33(Mat33* m) { memset(m, 0, sizeof(m)); }
-    inline void ZeroMat44(Mat44* m) { memset(m, 0, sizeof(m)); }
-    inline void ZeroMat43(Mat43* m) { memset(m, 0, sizeof(m)); }
+    inline void ZeroMat22(Mat22* m) { memset(m, 0, sizeof(*m)); }
+    inline void ZeroMat33(Mat33* m) { memset(m, 0, sizeof(*m)); }
+    inline void ZeroMat44(Mat44* m) { memset(m, 0, sizeof(*m)); }
+    inline void ZeroMat43(Mat43* m) { memset(m, 0, sizeof(*m)); }
 
-    inline void IdentityMat22(Mat22* m) { memcpy(m, &g_IMat22, sizeof(m)); }
-    inline void IdentityMat33(Mat33* m) { memcpy(m, &g_IMat33, sizeof(m)); }
-    inline void IdentityMat44(Mat44* m) { memcpy(m, &g_IMat44, sizeof(m)); }
-    inline void IdentityMat43(Mat43* m) { memcpy(m, &g_IMat43, sizeof(m)); }
+    inline void IdentityMat22(Mat22* m) { memcpy(m, &g_IMat22, sizeof(*m)); }
+    inline void IdentityMat33(Mat33* m) { memcpy(m, &g_IMat33, sizeof(*m)); }
+    inline void IdentityMat44(Mat44* m) { memcpy(m, &g_IMat44, sizeof(*m)); }
+    inline void IdentityMat43(Mat43* m) { memcpy(m, &g_IMat43, sizeof(*m)); }
 
-    inline void CopyMat22(Mat22* dst, const Mat22* src) { memcpy(dst, src, sizeof(dst)); }
-    inline void CopyMat33(Mat33* dst, const Mat33* src) { memcpy(dst, src, sizeof(dst)); }
-    inline void CopyMat44(Mat44* dst, const Mat44* src) { memcpy(dst, src, sizeof(dst)); }
-    inline void CopyMat43(Mat43* dst, const Mat43* src) { memcpy(dst, src, sizeof(dst)); }
+    inline void CopyMat22(Mat22* dst, const Mat22* src) { memcpy(dst, src, sizeof(*dst)); }
+    inline void CopyMat33(Mat33* dst, const Mat33* src) { memcpy(dst, src, sizeof(*dst)); }
+    inline void CopyMat44(Mat44* dst, const Mat44* src) { memcpy(dst, src, sizeof(*dst)); }
+    inline void CopyMat43(Mat43* dst, const Mat43* src) { memcpy(dst, src, sizeof(*dst)); }
 
     inline void TransposeMat33(Mat33* m)
     {
         Mat33 mt = { m->c00, m->c10, m->c20,
                      m->c01, m->c11, m->c21,
                      m->c02, m->c12, m->c22 };
-        memcpy(m, &mt, sizeof(m));
+        memcpy(m, &mt, sizeof(*m));
     }
 
     inline void TransposeMat44(Mat44* m)
@@ -351,7 +351,7 @@ namespace GTM
                      m->c01, m->c11, m->c21, m->c31,
                      m->c02, m->c12, m->c22, m->c32,
                      m->c03, m->c13, m->c23, m->c33 };
-        memcpy(m, &mt, sizeof(m));
+        memcpy(m, &mt, sizeof(*m));
     }
 
     inline void TransposeMat33(Mat33* dst, Mat33* src)
