@@ -1,5 +1,6 @@
 /* ====== INCLUDES ====== */
 #include "SoundModule.h"
+#include "ScriptModule.h"
 #include "Player.h"
 
 #include "PlayState.h"
@@ -7,6 +8,9 @@
 /* ====== METHODS ====== */
 b32 PlayState::OnEnter()
 {
+    // Load mission from lua
+    g_scriptModule.LoadMission();
+
     // Background
     m_pBackground = g_graphicsModule.DefineTexture(TID_MISSION1, TFN_MISSION1, TW_LOCATION, TH_LOCATION);
     m_pParallax = g_graphicsModule.DefineTexture(TID_MISSION1_PARALLAX, TFN_MISSION1_PARALLAX, TW_PARALLAX, TH_PARALLAX);
@@ -46,6 +50,8 @@ void PlayState::OnExit()
     g_animModule.UndefineAnimations();
     g_soundModule.HaltMusic();
     g_soundModule.UndefineResources();
+
+    g_scriptModule.UnloadMission();
 }
 
 void PlayState::Update(f32 dtTime)

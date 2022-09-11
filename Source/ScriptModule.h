@@ -12,17 +12,21 @@ extern "C"
 /* ====== STRUCTURES ====== */
 class ScriptModule final : public EngineModule
 {
-    lua_State* L;
+    lua_State* m_pLoader;
+    lua_State* m_pMission;
 public:
     ScriptModule() : EngineModule("ScriptModule", CHANNEL_SCRIPT) {}
 
     b32 StartUp();
     void ShutDown();
+
+    b32 LoadMission();
+    void UnloadMission();
 private:
     void DefineFunctions();
     void DefineSymbols();
 
-    b32 CheckLua(s32 res);
+    b32 CheckLua(lua_State* L, s32 res);
 
     void _AddNote(s32 priority, const char* fmt, ...) const;
     static s32 _GT_LOG(lua_State* L);

@@ -13,15 +13,13 @@ ScriptModule g_scriptModule;
 /* ====== METHODS ====== */
 b32 ScriptModule::StartUp()
 {
-    L = luaL_newstate();
-    luaL_openlibs(L);
+    // Init lua
+    m_pLoader = luaL_newstate();
+    luaL_openlibs(m_pLoader);
 
-    DefineFunctions();
-    DefineSymbols();
-
-    if ( CheckLua(luaL_dofile(L, "Scripts/Test.lua")) )
-    {
-    }
+    // Init loader script
+    if (!CheckLua(m_pLoader, luaL_dofile(m_pLoader, "Scripts/Loader.lua")))
+        return false;
 
     AddNote(PR_NOTE, "Module started");
 
@@ -30,16 +28,27 @@ b32 ScriptModule::StartUp()
 
 void ScriptModule::ShutDown()
 {
-    lua_close(L);
+    if (m_pMission)
+    {
+        lua_close(m_pMission);
+        m_pMission = nullptr;
+    }
+
+    if (m_pLoader)
+    {
+        lua_close(m_pLoader);
+        m_pLoader = nullptr;
+    }
 
     AddNote(PR_NOTE, "Module shut down");
 }
 
-b32 ScriptModule::CheckLua(s32 res)
+b32 ScriptModule::CheckLua(lua_State* L, s32 res)
 {
     if (res != LUA_OK)
     {
         _AddNote(PR_WARNING, "Lua_Check(): %s", lua_tostring(L, -1));
+        lua_pop(L, 1);
         return false;
     }
 
@@ -48,19 +57,85 @@ b32 ScriptModule::CheckLua(s32 res)
 
 void ScriptModule::DefineFunctions()
 {
-    lua_register(L, "GT_LOG", _GT_LOG);
+    lua_register(m_pMission, "GT_LOG", _GT_LOG);
 }
 
 void ScriptModule::DefineSymbols()
 {
-    lua_pushinteger(L, PR_NOTE);
-    lua_setglobal(L, "PR_NOTE");
+    lua_pushinteger(m_pMission, PR_NOTE);
+    lua_setglobal(m_pMission, "PR_NOTE");
 
-    lua_pushinteger(L, PR_WARNING);
-    lua_setglobal(L, "PR_WARNING");
+    lua_pushinteger(m_pMission, PR_WARNING);
+    lua_setglobal(m_pMission, "PR_WARNING");
 
-    lua_pushinteger(L, PR_ERROR);
-    lua_setglobal(L, "PR_ERROR");
+    lua_pushinteger(m_pMission, PR_ERROR);
+    lua_setglobal(m_pMission, "PR_ERROR");
+}
+
+b32 ScriptModule::LoadMission()
+{
+    // Get getMission()
+    lua_getglobal(m_pLoader, "getMission");
+    if (!lua_isfunction(m_pLoader, -1))
+    {
+        lua_pop(m_pLoader, 1);
+        return false;
+    }
+
+    // Call getMission()
+    if (!CheckLua(m_pLoader, lua_pcall(m_pLoader, 0, 1, 0)))
+        return false;
+
+    // Check returned variable
+    if (!lua_isstring(m_pLoader, -1))
+    {
+        lua_pop(m_pLoader, 1);
+        return false;
+    }
+
+    // Create mission lua state
+    m_pMission = luaL_newstate();
+    luaL_openlibs(m_pMission);
+
+    // Define all engine stuff
+    DefineFunctions();
+    DefineSymbols();
+
+    // Try to open script
+    if (!CheckLua(m_pMission, luaL_dofile(m_pMission, lua_tostring(m_pLoader, -1))))
+    {
+        lua_pop(m_pLoader, 1);
+        return false;
+    }
+
+    // Clean loader's stack
+    lua_pop(m_pLoader, 1);
+
+    // Get onEnter()
+    lua_getglobal(m_pMission, "onEnter");
+    if (!lua_isfunction(m_pMission, -1))
+    {
+        lua_pop(m_pMission, 1);
+        return false;
+    }
+
+    // Call onEnter()
+    if (!CheckLua(m_pMission, lua_pcall(m_pMission, 0, 0, 0)))
+    {
+        lua_pop(m_pMission, 1);
+        return false;
+    }
+
+    return true;
+}
+
+void ScriptModule::UnloadMission()
+{
+    if (m_pMission)
+    {
+        lua_close(m_pMission);
+        m_pMission = nullptr;
+    }
 }
 
 void ScriptModule::_AddNote(s32 priority, const char* fmt, ...) const

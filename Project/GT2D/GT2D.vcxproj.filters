@@ -133,7 +133,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\Bin\Scripts\Test.lua">
+    <None Include="..\..\Bin\Scripts\Loader.lua">
+      <Filter>Scripts</Filter>
+    </None>
+    <None Include="..\..\Bin\Scripts\Mission1.lua">
       <Filter>Scripts</Filter>
     </None>
   </ItemGroup>
