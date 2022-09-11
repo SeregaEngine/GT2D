@@ -19,9 +19,12 @@ public:
     b32 StartUp();
     void ShutDown();
 private:
-    void Lua_AddNote(s32 priority, const char* fmt, ...) const;
-    b32 Lua_Check(s32 res);
+    void DefineFunctions();
+    void DefineSymbols();
 
+    b32 CheckLua(s32 res);
+
+    void _AddNote(s32 priority, const char* fmt, ...) const;
     static s32 _GT_LOG(lua_State* L);
 };
 

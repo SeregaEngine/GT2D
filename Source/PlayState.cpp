@@ -29,15 +29,14 @@ b32 PlayState::OnEnter()
     g_graphicsModule.GetCamera().Attach(m_pPlayer);
 
     // Sound
-    g_soundModule.PlayMusic(g_soundModule.DefineMusic("Music/TestMusic.mp3"));
-    g_soundModule.PlaySound(g_soundModule.DefineWAV("Sounds/TestSound.wav"));
+    //g_soundModule.PlayMusic(g_soundModule.DefineMusic("Music/TestMusic.mp3"));
+    //g_soundModule.PlaySound(g_soundModule.DefineWAV("Sounds/TestSound.wav"));
 
     return true;
 }
 
 void PlayState::OnExit()
 {
-    // TODO(sean) unload texture separately with entities
     m_pPlayer->Clean();
     delete m_pPlayer;
     m_pPlayer2->Clean();

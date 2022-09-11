@@ -1,4 +1,5 @@
 /* TODO
+ * - Do we really need Player class?
  */
 
 /* ====== INCLUDES ====== */
