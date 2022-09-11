@@ -17,6 +17,9 @@ b32 ScriptModule::StartUp()
     m_pLoader = luaL_newstate();
     luaL_openlibs(m_pLoader);
 
+    DefineFunctions(m_pLoader);
+    DefineSymbols(m_pLoader);
+
     // Init loader script
     if (!CheckLua(m_pLoader, luaL_dofile(m_pLoader, "Scripts/Loader.lua")))
         return false;
@@ -55,21 +58,21 @@ b32 ScriptModule::CheckLua(lua_State* L, s32 res)
     return true;
 }
 
-void ScriptModule::DefineFunctions()
+void ScriptModule::DefineFunctions(lua_State* L)
 {
-    lua_register(m_pMission, "GT_LOG", _GT_LOG);
+    lua_register(L, "GT_LOG", _GT_LOG);
 }
 
-void ScriptModule::DefineSymbols()
+void ScriptModule::DefineSymbols(lua_State* L)
 {
-    lua_pushinteger(m_pMission, PR_NOTE);
-    lua_setglobal(m_pMission, "PR_NOTE");
+    lua_pushinteger(L, PR_NOTE);
+    lua_setglobal(L, "PR_NOTE");
 
-    lua_pushinteger(m_pMission, PR_WARNING);
-    lua_setglobal(m_pMission, "PR_WARNING");
+    lua_pushinteger(L, PR_WARNING);
+    lua_setglobal(L, "PR_WARNING");
 
-    lua_pushinteger(m_pMission, PR_ERROR);
-    lua_setglobal(m_pMission, "PR_ERROR");
+    lua_pushinteger(L, PR_ERROR);
+    lua_setglobal(L, "PR_ERROR");
 }
 
 b32 ScriptModule::LoadMission()
@@ -98,8 +101,8 @@ b32 ScriptModule::LoadMission()
     luaL_openlibs(m_pMission);
 
     // Define all engine stuff
-    DefineFunctions();
-    DefineSymbols();
+    DefineFunctions(m_pMission);
+    DefineSymbols(m_pMission);
 
     // Try to open script
     if (!CheckLua(m_pMission, luaL_dofile(m_pMission, lua_tostring(m_pLoader, -1))))

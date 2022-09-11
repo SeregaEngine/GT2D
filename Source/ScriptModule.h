@@ -23,8 +23,8 @@ public:
     b32 LoadMission();
     void UnloadMission();
 private:
-    void DefineFunctions();
-    void DefineSymbols();
+    void DefineFunctions(lua_State* L);
+    void DefineSymbols(lua_State* L);
 
     b32 CheckLua(lua_State* L, s32 res);
 
