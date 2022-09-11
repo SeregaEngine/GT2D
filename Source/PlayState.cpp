@@ -1,4 +1,5 @@
 /* ====== INCLUDES ====== */
+#include "SoundModule.h"
 #include "Player.h"
 
 #include "PlayState.h"
@@ -7,11 +8,11 @@
 b32 PlayState::OnEnter()
 {
     // Background
-    m_pBackground = g_graphicsModule.LoadTexture(TID_MISSION1, TFN_MISSION1, TW_LOCATION, TH_LOCATION);
-    m_pParallax = g_graphicsModule.LoadTexture(TID_MISSION1_PARALLAX, TFN_MISSION1_PARALLAX, TW_PARALLAX, TH_PARALLAX);
+    m_pBackground = g_graphicsModule.DefineTexture(TID_MISSION1, TFN_MISSION1, TW_LOCATION, TH_LOCATION);
+    m_pParallax = g_graphicsModule.DefineTexture(TID_MISSION1_PARALLAX, TFN_MISSION1_PARALLAX, TW_PARALLAX, TH_PARALLAX);
 
     // Player
-    GT_Texture* pTemp = g_graphicsModule.LoadTexture(TID_PLAYER, TFN_PLAYER, TW_ACTOR, TH_ACTOR);
+    GT_Texture* pTemp = g_graphicsModule.DefineTexture(TID_PLAYER, TFN_PLAYER, TW_ACTOR, TH_ACTOR);
     m_pPlayer = new Player();
     m_pPlayer->Init(Vec2(0.0f * g_unitX, 0.0f * g_unitY),
                     (s32)(TW_ACTOR * g_unitX), (s32)(TH_ACTOR * g_unitY),
@@ -27,6 +28,10 @@ b32 PlayState::OnEnter()
                                                      (s32)(TH_LOCATION * g_unitY) - 1 });
     g_graphicsModule.GetCamera().Attach(m_pPlayer);
 
+    // Sound
+    g_soundModule.PlayMusic(g_soundModule.DefineMusic("Music/TestMusic.mp3"));
+    g_soundModule.PlaySound(g_soundModule.DefineWAV("Sounds/TestSound.wav"));
+
     return true;
 }
 
@@ -38,7 +43,10 @@ void PlayState::OnExit()
     m_pPlayer2->Clean();
     delete m_pPlayer2;
 
-    g_graphicsModule.UnloadTexture(m_pBackground);
+    g_graphicsModule.UndefineTextures();
+    g_animModule.UndefineAnimations();
+    g_soundModule.HaltMusic();
+    g_soundModule.UndefineResources();
 }
 
 void PlayState::Update(f32 dtTime)

@@ -19,12 +19,10 @@
 /* ====== STRUCTURES ====== */
 struct GT_Texture
 {
-    SDL_Texture* pTexture;
+    s32 id;
     s32 textureWidth, textureHeight;
     s32 spriteWidth, spriteHeight;
-
-    s32 id;
-    s32 refCount;
+    SDL_Texture* pTexture;
 };
 
 /* ====== GLOBALS ====== */
@@ -62,7 +60,7 @@ void GraphicsModule::ShutDown()
     AddNote(PR_NOTE, "Module shut down");
 }
 
-GT_Texture* GraphicsModule::LoadTexture(s32 id, const char* fileName, s32 spriteWidth, s32 spriteHeight)
+GT_Texture* GraphicsModule::DefineTexture(s32 id, const char* fileName, s32 spriteWidth, s32 spriteHeight)
 {
     // Try to find free slot or already loaded texture
     GT_Texture* pFree = nullptr;
@@ -70,15 +68,10 @@ GT_Texture* GraphicsModule::LoadTexture(s32 id, const char* fileName, s32 sprite
     {
         // If texture is loaded and have the same id
         if (m_aTextures[i].id == id && m_aTextures[i].pTexture)
-        {
-            ++m_aTextures[i].refCount;
             return &m_aTextures[i];
-        }
         // If we've not find free slot yet and this slot available
         else if (!pFree && !m_aTextures[i].pTexture)
-        {
             pFree = &m_aTextures[i];
-        }
     }
 
     // There're not slots
@@ -112,27 +105,15 @@ GT_Texture* GraphicsModule::LoadTexture(s32 id, const char* fileName, s32 sprite
         return nullptr;
     }
 
-    // Set reference count
-    pFree->refCount = 1;
-
     return pFree;
 }
 
-void GraphicsModule::UnloadTexture(GT_Texture* pTexture)
+void GraphicsModule::UndefineTextures()
 {
-    // Check for null
-    if (!pTexture)
+    for (s32 i = 0; i < MAX_TEXTURES; ++i)
     {
-        AddNote(PR_WARNING, "UnloadTexture() called with null texture");
-        return;
-    }
-
-    // Decrease reference count and delete texture
-    --pTexture->refCount;
-    if (pTexture->refCount <= 0)
-    {
-        SDL_DestroyTexture(pTexture->pTexture);
-        pTexture->pTexture = nullptr;
+        SDL_DestroyTexture(m_aTextures[i].pTexture);
+        m_aTextures[i].pTexture = nullptr;
     }
 }
 

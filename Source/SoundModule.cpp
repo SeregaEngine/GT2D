@@ -9,6 +9,8 @@
 #include "SoundModule.h"
 
 /* ====== DEFINES ====== */
+#define MAX_SOUNDS 256
+#define MAX_MUSICS 256
 
 /* ====== VARIABLES ====== */
 SoundModule g_soundModule;
@@ -17,9 +19,13 @@ SoundModule g_soundModule;
 b32 SoundModule::StartUp()
 {
     // Init sounds
-    m_pMusic = nullptr;
+    m_aSounds = new Mix_Chunk*[MAX_SOUNDS];
     for (s32 i = 0; i < MAX_SOUNDS; ++i)
         m_aSounds[i] = nullptr;
+
+    m_aMusics = new Mix_Music*[MAX_MUSICS];
+    for (s32 i = 0; i < MAX_MUSICS; ++i)
+        m_aMusics[i] = nullptr;
 
     AddNote(PR_NOTE, "Module started");
 
@@ -28,10 +34,15 @@ b32 SoundModule::StartUp()
 
 void SoundModule::ShutDown()
 {
+    HaltMusic();
+    UndefineResources();
+    delete[] m_aMusics;
+    delete[] m_aSounds;
+
     AddNote(PR_NOTE, "Module shut down");
 }
 
-s32 SoundModule::LoadWAV(const char* fileName)
+s32 SoundModule::DefineWAV(const char* fileName)
 {
     for (s32 i = 0; i < MAX_SOUNDS; ++i)
     {
@@ -41,7 +52,7 @@ s32 SoundModule::LoadWAV(const char* fileName)
 
             if (!m_aSounds[i])
             {
-                AddNote(PR_WARNING, "Can't load sound %s: %s", fileName, Mix_GetError());
+                AddNote(PR_WARNING, "Can't define sound %s: %s", fileName, Mix_GetError());
                 return -1;
             }
 
@@ -52,12 +63,55 @@ s32 SoundModule::LoadWAV(const char* fileName)
     return -1;
 }
 
-void SoundModule::UnloadSound(s32 id)
+b32 SoundModule::DefineMusic(const char* fileName)
 {
-    if (id != -1 && m_aSounds[id])
-        Mix_FreeChunk(m_aSounds[id]);
-    else
-        AddNote(PR_NOTE, "Trying to unload null sound with %d id", id);
+    for (s32 i = 0; i < MAX_MUSICS; ++i)
+    {
+        if (!m_aMusics[i])
+        {
+            m_aMusics[i] = Mix_LoadMUS(fileName);
+
+            if (!m_aMusics[i])
+            {
+                AddNote(PR_WARNING, "Can't define music %s: %s", fileName, Mix_GetError());
+                return -1;
+            }
+
+            return i;
+        }
+    }
+
+    return -1;
+}
+
+void SoundModule::UndefineSounds()
+{
+    if (m_aSounds)
+    {
+        for (s32 i = 0; i < MAX_SOUNDS; ++i)
+        {
+            if (m_aSounds[i])
+            {
+                Mix_FreeChunk(m_aSounds[i]);
+                m_aSounds[i] = nullptr;
+            }
+        }
+    }
+}
+
+void SoundModule::UndefineMusics()
+{
+    if (m_aMusics)
+    {
+        for (s32 i = 0; i < MAX_MUSICS; ++i)
+        {
+            if (m_aMusics[i])
+            {
+                Mix_FreeMusic(m_aMusics[i]);
+                m_aMusics[i] = nullptr;
+            }
+        }
+    }
 }
 
 b32 SoundModule::PlaySound(s32 id)
@@ -74,41 +128,16 @@ b32 SoundModule::PlaySound(s32 id)
     }
 }
 
-b32 SoundModule::LoadMusic(const char* fileName)
+b32 SoundModule::PlayMusic(s32 id)
 {
-    // Check if we already have one
-    if (m_pMusic)
-        UnloadMusic();
-
-    // Try to load
-    m_pMusic = Mix_LoadMUS(fileName);
-    if (!m_pMusic)
+    if (id != -1 && m_aMusics[id])
     {
-        AddNote(PR_WARNING, "Can't load music %s: %s", fileName, Mix_GetError());
-        return false;
-    }
-
-    return true;
-}
-
-void SoundModule::UnloadMusic()
-{
-    if (m_pMusic)
-    {
-        Mix_FreeMusic(m_pMusic);
-        m_pMusic = nullptr;
-    }
-}
-
-b32 SoundModule::PlayMusic()
-{
-    if (m_pMusic)
-    {
-        return 0 == Mix_PlayMusic(m_pMusic, 0) ? true : false;
+        Mix_PlayMusic(m_aMusics[id], 65535); // Play 65535 times
+        return true;
     }
     else
     {
-        AddNote(PR_WARNING, "There're no music to play");
+        AddNote(PR_WARNING, "There're no music with %d id", id);
         return false;
     }
 }

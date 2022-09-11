@@ -67,8 +67,8 @@ public:
         { SDL_SetRenderDrawColor(m_pRenderer, 0x00, 0x00, 0x00, 0xFF); SDL_RenderClear(m_pRenderer); }
     void FlipScreen() { SDL_RenderPresent(m_pRenderer); }
 
-    GT_Texture* LoadTexture(s32 id, const char* fileName, s32 spriteWidth, s32 spriteHeight); // null on error
-    void UnloadTexture(GT_Texture* pTexture);
+    GT_Texture* DefineTexture(s32 id, const char* fileName, s32 spriteWidth, s32 spriteHeight); // null on error
+    void UndefineTextures();
 
     void Draw(const GT_Texture* pTexture, s32 row, s32 col,
               SDL_Rect* dstRect, f32 angle = 0.0f, SDL_RendererFlip flip = SDL_FLIP_NONE);

@@ -12,23 +12,23 @@
 /* ====== STRUCTURES ====== */
 class SoundModule final : public EngineModule
 {
-    static const s32 MAX_SOUNDS = 256;
-
-    Mix_Music* m_pMusic;
-    Mix_Chunk* m_aSounds[MAX_SOUNDS];
+    Mix_Music** m_aMusics;
+    Mix_Chunk** m_aSounds;
 public:
     SoundModule() : EngineModule("SoundModule", CHANNEL_SOUND) {}
 
     b32 StartUp();
     void ShutDown();
 
-    s32 LoadWAV(const char* fileName); // -1 on error
-    void UnloadSound(s32 id);
-    b32 PlaySound(s32 id);
+    s32 DefineWAV(const char* fileName); // -1 on error
+    b32 DefineMusic(const char* fileName);
 
-    b32 LoadMusic(const char* fileName);
-    void UnloadMusic();
-    b32 PlayMusic();
+    void UndefineSounds();
+    void UndefineMusics();
+    void UndefineResources() { UndefineSounds(); UndefineMusics(); }
+
+    b32 PlaySound(s32 id);
+    b32 PlayMusic(s32 id);
     void HaltMusic() { Mix_HaltMusic(); }
 };
 
