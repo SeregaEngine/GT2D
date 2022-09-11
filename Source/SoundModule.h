@@ -2,34 +2,35 @@
 #define SOUNDMODULE_H_
 
 /* ====== INCLUDES ====== */
-#include "SDL_mixer.h"
-
 #include "Types.h"
 #include "EngineModule.h"
 
 /* ====== DEFINES====== */
 
 /* ====== STRUCTURES ====== */
+struct GT_Sound;
+struct GT_Music;
+
 class SoundModule final : public EngineModule
 {
-    Mix_Music** m_aMusics;
-    Mix_Chunk** m_aSounds;
+    GT_Sound* m_aSounds;
+    GT_Music* m_aMusics;
 public:
     SoundModule() : EngineModule("SoundModule", CHANNEL_SOUND) {}
 
     b32 StartUp();
     void ShutDown();
 
-    s32 DefineWAV(const char* fileName); // -1 on error
-    b32 DefineMusic(const char* fileName);
+    GT_Sound* DefineWAV(const char* fileName); // -1 on error
+    GT_Music* DefineMusic(const char* fileName);
 
     void UndefineSounds();
     void UndefineMusics();
     void UndefineResources() { UndefineSounds(); UndefineMusics(); }
 
-    b32 PlaySound(s32 id);
-    b32 PlayMusic(s32 id);
-    void HaltMusic() { Mix_HaltMusic(); }
+    b32 PlaySound(GT_Sound* pSound);
+    b32 PlayMusic(GT_Music* pMusic);
+    void HaltMusic();
 };
 
 extern SoundModule g_soundModule;
