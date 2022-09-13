@@ -14,7 +14,7 @@ struct GT_AIState // TODO(sean) AIModule
 class Actor : public Entity
 {
 public:
-    enum eActorAnimation
+    enum eActorAnimation // TODO(sean) Maybe enum class?
     {
         ACTOR_ANIMATION_IDLE_RIGHT = 0,
         ACTOR_ANIMATION_IDLE_LEFT,

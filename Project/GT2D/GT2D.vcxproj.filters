@@ -139,5 +139,8 @@
     <None Include="..\..\Bin\Scripts\Mission1.lua">
       <Filter>Scripts</Filter>
     </None>
+    <None Include="..\..\Bin\Scripts\GraphicsDefines.lua">
+      <Filter>Scripts</Filter>
+    </None>
   </ItemGroup>
 </Project>

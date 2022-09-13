@@ -1,3 +1,3 @@
 function getMission()
-	return "Scripts/Mission1.lua"
+  return "Scripts/Mission1.lua"
 end

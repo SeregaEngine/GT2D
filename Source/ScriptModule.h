@@ -26,10 +26,17 @@ private:
     void DefineFunctions(lua_State* L);
     void DefineSymbols(lua_State* L);
 
+    static void LuaNote(s32 priority, const char* fmt, ...);
+    static b32 LuaExpect(lua_State* L, const char* funName, s32 expect);
     b32 CheckLua(lua_State* L, s32 res);
 
-    void _AddNote(s32 priority, const char* fmt, ...) const;
+    /* Log */
     static s32 _GT_LOG(lua_State* L);
+
+    /* Graphics */
+    static s32 _defineTexture(lua_State* L);
+    static s32 _setBackground(lua_State* L);
+    static s32 _setParallax(lua_State* L);
 };
 
 extern ScriptModule g_scriptModule;

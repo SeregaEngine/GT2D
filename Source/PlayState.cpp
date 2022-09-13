@@ -11,10 +11,6 @@ b32 PlayState::OnEnter()
     // Load mission from lua
     g_scriptModule.LoadMission();
 
-    // Background
-    m_pBackground = g_graphicsModule.DefineTexture(TID_MISSION1, TFN_MISSION1, TW_LOCATION, TH_LOCATION);
-    m_pParallax = g_graphicsModule.DefineTexture(TID_MISSION1_PARALLAX, TFN_MISSION1_PARALLAX, TW_PARALLAX, TH_PARALLAX);
-
     // Player
     GT_Texture* pTemp = g_graphicsModule.DefineTexture(TID_PLAYER, TFN_PLAYER, TW_ACTOR, TH_ACTOR);
     m_pPlayer = new Player();

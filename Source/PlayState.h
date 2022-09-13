@@ -19,6 +19,9 @@ public:
 
     virtual void Update(f32 dtTime) override;
     virtual void Render() override;
+
+    void SetBackground(GT_Texture* pTexture) { m_pBackground = pTexture; }
+    void SetParallax(GT_Texture* pTexture) { m_pParallax = pTexture; }
 };
 
 #endif // PLAYSTATE_H_

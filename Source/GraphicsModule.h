@@ -13,15 +13,16 @@
 
 /* === Lua domain === */
 
+// TODO(sean) remove this stuff
 // Default sizes of sprites
 #define TW_LOCATION 128
 #define TH_LOCATION 72
 
-#define TW_ACTOR 16
-#define TH_ACTOR 16
-
 #define TW_PARALLAX 256
 #define TH_PARALLAX 72
+
+#define TW_ACTOR 16
+#define TH_ACTOR 16
 
 // Texture ids
 enum eTextureID

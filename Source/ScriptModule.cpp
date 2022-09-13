@@ -5,6 +5,10 @@ extern "C"
 #include "lualib.h"
 }
 
+#include "GraphicsModule.h"
+#include "Game.h"
+#include "PlayState.h"
+
 #include "ScriptModule.h"
 
 /* ====== VARIABLES ====== */
@@ -46,21 +50,12 @@ void ScriptModule::ShutDown()
     AddNote(PR_NOTE, "Module shut down");
 }
 
-b32 ScriptModule::CheckLua(lua_State* L, s32 res)
-{
-    if (res != LUA_OK)
-    {
-        _AddNote(PR_WARNING, "Lua_Check(): %s", lua_tostring(L, -1));
-        lua_pop(L, 1);
-        return false;
-    }
-
-    return true;
-}
-
 void ScriptModule::DefineFunctions(lua_State* L)
 {
     lua_register(L, "GT_LOG", _GT_LOG);
+    lua_register(L, "defineTexture", _defineTexture);
+    lua_register(L, "setBackground", _setBackground);
+    lua_register(L, "setParallax", _setParallax);
 }
 
 void ScriptModule::DefineSymbols(lua_State* L)
@@ -141,7 +136,7 @@ void ScriptModule::UnloadMission()
     }
 }
 
-void ScriptModule::_AddNote(s32 priority, const char* fmt, ...) const
+void ScriptModule::LuaNote(s32 priority, const char* fmt, ...)
 {
     va_list vl;
     va_start(vl, fmt);
@@ -149,11 +144,72 @@ void ScriptModule::_AddNote(s32 priority, const char* fmt, ...) const
     va_end(vl);
 }
 
+b32 ScriptModule::LuaExpect(lua_State* L, const char* funName, s32 expect)
+{
+    s32 given;
+    if ((given = lua_gettop(L)) == expect)
+    {
+        return true;
+    }
+    else
+    {
+        LuaNote(PR_ERROR, "%s(): Expected %d arguments, but %d given", funName, expect, lua_gettop(L));
+        return false;
+    }
+}
+
+b32 ScriptModule::CheckLua(lua_State* L, s32 res)
+{
+    if (res != LUA_OK)
+    {
+        AddNote(PR_WARNING, "CheckLua(): %s", lua_tostring(L, -1));
+        lua_pop(L, 1);
+        return false;
+    }
+
+    return true;
+}
+
 s32 ScriptModule::_GT_LOG(lua_State* L)
 {
-    if (lua_gettop(L) == 2)
-        if (lua_isinteger(L, 1) && lua_isstring(L, 2))
-            g_scriptModule._AddNote((s32)lua_tointeger(L, 1), lua_tostring(L, 2));
+    if (!LuaExpect(L, "GT_LOG", 2))
+        return -1;
+
+    if (lua_isinteger(L, 1) && lua_isstring(L, 2))
+        LuaNote((s32)lua_tointeger(L, 1), lua_tostring(L, 2));
+
+    return 0;
+}
+
+s32 ScriptModule::_defineTexture(lua_State* L)
+{
+    if (!LuaExpect(L, "defineTexture", 4))
+        return -1;
+
+    lua_pushlightuserdata(L, g_graphicsModule.DefineTexture((s32)lua_tointeger(L, 1),
+                                                            lua_tostring(L, 2),
+                                                            (s32)lua_tointeger(L, 3),
+                                                            (s32)lua_tointeger(L, 4)));
+
+    return 1;
+}
+
+s32 ScriptModule::_setBackground(lua_State* L)
+{
+    if (!LuaExpect(L, "setBackground", 1))
+        return -1;
+
+    static_cast<PlayState*>(g_game.GetCurState())->SetBackground( (GT_Texture*)lua_touserdata(L, 1) );
+
+    return 0;
+}
+
+s32 ScriptModule::_setParallax(lua_State* L)
+{
+    if (!LuaExpect(L, "setParallax", 1))
+        return -1;
+
+    static_cast<PlayState*>(g_game.GetCurState())->SetParallax( (GT_Texture*)lua_touserdata(L, 1) );
 
     return 0;
 }

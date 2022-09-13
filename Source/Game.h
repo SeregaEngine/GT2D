@@ -18,8 +18,10 @@ public:
     b32 StartUp();
     void ShutDown();
 
-    b32 Running() const { return m_bRunning; }
     void Stop() { m_bRunning = false; }
+
+    b32 Running() const { return m_bRunning; }
+    GameState* GetCurState() { return m_curState; }
 
     void Update(f32 dtTime);
     void Render() const;
