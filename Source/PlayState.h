@@ -4,24 +4,21 @@
 /* ====== INCLUDES ====== */
 #include "GraphicsModule.h"
 #include "GameState.h"
+#include "World.h"
 #include "Entity.h"
 
 /* ====== STRUCTURES ====== */
 class PlayState final : public GameState
 {
-    GT_Texture* m_pBackground;
-    GT_Texture* m_pParallax;
-    Entity* m_pPlayer;
-    Entity* m_pPlayer2;
+    World m_world;
 public:
     virtual b32 OnEnter() override;
     virtual void OnExit() override;
 
-    virtual void Update(f32 dtTime) override;
-    virtual void Render() override;
+    virtual void Update(f32 dtTime) override { m_world.Update(dtTime); }
+    virtual void Render() override { m_world.Render(); }
 
-    void SetBackground(GT_Texture* pTexture) { m_pBackground = pTexture; }
-    void SetParallax(GT_Texture* pTexture) { m_pParallax = pTexture; }
+    World& GetWorld() { return m_world; }
 };
 
 #endif // PLAYSTATE_H_

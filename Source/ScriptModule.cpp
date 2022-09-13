@@ -207,7 +207,7 @@ s32 ScriptModule::_setBackground(lua_State* L)
     if (!LuaExpect(L, "setBackground", 1))
         return -1;
 
-    static_cast<PlayState*>(g_game.GetCurState())->SetBackground( (GT_Texture*)lua_touserdata(L, 1) );
+    g_game.GetWorld().SetBackground( (GT_Texture*)lua_touserdata(L, 1) );
 
     return 0;
 }
@@ -217,7 +217,7 @@ s32 ScriptModule::_setParallax(lua_State* L)
     if (!LuaExpect(L, "setParallax", 1))
         return -1;
 
-    static_cast<PlayState*>(g_game.GetCurState())->SetParallax( (GT_Texture*)lua_touserdata(L, 1) );
+    g_game.GetWorld().SetParallax( (GT_Texture*)lua_touserdata(L, 1) );
 
     return 0;
 }

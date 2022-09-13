@@ -3,15 +3,17 @@
 
 /* ====== INCLUDES ====== */
 #include "Types.h"
-#include "GameState.h"
 #include "EngineModule.h"
+#include "GameState.h"
+#include "PlayState.h"
+#include "World.h"
 
 /* ====== STRUCTURES ====== */
 class Game final : public EngineModule
 {
     b32 m_bRunning;
 
-    GameState* m_curState;
+    GameState* m_pCurState;
 public:
     Game() : EngineModule("Game", CHANNEL_GAME) {}
 
@@ -21,7 +23,8 @@ public:
     void Stop() { m_bRunning = false; }
 
     b32 Running() const { return m_bRunning; }
-    GameState* GetCurState() { return m_curState; }
+    GameState* GetCurState() { return m_pCurState; }
+    World& GetWorld() { return static_cast<PlayState*>(m_pCurState)->GetWorld(); }
 
     void Update(f32 dtTime);
     void Render() const;
