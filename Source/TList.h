@@ -22,7 +22,7 @@ public:
 
     void Push(T data);
     void Clean();
-    void Mapcar(void (*fun)(T, void*), void* userdata);
+    void Mapcar(void (*fun)(T, void*), void* userdata = nullptr);
 };
 
 /* ====== METHODS ====== */

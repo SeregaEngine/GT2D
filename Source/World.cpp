@@ -34,7 +34,7 @@ void World::ShutDown()
     m_lstEntity.Mapcar([](auto pEntity, auto _) {
         pEntity->Clean();
         delete pEntity;
-    }, nullptr);
+    });
 
     m_lstEntity.Clean();
 
@@ -63,5 +63,5 @@ void World::Render()
     // Draw player
     m_lstEntity.Mapcar([](auto pEntity, auto _) {
         pEntity->Draw();
-    }, nullptr);
+    });
 }
