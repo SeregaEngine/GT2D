@@ -19,10 +19,10 @@
 /* ====== STRUCTURES ====== */
 struct GT_Texture
 {
-    s32 id;
+    const char* path;
+    SDL_Texture* pTexture;
     s32 textureWidth, textureHeight;
     s32 spriteWidth, spriteHeight;
-    SDL_Texture* pTexture;
 };
 
 /* ====== GLOBALS ====== */
@@ -43,7 +43,10 @@ b32 GraphicsModule::StartUp(SDL_Renderer* pRenderer, s32 width, s32 height)
     // Allocate textures
     m_aTextures = new GT_Texture[MAX_TEXTURES];
     for (s32 i = 0; i < MAX_TEXTURES; ++i)
+    {
+        m_aTextures[i].path = nullptr;
         m_aTextures[i].pTexture = nullptr;
+    }
 
     AddNote(PR_NOTE, "Module started");
 
@@ -60,14 +63,14 @@ void GraphicsModule::ShutDown()
     AddNote(PR_NOTE, "Module shut down");
 }
 
-GT_Texture* GraphicsModule::DefineTexture(s32 id, const char* fileName, s32 spriteWidth, s32 spriteHeight)
+GT_Texture* GraphicsModule::DefineTexture(const char* fileName, s32 spriteWidth, s32 spriteHeight)
 {
     // Try to find free slot or already loaded texture
     GT_Texture* pFree = nullptr;
     for (s32 i = 0; i < MAX_TEXTURES; ++i)
     {
         // If texture is loaded and have the same id
-        if (m_aTextures[i].id == id && m_aTextures[i].pTexture)
+        if (m_aTextures[i].path == fileName && m_aTextures[i].pTexture)
             return &m_aTextures[i];
         // If we've not find free slot yet and this slot available
         else if (!pFree && !m_aTextures[i].pTexture)
@@ -77,7 +80,7 @@ GT_Texture* GraphicsModule::DefineTexture(s32 id, const char* fileName, s32 spri
     // There're not slots
     if (!pFree)
     {
-        AddNote(PR_WARNING, "There're no free slot for texture [%d]: %s", id, fileName);
+        AddNote(PR_WARNING, "There're no free slot for texture: %s", fileName);
         return nullptr;
     }
 
@@ -85,12 +88,12 @@ GT_Texture* GraphicsModule::DefineTexture(s32 id, const char* fileName, s32 spri
     SDL_Surface* pSurface = IMG_Load(fileName);
     if (!pSurface)
     {
-        AddNote(PR_WARNING, "Can't load surface from file [%d]: %s", id, fileName);
+        AddNote(PR_WARNING, "Can't load surface from file: %s", fileName);
         return nullptr;
     }
 
     // Set texture info
-    pFree->id = id;
+    pFree->path = fileName;
     pFree->textureWidth = pSurface->w;
     pFree->textureHeight = pSurface->h;
     pFree->spriteWidth = spriteWidth;
@@ -101,7 +104,7 @@ GT_Texture* GraphicsModule::DefineTexture(s32 id, const char* fileName, s32 spri
     SDL_FreeSurface(pSurface);
     if (!pFree->pTexture)
     {
-        AddNote(PR_WARNING, "Can't create texture from surface [%d]: %s", id, fileName);
+        AddNote(PR_WARNING, "Can't create texture from surface: %s", fileName);
         return nullptr;
     }
 
@@ -113,6 +116,7 @@ void GraphicsModule::UndefineTextures()
     for (s32 i = 0; i < MAX_TEXTURES; ++i)
     {
         SDL_DestroyTexture(m_aTextures[i].pTexture);
+        m_aTextures[i].path = nullptr;
         m_aTextures[i].pTexture = nullptr;
     }
 }

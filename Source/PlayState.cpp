@@ -12,7 +12,7 @@ b32 PlayState::OnEnter()
     g_scriptModule.LoadMission();
 
     // Player
-    GT_Texture* pTemp = g_graphicsModule.DefineTexture(TID_PLAYER, TFN_PLAYER, TW_ACTOR, TH_ACTOR);
+    GT_Texture* pTemp = g_graphicsModule.DefineTexture(TFN_PLAYER, TW_ACTOR, TH_ACTOR);
     m_pPlayer = new Player();
     m_pPlayer->Init(Vec2(0.0f * g_unitX, 0.0f * g_unitY),
                     (s32)(TW_ACTOR * g_unitX), (s32)(TH_ACTOR * g_unitY),

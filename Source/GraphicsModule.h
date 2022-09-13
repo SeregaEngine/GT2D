@@ -24,19 +24,7 @@
 #define TW_ACTOR 16
 #define TH_ACTOR 16
 
-// Texture ids
-enum eTextureID
-{
-    TID_MISSION1 = 0,
-    TID_MISSION1_PARALLAX,
-    TID_GARAGE,
-    TID_PLAYER
-};
-
 // Texture file names
-#define TFN_MISSION1 "Textures/Locations/Mission1-1.png"
-#define TFN_MISSION1_PARALLAX "Textures/Locations/Mission1-1_Parallax.png"
-#define TFN_GARAGE "Textures/Locations/Garage.png"
 #define TFN_PLAYER "Textures/Actors/Player.png"
 
 /* ====== GLOBALS ====== */
@@ -68,7 +56,7 @@ public:
         { SDL_SetRenderDrawColor(m_pRenderer, 0x00, 0x00, 0x00, 0xFF); SDL_RenderClear(m_pRenderer); }
     void FlipScreen() { SDL_RenderPresent(m_pRenderer); }
 
-    GT_Texture* DefineTexture(s32 id, const char* fileName, s32 spriteWidth, s32 spriteHeight); // null on error
+    GT_Texture* DefineTexture(const char* fileName, s32 spriteWidth, s32 spriteHeight); // null on error
     void UndefineTextures();
 
     void Draw(const GT_Texture* pTexture, s32 row, s32 col,

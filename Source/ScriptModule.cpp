@@ -183,13 +183,12 @@ s32 ScriptModule::_GT_LOG(lua_State* L)
 
 s32 ScriptModule::_defineTexture(lua_State* L)
 {
-    if (!LuaExpect(L, "defineTexture", 4))
+    if (!LuaExpect(L, "defineTexture", 3))
         return -1;
 
-    lua_pushlightuserdata(L, g_graphicsModule.DefineTexture((s32)lua_tointeger(L, 1),
-                                                            lua_tostring(L, 2),
-                                                            (s32)lua_tointeger(L, 3),
-                                                            (s32)lua_tointeger(L, 4)));
+    lua_pushlightuserdata(L, g_graphicsModule.DefineTexture(lua_tostring(L, 1),
+                                                            (s32)lua_tointeger(L, 2),
+                                                            (s32)lua_tointeger(L, 3)));
 
     return 1;
 }
