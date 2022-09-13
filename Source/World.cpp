@@ -43,9 +43,14 @@ void World::ShutDown()
 
 void World::Update(f32 dtTime)
 {
+    for (auto it = m_lstEntity.Begin(); it != m_lstEntity.End(); ++it)
+        it->data->Update(dtTime);
+
+    /*
     m_lstEntity.Mapcar([](auto pEntity, auto dtTime) {
         pEntity->Update(*(f32*)dtTime);
     }, &dtTime);
+    */
 }
 
 void World::Render()
