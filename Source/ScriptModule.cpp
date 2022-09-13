@@ -6,6 +6,7 @@ extern "C"
 }
 
 #include "GraphicsModule.h"
+#include "SoundModule.h"
 #include "Game.h"
 #include "PlayState.h"
 
@@ -53,7 +54,15 @@ void ScriptModule::ShutDown()
 void ScriptModule::DefineFunctions(lua_State* L)
 {
     lua_register(L, "GT_LOG", _GT_LOG);
+
     lua_register(L, "defineTexture", _defineTexture);
+
+    lua_register(L, "defineSound", _defineSound);
+    lua_register(L, "playSound", _playSound);
+
+    lua_register(L, "defineMusic", _defineMusic);
+    lua_register(L, "playMusic", _playMusic);
+
     lua_register(L, "setBackground", _setBackground);
     lua_register(L, "setParallax", _setParallax);
 }
@@ -209,6 +218,46 @@ s32 ScriptModule::_setParallax(lua_State* L)
         return -1;
 
     static_cast<PlayState*>(g_game.GetCurState())->SetParallax( (GT_Texture*)lua_touserdata(L, 1) );
+
+    return 0;
+}
+
+s32 ScriptModule::_defineSound(lua_State* L)
+{
+    if (!LuaExpect(L, "defineSound", 1))
+        return -1;
+
+    lua_pushlightuserdata(L, g_soundModule.DefineWAV(lua_tostring(L, 1)));
+
+    return 1;
+}
+
+s32 ScriptModule::_playSound(lua_State* L)
+{
+    if (!LuaExpect(L, "playSound", 1))
+        return -1;
+
+    g_soundModule.PlaySound( (GT_Sound*)lua_touserdata(L, 1) );
+
+    return 0;
+}
+
+s32 ScriptModule::_defineMusic(lua_State* L)
+{
+    if (!LuaExpect(L, "defineMusic", 1))
+        return -1;
+
+    lua_pushlightuserdata(L, g_soundModule.DefineMusic(lua_tostring(L, 1)));
+
+    return 1;
+}
+
+s32 ScriptModule::_playMusic(lua_State* L)
+{
+    if (!LuaExpect(L, "playSound", 1))
+        return -1;
+
+    g_soundModule.PlayMusic( (GT_Music*)lua_touserdata(L, 1) );
 
     return 0;
 }

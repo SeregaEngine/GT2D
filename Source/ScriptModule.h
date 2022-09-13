@@ -35,6 +35,16 @@ private:
 
     /* Graphics */
     static s32 _defineTexture(lua_State* L);
+
+    /* Sound */
+    static s32 _defineSound(lua_State* L);
+    static s32 _playSound(lua_State* L);
+
+    /* Music */
+    static s32 _defineMusic(lua_State* L);
+    static s32 _playMusic(lua_State* L);
+
+    /* PlayState */
     static s32 _setBackground(lua_State* L);
     static s32 _setParallax(lua_State* L);
 };

@@ -8,4 +8,10 @@ function onEnter()
 
   setBackground(bg)
   setParallax(pl)
+
+  local sound = defineSound("Sounds/TestSound.wav")
+  local music = defineMusic("Music/TestMusic.mp3")
+
+  playSound(sound)
+  playMusic(music)
 end

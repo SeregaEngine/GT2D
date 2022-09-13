@@ -28,10 +28,6 @@ b32 PlayState::OnEnter()
                                                      (s32)(TH_LOCATION * g_unitY) - 1 });
     g_graphicsModule.GetCamera().Attach(m_pPlayer);
 
-    // Sound
-    //g_soundModule.PlayMusic(g_soundModule.DefineMusic("Music/TestMusic.mp3"));
-    //g_soundModule.PlaySound(g_soundModule.DefineWAV("Sounds/TestSound.wav"));
-
     return true;
 }
 
