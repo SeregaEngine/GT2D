@@ -2,10 +2,8 @@
 #define PLAYSTATE_H_
 
 /* ====== INCLUDES ====== */
-#include "GraphicsModule.h"
 #include "GameState.h"
 #include "World.h"
-#include "Entity.h"
 
 /* ====== STRUCTURES ====== */
 class PlayState final : public GameState

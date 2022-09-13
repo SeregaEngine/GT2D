@@ -3,13 +3,13 @@
 
 #include "EngineModule.h"
 #include "Player.h"
+#include "TList.h"
 
 class World final : EngineModule
 {
     GT_Texture* m_pBackground;
     GT_Texture* m_pParallax;
-    Entity* m_pPlayer;
-    Entity* m_pPlayer2;
+    TList<Entity*> m_lstEntity;
 public:
     World() : EngineModule("World", CHANNEL_GAME) {}
 

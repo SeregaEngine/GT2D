@@ -186,6 +186,7 @@
     <ClInclude Include="..\..\Source\PlayState.h" />
     <ClInclude Include="..\..\Source\ScriptModule.h" />
     <ClInclude Include="..\..\Source\SoundModule.h" />
+    <ClInclude Include="..\..\Source\TList.h" />
     <ClInclude Include="..\..\Source\Types.h" />
     <ClInclude Include="..\..\Source\World.h" />
   </ItemGroup>

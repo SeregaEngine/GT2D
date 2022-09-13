@@ -81,6 +81,9 @@
     <ClInclude Include="..\..\Source\World.h">
       <Filter>Header Files\Module H</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\TList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\main.cpp">
