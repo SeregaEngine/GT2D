@@ -3,33 +3,42 @@ dofile "Scripts/GraphicsDefines.lua"
 -- Defines
 
 -- Globals
-local entity_list = {}
+local entities = {}
+local textures = {}
+local sounds = {}
+local music = {}
 
 function onEnter()
-  GT_LOG(PR_NOTE, "Mission1: onEnter()")
+  GT_LOG(PR_NOTE, "onEnter() called")
 
   -- Set background stuff
-  local bg = defineTexture("Textures/Locations/Mission1-1.png", TW_LOCATION, TH_LOCATION)
-  local pl = defineTexture("Textures/Locations/Mission1-1_Parallax.png", TW_PARALLAX, TH_PARALLAX)
+  textures["background"] = defineTexture("Textures/Locations/Mission1-1.png", TW_LOCATION, TH_LOCATION)
+  textures["parallax"] = defineTexture("Textures/Locations/Mission1-1_Parallax.png", TW_PARALLAX, TH_PARALLAX)
 
-  setBackground(bg)
-  setParallax(pl)
+  setBackground(textures["background"])
+  setParallax(textures["parallax"])
 
-  --[[ Music/sound test
-  local sound = defineSound("Sounds/TestSound.wav")
-  local music = defineMusic("Music/TestMusic.mp3")
+  -- Sound and music
+  sounds["test"] = defineSound("Sounds/TestSound.wav")
+  music["test"] = defineMusic("Music/TestMusic.mp3")
 
-  playSound(sound)
-  playMusic(music)
+  --[[
+  playSound(sounds["test"])
+  playMusic(music["test"])
   ]]--
 
   -- Player
-  local player_texture = defineTexture("Textures/Actors/Player.png", TW_ACTOR, TH_ACTOR)
-  entity_list["player"] = addPlayer(0, 0, TW_ACTOR, TH_ACTOR, player_texture)
-  entity_list["test_entity"] = addEntity(40, 65, TW_ACTOR, TH_ACTOR, player_texture)
+  textures["player"] = defineTexture("Textures/Actors/Player.png", TW_ACTOR, TH_ACTOR)
+  entities["player"] = addActor(0, 0, TW_ACTOR, TH_ACTOR, textures["player"])
+
+  -- Test entity
+  entities["test"] = addEntity(TW_LOCATION, TH_LOCATION - TH_ACTOR/2, TW_ACTOR, TH_ACTOR, textures["player"])
 
   -- Camera
   setLevelSize(TW_LOCATION * 2, TH_LOCATION)
-  attachCamera(entity_list["player"])
+  attachCamera(entities["player"])
+end
 
+function onUpdate()
+  GT_LOG(PR_NOTE, "onUpdate() called")
 end

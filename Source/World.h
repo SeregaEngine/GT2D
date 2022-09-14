@@ -2,7 +2,7 @@
 #define WORLD_H_
 
 #include "EngineModule.h"
-#include "Player.h"
+#include "Entity.h"
 #include "TList.h"
 
 class World final : EngineModule

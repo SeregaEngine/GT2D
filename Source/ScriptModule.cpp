@@ -12,7 +12,7 @@ extern "C"
 #include "GraphicsModule.h"
 #include "SoundModule.h"
 #include "Game.h"
-#include "PlayState.h"
+#include "Actor.h"
 
 #include "ScriptModule.h"
 
@@ -85,7 +85,7 @@ void ScriptModule::DefineFunctions(lua_State* L)
 
     // Entities
     lua_register(L, "addEntity", _addEntity);
-    lua_register(L, "addPlayer", _addPlayer);
+    lua_register(L, "addActor", _addActor);
 }
 
 void ScriptModule::DefineSymbols(lua_State* L)
@@ -357,26 +357,26 @@ s32 ScriptModule::_addEntity(lua_State* L)
     return 1;
 }
 
-s32 ScriptModule::_addPlayer(lua_State* L)
+s32 ScriptModule::_addActor(lua_State* L)
 {
-    if (!LuaExpect(L, "addPlayer", 5))
+    if (!LuaExpect(L, "addActor", 5))
         return -1;
 
-    // Init player
-    Player* pPlayer = new Player();
+    // Init actor
+    Actor* pActor = new Actor();
 
     Vec2 vPosition = { (f32)lua_tonumber(L, 1) * g_unitX, (f32)lua_tonumber(L, 2) * g_unitY };
     s32 width  = (s32)( (f32)lua_tonumber(L, 3) * g_unitX );
     s32 height = (s32)( (f32)lua_tonumber(L, 4) * g_unitY );
     GT_Texture* pTexture = (GT_Texture*)lua_touserdata(L, 5);
 
-    pPlayer->Init(vPosition, width, height, pTexture);
+    pActor->Init(vPosition, width, height, pTexture);
 
     // Push him to the world
-    g_game.GetWorld().AddEntity(pPlayer);
+    g_game.GetWorld().AddEntity(pActor);
 
     // Return pointer to lua
-    lua_pushlightuserdata(L, pPlayer);
+    lua_pushlightuserdata(L, pActor);
 
     return 1;
 }

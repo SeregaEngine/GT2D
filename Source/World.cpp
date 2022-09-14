@@ -8,8 +8,8 @@
 #define CAMERA_DEFAULT_Y 0
 #define CAMERA_BOUNDS_DEFAULT_X1 0
 #define CAMERA_BOUNDS_DEFAULT_Y1 0
-#define CAMERA_BOUNDS_DEFAULT_X2 ( (s32)(TW_LOCATION * g_unitX) - 1 )
-#define CAMERA_BOUNDS_DEFAULT_Y2 ( (s32)(TH_LOCATION * g_unitY) - 1 )
+#define CAMERA_BOUNDS_DEFAULT_X2 ( g_graphicsModule.GetScreenWidth() - 1 )
+#define CAMERA_BOUNDS_DEFAULT_Y2 ( g_graphicsModule.GetScreenHeight() - 1 )
 
 /* ====== METHODS ====== */
 void World::StartUp()
@@ -35,23 +35,26 @@ void World::ShutDown()
 
 void World::Update(f32 dtTime)
 {
+    /* TODO(sean) lua onUpdate()
     for (auto it = m_lstEntity.Begin(); it != m_lstEntity.End(); ++it)
         it->data->Update(dtTime);
+    */
 }
 
 void World::Render()
 {
     // Draw parallax
-    SDL_Rect rect = { 0, 0, (s32)(TW_PARALLAX * g_unitX), (s32)(TH_PARALLAX * g_unitY) };
+    SDL_Rect rect = { 0, 0, g_graphicsModule.GetScreenWidth() * 2,
+                            g_graphicsModule.GetScreenHeight() * 2 };
     g_graphicsModule.Draw(m_pParallax, 0, 0, &rect);
 
     // Draw background
-    rect = { 0, 0, (s32)(TW_LOCATION * g_unitX), (s32)(TH_LOCATION * g_unitY) };
+    rect = { 0, 0, g_graphicsModule.GetScreenWidth(), g_graphicsModule.GetScreenHeight() };
     g_graphicsModule.Draw(m_pBackground, 0, 0, &rect);
     rect.x = rect.w;
     g_graphicsModule.Draw(m_pBackground, 0, 1, &rect);
 
-    // Draw player
+    // Draw entities
     m_lstEntity.Mapcar([](auto pEntity) {
         pEntity->Draw();
     });

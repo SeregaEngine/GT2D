@@ -182,7 +182,6 @@
     <ClInclude Include="..\..\Source\GT2D.h" />
     <ClInclude Include="..\..\Source\GTMath.h" />
     <ClInclude Include="..\..\Source\InputModule.h" />
-    <ClInclude Include="..\..\Source\Player.h" />
     <ClInclude Include="..\..\Source\PlayState.h" />
     <ClInclude Include="..\..\Source\ScriptModule.h" />
     <ClInclude Include="..\..\Source\SoundModule.h" />
@@ -204,7 +203,6 @@
     <ClCompile Include="..\..\Source\GTMath.cpp" />
     <ClCompile Include="..\..\Source\InputModule.cpp" />
     <ClCompile Include="..\..\Source\main.cpp" />
-    <ClCompile Include="..\..\Source\Player.cpp" />
     <ClCompile Include="..\..\Source\PlayState.cpp" />
     <ClCompile Include="..\..\Source\ScriptModule.cpp" />
     <ClCompile Include="..\..\Source\SoundModule.cpp" />
