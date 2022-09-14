@@ -10,22 +10,14 @@
 #include "Camera.h"
 
 /* ====== DEFINES ====== */
+#define UNIT_SCREEN_WIDTH 128
+#define UNIT_SCREEN_HEIGHT 72
 
-/* === Lua domain === */
+#define TW_LOCATION UNIT_SCREEN_WIDTH
+#define TH_LOCATION UNIT_SCREEN_HEIGHT
 
-// TODO(sean) remove this stuff
-// Default sizes of sprites
-#define TW_LOCATION 128
-#define TH_LOCATION 72
-
-#define TW_PARALLAX 256
-#define TH_PARALLAX 72
-
-#define TW_ACTOR 16
-#define TH_ACTOR 16
-
-// Texture file names
-#define TFN_PLAYER "Textures/Actors/Player.png"
+#define TW_PARALLAX (UNIT_SCREEN_WIDTH * 2)
+#define TH_PARALLAX UNIT_SCREEN_HEIGHT
 
 /* ====== GLOBALS ====== */
 extern f32 g_unitX; // Pixels per unit

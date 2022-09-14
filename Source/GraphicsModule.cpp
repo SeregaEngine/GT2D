@@ -11,9 +11,6 @@
 #include "GraphicsModule.h"
 
 /* ====== DEFINES ====== */
-#define UNIT_SCREEN_WIDTH 128
-#define UNIT_SCREEN_HEIGHT 72
-
 #define MAX_TEXTURES 256
 
 /* ====== STRUCTURES ====== */

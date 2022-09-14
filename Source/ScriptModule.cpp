@@ -90,14 +90,29 @@ void ScriptModule::DefineFunctions(lua_State* L)
 
 void ScriptModule::DefineSymbols(lua_State* L)
 {
+    /* Log */
     lua_pushinteger(L, PR_NOTE);
     lua_setglobal(L, "PR_NOTE");
-
     lua_pushinteger(L, PR_WARNING);
     lua_setglobal(L, "PR_WARNING");
-
     lua_pushinteger(L, PR_ERROR);
     lua_setglobal(L, "PR_ERROR");
+
+    /* Graphics */
+    lua_pushinteger(L, UNIT_SCREEN_WIDTH);
+    lua_setglobal(L, "SCREEN_WIDTH");
+    lua_pushinteger(L, UNIT_SCREEN_HEIGHT);
+    lua_setglobal(L, "SCREEN_HEIGHT");
+
+    lua_pushinteger(L, TW_LOCATION);
+    lua_setglobal(L, "TW_LOCATION");
+    lua_pushinteger(L, TH_LOCATION);
+    lua_setglobal(L, "TH_LOCATION");
+
+    lua_pushinteger(L, TW_PARALLAX);
+    lua_setglobal(L, "TW_PARALLAX");
+    lua_pushinteger(L, TH_PARALLAX);
+    lua_setglobal(L, "TH_PARALLAX");
 }
 
 b32 ScriptModule::LoadMission()
