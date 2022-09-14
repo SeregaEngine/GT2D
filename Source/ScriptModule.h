@@ -54,6 +54,7 @@ private:
     /* World */
     static s32 _setBackground(lua_State* L);
     static s32 _setParallax(lua_State* L);
+    static s32 _addEntity(lua_State* L);
     static s32 _addPlayer(lua_State* L);
 };
 

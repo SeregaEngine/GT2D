@@ -26,6 +26,7 @@ function onEnter()
   -- Player
   local player_texture = defineTexture("Textures/Actors/Player.png", TW_ACTOR, TH_ACTOR)
   entity_list["player"] = addPlayer(0, 0, TW_ACTOR, TH_ACTOR, player_texture)
+  entity_list["test_entity"] = addEntity(40, 65, TW_ACTOR, TH_ACTOR, player_texture)
 
   -- Camera
   setLevelSize(TW_LOCATION * 2, TH_LOCATION)

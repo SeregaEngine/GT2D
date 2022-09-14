@@ -79,8 +79,12 @@ void ScriptModule::DefineFunctions(lua_State* L)
     lua_register(L, "playMusic", _playMusic);
 
     /* World */
+    // Background stuff
     lua_register(L, "setBackground", _setBackground);
     lua_register(L, "setParallax", _setParallax);
+
+    // Entities
+    lua_register(L, "addEntity", _addEntity);
     lua_register(L, "addPlayer", _addPlayer);
 }
 
@@ -329,6 +333,30 @@ s32 ScriptModule::_playMusic(lua_State* L)
     return 0;
 }
 
+s32 ScriptModule::_addEntity(lua_State* L)
+{
+    if (!LuaExpect(L, "addEntity", 5))
+        return -1;
+
+    // Init entity
+    Entity* pEntity = new Entity();
+
+    Vec2 vPosition = { (f32)lua_tonumber(L, 1) * g_unitX, (f32)lua_tonumber(L, 2) * g_unitY };
+    s32 width  = (s32)( (f32)lua_tonumber(L, 3) * g_unitX );
+    s32 height = (s32)( (f32)lua_tonumber(L, 4) * g_unitY );
+    GT_Texture* pTexture = (GT_Texture*)lua_touserdata(L, 5);
+
+    pEntity->Init(vPosition, width, height, pTexture);
+
+    // Push him to the world
+    g_game.GetWorld().AddEntity(pEntity);
+
+    // Return pointer to lua
+    lua_pushlightuserdata(L, pEntity);
+
+    return 1;
+}
+
 s32 ScriptModule::_addPlayer(lua_State* L)
 {
     if (!LuaExpect(L, "addPlayer", 5))
@@ -345,7 +373,7 @@ s32 ScriptModule::_addPlayer(lua_State* L)
     pPlayer->Init(vPosition, width, height, pTexture);
 
     // Push him to the world
-    g_game.GetWorld().AddPlayer(pPlayer);
+    g_game.GetWorld().AddEntity(pPlayer);
 
     // Return pointer to lua
     lua_pushlightuserdata(L, pPlayer);

@@ -22,7 +22,7 @@ public:
     void SetBackground(GT_Texture* pTexture) { m_pBackground = pTexture; }
     void SetParallax(GT_Texture* pTexture) { m_pParallax = pTexture; }
 
-    void AddPlayer(Player* pPlayer) { m_lstEntity.Push(pPlayer); }
+    void AddEntity(Entity* pEntity) { m_lstEntity.Push(pEntity); }
 };
 
 #endif WORLD_H_
