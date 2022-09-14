@@ -6,13 +6,17 @@
 /* ====== DEFINES ====== */
 #define CAMERA_DEFAULT_X 0
 #define CAMERA_DEFAULT_Y 0
+#define CAMERA_BOUNDS_DEFAULT_X1 0
+#define CAMERA_BOUNDS_DEFAULT_Y1 0
+#define CAMERA_BOUNDS_DEFAULT_X2 ( (s32)(TW_LOCATION * g_unitX) - 1 )
+#define CAMERA_BOUNDS_DEFAULT_Y2 ( (s32)(TH_LOCATION * g_unitY) - 1 )
 
 /* ====== METHODS ====== */
 void World::StartUp()
 {
-    // Set camera
-    g_graphicsModule.GetCamera().SetBoundary({ 0, 0, (s32)(TW_LOCATION * g_unitX * 2) - 1,
-                                                     (s32)(TH_LOCATION * g_unitY) - 1 });
+    // Set default camera
+    g_graphicsModule.GetCamera().SetBoundary({ CAMERA_BOUNDS_DEFAULT_X1, CAMERA_BOUNDS_DEFAULT_Y1,
+                                               CAMERA_BOUNDS_DEFAULT_X2, CAMERA_BOUNDS_DEFAULT_Y2 });
     g_graphicsModule.GetCamera().SetPosition(CAMERA_DEFAULT_X, CAMERA_DEFAULT_Y);
 
     AddNote(PR_NOTE, "World started");

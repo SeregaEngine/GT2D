@@ -1,3 +1,7 @@
+/* TODO
+ * - More stringent check of lua arguments
+ */
+
 /* ====== INCLUDES ====== */
 extern "C"
 {
@@ -53,16 +57,28 @@ void ScriptModule::ShutDown()
 
 void ScriptModule::DefineFunctions(lua_State* L)
 {
+    /* Log */
     lua_register(L, "GT_LOG", _GT_LOG);
 
+    /* Graphics */
+    // Textures
     lua_register(L, "defineTexture", _defineTexture);
 
+    // Camera
+    lua_register(L, "attachCamera", _attachCamera);
+    lua_register(L, "detachCamera", _detachCamera);
+    lua_register(L, "setCameraPos", _setCameraPos);
+    lua_register(L, "setLevelSize", _setLevelSize);
+
+    /* Sound */
     lua_register(L, "defineSound", _defineSound);
     lua_register(L, "playSound", _playSound);
 
+    /* Music */
     lua_register(L, "defineMusic", _defineMusic);
     lua_register(L, "playMusic", _playMusic);
 
+    /* World */
     lua_register(L, "setBackground", _setBackground);
     lua_register(L, "setParallax", _setParallax);
     lua_register(L, "addPlayer", _addPlayer);
@@ -203,6 +219,56 @@ s32 ScriptModule::_defineTexture(lua_State* L)
     return 1;
 }
 
+s32 ScriptModule::_attachCamera(lua_State* L)
+{
+    if (!LuaExpect(L, "attachCamera", 1))
+        return -1;
+
+    g_graphicsModule.GetCamera().Attach( (Entity*)lua_touserdata(L, 1) );
+
+    return 0;
+}
+
+s32 ScriptModule::_detachCamera(lua_State* L)
+{
+    if (!LuaExpect(L, "detachCamera", 0))
+        return -1;
+
+    g_graphicsModule.GetCamera().Detach();
+
+    return 0;
+}
+
+s32 ScriptModule::_setCameraPos(lua_State* L)
+{
+    if (!LuaExpect(L, "setCameraPos", 2))
+        return -1;
+
+    s32 x = (s32)( (f32)lua_tonumber(L, 1) * g_unitX );
+    s32 y = (s32)( (f32)lua_tonumber(L, 2) * g_unitY );
+
+    g_graphicsModule.GetCamera().SetPosition(x, y);
+
+    return 0;
+}
+
+s32 ScriptModule::_setLevelSize(lua_State* L)
+{
+    if (!LuaExpect(L, "setLevelSize", 2))
+        return -1;
+
+    SRect rect = {
+        0, // x1
+        0, // y1
+        (s32)( (f32)lua_tonumber(L, 1) * g_unitX ) - 1, // x2
+        (s32)( (f32)lua_tonumber(L, 2) * g_unitY ) - 1, // y2
+    };
+
+    g_graphicsModule.GetCamera().SetBoundary(rect);
+
+    return 0;
+}
+
 s32 ScriptModule::_setBackground(lua_State* L)
 {
     if (!LuaExpect(L, "setBackground", 1))
@@ -278,8 +344,11 @@ s32 ScriptModule::_addPlayer(lua_State* L)
 
     pPlayer->Init(vPosition, width, height, pTexture);
 
-    // Push him to world
+    // Push him to the world
     g_game.GetWorld().AddPlayer(pPlayer);
+
+    // Return pointer to lua
+    lua_pushlightuserdata(L, pPlayer);
 
     return 1;
 }

@@ -34,7 +34,14 @@ private:
     static s32 _GT_LOG(lua_State* L);
 
     /* Graphics */
+    // Textures
     static s32 _defineTexture(lua_State* L);
+
+    // Camera
+    static s32 _attachCamera(lua_State* L);
+    static s32 _detachCamera(lua_State* L);
+    static s32 _setCameraPos(lua_State* L);
+    static s32 _setLevelSize(lua_State* L);
 
     /* Sound */
     static s32 _defineSound(lua_State* L);
