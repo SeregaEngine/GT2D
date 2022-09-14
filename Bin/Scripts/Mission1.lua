@@ -43,14 +43,27 @@ function onUpdate(dt)
   handleInput()
 
   for k,v in pairs(entities) do
-	updateEntity(v, dt)
+    updateEntity(v, dt)
   end
 end
 
 function handleInput()
-  local x,y = getMousePos()
-  GT_LOG(PR_NOTE, string.format("%d %d", x, y))
-  if isKeyDown(GTK_ESCAPE) and isMouseDown(GTM_LEFT) then
-	stopGame()
+  if isKeyDown(GTK_ESCAPE) then
+    stopGame()
   end
+
+  --[[
+  if isKeyDown(GTK_W) then
+    sendActorCmd(entities["player"], GTC_MOVE_TOP)
+  end
+  if isKeyDown(GTK_A) then
+    sendActorCmd(entities["player"], GTC_MOVE_LEFT)
+  end
+  if isKeyDown(GTK_S) then
+    sendActorCmd(entities["player"], GTC_MOVE_BOTTOM)
+  end
+  if isKeyDown(GTK_D) then
+    sendActorCmd(entities["player"], GTC_MOVE_RIGHT)
+  end
+  ]]--
 end

@@ -3,18 +3,32 @@
 
 /* ====== INCLUDES ====== */
 #include "Entity.h"
+#include "TList.h"
 
 /* ====== STRUCTURES ====== */
-struct GT_AIState // TODO(sean) AIModule
+// TODO(sean) AI module
+#define COMMAND_ARGUMENT_STRSIZE 16
+
+struct GT_CommandArgument
 {
-    s32 (*cmd)[3]; // [0] - cmd, [1] - arg1, [2] - arg2
-    s32 count;
+    union
+    {
+        f32 f;
+        s32 n;
+        char str[COMMAND_ARGUMENT_STRSIZE];
+    };
+};
+
+struct GT_Command
+{
+    u32 cmd;
+    TList<GT_CommandArgument> lstArgument;
 };
 
 class Actor : public Entity
 {
 public:
-    enum eActorAnimation // TODO(sean) Maybe enum class?
+    enum eActorAnimation
     {
         ACTOR_ANIMATION_IDLE_RIGHT = 0,
         ACTOR_ANIMATION_IDLE_LEFT,
@@ -28,9 +42,7 @@ public:
 
 protected:
     const GT_Animation* m_aActorAnims[MAX_ACTOR_ANIMATIONS]; // Default actor's animations
-
-    const GT_AIState* m_state;
-    s32 m_cmdCounter;
+    TList<GT_Command> m_lstCommand;
 
 public:
     virtual void Init(const Vec2& vPosition, s32 width, s32 height, GT_Texture* pTexture) override;

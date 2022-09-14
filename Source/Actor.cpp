@@ -35,10 +35,6 @@ void Actor::Init(const Vec2& vPosition, s32 width, s32 height, GT_Texture* pText
             aAnims[i] = g_animModule.DefineAnimation(s_aActorAnims[i]);
         SetActorAnims(aAnims);
     }
-
-    // Init AI stuff
-    m_state = nullptr;
-    m_cmdCounter = 0;
 }
 
 void Actor::Update(f32 dtTime)
