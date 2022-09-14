@@ -26,16 +26,15 @@ void World::StartUp()
                                                      (s32)(TH_LOCATION * g_unitY) - 1 });
     g_graphicsModule.GetCamera().Attach(pPlayer);
 
-    AddNote(PR_NOTE, "World start up");
+    AddNote(PR_NOTE, "World started");
 }
 
 void World::ShutDown()
 {
-    m_lstEntity.Mapcar([](auto pEntity, auto _) {
+    m_lstEntity.Mapcar([](auto pEntity) {
         pEntity->Clean();
         delete pEntity;
     });
-
     m_lstEntity.Clean();
 
     AddNote(PR_NOTE, "World shut down");
@@ -45,12 +44,6 @@ void World::Update(f32 dtTime)
 {
     for (auto it = m_lstEntity.Begin(); it != m_lstEntity.End(); ++it)
         it->data->Update(dtTime);
-
-    /*
-    m_lstEntity.Mapcar([](auto pEntity, auto dtTime) {
-        pEntity->Update(*(f32*)dtTime);
-    }, &dtTime);
-    */
 }
 
 void World::Render()
@@ -66,7 +59,7 @@ void World::Render()
     g_graphicsModule.Draw(m_pBackground, 0, 1, &rect);
 
     // Draw player
-    m_lstEntity.Mapcar([](auto pEntity, auto _) {
+    m_lstEntity.Mapcar([](auto pEntity) {
         pEntity->Draw();
     });
 }

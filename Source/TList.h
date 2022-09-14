@@ -47,6 +47,7 @@ public:
     void Push(T data);
     void Clean();
     void Mapcar(void (*fun)(T, void*), void* userdata = nullptr);
+    void Mapcar(void (*fun)(T));
 
     Iterator Begin() { return m_pFirst; }
     Iterator End() { return nullptr; }
@@ -78,6 +79,13 @@ inline void TList<T>::Mapcar(void (*fun)(T, void*), void* userdata)
 {
     for (Item* pTemp = m_pFirst; pTemp; pTemp = pTemp->next)
         fun(pTemp->data, userdata);
+}
+
+template<class T>
+inline void TList<T>::Mapcar(void (*fun)(T))
+{
+    for (Item* pTemp = m_pFirst; pTemp; pTemp = pTemp->next)
+        fun(pTemp->data);
 }
 
 #endif LIST_H_
