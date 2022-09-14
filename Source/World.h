@@ -16,7 +16,7 @@ public:
     void StartUp();
     void ShutDown();
 
-    void Update(f32 dtTime);
+    void Update(f32 dtTime) {}
     void Render();
 
     void SetBackground(GT_Texture* pTexture) { m_pBackground = pTexture; }

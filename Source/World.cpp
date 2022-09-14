@@ -33,18 +33,11 @@ void World::ShutDown()
     AddNote(PR_NOTE, "World shut down");
 }
 
-void World::Update(f32 dtTime)
-{
-    // TODO(sean) lua onUpdate()
-    for (auto it = m_lstEntity.Begin(); it != m_lstEntity.End(); ++it)
-        it->data->Update(dtTime);
-}
-
 void World::Render()
 {
     // Draw parallax
     SDL_Rect rect = { 0, 0, g_graphicsModule.GetScreenWidth() * 2,
-                            g_graphicsModule.GetScreenHeight() * 2 };
+                            g_graphicsModule.GetScreenHeight() };
     g_graphicsModule.Draw(m_pParallax, 0, 0, &rect);
 
     // Draw background

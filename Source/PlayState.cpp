@@ -34,3 +34,11 @@ void PlayState::OnExit()
     m_world.ShutDown();
 }
 
+void PlayState::Update(f32 dtTime)
+{
+    // Update world
+    m_world.Update(dtTime);
+
+    // Update mission
+    g_scriptModule.UpdateMission(dtTime);
+}

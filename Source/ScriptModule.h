@@ -22,6 +22,7 @@ public:
 
     b32 LoadMission();
     void UnloadMission();
+    void UpdateMission(f32 dtTime);
 private:
     void DefineFunctions(lua_State* L);
     void DefineSymbols(lua_State* L);
@@ -52,10 +53,15 @@ private:
     static s32 _playMusic(lua_State* L);
 
     /* World */
+    // Background
     static s32 _setBackground(lua_State* L);
     static s32 _setParallax(lua_State* L);
+
+    // Entity
     static s32 _addEntity(lua_State* L);
     static s32 _addActor(lua_State* L);
+
+    static s32 _updateEntity(lua_State* L);
 };
 
 extern ScriptModule g_scriptModule;

@@ -86,6 +86,8 @@ void ScriptModule::DefineFunctions(lua_State* L)
     // Entities
     lua_register(L, "addEntity", _addEntity);
     lua_register(L, "addActor", _addActor);
+
+    lua_register(L, "updateEntity", _updateEntity);
 }
 
 void ScriptModule::DefineSymbols(lua_State* L)
@@ -179,6 +181,21 @@ void ScriptModule::UnloadMission()
         lua_close(m_pMission);
         m_pMission = nullptr;
     }
+}
+
+void ScriptModule::UpdateMission(f32 dtTime)
+{
+    // Check if we have onUpdate() function
+    lua_getglobal(m_pMission, "onUpdate");
+    if (!lua_isfunction(m_pMission, -1))
+    {
+        AddNote(PR_ERROR, "UpdateMission(): There're no lua <onUpdate()> function");
+        return;
+    }
+
+    // Call onUpdate()
+    lua_pushnumber(m_pMission, dtTime);
+    lua_pcall(m_pMission, 1, 0, 0);
 }
 
 void ScriptModule::LuaNote(s32 priority, const char* fmt, ...)
@@ -396,3 +413,12 @@ s32 ScriptModule::_addActor(lua_State* L)
     return 1;
 }
 
+s32 ScriptModule::_updateEntity(lua_State* L)
+{
+    if (!LuaExpect(L, "updateEntity", 2))
+        return -1;
+
+    static_cast<Entity*>(lua_touserdata(L, 1))->Update((f32)lua_tonumber(L, 2));
+
+    return 0;
+}

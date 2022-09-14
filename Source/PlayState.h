@@ -13,7 +13,7 @@ public:
     virtual b32 OnEnter() override;
     virtual void OnExit() override;
 
-    virtual void Update(f32 dtTime) override { m_world.Update(dtTime); }
+    virtual void Update(f32 dtTime) override;
     virtual void Render() override { m_world.Render(); }
 
     World& GetWorld() { return m_world; }
