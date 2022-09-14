@@ -65,6 +65,7 @@ void ScriptModule::DefineFunctions(lua_State* L)
 
     lua_register(L, "setBackground", _setBackground);
     lua_register(L, "setParallax", _setParallax);
+    lua_register(L, "addPlayer", _addPlayer);
 }
 
 void ScriptModule::DefineSymbols(lua_State* L)
@@ -261,3 +262,25 @@ s32 ScriptModule::_playMusic(lua_State* L)
 
     return 0;
 }
+
+s32 ScriptModule::_addPlayer(lua_State* L)
+{
+    if (!LuaExpect(L, "addPlayer", 5))
+        return -1;
+
+    // Init player
+    Player* pPlayer = new Player();
+
+    Vec2 vPosition = { (f32)lua_tonumber(L, 1) * g_unitX, (f32)lua_tonumber(L, 2) * g_unitY };
+    s32 width  = (s32)( (f32)lua_tonumber(L, 3) * g_unitX );
+    s32 height = (s32)( (f32)lua_tonumber(L, 4) * g_unitY );
+    GT_Texture* pTexture = (GT_Texture*)lua_touserdata(L, 5);
+
+    pPlayer->Init(vPosition, width, height, pTexture);
+
+    // Push him to world
+    g_game.GetWorld().AddPlayer(pPlayer);
+
+    return 1;
+}
+

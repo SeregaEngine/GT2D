@@ -21,6 +21,8 @@ public:
 
     void SetBackground(GT_Texture* pTexture) { m_pBackground = pTexture; }
     void SetParallax(GT_Texture* pTexture) { m_pParallax = pTexture; }
+
+    void AddPlayer(Player* pPlayer) { m_lstEntity.Push(pPlayer); }
 };
 
 #endif WORLD_H_

@@ -21,13 +21,16 @@ b32 PlayState::OnEnter()
 
 void PlayState::OnExit()
 {
+    // Unload all resourses
     g_graphicsModule.UndefineTextures();
     g_animModule.UndefineAnimations();
     g_soundModule.HaltMusic();
     g_soundModule.UndefineResources();
 
+    // Unload mission
     g_scriptModule.UnloadMission();
 
+    // Shut down world
     m_world.ShutDown();
 }
 
