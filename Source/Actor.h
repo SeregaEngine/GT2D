@@ -3,28 +3,9 @@
 
 /* ====== INCLUDES ====== */
 #include "Entity.h"
-#include "TList.h"
+#include "AIModule.h"
 
 /* ====== STRUCTURES ====== */
-// TODO(sean) AI module
-#define COMMAND_ARGUMENT_STRSIZE 16
-
-struct GT_CommandArgument
-{
-    union
-    {
-        f32 f;
-        s32 n;
-        char str[COMMAND_ARGUMENT_STRSIZE];
-    };
-};
-
-struct GT_Command
-{
-    u32 cmd;
-    TList<GT_CommandArgument> lstArgument;
-};
-
 class Actor : public Entity
 {
 public:
@@ -49,6 +30,8 @@ public:
     virtual void Update(f32 dtTime) override;
 
     void SetActorAnims(const GT_Animation* aActorAnims[]);
+
+    void SendCommand(GT_Command& cmd) { m_lstCommand.Push(cmd); }
 private:
     void HandleCommand(f32 dtTime);
     void HandleAnimation(f32 dtTime);

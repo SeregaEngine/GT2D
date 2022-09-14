@@ -54,6 +54,13 @@ void Actor::HandleCommand(f32 dtTime)
     // DEBUG(sean)
     if (g_inputModule.IsKeyDown(SDLK_ESCAPE))
         g_game.Stop();
+
+    while (!m_lstCommand.IsEmpty())
+    {
+        GT_Command& cmd = m_lstCommand.Front();
+        g_debugLogMgr.AddNote(CHANNEL_GAME, PR_NOTE, "Actor", "%d", cmd.cmd); // DEBUG(sean)
+        m_lstCommand.Pop();
+    }
 }
 
 void Actor::HandleAnimation(f32 dtTime)

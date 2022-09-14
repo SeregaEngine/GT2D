@@ -94,9 +94,11 @@ void ScriptModule::DefineFunctions(lua_State* L)
 
     // Entities
     lua_register(L, "addEntity", _addEntity);
-    lua_register(L, "addActor", _addActor);
-
     lua_register(L, "updateEntity", _updateEntity);
+
+    // Actor
+    lua_register(L, "addActor", _addActor);
+    lua_register(L, "sendActorCmd", _sendActorCmd);
 }
 
 void ScriptModule::DefineSymbols(lua_State* L)
@@ -151,6 +153,16 @@ void ScriptModule::DefineSymbols(lua_State* L)
     lua_setglobal(L, "GTM_RIGHT");
     lua_pushinteger(L, GTM_MIDDLE);
     lua_setglobal(L, "GTM_MIDDLE");
+
+    /* AI */
+    lua_pushinteger(L, GTC_MOVE_UP);
+    lua_setglobal(L, "GTC_MOVE_UP");
+    lua_pushinteger(L, GTC_MOVE_LEFT);
+    lua_setglobal(L, "GTC_MOVE_LEFT");
+    lua_pushinteger(L, GTC_MOVE_DOWN);
+    lua_setglobal(L, "GTC_MOVE_DOWN");
+    lua_pushinteger(L, GTC_MOVE_RIGHT);
+    lua_setglobal(L, "GTC_MOVE_RIGHT");
 }
 
 b32 ScriptModule::LoadMission()
@@ -471,6 +483,16 @@ s32 ScriptModule::_addEntity(lua_State* L)
     return 1;
 }
 
+s32 ScriptModule::_updateEntity(lua_State* L)
+{
+    if (!LuaExpect(L, "updateEntity", 2))
+        return -1;
+
+    static_cast<Entity*>(lua_touserdata(L, 1))->Update((f32)lua_tonumber(L, 2));
+
+    return 0;
+}
+
 s32 ScriptModule::_addActor(lua_State* L)
 {
     if (!LuaExpect(L, "addActor", 5))
@@ -495,12 +517,27 @@ s32 ScriptModule::_addActor(lua_State* L)
     return 1;
 }
 
-s32 ScriptModule::_updateEntity(lua_State* L)
+s32 ScriptModule::_sendActorCmd(lua_State* L)
 {
-    if (!LuaExpect(L, "updateEntity", 2))
+    if (lua_gettop(L) < 2)
+    {
+        LuaNote(PR_ERROR, "sendActorCmd: expected at least 2 args but %d given", lua_gettop(L));
         return -1;
+    }
 
-    static_cast<Entity*>(lua_touserdata(L, 1))->Update((f32)lua_tonumber(L, 2));
+    // Init command
+    GT_Command cmd;
+    cmd.cmd = (u32)lua_tointeger(L, 2);
+    /*
+    for (s32 i = 3; i <= lua_gettop(L); i++)
+    {
+        f32 arg = (f32)lua_tonumber(L, i);
+        cmd.lstArgument.Push(arg);
+    }
+    */
+
+    // Send command
+    static_cast<Actor*>(lua_touserdata(L, 1))->SendCommand(cmd);
 
     return 0;
 }

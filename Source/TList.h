@@ -1,3 +1,10 @@
+/* TODO
+ * - Fix when we use standard types like f32
+ * - Remake with doubly linked list for fast PopBack()
+ * - Remove() that delete everything
+ * - RemoveIf() that delete everything with lambda-function
+ */
+
 #ifndef LIST_H_
 #define LIST_H_
 
@@ -38,40 +45,114 @@ public:
         Item* operator->() { return item; }
     };
 
-    Item* m_pFirst;
+    Item *m_pFirst, *m_pLast;
 
 public:
-    TList() : m_pFirst(nullptr) {}
+    TList() : m_pFirst(nullptr), m_pLast(nullptr) {}
     ~TList() { Clean(); }
 
-    void Push(T data);
+    void Push(T& data);
+    void PushBack(T& data);
+
+    // Pop/Remove only if you checked list with IsEmpty()
+    void Pop();
+    void PopBack();
     void Clean();
+
+    T& Front() { return m_pFirst->data; }
+    T& Back() { return m_pLast->data; }
+    b32 IsEmpty() const { return m_pFirst ? false : true; }
+
     void Mapcar(void (*fun)(T, void*), void* userdata = nullptr);
     void Mapcar(void (*fun)(T));
 
     Iterator Begin() { return m_pFirst; }
     Iterator End() { return nullptr; }
+private:
+    void operator=(TList<T>& lst) {
+        m_pFirst = lst.m_pFirst;
+        m_pLast = lst.m_pLast;
+        lst.m_pFirst = nullptr;
+        lst.m_pLast = nullptr;
+    }
+    TList(TList<T>& lst) {
+        m_pFirst = lst.m_pFirst;
+        m_pLast = lst.m_pLast;
+        lst.m_pFirst = nullptr;
+        lst.m_pLast = nullptr;
+    }
 };
 
 /* ====== METHODS ====== */
 template<class T>
-inline void TList<T>::Push(T data)
+inline void TList<T>::Push(T& data)
 {
     Item* pTemp = new Item(data, m_pFirst);
     m_pFirst = pTemp;
+    if (!m_pLast)
+        m_pLast = m_pFirst;
+}
+
+template<class T>
+inline void TList<T>::PushBack(T& data)
+{
+    Item* pTemp = new Item(data, m_pFirst);
+    if (m_pLast)
+        m_pLast->next = pTemp;
+    m_pLast = pTemp;
+
+    if (!m_pFirst)
+        m_pFirst = m_pLast;
+}
+
+template<class T>
+inline void TList<T>::Pop()
+{
+    if (m_pLast == m_pFirst)
+    {
+        delete m_pFirst;
+        m_pFirst = m_pLast = nullptr;
+    }
+    else
+    {
+        Item* pTemp = m_pFirst;
+        m_pFirst = m_pFirst->next;
+        delete pTemp;
+    }
+}
+
+template<class T>
+inline void TList<T>::PopBack()
+{
+    if (m_pFirst == m_pLast)
+    {
+        delete m_pLast;
+        m_pLast = m_pFirst = nullptr;
+    }
+    else
+    {
+        Item* pTemp;
+        for (pTemp = m_pFirst; pTemp->next != m_pLast; pTemp = pTemp->next)
+            {}
+
+        delete m_pLast;
+        pTemp->next = nullptr;
+        m_pLast = pTemp;
+    }
 }
 
 template<class T>
 inline void TList<T>::Clean()
 {
-    Item* pTemp;
     while (m_pFirst)
     {
-        pTemp = m_pFirst;
+        Item* pTemp = m_pFirst;
         m_pFirst = m_pFirst->next;
         delete pTemp;
     }
+
     m_pFirst = nullptr;
+    m_pLast = nullptr;
 }
 
 template<class T>

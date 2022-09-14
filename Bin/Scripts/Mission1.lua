@@ -52,18 +52,16 @@ function handleInput()
     stopGame()
   end
 
-  --[[
   if isKeyDown(GTK_W) then
-    sendActorCmd(entities["player"], GTC_MOVE_TOP)
+    sendActorCmd(entities["player"], GTC_MOVE_UP)
   end
   if isKeyDown(GTK_A) then
     sendActorCmd(entities["player"], GTC_MOVE_LEFT)
   end
   if isKeyDown(GTK_S) then
-    sendActorCmd(entities["player"], GTC_MOVE_BOTTOM)
+    sendActorCmd(entities["player"], GTC_MOVE_DOWN)
   end
   if isKeyDown(GTK_D) then
     sendActorCmd(entities["player"], GTC_MOVE_RIGHT)
   end
-  ]]--
 end

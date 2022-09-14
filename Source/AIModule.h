@@ -1,7 +1,26 @@
 #ifndef AIMODULE_H_
 #define AIMODULE_H_
 
-#include "Types.h"
+/* ====== INCLUDES ====== */
+#include "TList.h"
+
+/* ====== DEFINES ====== */
+enum eAICommand
+{
+    GTC_MOVE_UP = 0,
+    GTC_MOVE_LEFT,
+    GTC_MOVE_RIGHT,
+    GTC_MOVE_DOWN,
+};
+
+#define COMMAND_ARGUMENT_STRSIZE 16
+
+/* ====== STRUCTURES ====== */
+struct GT_Command
+{
+    u32 cmd;
+    //TList<f32> lstArgument;
+};
 
 class AIModule
 {
