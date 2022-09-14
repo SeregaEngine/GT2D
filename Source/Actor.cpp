@@ -9,6 +9,7 @@
 #define ACTOR_SPEED_Y 0.02f
 
 /* ====== VARIABLES ====== */
+// TODO(sean) remove this
 static const GT_Animation s_aActorAnims[] =
 {
     { 0, 2, 1000.0f / 1.0f, SDL_FLIP_NONE },
@@ -36,9 +37,14 @@ void Actor::Init(const Vec2& vPosition, s32 width, s32 height, GT_Texture* pText
     }
 
     // Init AI stuff
-    m_bControllable = false;
     m_state = nullptr;
     m_cmdCounter = 0;
+}
+
+void Actor::Update(f32 dtTime)
+{
+    HandleCommand(dtTime);
+    HandleAnimation(dtTime);
 }
 
 void Actor::SetActorAnims(const GT_Animation* aActorAnims[])
@@ -47,44 +53,11 @@ void Actor::SetActorAnims(const GT_Animation* aActorAnims[])
         m_aActorAnims[i] = aActorAnims[i];
 }
 
-void Actor::HandleCmd()
+void Actor::HandleCommand(f32 dtTime)
 {
-
-}
-
-void Actor::HandleInput(f32 dtTime)
-{
-    SetVelocity(0.0f, 0.0f);
-
+    // DEBUG(sean)
     if (g_inputModule.IsKeyDown(SDLK_ESCAPE))
-    {
         g_game.Stop();
-    }
-
-    if (g_inputModule.IsKeyDown(SDLK_w))
-    {
-        m_vVelocity.y -= ACTOR_SPEED_Y * g_unitY * dtTime;
-    }
-    if (g_inputModule.IsKeyDown(SDLK_s))
-    {
-        m_vVelocity.y += ACTOR_SPEED_Y * g_unitY * dtTime;
-    }
-    if (g_inputModule.IsKeyDown(SDLK_a))
-    {
-        m_vVelocity.x -= ACTOR_SPEED_X * g_unitX * dtTime;
-    }
-    if (g_inputModule.IsKeyDown(SDLK_d))
-    {
-        m_vVelocity.x += ACTOR_SPEED_X * g_unitX * dtTime;
-    }
-}
-
-void Actor::HandleEvents(f32 dtTime)
-{
-    if (m_bControllable)
-        HandleInput(dtTime);
-    else
-        HandleCmd();
 }
 
 void Actor::HandleAnimation(f32 dtTime)

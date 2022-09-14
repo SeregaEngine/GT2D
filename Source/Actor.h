@@ -29,19 +29,17 @@ public:
 protected:
     const GT_Animation* m_aActorAnims[MAX_ACTOR_ANIMATIONS]; // Default actor's animations
 
-    b32 m_bControllable;
     const GT_AIState* m_state;
     s32 m_cmdCounter;
 
 public:
     virtual void Init(const Vec2& vPosition, s32 width, s32 height, GT_Texture* pTexture) override;
+    virtual void Update(f32 dtTime) override;
+
     void SetActorAnims(const GT_Animation* aActorAnims[]);
-protected:
-    void HandleEvents(f32 dtTime);
-    void HandleAnimation(f32 dtTime);
 private:
-    void HandleCmd();
-    void HandleInput(f32 dtTime);
+    void HandleCommand(f32 dtTime);
+    void HandleAnimation(f32 dtTime);
 };
 
 #endif // ACTOR_H_

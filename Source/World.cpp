@@ -35,10 +35,9 @@ void World::ShutDown()
 
 void World::Update(f32 dtTime)
 {
-    /* TODO(sean) lua onUpdate()
+    // TODO(sean) lua onUpdate()
     for (auto it = m_lstEntity.Begin(); it != m_lstEntity.End(); ++it)
         it->data->Update(dtTime);
-    */
 }
 
 void World::Render()
