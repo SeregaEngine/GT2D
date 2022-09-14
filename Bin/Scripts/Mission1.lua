@@ -9,7 +9,7 @@ local sounds = {}
 local music = {}
 
 function onEnter()
-  GT_LOG(PR_NOTE, "Mission entered")
+  GT_LOG(PR_NOTE, "onEnter() called")
 
   -- Set background stuff
   textures["background"] = defineTexture("Textures/Locations/Mission1-1.png", TW_LOCATION, TH_LOCATION)
@@ -40,7 +40,17 @@ function onEnter()
 end
 
 function onUpdate(dt)
+  handleInput()
+
   for k,v in pairs(entities) do
 	updateEntity(v, dt)
+  end
+end
+
+function handleInput()
+  local x,y = getMousePos()
+  GT_LOG(PR_NOTE, string.format("%d %d", x, y))
+  if isKeyDown(GTK_ESCAPE) and isMouseDown(GTM_LEFT) then
+	stopGame()
   end
 end

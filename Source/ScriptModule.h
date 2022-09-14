@@ -52,6 +52,14 @@ private:
     static s32 _defineMusic(lua_State* L);
     static s32 _playMusic(lua_State* L);
 
+    /* Input */
+    static s32 _isKeyDown(lua_State* L);
+    static s32 _isMouseDown(lua_State* L);
+    static s32 _getMousePos(lua_State* L);
+
+    /* Game */
+    static s32 _stopGame(lua_State* L);
+
     /* World */
     // Background
     static s32 _setBackground(lua_State* L);

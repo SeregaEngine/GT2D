@@ -11,6 +11,7 @@ extern "C"
 
 #include "GraphicsModule.h"
 #include "SoundModule.h"
+#include "InputModule.h"
 #include "Game.h"
 #include "Actor.h"
 
@@ -78,6 +79,14 @@ void ScriptModule::DefineFunctions(lua_State* L)
     lua_register(L, "defineMusic", _defineMusic);
     lua_register(L, "playMusic", _playMusic);
 
+    /* Input */
+    lua_register(L, "isKeyDown", _isKeyDown);
+    lua_register(L, "isMouseDown", _isMouseDown);
+    lua_register(L, "getMousePos", _getMousePos);
+
+    /* Game */
+    lua_register(L, "stopGame", _stopGame);
+
     /* World */
     // Background stuff
     lua_register(L, "setBackground", _setBackground);
@@ -115,6 +124,33 @@ void ScriptModule::DefineSymbols(lua_State* L)
     lua_setglobal(L, "TW_PARALLAX");
     lua_pushinteger(L, TH_PARALLAX);
     lua_setglobal(L, "TH_PARALLAX");
+
+    /* Input */
+    // WASD
+    lua_pushinteger(L, SDLK_w);
+    lua_setglobal(L, "GTK_W");
+    lua_pushinteger(L, SDLK_a);
+    lua_setglobal(L, "GTK_A");
+    lua_pushinteger(L, SDLK_s);
+    lua_setglobal(L, "GTK_S");
+    lua_pushinteger(L, SDLK_d);
+    lua_setglobal(L, "GTK_D");
+
+    // Some special symbols
+    lua_pushinteger(L, SDLK_ESCAPE);
+    lua_setglobal(L, "GTK_ESCAPE");
+    lua_pushinteger(L, SDLK_RETURN);
+    lua_setglobal(L, "GTK_RETURN");
+    lua_pushinteger(L, SDLK_SPACE);
+    lua_setglobal(L, "GTK_SPACE");
+
+    // Mouse
+    lua_pushinteger(L, GTM_LEFT);
+    lua_setglobal(L, "GTM_LEFT");
+    lua_pushinteger(L, GTM_RIGHT);
+    lua_setglobal(L, "GTM_RIGHT");
+    lua_pushinteger(L, GTM_MIDDLE);
+    lua_setglobal(L, "GTM_MIDDLE");
 }
 
 b32 ScriptModule::LoadMission()
@@ -361,6 +397,52 @@ s32 ScriptModule::_playMusic(lua_State* L)
         return -1;
 
     g_soundModule.PlayMusic( (GT_Music*)lua_touserdata(L, 1) );
+
+    return 0;
+}
+
+s32 ScriptModule::_isKeyDown(lua_State* L)
+{
+    if (!LuaExpect(L, "isKeyDown", 1))
+        return -1;
+
+    lua_pushboolean(L, g_inputModule.IsKeyDown((SDL_Keycode)lua_tointeger(L, 1)));
+
+    return 1;
+}
+
+s32 ScriptModule::_isMouseDown(lua_State* L)
+{
+    if (!LuaExpect(L, "isMouseDown", 1))
+        return -1;
+
+    lua_pushboolean(L, g_inputModule.IsMouseDown((Uint32)lua_tointeger(L, 1)));
+
+    return 1;
+}
+
+s32 ScriptModule::_getMousePos(lua_State* L)
+{
+    if (!LuaExpect(L, "isMouseDown", 0))
+        return -1;
+
+    // Get mouse position
+    s32 x, y;
+    g_inputModule.GetMousePos(x, y);
+
+    // Return it
+    lua_pushinteger(L, x);
+    lua_pushinteger(L, y);
+
+    return 2;
+}
+
+s32 ScriptModule::_stopGame(lua_State* L)
+{
+    if (!LuaExpect(L, "stopGame", 0))
+        return -1;
+
+    g_game.Stop();
 
     return 0;
 }
