@@ -34,4 +34,4 @@ private:
 
 extern AIModule g_AIModule;
 
-#endif AIMODULE_H_
+#endif // AIMODULE_H_

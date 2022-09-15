@@ -25,4 +25,4 @@ public:
     void AddEntity(Entity* pEntity) { m_lstEntity.Push(pEntity); }
 };
 
-#endif WORLD_H_
+#endif // WORLD_H_

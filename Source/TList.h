@@ -54,7 +54,7 @@ public:
     void Push(T& data);
     void PushBack(T& data);
 
-    // Pop/Remove only if you checked list with IsEmpty()
+    // Pop only if you checked list with IsEmpty()
     void Pop();
     void PopBack();
     void Clean();
@@ -85,8 +85,7 @@ private:
 
 /* ====== METHODS ====== */
 template<class T>
-inline void TList<T>::Push(T& data)
-{
+inline void TList<T>::Push(T& data) {
     Item* pTemp = new Item(data, m_pFirst);
     m_pFirst = pTemp;
     if (!m_pLast)
@@ -94,8 +93,7 @@ inline void TList<T>::Push(T& data)
 }
 
 template<class T>
-inline void TList<T>::PushBack(T& data)
-{
+inline void TList<T>::PushBack(T& data) {
     Item* pTemp = new Item(data, m_pFirst);
     if (m_pLast)
         m_pLast->next = pTemp;
@@ -106,8 +104,7 @@ inline void TList<T>::PushBack(T& data)
 }
 
 template<class T>
-inline void TList<T>::Pop()
-{
+inline void TList<T>::Pop() {
     if (m_pLast == m_pFirst)
     {
         delete m_pFirst;
@@ -122,8 +119,7 @@ inline void TList<T>::Pop()
 }
 
 template<class T>
-inline void TList<T>::PopBack()
-{
+inline void TList<T>::PopBack() {
     if (m_pFirst == m_pLast)
     {
         delete m_pLast;
@@ -142,8 +138,7 @@ inline void TList<T>::PopBack()
 }
 
 template<class T>
-inline void TList<T>::Clean()
-{
+inline void TList<T>::Clean() {
     while (m_pFirst)
     {
         Item* pTemp = m_pFirst;
@@ -156,17 +151,15 @@ inline void TList<T>::Clean()
 }
 
 template<class T>
-inline void TList<T>::Mapcar(void (*fun)(T, void*), void* userdata)
-{
+inline void TList<T>::Mapcar(void (*fun)(T, void*), void* userdata) {
     for (Item* pTemp = m_pFirst; pTemp; pTemp = pTemp->next)
         fun(pTemp->data, userdata);
 }
 
 template<class T>
-inline void TList<T>::Mapcar(void (*fun)(T))
-{
+inline void TList<T>::Mapcar(void (*fun)(T)) {
     for (Item* pTemp = m_pFirst; pTemp; pTemp = pTemp->next)
         fun(pTemp->data);
 }
 
-#endif LIST_H_
+#endif // LIST_H_
