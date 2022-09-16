@@ -10,6 +10,8 @@ extern "C"
 #include "EngineModule.h"
 
 /* ====== STRUCTURES ====== */
+class Actor;
+
 class ScriptModule final : public EngineModule
 {
     lua_State* m_pLoader;
@@ -24,7 +26,7 @@ public:
     void UnloadMission();
     void UpdateMission(f32 dtTime);
 
-    void CallStateFunction(const char* functionName);
+    void CallStateFunction(Actor* pActor, const char* functionName);
 private:
     void DefineFunctions(lua_State* L);
     void DefineSymbols(lua_State* L);
@@ -59,6 +61,9 @@ private:
     static s32 _isMouseDown(lua_State* L);
     static s32 _getMousePosition(lua_State* L);
 
+    /* AI */
+    static s32 _defineState(lua_State* L);
+
     /* Game */
     static s32 _stopGame(lua_State* L);
 
@@ -74,6 +79,8 @@ private:
 
     // Actor
     static s32 _addActor(lua_State* L);
+    static s32 _setActorState(lua_State* L);
+    static s32 _setActorTask(lua_State* L);
     static s32 _sendActorCmd(lua_State* L);
 };
 

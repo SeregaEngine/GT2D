@@ -43,6 +43,9 @@ public:
     b32 StartUp();
     void ShutDown();
 
+    const GT_State* DefineState(const char* functionName);
+    void UndefineStates() { m_usedStates = 0; }
+
     void HandleState(Actor* pActor);
 
 private:

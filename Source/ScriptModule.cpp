@@ -85,6 +85,9 @@ void ScriptModule::DefineFunctions(lua_State* L)
     lua_register(L, "isMouseDown", _isMouseDown);
     lua_register(L, "getMousePosition", _getMousePosition);
 
+    /* AI */
+    lua_register(L, "defineState", _defineState);
+
     /* Game */
     lua_register(L, "stopGame", _stopGame);
 
@@ -100,6 +103,8 @@ void ScriptModule::DefineFunctions(lua_State* L)
 
     // Actor
     lua_register(L, "addActor", _addActor);
+    lua_register(L, "setActorState", _setActorState);
+    lua_register(L, "setActorTask", _setActorTask);
     lua_register(L, "sendActorCmd", _sendActorCmd);
 }
 
@@ -255,7 +260,7 @@ void ScriptModule::UpdateMission(f32 dtTime)
     lua_pcall(m_pMission, 1, 0, 0);
 }
 
-void ScriptModule::CallStateFunction(const char* functionName)
+void ScriptModule::CallStateFunction(Actor* pActor, const char* functionName)
 {
     // Check for null
     if (!functionName)
@@ -274,7 +279,8 @@ void ScriptModule::CallStateFunction(const char* functionName)
     }
 
     // Call function
-    lua_pcall(m_pMission, 0, 0, 0);
+    lua_pushlightuserdata(m_pMission, pActor);
+    lua_pcall(m_pMission, 1, 0, 0);
 }
 
 void ScriptModule::LuaNote(s32 priority, const char* fmt, ...)
@@ -478,6 +484,16 @@ s32 ScriptModule::_getMousePosition(lua_State* L)
     return 2;
 }
 
+s32 ScriptModule::_defineState(lua_State* L)
+{
+    if (!LuaExpect(L, "defineState", 1))
+        return -1;
+
+    lua_pushlightuserdata(L, (void*)g_AIModule.DefineState(lua_tostring(L, 1)));
+
+    return 1;
+}
+
 s32 ScriptModule::_stopGame(lua_State* L)
 {
     if (!LuaExpect(L, "stopGame", 0))
@@ -584,3 +600,20 @@ s32 ScriptModule::_sendActorCmd(lua_State* L)
 
     return 0;
 }
+
+s32 ScriptModule::_setActorState(lua_State* L)
+{
+    if (!LuaExpect(L, "setActorState", 2))
+        return -1;
+
+    static_cast<Actor*>(lua_touserdata(L, 1))->SetState((GT_State*)lua_touserdata(L, 2));
+
+    return 0;
+}
+
+s32 ScriptModule::_setActorTask(lua_State* L)
+{
+    // TODO(sean)
+    return 0;
+}
+

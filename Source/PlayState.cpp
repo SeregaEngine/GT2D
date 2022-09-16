@@ -4,6 +4,7 @@
 /* ====== INCLUDES ====== */
 #include "SoundModule.h"
 #include "ScriptModule.h"
+#include "AIModule.h"
 
 #include "PlayState.h"
 
@@ -26,6 +27,7 @@ void PlayState::OnExit()
     g_animModule.UndefineAnimations();
     g_soundModule.HaltMusic();
     g_soundModule.UndefineResources();
+    g_AIModule.UndefineStates();
 
     // Unload mission
     g_scriptModule.UnloadMission();
@@ -36,9 +38,9 @@ void PlayState::OnExit()
 
 void PlayState::Update(f32 dtTime)
 {
-    // Update world
-    m_world.Update(dtTime);
-
     // Update mission
     g_scriptModule.UpdateMission(dtTime);
+
+    // Update world
+    m_world.Update(dtTime);
 }
