@@ -13,8 +13,8 @@ b32 Game::StartUp()
     // Defaults
     m_bRunning = true;
 
-    m_pCurState = new PlayState();
-    m_pCurState->OnEnter();
+    m_pCurrentState = new PlayState();
+    m_pCurrentState->OnEnter();
 
     AddNote(PR_NOTE, "Module started");
 
@@ -23,10 +23,10 @@ b32 Game::StartUp()
 
 void Game::ShutDown()
 {
-    if (m_pCurState)
+    if (m_pCurrentState)
     {
-        m_pCurState->OnExit();
-        delete m_pCurState;
+        m_pCurrentState->OnExit();
+        delete m_pCurrentState;
     }
 
     AddNote(PR_NOTE, "Module shut down");
@@ -34,12 +34,12 @@ void Game::ShutDown()
 
 void Game::Update(f32 dtTime)
 {
-    m_pCurState->Update(dtTime);
+    m_pCurrentState->Update(dtTime);
 }
 
 void Game::Render() const
 {
     g_graphicsModule.ClearScreen();
-    m_pCurState->Render();
+    m_pCurrentState->Render();
     g_graphicsModule.FlipScreen();
 }

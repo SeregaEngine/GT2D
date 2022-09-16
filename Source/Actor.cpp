@@ -5,8 +5,8 @@
 #include "Actor.h"
 
 /* ====== DEFINES ====== */
-#define ACTOR_SPEED_X 0.05f
-#define ACTOR_SPEED_Y 0.02f
+#define ACTOR_UNIT_SPEED_X 0.05f
+#define ACTOR_UNIT_SPEED_Y 0.02f
 
 /* ====== VARIABLES ====== */
 // TODO(sean) remove this
@@ -68,25 +68,25 @@ void Actor::HandleCommand(f32 dtTime)
 
         case GTC_MOVE_UP:
         {
-            m_vVelocity.y -= ACTOR_SPEED_Y * g_unitY * dtTime;
+            m_vVelocity.y -= ACTOR_UNIT_SPEED_Y * g_unitY * dtTime;
             g_debugLogMgr.AddNote(CHANNEL_GAME, PR_NOTE, "Actor", "GTC_MOVE_UP"); // DEBUG(sean)
         } break;
 
         case GTC_MOVE_LEFT:
         {
-            m_vVelocity.x -= ACTOR_SPEED_X * g_unitX * dtTime;
+            m_vVelocity.x -= ACTOR_UNIT_SPEED_X * g_unitX * dtTime;
             g_debugLogMgr.AddNote(CHANNEL_GAME, PR_NOTE, "Actor", "GTC_MOVE_LEFT"); // DEBUG(sean)
         } break;
 
         case GTC_MOVE_DOWN:
         {
-            m_vVelocity.y += ACTOR_SPEED_Y * g_unitY * dtTime;
+            m_vVelocity.y += ACTOR_UNIT_SPEED_Y * g_unitY * dtTime;
             g_debugLogMgr.AddNote(CHANNEL_GAME, PR_NOTE, "Actor", "GTC_MOVE_DOWN"); // DEBUG(sean)
         } break;
 
         case GTC_MOVE_RIGHT:
         {
-            m_vVelocity.x += ACTOR_SPEED_X * g_unitX * dtTime;
+            m_vVelocity.x += ACTOR_UNIT_SPEED_X * g_unitX * dtTime;
             g_debugLogMgr.AddNote(CHANNEL_GAME, PR_NOTE, "Actor", "GTC_MOVE_RIGHT"); // DEBUG(sean)
         } break;
 

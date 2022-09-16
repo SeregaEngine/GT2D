@@ -6,6 +6,7 @@
 
 #include "Types.h"
 #include "EngineModule.h"
+#include "GraphicsModule.h"
 
 /* ====== DEFINES ====== */
 
@@ -37,9 +38,15 @@ public:
 
     // Mouse
     b32 IsMouseDown(Uint32 key) const { return m_mouseState & key; }
-    void GetMousePos(s32& x, s32& y) const { x = m_mousePosX; y = m_mousePosY; }
+
+    void GetMousePosition(s32& x, s32& y) const { x = m_mousePosX; y = m_mousePosY; }
     s32 GetMousePosX() const { return m_mousePosX; }
     s32 GetMousePosY() const { return m_mousePosY; }
+
+    void GetMouseUnitPosition(s32& x, s32& y) const
+        { x = (s32)((f32)m_mousePosX / g_unitX); y = (s32)((f32)m_mousePosY / g_unitY); }
+    s32 GetMouseUnitPosX() const { return (s32)((f32)m_mousePosX / g_unitX); }
+    s32 GetMouseUnitPosY() const { return (s32)((f32)m_mousePosY / g_unitY); }
 };
 
 extern InputModule g_inputModule;

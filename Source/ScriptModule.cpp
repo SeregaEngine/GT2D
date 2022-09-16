@@ -82,7 +82,7 @@ void ScriptModule::DefineFunctions(lua_State* L)
     /* Input */
     lua_register(L, "isKeyDown", _isKeyDown);
     lua_register(L, "isMouseDown", _isMouseDown);
-    lua_register(L, "getMousePos", _getMousePos);
+    lua_register(L, "getMousePosition", _getMousePosition);
 
     /* Game */
     lua_register(L, "stopGame", _stopGame);
@@ -442,14 +442,14 @@ s32 ScriptModule::_isMouseDown(lua_State* L)
     return 1;
 }
 
-s32 ScriptModule::_getMousePos(lua_State* L)
+s32 ScriptModule::_getMousePosition(lua_State* L)
 {
-    if (!LuaExpect(L, "getMousePos", 0))
+    if (!LuaExpect(L, "getMousePosition", 0))
         return -1;
 
     // Get mouse position
     s32 x, y;
-    g_inputModule.GetMousePos(x, y);
+    g_inputModule.GetMouseUnitPosition(x, y);
 
     // Return it
     lua_pushinteger(L, x);

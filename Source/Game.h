@@ -13,7 +13,7 @@ class Game final : public EngineModule
 {
     b32 m_bRunning;
 
-    GameState* m_pCurState;
+    GameState* m_pCurrentState;
 public:
     Game() : EngineModule("Game", CHANNEL_GAME) {}
 
@@ -23,8 +23,8 @@ public:
     void Stop() { m_bRunning = false; }
 
     b32 Running() const { return m_bRunning; }
-    GameState* GetCurState() { return m_pCurState; }
-    World& GetWorld() { return static_cast<PlayState*>(m_pCurState)->GetWorld(); }
+    GameState* GetCurrentState() { return m_pCurrentState; }
+    World& GetWorld() { return static_cast<PlayState*>(m_pCurrentState)->GetWorld(); }
 
     void Update(f32 dtTime);
     void Render() const;

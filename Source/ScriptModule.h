@@ -55,7 +55,7 @@ private:
     /* Input */
     static s32 _isKeyDown(lua_State* L);
     static s32 _isMouseDown(lua_State* L);
-    static s32 _getMousePos(lua_State* L);
+    static s32 _getMousePosition(lua_State* L);
 
     /* Game */
     static s32 _stopGame(lua_State* L);
