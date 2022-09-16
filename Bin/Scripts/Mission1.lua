@@ -46,9 +46,7 @@ function onUpdate(dt)
   x,y = getMousePosition()
   GT_LOG(PR_NOTE, string.format("%f %f", x, y))
 
-  for k,v in pairs(entities) do
-    updateEntity(v, dt)
-  end
+  updateAllEntities(dt)
 end
 
 function handleInput()

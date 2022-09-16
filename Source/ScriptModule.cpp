@@ -96,6 +96,7 @@ void ScriptModule::DefineFunctions(lua_State* L)
     // Entities
     lua_register(L, "addEntity", _addEntity);
     lua_register(L, "updateEntity", _updateEntity);
+    lua_register(L, "updateAllEntities", _updateAllEntities);
 
     // Actor
     lua_register(L, "addActor", _addActor);
@@ -498,6 +499,16 @@ s32 ScriptModule::_updateEntity(lua_State* L)
         return -1;
 
     static_cast<Entity*>(lua_touserdata(L, 1))->Update((f32)lua_tonumber(L, 2));
+
+    return 0;
+}
+
+s32 ScriptModule::_updateAllEntities(lua_State* L)
+{
+    if (!LuaExpect(L, "updateAllEntities", 1))
+        return -1;
+
+    g_game.GetWorld().UpdateAllEntities((f32)lua_tonumber(L, 1));
 
     return 0;
 }

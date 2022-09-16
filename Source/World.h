@@ -23,6 +23,7 @@ public:
     void SetParallax(GT_Texture* pTexture) { m_pParallax = pTexture; }
 
     void AddEntity(Entity* pEntity) { m_lstEntity.Push(pEntity); }
+    void UpdateAllEntities(f32 dtTime);
 };
 
 #endif // WORLD_H_

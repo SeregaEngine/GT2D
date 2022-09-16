@@ -51,3 +51,11 @@ void World::Render()
         pEntity->Draw();
     });
 }
+
+void World::UpdateAllEntities(f32 dtTime)
+{
+    auto end = m_lstEntity.End();
+    for (auto it = m_lstEntity.Begin(); it != end; ++it)
+        it->data->Update(dtTime);
+}
+
