@@ -128,7 +128,7 @@ void ScriptModule::DefineSymbols(lua_State* L)
     lua_setglobal(L, "TH_PARALLAX");
 
     /* Input */
-    // WASD
+    // WASD/Arrows
     lua_pushinteger(L, SDLK_w);
     lua_setglobal(L, "GTK_W");
     lua_pushinteger(L, SDLK_a);
@@ -137,6 +137,15 @@ void ScriptModule::DefineSymbols(lua_State* L)
     lua_setglobal(L, "GTK_S");
     lua_pushinteger(L, SDLK_d);
     lua_setglobal(L, "GTK_D");
+
+    lua_pushinteger(L, SDLK_UP);
+    lua_setglobal(L, "GTK_UP");
+    lua_pushinteger(L, SDLK_LEFT);
+    lua_setglobal(L, "GTK_LEFT");
+    lua_pushinteger(L, SDLK_DOWN);
+    lua_setglobal(L, "GTK_DOWN");
+    lua_pushinteger(L, SDLK_RIGHT);
+    lua_setglobal(L, "GTK_RIGHT");
 
     // Some special symbols
     lua_pushinteger(L, SDLK_ESCAPE);

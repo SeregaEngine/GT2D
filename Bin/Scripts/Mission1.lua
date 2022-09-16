@@ -31,8 +31,8 @@ function onEnter()
   textures["player"] = defineTexture("Textures/Actors/Player.png", TW_ACTOR, TH_ACTOR)
   entities["player"] = addActor(10, 60, TW_ACTOR, TH_ACTOR, textures["player"])
 
-  -- Test entity
-  entities["test"] = addEntity(TW_LOCATION, TH_LOCATION - TH_ACTOR/2, TW_ACTOR, TH_ACTOR, textures["player"])
+  -- Second player
+  entities["player2"] = addActor(TW_LOCATION, TH_LOCATION - TH_ACTOR/2, TW_ACTOR, TH_ACTOR, textures["player"])
 
   -- Camera
   setLevelSize(TW_LOCATION * 2, TH_LOCATION)
@@ -50,6 +50,19 @@ end
 function handleInput()
   if isKeyDown(GTK_ESCAPE) then
     stopGame()
+  end
+
+  if isKeyDown(GTK_UP) then
+    sendActorCmd(entities["player2"], GTC_MOVE_UP)
+  end
+  if isKeyDown(GTK_LEFT) then
+    sendActorCmd(entities["player2"], GTC_MOVE_LEFT)
+  end
+  if isKeyDown(GTK_DOWN) then
+    sendActorCmd(entities["player2"], GTC_MOVE_DOWN)
+  end
+  if isKeyDown(GTK_RIGHT) then
+    sendActorCmd(entities["player2"], GTC_MOVE_RIGHT)
   end
 
   if isKeyDown(GTK_W) then
