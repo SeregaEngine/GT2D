@@ -1,8 +1,9 @@
 /* TODO
  * - Fix when we use standard types like f32
+
  * - Remake with doubly linked list for fast PopBack()
  * - Remove() that delete everything
- * - RemoveIf() that delete everything with lambda-function
+ * - RemoveIf() that delete everything with given function
  */
 
 #ifndef LIST_H_
@@ -22,7 +23,7 @@ private:
         Item* next;
 
         Item() : data(), next(nullptr) {}
-        Item(T _data, Item* _next) : data(_data), next(_next) {}
+        Item(T& _data, Item* _next) : data(_data), next(_next) {}
         ~Item() {}
     };
 
@@ -49,6 +50,18 @@ public:
 
 public:
     TList() : m_pFirst(nullptr), m_pLast(nullptr) {}
+    TList(TList<T>& lst) {
+        m_pFirst = lst.m_pFirst;
+        m_pLast = lst.m_pLast;
+        lst.m_pFirst = nullptr;
+        lst.m_pLast = nullptr;
+    }
+    void operator=(TList<T>& lst) {
+        m_pFirst = lst.m_pFirst;
+        m_pLast = lst.m_pLast;
+        lst.m_pFirst = nullptr;
+        lst.m_pLast = nullptr;
+    }
     ~TList() { Clean(); }
 
     void Push(T& data);
@@ -63,24 +76,11 @@ public:
     T& Back() { return m_pLast->data; }
     b32 IsEmpty() const { return m_pFirst ? false : true; }
 
-    void Mapcar(void (*fun)(T, void*), void* userdata = nullptr);
+    void Mapcar(void (*fun)(T, void*), void* userdata = nullptr); // It's just iterator, not mapcar at all...
     void Mapcar(void (*fun)(T));
 
     Iterator Begin() { return m_pFirst; }
     Iterator End() { return nullptr; }
-private:
-    void operator=(TList<T>& lst) {
-        m_pFirst = lst.m_pFirst;
-        m_pLast = lst.m_pLast;
-        lst.m_pFirst = nullptr;
-        lst.m_pLast = nullptr;
-    }
-    TList(TList<T>& lst) {
-        m_pFirst = lst.m_pFirst;
-        m_pLast = lst.m_pLast;
-        lst.m_pFirst = nullptr;
-        lst.m_pLast = nullptr;
-    }
 };
 
 /* ====== METHODS ====== */

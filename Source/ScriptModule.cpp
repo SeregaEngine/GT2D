@@ -405,7 +405,7 @@ s32 ScriptModule::_defineMusic(lua_State* L)
 
 s32 ScriptModule::_playMusic(lua_State* L)
 {
-    if (!LuaExpect(L, "playSound", 1))
+    if (!LuaExpect(L, "playMusic", 1))
         return -1;
 
     g_soundModule.PlayMusic( (GT_Music*)lua_touserdata(L, 1) );
@@ -435,7 +435,7 @@ s32 ScriptModule::_isMouseDown(lua_State* L)
 
 s32 ScriptModule::_getMousePos(lua_State* L)
 {
-    if (!LuaExpect(L, "isMouseDown", 0))
+    if (!LuaExpect(L, "getMousePos", 0))
         return -1;
 
     // Get mouse position
@@ -521,20 +521,18 @@ s32 ScriptModule::_sendActorCmd(lua_State* L)
 {
     if (lua_gettop(L) < 2)
     {
-        LuaNote(PR_ERROR, "sendActorCmd: expected at least 2 args but %d given", lua_gettop(L));
+        LuaNote(PR_ERROR, "sendActorCmd: expected at least 2 arguments but %d given", lua_gettop(L));
         return -1;
     }
 
     // Init command
     GT_Command cmd;
     cmd.cmd = (u32)lua_tointeger(L, 2);
-    /*
     for (s32 i = 3; i <= lua_gettop(L); i++)
     {
         f32 arg = (f32)lua_tonumber(L, i);
-        cmd.lstArgument.Push(arg);
+        cmd.lstArgument.PushBack(arg);
     }
-    */
 
     // Send command
     static_cast<Actor*>(lua_touserdata(L, 1))->SendCommand(cmd);
