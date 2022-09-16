@@ -1,6 +1,7 @@
 /* ====== INCLUDES ====== */
 #include "Game.h"
 #include "InputModule.h"
+#include "GTUnit.h"
 
 #include "Actor.h"
 
@@ -68,25 +69,25 @@ void Actor::HandleCommand(f32 dtTime)
 
         case GTC_MOVE_UP:
         {
-            m_vVelocity.y -= ACTOR_UNIT_SPEED_Y * g_unitY * dtTime;
+            m_vVelocity.y -= GTU::UnitToScreenY(ACTOR_UNIT_SPEED_Y) * dtTime;
             g_debugLogMgr.AddNote(CHANNEL_GAME, PR_NOTE, "Actor", "GTC_MOVE_UP"); // DEBUG(sean)
         } break;
 
         case GTC_MOVE_LEFT:
         {
-            m_vVelocity.x -= ACTOR_UNIT_SPEED_X * g_unitX * dtTime;
+            m_vVelocity.x -= GTU::UnitToScreenX(ACTOR_UNIT_SPEED_X) * dtTime;
             g_debugLogMgr.AddNote(CHANNEL_GAME, PR_NOTE, "Actor", "GTC_MOVE_LEFT"); // DEBUG(sean)
         } break;
 
         case GTC_MOVE_DOWN:
         {
-            m_vVelocity.y += ACTOR_UNIT_SPEED_Y * g_unitY * dtTime;
+            m_vVelocity.y += GTU::UnitToScreenY(ACTOR_UNIT_SPEED_Y) * dtTime;
             g_debugLogMgr.AddNote(CHANNEL_GAME, PR_NOTE, "Actor", "GTC_MOVE_DOWN"); // DEBUG(sean)
         } break;
 
         case GTC_MOVE_RIGHT:
         {
-            m_vVelocity.x += ACTOR_UNIT_SPEED_X * g_unitX * dtTime;
+            m_vVelocity.x += GTU::UnitToScreenX(ACTOR_UNIT_SPEED_X) * dtTime;
             g_debugLogMgr.AddNote(CHANNEL_GAME, PR_NOTE, "Actor", "GTC_MOVE_RIGHT"); // DEBUG(sean)
         } break;
 

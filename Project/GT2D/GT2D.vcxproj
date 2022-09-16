@@ -188,6 +188,7 @@
     <ClInclude Include="..\..\Source\SoundModule.h" />
     <ClInclude Include="..\..\Source\TList.h" />
     <ClInclude Include="..\..\Source\Types.h" />
+    <ClInclude Include="..\..\Source\GTUnit.h" />
     <ClInclude Include="..\..\Source\World.h" />
   </ItemGroup>
   <ItemGroup>
@@ -208,6 +209,7 @@
     <ClCompile Include="..\..\Source\PlayState.cpp" />
     <ClCompile Include="..\..\Source\ScriptModule.cpp" />
     <ClCompile Include="..\..\Source\SoundModule.cpp" />
+    <ClCompile Include="..\..\Source\GTUnit.cpp" />
     <ClCompile Include="..\..\Source\World.cpp" />
   </ItemGroup>
   <ItemGroup>

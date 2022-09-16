@@ -42,12 +42,13 @@ end
 function onUpdate(dt)
   handleInput()
 
+  -- DEBUG(sean)
+  x,y = getMousePosition()
+  GT_LOG(PR_NOTE, string.format("%f %f", x, y))
+
   for k,v in pairs(entities) do
     updateEntity(v, dt)
   end
-
-  x,y = getMousePosition()
-  GT_LOG(PR_NOTE, string.format("%f %f", x, y))
 end
 
 function handleInput()

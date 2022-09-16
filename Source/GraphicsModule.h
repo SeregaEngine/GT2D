@@ -20,8 +20,6 @@
 #define TH_PARALLAX UNIT_SCREEN_HEIGHT
 
 /* ====== GLOBALS ====== */
-extern f32 g_unitX; // Pixels per unit
-extern f32 g_unitY;
 
 /* ====== STRUCTURES ====== */
 struct GT_Texture;

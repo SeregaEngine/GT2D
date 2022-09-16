@@ -18,7 +18,7 @@ enum eAICommand
 /* ====== STRUCTURES ====== */
 struct GT_Command
 {
-    u32 cmd;
+    s32 cmd;
     TList<f32> lstArgument;
 };
 

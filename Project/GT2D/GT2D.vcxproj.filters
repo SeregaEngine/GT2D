@@ -84,6 +84,9 @@
     <ClInclude Include="..\..\Source\AIModule.h">
       <Filter>Header Files\Module H</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\GTUnit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\main.cpp">
@@ -139,6 +142,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\AIModule.cpp">
       <Filter>Source Files\Module CPP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\GTUnit.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

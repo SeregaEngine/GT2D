@@ -41,7 +41,7 @@ private:
     // Camera
     static s32 _attachCamera(lua_State* L);
     static s32 _detachCamera(lua_State* L);
-    static s32 _setCameraPos(lua_State* L);
+    static s32 _setCameraPosition(lua_State* L);
     static s32 _setLevelSize(lua_State* L);
 
     /* Sound */

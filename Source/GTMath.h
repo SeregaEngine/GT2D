@@ -105,8 +105,8 @@ struct SRect
 namespace GTM
 {
     /* === Variables === */
-    extern f32 sinLook[361];
-    extern f32 cosLook[361];
+    extern f32 g_sinLook[361];
+    extern f32 g_cosLook[361];
 
     /* === Functions === */
     extern b32 StartUp();

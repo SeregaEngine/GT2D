@@ -4,8 +4,8 @@
 #include "GTMath.h"
 
 /* ====== VARIABLES ====== */
-f32 GTM::sinLook[361];
-f32 GTM::cosLook[361];
+f32 GTM::g_sinLook[361];
+f32 GTM::g_cosLook[361];
 
 /* ====== METHODS ====== */
 b32 GTM::StartUp()
@@ -14,8 +14,8 @@ b32 GTM::StartUp()
     for (s32 i = 0; i < 361; ++i)
     {
         f32 angle = DEG_TO_RAD((f32)i);
-        sinLook[i] = sinf(angle);
-        cosLook[i] = cosf(angle);
+        g_sinLook[i] = sinf(angle);
+        g_cosLook[i] = cosf(angle);
     }
 
     return true;
@@ -54,8 +54,8 @@ void GTM::RotatePoly2(Poly2* poly, s32 angle)
 
     for (s32 i = 0; i < poly->vtxCount; ++i)
     {
-        f32 x = poly->aVtx[i].x*cosLook[angle] - poly->aVtx[i].y*sinLook[angle];
-        f32 y = poly->aVtx[i].x*sinLook[angle] + poly->aVtx[i].y*cosLook[angle];
+        f32 x = poly->aVtx[i].x*g_cosLook[angle] - poly->aVtx[i].y*g_sinLook[angle];
+        f32 y = poly->aVtx[i].x*g_sinLook[angle] + poly->aVtx[i].y*g_cosLook[angle];
 
         poly->aVtx[i].x = x;
         poly->aVtx[i].y = y;

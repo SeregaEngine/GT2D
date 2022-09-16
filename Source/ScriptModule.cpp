@@ -10,6 +10,7 @@ extern "C"
 }
 
 #include "GraphicsModule.h"
+#include "GTUnit.h"
 #include "SoundModule.h"
 #include "InputModule.h"
 #include "Game.h"
@@ -68,7 +69,7 @@ void ScriptModule::DefineFunctions(lua_State* L)
     // Camera
     lua_register(L, "attachCamera", _attachCamera);
     lua_register(L, "detachCamera", _detachCamera);
-    lua_register(L, "setCameraPos", _setCameraPos);
+    lua_register(L, "setCameraPosition", _setCameraPosition);
     lua_register(L, "setLevelSize", _setLevelSize);
 
     /* Sound */
@@ -332,15 +333,13 @@ s32 ScriptModule::_detachCamera(lua_State* L)
     return 0;
 }
 
-s32 ScriptModule::_setCameraPos(lua_State* L)
+s32 ScriptModule::_setCameraPosition(lua_State* L)
 {
-    if (!LuaExpect(L, "setCameraPos", 2))
+    if (!LuaExpect(L, "setCameraPosition", 2))
         return -1;
 
-    s32 x = (s32)( (f32)lua_tonumber(L, 1) * g_unitX );
-    s32 y = (s32)( (f32)lua_tonumber(L, 2) * g_unitY );
-
-    g_graphicsModule.GetCamera().SetPosition(x, y);
+    g_graphicsModule.GetCamera().SetPosition((s32)GTU::UnitToScreenX((f32)lua_tonumber(L, 1)),
+                                             (s32)GTU::UnitToScreenY((f32)lua_tonumber(L, 2)));
 
     return 0;
 }
@@ -353,8 +352,8 @@ s32 ScriptModule::_setLevelSize(lua_State* L)
     SRect rect = {
         0, // x1
         0, // y1
-        (s32)( (f32)lua_tonumber(L, 1) * g_unitX ) - 1, // x2
-        (s32)( (f32)lua_tonumber(L, 2) * g_unitY ) - 1, // y2
+        (s32)( GTU::UnitToScreenX((f32)lua_tonumber(L, 1)) ) - 1, // x2
+        (s32)( GTU::UnitToScreenY((f32)lua_tonumber(L, 2)) ) - 1, // y2
     };
 
     g_graphicsModule.GetCamera().SetBoundary(rect);
@@ -447,13 +446,13 @@ s32 ScriptModule::_getMousePosition(lua_State* L)
     if (!LuaExpect(L, "getMousePosition", 0))
         return -1;
 
-    // Get mouse position
+    // Get mouse screen position
     s32 x, y;
-    g_inputModule.GetMouseUnitPosition(x, y);
+    g_inputModule.GetMousePosition(x, y);
 
-    // Return it
-    lua_pushinteger(L, x);
-    lua_pushinteger(L, y);
+    // Return
+    lua_pushinteger(L, (lua_Integer)( GTU::ScreenToUnitX((f32)x) ));
+    lua_pushinteger(L, (lua_Integer)( GTU::ScreenToUnitY((f32)y) ));
 
     return 2;
 }
@@ -476,9 +475,10 @@ s32 ScriptModule::_addEntity(lua_State* L)
     // Init entity
     Entity* pEntity = new Entity();
 
-    Vector2 vPosition = { (f32)lua_tonumber(L, 1) * g_unitX, (f32)lua_tonumber(L, 2) * g_unitY };
-    s32 width  = (s32)( (f32)lua_tonumber(L, 3) * g_unitX );
-    s32 height = (s32)( (f32)lua_tonumber(L, 4) * g_unitY );
+    Vector2 vPosition = { GTU::UnitToScreenX((f32)lua_tonumber(L, 1)),
+                          GTU::UnitToScreenY((f32)lua_tonumber(L, 2)) };
+    s32 width  = (s32)( GTU::UnitToScreenX((f32)lua_tonumber(L, 3)) );
+    s32 height = (s32)( GTU::UnitToScreenY((f32)lua_tonumber(L, 4)) );
     GT_Texture* pTexture = (GT_Texture*)lua_touserdata(L, 5);
 
     pEntity->Init(vPosition, width, height, pTexture);
@@ -510,9 +510,10 @@ s32 ScriptModule::_addActor(lua_State* L)
     // Init actor
     Actor* pActor = new Actor();
 
-    Vector2 vPosition = { (f32)lua_tonumber(L, 1) * g_unitX, (f32)lua_tonumber(L, 2) * g_unitY };
-    s32 width  = (s32)( (f32)lua_tonumber(L, 3) * g_unitX );
-    s32 height = (s32)( (f32)lua_tonumber(L, 4) * g_unitY );
+    Vector2 vPosition = { GTU::UnitToScreenX((f32)lua_tonumber(L, 1)),
+                          GTU::UnitToScreenY((f32)lua_tonumber(L, 2)) };
+    s32 width  = (s32)( GTU::UnitToScreenX((f32)lua_tonumber(L, 3)) );
+    s32 height = (s32)( GTU::UnitToScreenY((f32)lua_tonumber(L, 4)) );
     GT_Texture* pTexture = (GT_Texture*)lua_touserdata(L, 5);
 
     pActor->Init(vPosition, width, height, pTexture);
@@ -536,7 +537,7 @@ s32 ScriptModule::_sendActorCmd(lua_State* L)
 
     // Init command
     GT_Command cmd;
-    cmd.cmd = (u32)lua_tointeger(L, 2);
+    cmd.cmd = (s32)lua_tointeger(L, 2);
     for (s32 i = 3; i <= lua_gettop(L); i++)
     {
         f32 arg = (f32)lua_tonumber(L, i);

@@ -8,6 +8,8 @@
 #include "SDL_image.h"
 
 #include "GTMath.h"
+#include "GTUnit.h"
+
 #include "GraphicsModule.h"
 
 /* ====== DEFINES ====== */
@@ -24,8 +26,6 @@ struct GT_Texture
 
 /* ====== GLOBALS ====== */
 GraphicsModule g_graphicsModule;
-f32 g_unitX = 0;
-f32 g_unitY = 0;
 
 /* ====== METHODS ====== */
 b32 GraphicsModule::StartUp(SDL_Renderer* pRenderer, s32 width, s32 height)
@@ -33,8 +33,10 @@ b32 GraphicsModule::StartUp(SDL_Renderer* pRenderer, s32 width, s32 height)
     // Defaults
     m_screenWidth = width;
     m_screenHeight = height;
-    g_unitX = m_screenWidth / (f32)UNIT_SCREEN_WIDTH;
-    g_unitY = m_screenHeight / (f32)UNIT_SCREEN_HEIGHT;
+
+    // Set global unitX/Y
+    GTU::SetUnitXY(m_screenWidth / (f32)UNIT_SCREEN_WIDTH, m_screenHeight / (f32)UNIT_SCREEN_HEIGHT);
+
     m_pRenderer = pRenderer;
 
     // Allocate textures
