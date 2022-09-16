@@ -26,7 +26,7 @@ protected:
     TList<GT_Command> m_lstCommand;
 
 public:
-    virtual void Init(const Vec2& vPosition, s32 width, s32 height, GT_Texture* pTexture) override;
+    virtual void Init(const Vector2& vPosition, s32 width, s32 height, GT_Texture* pTexture) override;
     virtual void Update(f32 dtTime) override;
 
     void SetActorAnims(const GT_Animation* aActorAnims[]);

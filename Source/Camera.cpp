@@ -6,7 +6,7 @@ void Camera::GetPosition(s32& x, s32& y) const
 {
     if (m_pAttached)
     {
-        Vec2 vPosition = m_pAttached->GetPosition();
+        Vector2 vPosition = m_pAttached->GetPosition();
 
         x = (s32)vPosition.x - g_graphicsModule.GetScreenWidth() / 2;
         if (x < m_boundary.x1)

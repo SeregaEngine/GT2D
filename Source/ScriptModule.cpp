@@ -467,7 +467,7 @@ s32 ScriptModule::_addEntity(lua_State* L)
     // Init entity
     Entity* pEntity = new Entity();
 
-    Vec2 vPosition = { (f32)lua_tonumber(L, 1) * g_unitX, (f32)lua_tonumber(L, 2) * g_unitY };
+    Vector2 vPosition = { (f32)lua_tonumber(L, 1) * g_unitX, (f32)lua_tonumber(L, 2) * g_unitY };
     s32 width  = (s32)( (f32)lua_tonumber(L, 3) * g_unitX );
     s32 height = (s32)( (f32)lua_tonumber(L, 4) * g_unitY );
     GT_Texture* pTexture = (GT_Texture*)lua_touserdata(L, 5);
@@ -501,7 +501,7 @@ s32 ScriptModule::_addActor(lua_State* L)
     // Init actor
     Actor* pActor = new Actor();
 
-    Vec2 vPosition = { (f32)lua_tonumber(L, 1) * g_unitX, (f32)lua_tonumber(L, 2) * g_unitY };
+    Vector2 vPosition = { (f32)lua_tonumber(L, 1) * g_unitX, (f32)lua_tonumber(L, 2) * g_unitY };
     s32 width  = (s32)( (f32)lua_tonumber(L, 3) * g_unitX );
     s32 height = (s32)( (f32)lua_tonumber(L, 4) * g_unitY );
     GT_Texture* pTexture = (GT_Texture*)lua_touserdata(L, 5);

@@ -12,8 +12,8 @@
 class Entity
 {
 protected:
-    Vec2 m_vPosition;
-    Vec2 m_vVelocity;
+    Vector2 m_vPosition;
+    Vector2 m_vVelocity;
     s32 m_width;
     s32 m_height;
     FRect m_hitBox; // Relative to entity position
@@ -26,21 +26,21 @@ protected:
 public:
     virtual ~Entity() {}
 
-    virtual void Init(const Vec2& vPosition, s32 width, s32 height, GT_Texture* pTexture);
+    virtual void Init(const Vector2& vPosition, s32 width, s32 height, GT_Texture* pTexture);
     virtual void Clean() {}
 
     virtual void Update(f32 dtTime) {}
     virtual void Draw();
 
-    const Vec2& GetPosition() const { return m_vPosition; }
-    const Vec2& GetVelocity() const { return m_vVelocity; }
+    const Vector2& GetPosition() const { return m_vPosition; }
+    const Vector2& GetVelocity() const { return m_vVelocity; }
     s32 GetWidth() const { return m_width; }
     s32 GetHeight() const { return m_height; }
     const FRect& GetHitBox() const { return m_hitBox; }
     f32 GetAngle() const { return m_angle; }
 
-    void SetPosition(const Vec2& vPosition) { m_vPosition = vPosition; }
-    void SetVelocity(const Vec2& vVelocity) { m_vVelocity = vVelocity; }
+    void SetPosition(const Vector2& vPosition) { m_vPosition = vPosition; }
+    void SetVelocity(const Vector2& vVelocity) { m_vVelocity = vVelocity; }
     void SetPosition(f32 x, f32 y) { m_vPosition.x = x; m_vPosition.y = y; }
     void SetVelocity(f32 x, f32 y) { m_vVelocity.x = x; m_vVelocity.y = y; }
 
