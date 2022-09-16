@@ -7,6 +7,7 @@
 
 /* ====== INCLUDES ====== */
 #include <string.h> // memcpy/memset()
+#include <math.h>
 
 #include "Types.h"
 
@@ -57,7 +58,7 @@ struct Vector2
 
     __forceinline void Zero() { x = 0.0f; y = 0.0f; }
     __forceinline void Init(f32 _x, f32 _y) { x = _x; y = _y; }
-    __forceinline f32 Length() const { sqrtf(x*x + y*y); }
+    __forceinline f32 Length() const { return sqrtf(x*x + y*y); }
     __forceinline Vector2 Normalize() { f32 len = Length(); x /= len; y /= len; return *this; }
 };
 

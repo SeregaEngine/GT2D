@@ -55,12 +55,50 @@ void Actor::HandleCommand(f32 dtTime)
     if (g_inputModule.IsKeyDown(SDLK_ESCAPE))
         g_game.Stop();
 
+    // Init new velocity
+    Vector2 vVelocity = { 0.0f, 0.0f };
+
+    // Handle command list
     while (!m_lstCommand.IsEmpty())
     {
         GT_Command& cmd = m_lstCommand.Front();
-        g_debugLogMgr.AddNote(CHANNEL_GAME, PR_NOTE, "Actor", "%d", cmd.cmd); // DEBUG(sean)
+
+        switch (cmd.cmd)
+        {
+
+        case GTC_MOVE_UP:
+        {
+            vVelocity.y -= ACTOR_SPEED_Y * g_unitY * dtTime;
+            g_debugLogMgr.AddNote(CHANNEL_GAME, PR_NOTE, "Actor", "GTC_MOVE_UP"); // DEBUG(sean)
+        } break;
+
+        case GTC_MOVE_LEFT:
+        {
+            vVelocity.x -= ACTOR_SPEED_X * g_unitX * dtTime;
+            g_debugLogMgr.AddNote(CHANNEL_GAME, PR_NOTE, "Actor", "GTC_MOVE_LEFT"); // DEBUG(sean)
+        } break;
+
+        case GTC_MOVE_DOWN:
+        {
+            vVelocity.y += ACTOR_SPEED_Y * g_unitY * dtTime;
+            g_debugLogMgr.AddNote(CHANNEL_GAME, PR_NOTE, "Actor", "GTC_MOVE_DOWN"); // DEBUG(sean)
+        } break;
+
+        case GTC_MOVE_RIGHT:
+        {
+            vVelocity.x += ACTOR_SPEED_X * g_unitX * dtTime;
+            g_debugLogMgr.AddNote(CHANNEL_GAME, PR_NOTE, "Actor", "GTC_MOVE_RIGHT"); // DEBUG(sean)
+        } break;
+
+        }
+
         m_lstCommand.Pop();
     }
+
+    // Set new velocity
+    m_vVelocity = vVelocity;
+    // Update position
+    m_vPosition += m_vVelocity;
 }
 
 void Actor::HandleAnimation(f32 dtTime)
