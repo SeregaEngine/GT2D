@@ -23,6 +23,8 @@ public:
     b32 LoadMission();
     void UnloadMission();
     void UpdateMission(f32 dtTime);
+
+    void CallStateFunction(const char* functionName);
 private:
     void DefineFunctions(lua_State* L);
     void DefineSymbols(lua_State* L);

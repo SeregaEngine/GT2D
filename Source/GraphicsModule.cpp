@@ -62,7 +62,7 @@ void GraphicsModule::ShutDown()
     AddNote(PR_NOTE, "Module shut down");
 }
 
-GT_Texture* GraphicsModule::DefineTexture(const char* fileName, s32 spriteWidth, s32 spriteHeight)
+const GT_Texture* GraphicsModule::DefineTexture(const char* fileName, s32 spriteWidth, s32 spriteHeight)
 {
     // Try to find free slot or already loaded texture
     GT_Texture* pFree = nullptr;

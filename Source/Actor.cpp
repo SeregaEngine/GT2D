@@ -26,6 +26,10 @@ void Actor::Init(const Vector2& vPosition, s32 width, s32 height, GT_Texture* pT
 {
     Entity::Init(vPosition, width, height, pTexture);
 
+    // Init AI stuff
+    m_pState = nullptr;
+    m_pTask = nullptr;
+
     // Init actor animations
     for (s32 i = 0; i < MAX_ACTOR_ANIMATIONS; ++i)
         m_aActorAnims[i] = nullptr;
@@ -40,6 +44,8 @@ void Actor::Init(const Vector2& vPosition, s32 width, s32 height, GT_Texture* pT
 
 void Actor::Update(f32 dtTime)
 {
+    HandleState();
+    HandleTask();
     HandleCommand(dtTime);
     HandleAnimation(dtTime);
 }
@@ -63,36 +69,15 @@ void Actor::HandleCommand(f32 dtTime)
     while (!m_lstCommand.IsEmpty())
     {
         GT_Command& cmd = m_lstCommand.Front();
-
         switch (cmd.cmd)
         {
+        case GTC_MOVE_UP: { m_vVelocity.y -= GTU::UnitToScreenY(ACTOR_UNIT_SPEED_Y) * dtTime; } break;
+        case GTC_MOVE_LEFT: { m_vVelocity.x -= GTU::UnitToScreenX(ACTOR_UNIT_SPEED_X) * dtTime; } break;
+        case GTC_MOVE_DOWN: { m_vVelocity.y += GTU::UnitToScreenY(ACTOR_UNIT_SPEED_Y) * dtTime; } break;
+        case GTC_MOVE_RIGHT: { m_vVelocity.x += GTU::UnitToScreenX(ACTOR_UNIT_SPEED_X) * dtTime; } break;
 
-        case GTC_MOVE_UP:
-        {
-            m_vVelocity.y -= GTU::UnitToScreenY(ACTOR_UNIT_SPEED_Y) * dtTime;
-            g_debugLogMgr.AddNote(CHANNEL_GAME, PR_NOTE, "Actor", "GTC_MOVE_UP"); // DEBUG(sean)
-        } break;
-
-        case GTC_MOVE_LEFT:
-        {
-            m_vVelocity.x -= GTU::UnitToScreenX(ACTOR_UNIT_SPEED_X) * dtTime;
-            g_debugLogMgr.AddNote(CHANNEL_GAME, PR_NOTE, "Actor", "GTC_MOVE_LEFT"); // DEBUG(sean)
-        } break;
-
-        case GTC_MOVE_DOWN:
-        {
-            m_vVelocity.y += GTU::UnitToScreenY(ACTOR_UNIT_SPEED_Y) * dtTime;
-            g_debugLogMgr.AddNote(CHANNEL_GAME, PR_NOTE, "Actor", "GTC_MOVE_DOWN"); // DEBUG(sean)
-        } break;
-
-        case GTC_MOVE_RIGHT:
-        {
-            m_vVelocity.x += GTU::UnitToScreenX(ACTOR_UNIT_SPEED_X) * dtTime;
-            g_debugLogMgr.AddNote(CHANNEL_GAME, PR_NOTE, "Actor", "GTC_MOVE_RIGHT"); // DEBUG(sean)
-        } break;
-
+        default: break;
         }
-
         m_lstCommand.Pop();
     }
 

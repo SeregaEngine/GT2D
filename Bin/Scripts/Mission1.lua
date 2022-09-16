@@ -9,7 +9,7 @@ local sounds = {}
 local music = {}
 
 function onEnter()
-  GT_LOG(PR_NOTE, "onEnter() called")
+  GT_LOG(PR_NOTE, "Mission1 entered")
 
   -- Set background stuff
   textures["background"] = defineTexture("Textures/Locations/Mission1-1.png", TW_LOCATION, TH_LOCATION)
@@ -22,17 +22,12 @@ function onEnter()
   sounds["test"] = defineSound("Sounds/TestSound.wav")
   music["test"] = defineMusic("Music/TestMusic.mp3")
 
-  --[[
-  playSound(sounds["test"])
-  playMusic(music["test"])
-  ]]--
-
   -- Player
   textures["player"] = defineTexture("Textures/Actors/Player.png", TW_ACTOR, TH_ACTOR)
   entities["player"] = addActor(10, 60, TW_ACTOR, TH_ACTOR, textures["player"])
 
-  -- Second player
-  entities["player2"] = addActor(TW_LOCATION, TH_LOCATION - TH_ACTOR/2, TW_ACTOR, TH_ACTOR, textures["player"])
+  -- NPC
+  entities["NPC"] = addActor(TW_LOCATION, TH_LOCATION - TH_ACTOR/2, TW_ACTOR, TH_ACTOR, textures["player"])
 
   -- Camera
   setLevelSize(TW_LOCATION * 2, TH_LOCATION)
@@ -41,30 +36,12 @@ end
 
 function onUpdate(dt)
   handleInput()
-
-  -- DEBUG(sean)
-  x,y = getMousePosition()
-  GT_LOG(PR_NOTE, string.format("%f %f", x, y))
-
   updateAllEntities(dt)
 end
 
 function handleInput()
   if isKeyDown(GTK_ESCAPE) then
     stopGame()
-  end
-
-  if isKeyDown(GTK_UP) then
-    sendActorCmd(entities["player2"], GTC_MOVE_UP)
-  end
-  if isKeyDown(GTK_LEFT) then
-    sendActorCmd(entities["player2"], GTC_MOVE_LEFT)
-  end
-  if isKeyDown(GTK_DOWN) then
-    sendActorCmd(entities["player2"], GTC_MOVE_DOWN)
-  end
-  if isKeyDown(GTK_RIGHT) then
-    sendActorCmd(entities["player2"], GTC_MOVE_RIGHT)
   end
 
   if isKeyDown(GTK_W) then

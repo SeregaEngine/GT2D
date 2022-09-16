@@ -22,18 +22,31 @@ public:
     };
 
 protected:
-    const GT_Animation* m_aActorAnims[MAX_ACTOR_ANIMATIONS]; // Default actor's animations
+    const GT_State* m_pState;
+    GT_Task* m_pTask;
     TList<GT_Command> m_lstCommand;
+
+    const GT_Animation* m_aActorAnims[MAX_ACTOR_ANIMATIONS];
 
 public:
     virtual void Init(const Vector2& vPosition, s32 width, s32 height, GT_Texture* pTexture) override;
+    virtual void Clean() override { RemoveTask(); }
     virtual void Update(f32 dtTime) override;
+
+    const GT_State* GetState() const { return m_pState; }
+
+    void SetState(const GT_State* pState) { m_pState = pState; }
+    void SetTask(GT_Task* pTask) { RemoveTask(); m_pTask = pTask; }
+    void RemoveTask() { if (m_pTask) delete m_pTask; m_pTask = nullptr; }
+    void SendCommand(GT_Command& cmd) { m_lstCommand.Push(cmd); }
 
     void SetActorAnims(const GT_Animation* aActorAnims[]);
 
-    void SendCommand(GT_Command& cmd) { m_lstCommand.Push(cmd); }
 private:
+    void HandleState() { g_AIModule.HandleState(this); }
+    void HandleTask() { if (m_pTask) m_pTask->Handle(); }
     void HandleCommand(f32 dtTime);
+
     void HandleAnimation(f32 dtTime);
 };
 

@@ -182,7 +182,7 @@ b32 ScriptModule::LoadMission()
     lua_getglobal(m_pLoader, "getMission");
     if (!lua_isfunction(m_pLoader, -1))
     {
-        lua_pop(m_pLoader, 1);
+        lua_pop(m_pLoader, 1); // Pop "getMission"
         return false;
     }
 
@@ -193,7 +193,7 @@ b32 ScriptModule::LoadMission()
     // Check returned variable
     if (!lua_isstring(m_pLoader, -1))
     {
-        lua_pop(m_pLoader, 1);
+        lua_pop(m_pLoader, 1); // Pop "getMission"
         return false;
     }
 
@@ -208,27 +208,24 @@ b32 ScriptModule::LoadMission()
     // Try to open script
     if (!CheckLua(m_pMission, luaL_dofile(m_pMission, lua_tostring(m_pLoader, -1))))
     {
-        lua_pop(m_pLoader, 1);
+        lua_pop(m_pLoader, 1); // Pop "getMission"
         return false;
     }
 
-    // Clean loader's stack
+    // Pop "getMission"
     lua_pop(m_pLoader, 1);
 
     // Get onEnter()
     lua_getglobal(m_pMission, "onEnter");
     if (!lua_isfunction(m_pMission, -1))
     {
-        lua_pop(m_pMission, 1);
+        lua_pop(m_pMission, 1); // Pop "onEnter"
         return false;
     }
 
     // Call onEnter()
     if (!CheckLua(m_pMission, lua_pcall(m_pMission, 0, 0, 0)))
-    {
-        lua_pop(m_pMission, 1);
         return false;
-    }
 
     return true;
 }
@@ -249,12 +246,35 @@ void ScriptModule::UpdateMission(f32 dtTime)
     if (!lua_isfunction(m_pMission, -1))
     {
         AddNote(PR_ERROR, "UpdateMission(): There're no lua <onUpdate()> function");
+        lua_pop(m_pMission, 1); // Pop "onUpdate"
         return;
     }
 
     // Call onUpdate()
     lua_pushnumber(m_pMission, dtTime);
     lua_pcall(m_pMission, 1, 0, 0);
+}
+
+void ScriptModule::CallStateFunction(const char* functionName)
+{
+    // Check for null
+    if (!functionName)
+    {
+        AddNote(PR_WARNING, "CallStateFunction: called with null functionName");
+        return;
+    }
+
+    // Get function
+    lua_getglobal(m_pMission, functionName);
+    if (!lua_isfunction(m_pMission, -1))
+    {
+        lua_pop(m_pMission, 1);
+        AddNote(PR_WARNING, "CallStateFunction(): there're no function %s", functionName);
+        return;
+    }
+
+    // Call function
+    lua_pcall(m_pMission, 0, 0, 0);
 }
 
 void ScriptModule::LuaNote(s32 priority, const char* fmt, ...)
@@ -284,7 +304,7 @@ b32 ScriptModule::CheckLua(lua_State* L, s32 res)
     if (res != LUA_OK)
     {
         AddNote(PR_WARNING, "CheckLua(): %s", lua_tostring(L, -1));
-        lua_pop(L, 1);
+        lua_pop(L, 1); // Pop error
         return false;
     }
 
@@ -307,9 +327,9 @@ s32 ScriptModule::_defineTexture(lua_State* L)
     if (!LuaExpect(L, "defineTexture", 3))
         return -1;
 
-    lua_pushlightuserdata(L, g_graphicsModule.DefineTexture(lua_tostring(L, 1),
-                                                            (s32)lua_tointeger(L, 2),
-                                                            (s32)lua_tointeger(L, 3)));
+    lua_pushlightuserdata(L, (void*)g_graphicsModule.DefineTexture(lua_tostring(L, 1),
+                                                                   (s32)lua_tointeger(L, 2),
+                                                                   (s32)lua_tointeger(L, 3)));
 
     return 1;
 }
@@ -498,7 +518,11 @@ s32 ScriptModule::_updateEntity(lua_State* L)
     if (!LuaExpect(L, "updateEntity", 2))
         return -1;
 
-    static_cast<Entity*>(lua_touserdata(L, 1))->Update((f32)lua_tonumber(L, 2));
+    Entity* pEntity = (Entity*)lua_touserdata(L, 1);
+    if (pEntity)
+        pEntity->Update((f32)lua_tonumber(L, 2));
+    else
+        LuaNote(PR_WARNING, "updateEntity(): function called with null entity");
 
     return 0;
 }

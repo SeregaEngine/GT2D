@@ -13,20 +13,37 @@ enum eAICommand
     GTC_MOVE_RIGHT
 };
 
-#define COMMAND_ARGUMENT_STRSIZE 16
-
 /* ====== STRUCTURES ====== */
+
+// Actors handle commands by themselves
 struct GT_Command
 {
     s32 cmd;
     TList<f32> lstArgument;
 };
 
+// Tasks send commands to Actors
+class GT_Task
+{
+public:
+    virtual void Handle() = 0;
+};
+
+// States handle which tasks to do
+struct GT_State;
+
+/* === AI MODULE === */
+class Actor;
+
 class AIModule
 {
+    GT_State* m_aStates;
+    s32 m_usedStates;
 public:
     b32 StartUp();
     void ShutDown();
+
+    void HandleState(Actor* pActor);
 
 private:
     void AddNote(s32 priority, const char* fmt, ...);
