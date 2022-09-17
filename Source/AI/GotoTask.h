@@ -7,10 +7,11 @@
 class GotoTask final : public GT_Task
 {
     Vector2 m_vDestination;
-    // TODO(sean) m_bCompletedX, m_bCompletedY to define when to stop
+    b32 m_bCompletedX, m_bCompletedY;
 public:
-    GotoTask(Actor* pActor, const Vector2& vDestination)
-        : GT_Task(pActor, GTT_GOTO), m_vDestination(vDestination) {}
+    GotoTask(Actor* pActor, const Vector2& vDestination) :
+        GT_Task(pActor, GTT_GOTO), m_vDestination(vDestination),
+        m_bCompletedX(false), m_bCompletedY(false) {}
 
     virtual void Handle() override;
 };

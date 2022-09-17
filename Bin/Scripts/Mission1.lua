@@ -32,7 +32,7 @@ function onEnter()
   entities["player"] = addActor(10, 60, TW_ACTOR, TH_ACTOR, textures["player"])
 
   -- NPC
-  entities["NPC"] = addActor(TW_LOCATION, TH_LOCATION - TH_ACTOR/2, TW_ACTOR, TH_ACTOR, textures["player"])
+  entities["NPC"] = addActor(10, 60, TW_ACTOR, TH_ACTOR, textures["player"])
   setActorState(entities["NPC"], states["NPC"])
 
   -- Camera
@@ -64,18 +64,65 @@ function handleInput()
   end
 end
 
+local stateNPC_counter = 0
 function stateNPC(actor)
-  if getActorCurrentTask(actor) == GTT_GOTO then
-    GT_LOG(PR_NOTE, "Current task is GotoTask") -- DEBUG(sean)
-    local status = checkActorTask(actor)
-    if status == GTT_DONE then
-      GT_LOG(PR_NOTE, "\n\tTask is done\n\tSet nil task to actor") -- DEBUG(sean)
+  local NPC_tasks = {
+    [1] = {
+      ["task"] = GTT_GOTO,
+      ["x"] = 30.0,
+      ["y"] = 56.0
+    },
+
+    [2] = {
+      ["task"] = GTT_GOTO,
+      ["x"] = 85.0,
+      ["y"] = 50.0
+    },
+
+    [3] = {
+      ["task"] = GTT_GOTO,
+      ["x"] = 85.0,
+      ["y"] = 30.0
+    },
+
+    [4] = {
+      ["task"] = GTT_GOTO,
+      ["x"] = 130.0,
+      ["y"] = 43.0
+    },
+
+    [5] = {
+      ["task"] = GTT_GOTO,
+      ["x"] = 70.0,
+      ["y"] = 60.0
+    },
+
+    [6] = {
+      ["task"] = GTT_GOTO,
+      ["x"] = 70.0,
+      ["y"] = 67.0
+    },
+
+    [7] = {
+        ["task"] = GTT_NONE
+    }
+  }
+
+  if stateNPC_counter == 0 or checkActorTask(actor) == GTT_DONE then
+    stateNPC_counter = stateNPC_counter + 1
+    if NPC_tasks[stateNPC_counter].task == GTT_NONE then
+      -- stateNPC_counter = 0 -- Loop
+      -- DEBUG(sean)
       setActorTask(actor, GTT_NONE)
       setActorState(actor, nil)
+      GT_LOG(PR_NOTE, "Tasks done, leaving stateNPC state...")
+      --]]--
+    else
+      -- DEBUG(sean)
+      GT_LOG(PR_NOTE, string.format("\n\ttask:%d\n\tx:%f\n\ty:%f\n", NPC_tasks[stateNPC_counter].task, NPC_tasks[stateNPC_counter].x, NPC_tasks[stateNPC_counter].y))
+      setActorTask(actor, NPC_tasks[stateNPC_counter].task, NPC_tasks[stateNPC_counter].x, NPC_tasks[stateNPC_counter].y)
     end
-  else
-    GT_LOG(PR_NOTE, "Set GotoTask") -- DEBUG(sean)
-	setActorTask(actor, GTT_GOTO, 30.0, 56.0)
   end
+
 end
 
