@@ -58,10 +58,6 @@ void Actor::SetActorAnims(const GT_Animation* aActorAnims[])
 
 void Actor::HandleCommand(f32 dtTime)
 {
-    // DEBUG(sean)
-    if (g_inputModule.IsKeyDown(SDLK_ESCAPE))
-        g_game.Stop();
-
     // Zero velocity
     m_vVelocity.Zero();
 
