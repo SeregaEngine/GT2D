@@ -9,12 +9,16 @@ enum eGTTaskStatus
 {
     GTT_NONE = 0,
     GTT_DONE = 1,
-    GTT_INPROCESS = 2
+    GTT_INPROCESS = 2,
+
+    GTT_STATUS_END
 };
 
 enum eGTTask
 {
-    GTT_GOTO
+    GTT_TASK_START = GTT_STATUS_END,
+
+    GTT_GOTO = GTT_TASK_START
 };
 
 /* ====== STRUCTURES ====== */

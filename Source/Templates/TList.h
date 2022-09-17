@@ -56,13 +56,17 @@ public:
         lst.m_pFirst = nullptr;
         lst.m_pLast = nullptr;
     }
+    ~TList() { Clean(); }
+
     void operator=(TList<T>& lst) {
+        // Clean what we had before this assign
+        Clean();
+
         m_pFirst = lst.m_pFirst;
         m_pLast = lst.m_pLast;
         lst.m_pFirst = nullptr;
         lst.m_pLast = nullptr;
     }
-    ~TList() { Clean(); }
 
     void Push(T& data);
     void PushBack(T& data);

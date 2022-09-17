@@ -39,6 +39,10 @@ public:
     void SetTask(GT_Task* pTask) { RemoveTask(); m_pTask = pTask; }
     void RemoveTask() { if (m_pTask) delete m_pTask; m_pTask = nullptr; }
     void SendCommand(GT_Command& cmd) { m_lstCommand.Push(cmd); }
+    void SendCommand(s32 enumCmd) {
+        GT_Command cmd(enumCmd);
+        m_lstCommand.Push(cmd);
+    }
 
     void SetActorAnims(const GT_Animation* aActorAnims[]);
 

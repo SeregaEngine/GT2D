@@ -65,6 +65,7 @@ function handleInput()
 end
 
 function stateNPC(actor)
-  setActorTask(actor, GTT_GOTO, 0.0, 60.0)
+  -- TODO(sean) Check if we are in progress, maybe use id in tasks to define which task is it?
+  setActorTask(actor, GTT_GOTO, 30.0, 60.0)
 end
 
