@@ -31,6 +31,8 @@ typedef float  f32, f32e, r32, r32e;
 typedef double f64, f64e, r64, r64e;
 
 // Bool
-typedef s32 b32, b32e;
+typedef s32 b32;
+typedef s32f b32f;
+typedef s32e b32e;
 
 #endif // TYPES_H_

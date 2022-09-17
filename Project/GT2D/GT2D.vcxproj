@@ -74,29 +74,33 @@
     <OutDir>..\..\Bin\</OutDir>
     <IntDir>..\..\Build\</IntDir>
     <TargetName>GT2D</TargetName>
-    <IncludePath>C:\Workshop\GT2D\ThirdParty\Lua\Include;C:\Workshop\GT2D\ThirdParty\SDL\Include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Workshop\GT2D\Source\Templates;C:\Workshop\GT2D\Source\Sound;C:\Workshop\GT2D\Source\Script;C:\Workshop\GT2D\Source\Math;C:\Workshop\GT2D\Source\Input;C:\Workshop\GT2D\Source\Graphics;C:\Workshop\GT2D\Source\Game;C:\Workshop\GT2D\Source\Engine;C:\Workshop\GT2D\Source\Animation;C:\Workshop\GT2D\Source\AI;C:\Workshop\GT2D\ThirdParty\Lua\Include;C:\Workshop\GT2D\ThirdParty\SDL\Include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Workshop\GT2D\ThirdParty\Lua\Libs\;C:\Workshop\GT2D\ThirdParty\SDL\Libs;$(LibraryPath)</LibraryPath>
+    <SourcePath>$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>..\..\Bin\</OutDir>
     <IntDir>..\..\Build\</IntDir>
     <TargetName>GT2D</TargetName>
-    <IncludePath>C:\Workshop\GT2D\ThirdParty\Lua\Include;C:\Workshop\GT2D\ThirdParty\SDL\Include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Workshop\GT2D\Source\Templates;C:\Workshop\GT2D\Source\Sound;C:\Workshop\GT2D\Source\Script;C:\Workshop\GT2D\Source\Math;C:\Workshop\GT2D\Source\Input;C:\Workshop\GT2D\Source\Graphics;C:\Workshop\GT2D\Source\Game;C:\Workshop\GT2D\Source\Engine;C:\Workshop\GT2D\Source\Animation;C:\Workshop\GT2D\Source\AI;C:\Workshop\GT2D\ThirdParty\Lua\Include;C:\Workshop\GT2D\ThirdParty\SDL\Include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Workshop\GT2D\ThirdParty\Lua\Libs\;C:\Workshop\GT2D\ThirdParty\SDL\Libs;$(LibraryPath)</LibraryPath>
+    <SourcePath>$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>..\..\Bin\</OutDir>
     <IntDir>..\..\Build\</IntDir>
     <TargetName>GT2D</TargetName>
-    <IncludePath>C:\Workshop\GT2D\ThirdParty\Lua\Include;C:\Workshop\GT2D\ThirdParty\SDL\Include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Workshop\GT2D\Source\Templates;C:\Workshop\GT2D\Source\Sound;C:\Workshop\GT2D\Source\Script;C:\Workshop\GT2D\Source\Math;C:\Workshop\GT2D\Source\Input;C:\Workshop\GT2D\Source\Graphics;C:\Workshop\GT2D\Source\Game;C:\Workshop\GT2D\Source\Engine;C:\Workshop\GT2D\Source\Animation;C:\Workshop\GT2D\Source\AI;C:\Workshop\GT2D\ThirdParty\Lua\Include;C:\Workshop\GT2D\ThirdParty\SDL\Include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Workshop\GT2D\ThirdParty\Lua\Libs\;C:\Workshop\GT2D\ThirdParty\SDL\Libs;$(LibraryPath)</LibraryPath>
+    <SourcePath>$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>..\..\Bin\</OutDir>
     <IntDir>..\..\Build\</IntDir>
     <TargetName>GT2D</TargetName>
-    <IncludePath>C:\Workshop\GT2D\ThirdParty\Lua\Include;C:\Workshop\GT2D\ThirdParty\SDL\Include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Workshop\GT2D\Source\Templates;C:\Workshop\GT2D\Source\Sound;C:\Workshop\GT2D\Source\Script;C:\Workshop\GT2D\Source\Math;C:\Workshop\GT2D\Source\Input;C:\Workshop\GT2D\Source\Graphics;C:\Workshop\GT2D\Source\Game;C:\Workshop\GT2D\Source\Engine;C:\Workshop\GT2D\Source\Animation;C:\Workshop\GT2D\Source\AI;C:\Workshop\GT2D\ThirdParty\Lua\Include;C:\Workshop\GT2D\ThirdParty\SDL\Include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Workshop\GT2D\ThirdParty\Lua\Libs\;C:\Workshop\GT2D\ThirdParty\SDL\Libs;$(LibraryPath)</LibraryPath>
+    <SourcePath>$(SourcePath)</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -169,53 +173,53 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\Actor.h" />
-    <ClInclude Include="..\..\Source\AIModule.h" />
-    <ClInclude Include="..\..\Source\AnimationModule.h" />
-    <ClInclude Include="..\..\Source\Camera.h" />
-    <ClInclude Include="..\..\Source\ClockManager.h" />
-    <ClInclude Include="..\..\Source\DebugLogManager.h" />
-    <ClInclude Include="..\..\Source\EngineModule.h" />
-    <ClInclude Include="..\..\Source\Entity.h" />
-    <ClInclude Include="..\..\Source\Game.h" />
-    <ClInclude Include="..\..\Source\GameState.h" />
-    <ClInclude Include="..\..\Source\GraphicsModule.h" />
-    <ClInclude Include="..\..\Source\GT2D.h" />
-    <ClInclude Include="..\..\Source\GTMath.h" />
-    <ClInclude Include="..\..\Source\InputModule.h" />
-    <ClInclude Include="..\..\Source\PlayState.h" />
-    <ClInclude Include="..\..\Source\ScriptModule.h" />
-    <ClInclude Include="..\..\Source\SoundModule.h" />
-    <ClInclude Include="..\..\Source\TList.h" />
-    <ClInclude Include="..\..\Source\Types.h" />
-    <ClInclude Include="..\..\Source\GTUnit.h" />
-    <ClInclude Include="..\..\Source\World.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\Source\Actor.cpp" />
-    <ClCompile Include="..\..\Source\AIModule.cpp" />
-    <ClCompile Include="..\..\Source\AnimationModule.cpp" />
-    <ClCompile Include="..\..\Source\Camera.cpp" />
-    <ClCompile Include="..\..\Source\ClockManager.cpp" />
-    <ClCompile Include="..\..\Source\DebugLogManager.cpp" />
-    <ClCompile Include="..\..\Source\EngineModule.cpp" />
-    <ClCompile Include="..\..\Source\Entity.cpp" />
-    <ClCompile Include="..\..\Source\Game.cpp" />
-    <ClCompile Include="..\..\Source\GraphicsModule.cpp" />
-    <ClCompile Include="..\..\Source\GT2D.cpp" />
-    <ClCompile Include="..\..\Source\GTMath.cpp" />
-    <ClCompile Include="..\..\Source\InputModule.cpp" />
+    <ClCompile Include="..\..\Source\AI\AIModule.cpp" />
+    <ClCompile Include="..\..\Source\Animation\AnimationModule.cpp" />
+    <ClCompile Include="..\..\Source\Engine\ClockManager.cpp" />
+    <ClCompile Include="..\..\Source\Engine\DebugLogManager.cpp" />
+    <ClCompile Include="..\..\Source\Engine\EngineModule.cpp" />
+    <ClCompile Include="..\..\Source\Engine\GT2D.cpp" />
+    <ClCompile Include="..\..\Source\Game\Actor.cpp" />
+    <ClCompile Include="..\..\Source\Game\Entity.cpp" />
+    <ClCompile Include="..\..\Source\Game\Game.cpp" />
+    <ClCompile Include="..\..\Source\Game\PlayState.cpp" />
+    <ClCompile Include="..\..\Source\Game\World.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Camera.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\GraphicsModule.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\GTUnit.cpp" />
+    <ClCompile Include="..\..\Source\Input\InputModule.cpp" />
     <ClCompile Include="..\..\Source\main.cpp" />
-    <ClCompile Include="..\..\Source\PlayState.cpp" />
-    <ClCompile Include="..\..\Source\ScriptModule.cpp" />
-    <ClCompile Include="..\..\Source\SoundModule.cpp" />
-    <ClCompile Include="..\..\Source\GTUnit.cpp" />
-    <ClCompile Include="..\..\Source\World.cpp" />
+    <ClCompile Include="..\..\Source\Math\GTMath.cpp" />
+    <ClCompile Include="..\..\Source\Script\ScriptModule.cpp" />
+    <ClCompile Include="..\..\Source\Sound\SoundModule.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Bin\Scripts\GraphicsDefines.lua" />
     <None Include="..\..\Bin\Scripts\Loader.lua" />
     <None Include="..\..\Bin\Scripts\Mission1.lua" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Source\AI\AIModule.h" />
+    <ClInclude Include="..\..\Source\Animation\AnimationModule.h" />
+    <ClInclude Include="..\..\Source\Engine\ClockManager.h" />
+    <ClInclude Include="..\..\Source\Engine\DebugLogManager.h" />
+    <ClInclude Include="..\..\Source\Engine\EngineModule.h" />
+    <ClInclude Include="..\..\Source\Engine\GT2D.h" />
+    <ClInclude Include="..\..\Source\Engine\Types.h" />
+    <ClInclude Include="..\..\Source\Game\Actor.h" />
+    <ClInclude Include="..\..\Source\Game\Entity.h" />
+    <ClInclude Include="..\..\Source\Game\Game.h" />
+    <ClInclude Include="..\..\Source\Game\GameState.h" />
+    <ClInclude Include="..\..\Source\Game\PlayState.h" />
+    <ClInclude Include="..\..\Source\Game\World.h" />
+    <ClInclude Include="..\..\Source\Graphics\Camera.h" />
+    <ClInclude Include="..\..\Source\Graphics\GraphicsModule.h" />
+    <ClInclude Include="..\..\Source\Graphics\GTUnit.h" />
+    <ClInclude Include="..\..\Source\Input\InputModule.h" />
+    <ClInclude Include="..\..\Source\Math\GTMath.h" />
+    <ClInclude Include="..\..\Source\Script\ScriptModule.h" />
+    <ClInclude Include="..\..\Source\Sound\SoundModule.h" />
+    <ClInclude Include="..\..\Source\Templates\TList.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
