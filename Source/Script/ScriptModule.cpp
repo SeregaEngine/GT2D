@@ -107,6 +107,8 @@ void ScriptModule::DefineFunctions(lua_State* L)
     lua_register(L, "setActorState", _setActorState);
     lua_register(L, "setActorTask", _setActorTask);
     lua_register(L, "sendActorCmd", _sendActorCmd);
+    lua_register(L, "checkActorTask", _checkActorTask);
+    lua_register(L, "getActorCurrentTask", _getActorCurrentTask);
 }
 
 void ScriptModule::DefineSymbols(lua_State* L)
@@ -630,12 +632,18 @@ s32 ScriptModule::_setActorTask(lua_State* L)
         return -1;
     }
 
+    Actor* pActor = (Actor*)lua_touserdata(L, 1);
+
     switch (lua_tointeger(L, 2))
     {
 
+    case GTT_NONE:
+    {
+        pActor->SetTask(nullptr);
+    } break;
+
     case GTT_GOTO:
     {
-        Actor* pActor = (Actor*)lua_touserdata(L, 1);
         Vector2 vDestination = { GTU::UnitToScreenX((f32)lua_tonumber(L, 3)),
                                  GTU::UnitToScreenY((f32)lua_tonumber(L, 4))};
         pActor->SetTask(new GotoTask(pActor, vDestination));
@@ -651,3 +659,30 @@ s32 ScriptModule::_setActorTask(lua_State* L)
     return 0;
 }
 
+s32 ScriptModule::_checkActorTask(lua_State* L)
+{
+    if (!LuaExpect(L, "checkActorState", 1))
+        return -1;
+
+    GT_Task* pTask = static_cast<Actor*>(lua_touserdata(L, 1))->GetTask();
+    if (pTask)
+        lua_pushinteger(L, pTask->GetStatus());
+    else
+        lua_pushinteger(L, GTT_NONE);
+
+    return 1;
+}
+
+s32 ScriptModule::_getActorCurrentTask(lua_State* L)
+{
+    if (!LuaExpect(L, "getActorCurrentTask", 1))
+        return -1;
+
+    GT_Task* pTask = static_cast<Actor*>(lua_touserdata(L, 1))->GetTask();
+    if (pTask)
+        lua_pushinteger(L, pTask->GetID());
+    else
+        lua_pushinteger(L, GTT_NONE);
+
+    return 1;
+}

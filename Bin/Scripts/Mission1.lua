@@ -65,7 +65,17 @@ function handleInput()
 end
 
 function stateNPC(actor)
-  -- TODO(sean) Check if we are in progress, maybe use id in tasks to define which task is it?
-  setActorTask(actor, GTT_GOTO, 30.0, 60.0)
+  if getActorCurrentTask(actor) == GTT_GOTO then
+    GT_LOG(PR_NOTE, "Current task is GotoTask") -- DEBUG(sean)
+    local status = checkActorTask(actor)
+    if status == GTT_DONE then
+      GT_LOG(PR_NOTE, "\n\tTask is done\n\tSet nil task to actor") -- DEBUG(sean)
+      setActorTask(actor, GTT_NONE)
+      setActorState(actor, nil)
+    end
+  else
+    GT_LOG(PR_NOTE, "Set GotoTask") -- DEBUG(sean)
+	setActorTask(actor, GTT_GOTO, 30.0, 56.0)
+  end
 end
 

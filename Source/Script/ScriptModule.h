@@ -83,6 +83,9 @@ private:
     static s32 _setActorState(lua_State* L);
     static s32 _setActorTask(lua_State* L);
     static s32 _sendActorCmd(lua_State* L);
+
+    static s32 _checkActorTask(lua_State* L);
+    static s32 _getActorCurrentTask(lua_State* L);
 };
 
 extern ScriptModule g_scriptModule;

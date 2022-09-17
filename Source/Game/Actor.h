@@ -34,6 +34,7 @@ public:
     virtual void Update(f32 dtTime) override;
 
     const GT_State* GetState() const { return m_pState; }
+    GT_Task* GetTask() const { return m_pTask; }
 
     void SetState(const GT_State* pState) { m_pState = pState; }
     void SetTask(GT_Task* pTask) { RemoveTask(); m_pTask = pTask; }

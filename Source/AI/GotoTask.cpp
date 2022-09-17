@@ -19,4 +19,6 @@ void GotoTask::Handle()
         m_pActor->SendCommand(GTC_MOVE_UP);
     else if (m_vDestination.y > vPosition.y)
         m_pActor->SendCommand(GTC_MOVE_DOWN);
+
+    m_status = GTT_DONE; // DEBUG(sean)
 }
