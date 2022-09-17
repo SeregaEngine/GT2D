@@ -15,6 +15,7 @@ extern "C"
 #include "InputModule.h"
 #include "Game.h"
 #include "Actor.h"
+#include "GotoTask.h"
 
 #include "ScriptModule.h"
 
@@ -179,6 +180,16 @@ void ScriptModule::DefineSymbols(lua_State* L)
     lua_setglobal(L, "GTC_MOVE_DOWN");
     lua_pushinteger(L, GTC_MOVE_RIGHT);
     lua_setglobal(L, "GTC_MOVE_RIGHT");
+
+    lua_pushinteger(L, GTT_NONE);
+    lua_setglobal(L, "GTT_NONE");
+    lua_pushinteger(L, GTT_DONE);
+    lua_setglobal(L, "GTT_DONE");
+    lua_pushinteger(L, GTT_INPROCESS);
+    lua_setglobal(L, "GTT_INPROCESS");
+
+    lua_pushinteger(L, GTT_GOTO);
+    lua_setglobal(L, "GTT_GOTO");
 }
 
 b32 ScriptModule::LoadMission()
@@ -582,7 +593,7 @@ s32 ScriptModule::_sendActorCmd(lua_State* L)
 {
     if (lua_gettop(L) < 2)
     {
-        LuaNote(PR_ERROR, "sendActorCmd: expected at least 2 arguments but %d given", lua_gettop(L));
+        LuaNote(PR_ERROR, "sendActorCmd(): expected at least 2 arguments but %d given", lua_gettop(L));
         return -1;
     }
 
@@ -613,7 +624,30 @@ s32 ScriptModule::_setActorState(lua_State* L)
 
 s32 ScriptModule::_setActorTask(lua_State* L)
 {
-    // TODO(sean)
+    if (lua_gettop(L) < 2)
+    {
+        LuaNote(PR_WARNING, "setActorTask(): expected at least 2 arguments but %d given", lua_gettop(L));
+        return -1;
+    }
+
+    switch (lua_tointeger(L, 2))
+    {
+
+    case GTT_GOTO:
+    {
+        Actor* pActor = (Actor*)lua_touserdata(L, 1);
+        Vector2 vDestination = { GTU::UnitToScreenX((f32)lua_tonumber(L, 3)),
+                                 GTU::UnitToScreenY((f32)lua_tonumber(L, 4))};
+        pActor->SetTask(new GotoTask(pActor, vDestination));
+    } break;
+
+    default:
+    {
+        LuaNote(PR_WARNING, "setActorTask(): undefined task given: %d", lua_tointeger(L, 2));
+    } break;
+
+    }
+
     return 0;
 }
 

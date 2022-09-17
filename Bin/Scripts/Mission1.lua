@@ -65,10 +65,6 @@ function handleInput()
 end
 
 function stateNPC(actor)
-  local n = math.random(1, 4)
-  if     n == 1 then sendActorCmd(actor, GTC_MOVE_UP)
-  elseif n == 2 then sendActorCmd(actor, GTC_MOVE_LEFT)
-  elseif n == 3 then sendActorCmd(actor, GTC_MOVE_DOWN)
-  elseif n == 4 then sendActorCmd(actor, GTC_MOVE_RIGHT)
-  end
+  setActorTask(actor, GTT_GOTO, 0.0, 60.0)
 end
+

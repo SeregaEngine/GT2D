@@ -79,6 +79,7 @@ private:
 
     // Actor
     static s32 _addActor(lua_State* L);
+
     static s32 _setActorState(lua_State* L);
     static s32 _setActorTask(lua_State* L);
     static s32 _sendActorCmd(lua_State* L);
