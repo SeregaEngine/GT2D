@@ -7,7 +7,7 @@
 
 /* ====== DEFINES ====== */
 #define GT_MAX_STATES 256
-#define GT_STATE_STRSIZE 30
+#define GT_STATE_STRSIZE 32
 
 /* ====== STRUCTURES ====== */
 struct GT_State

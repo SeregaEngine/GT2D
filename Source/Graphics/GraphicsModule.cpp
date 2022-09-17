@@ -1,4 +1,5 @@
 /* ====== TODO ======
+ * - At some point we could have need in texture ID to prevent texture copies in memory
  * - Translate all drawing stuff to SDL textures
  */
 
@@ -18,7 +19,6 @@
 /* ====== STRUCTURES ====== */
 struct GT_Texture
 {
-    const char* path;
     SDL_Texture* pTexture;
     s32 textureWidth, textureHeight;
     s32 spriteWidth, spriteHeight;
@@ -42,10 +42,7 @@ b32 GraphicsModule::StartUp(SDL_Renderer* pRenderer, s32 width, s32 height)
     // Allocate textures
     m_aTextures = new GT_Texture[MAX_TEXTURES];
     for (s32 i = 0; i < MAX_TEXTURES; ++i)
-    {
-        m_aTextures[i].path = nullptr;
         m_aTextures[i].pTexture = nullptr;
-    }
 
     AddNote(PR_NOTE, "Module started");
 
@@ -64,16 +61,15 @@ void GraphicsModule::ShutDown()
 
 const GT_Texture* GraphicsModule::DefineTexture(const char* fileName, s32 spriteWidth, s32 spriteHeight)
 {
-    // Try to find free slot or already loaded texture
+    // Try to find free slot
     GT_Texture* pFree = nullptr;
     for (s32 i = 0; i < MAX_TEXTURES; ++i)
     {
-        // If texture is loaded and have the same id
-        if (m_aTextures[i].path == fileName && m_aTextures[i].pTexture)
-            return &m_aTextures[i];
-        // If we've not find free slot yet and this slot available
-        else if (!pFree && !m_aTextures[i].pTexture)
+        if (!m_aTextures[i].pTexture)
+        {
             pFree = &m_aTextures[i];
+            break;
+        }
     }
 
     // There're not slots
@@ -92,7 +88,6 @@ const GT_Texture* GraphicsModule::DefineTexture(const char* fileName, s32 sprite
     }
 
     // Set texture info
-    pFree->path = fileName;
     pFree->textureWidth = pSurface->w;
     pFree->textureHeight = pSurface->h;
     pFree->spriteWidth = spriteWidth;
@@ -115,7 +110,6 @@ void GraphicsModule::UndefineTextures()
     for (s32 i = 0; i < MAX_TEXTURES; ++i)
     {
         SDL_DestroyTexture(m_aTextures[i].pTexture);
-        m_aTextures[i].path = nullptr;
         m_aTextures[i].pTexture = nullptr;
     }
 }
