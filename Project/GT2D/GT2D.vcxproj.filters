@@ -174,5 +174,11 @@
     <ClInclude Include="..\..\Source\Templates\TList.h">
       <Filter>Templates</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\AI\GTCommand.h">
+      <Filter>AI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\AI\GTTask.h">
+      <Filter>AI</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

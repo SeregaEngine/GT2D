@@ -3,31 +3,10 @@
 
 /* ====== INCLUDES ====== */
 #include "TList.h"
-
-/* ====== DEFINES ====== */
-enum eAICommand
-{
-    GTC_MOVE_UP = 0,
-    GTC_MOVE_LEFT,
-    GTC_MOVE_DOWN,
-    GTC_MOVE_RIGHT
-};
+#include "GTTask.h"
+#include "GTCommand.h"
 
 /* ====== STRUCTURES ====== */
-
-// Actors handle commands by themselves
-struct GT_Command
-{
-    s32 cmd;
-    TList<f32> lstArgument;
-};
-
-// Tasks send commands to Actors
-class GT_Task
-{
-public:
-    virtual void Handle() = 0;
-};
 
 // States handle which tasks to do
 struct GT_State;

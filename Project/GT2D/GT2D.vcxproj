@@ -200,6 +200,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\AI\AIModule.h" />
+    <ClInclude Include="..\..\Source\AI\GTCommand.h" />
+    <ClInclude Include="..\..\Source\AI\GTTask.h" />
     <ClInclude Include="..\..\Source\Animation\AnimationModule.h" />
     <ClInclude Include="..\..\Source\Engine\ClockManager.h" />
     <ClInclude Include="..\..\Source\Engine\DebugLogManager.h" />
