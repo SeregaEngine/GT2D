@@ -98,7 +98,7 @@ inline void TList<T>::Push(T& data) {
 
 template<class T>
 inline void TList<T>::PushBack(T& data) {
-    Item* pTemp = new Item(data, m_pFirst);
+    Item* pTemp = new Item(data, nullptr);
     if (m_pLast)
         m_pLast->pNext = pTemp;
     m_pLast = pTemp;

@@ -25,7 +25,7 @@ public:
     void SetGroundBounds(SRect& rect) { m_groundBounds = rect; }
 
     const SRect& GetGroundBounds() const { return m_groundBounds; }
-    const TList<Entity*>& GetEntityList() const { return m_lstEntity; }
+    TList<Entity*>& GetEntityList() { return m_lstEntity; }
 
     void AddEntity(Entity* pEntity) { m_lstEntity.Push(pEntity); }
     void UpdateAllEntities(f32 dtTime);
