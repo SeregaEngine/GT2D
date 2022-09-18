@@ -7,6 +7,7 @@
 void Trigger::Init(const Vector2& vPosition, s32 width, s32 height, GT_Texture* pTexture)
 {
     Entity::Init(vPosition, width, height, pTexture);
+    m_bCollidable = false;
 
     memset(m_functionName, 0, TRIGGER_STRSIZE);
     m_pAttached = nullptr;

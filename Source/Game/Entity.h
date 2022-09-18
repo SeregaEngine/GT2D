@@ -17,6 +17,7 @@ protected:
     s32 m_width;
     s32 m_height;
     FRect m_hitBox; // Relative to entity position
+    b32 m_bCollidable;
     f32 m_angle;
 
     s32 m_animFrame;
@@ -37,6 +38,7 @@ public:
     s32 GetWidth() const { return m_width; }
     s32 GetHeight() const { return m_height; }
     const FRect& GetHitBox() const { return m_hitBox; }
+    b32 IsCollidable() const { return m_bCollidable; }
     f32 GetAngle() const { return m_angle; }
 
     void SetPosition(const Vector2& vPosition) { m_vPosition = vPosition; }
@@ -46,6 +48,7 @@ public:
 
     void SetWidth(s32 width) { m_width = width; }
     void SetHeight(s32 height) { m_height = height; }
+    void SetCollidable(b32 bCollidable) { m_bCollidable = bCollidable; }
     void SetAngle(f32 angle) { m_angle = angle; }
 
     void SetTexture(const GT_Texture* pTexture) { m_pTexture = pTexture; }
