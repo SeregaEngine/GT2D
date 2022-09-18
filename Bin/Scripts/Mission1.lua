@@ -31,7 +31,7 @@ function onEnter()
   -- Set up level
   setBackground(textures["background"])
   setParallax(textures["parallax"])
-  setLevelSize(TW_LOCATION * 2, TH_LOCATION)
+  setCameraBounds(0, 0, TW_LOCATION * 2, TH_LOCATION) -- setCameraBounds(x, y, width, height)
   attachCamera(entities["player"])
 
   -- Set up Actors

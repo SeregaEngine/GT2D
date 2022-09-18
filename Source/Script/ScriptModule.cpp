@@ -71,7 +71,7 @@ void ScriptModule::DefineFunctions(lua_State* L)
     lua_register(L, "attachCamera", _attachCamera);
     lua_register(L, "detachCamera", _detachCamera);
     lua_register(L, "setCameraPosition", _setCameraPosition);
-    lua_register(L, "setLevelSize", _setLevelSize);
+    lua_register(L, "setCameraBounds", _setCameraBounds);
 
     /* Sound */
     lua_register(L, "defineSound", _defineSound);
@@ -384,16 +384,16 @@ s32 ScriptModule::_setCameraPosition(lua_State* L)
     return 0;
 }
 
-s32 ScriptModule::_setLevelSize(lua_State* L)
+s32 ScriptModule::_setCameraBounds(lua_State* L)
 {
-    if (!LuaExpect(L, "setLevelSize", 2))
+    if (!LuaExpect(L, "setCameraBounds", 4))
         return -1;
 
     SRect rect = {
-        0, // x1
-        0, // y1
-        (s32)( GTU::UnitToScreenX((f32)lua_tonumber(L, 1)) ) - 1, // x2
-        (s32)( GTU::UnitToScreenY((f32)lua_tonumber(L, 2)) ) - 1, // y2
+        (s32)( GTU::UnitToScreenX((f32)lua_tonumber(L, 1)) ),
+        (s32)( GTU::UnitToScreenY((f32)lua_tonumber(L, 2)) ),
+        (s32)( GTU::UnitToScreenX((f32)lua_tonumber(L, 3)) ) - 1,
+        (s32)( GTU::UnitToScreenY((f32)lua_tonumber(L, 4)) ) - 1,
     };
 
     g_graphicsModule.GetCamera().SetBoundary(rect);
