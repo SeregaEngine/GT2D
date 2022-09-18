@@ -1,4 +1,5 @@
 /* ====== INCLUDES ====== */
+#include "Game.h"
 #include "CollisionManager.h"
 #include "ScriptModule.h"
 #include "TList.h"
@@ -30,9 +31,9 @@ void Trigger::Update(f32 dtTime)
     {
         if (it->data == m_pAttached)
         {
+            // Call trigger's function and remove it
             g_scriptModule.CallFunction(m_functionName, m_pAttached);
-            // Ask to remove this trigger
-            // TODO(sean) Use remove list or remove here?..
+            g_game.GetWorld().RemoveEntity(this);
             break;
         }
     }

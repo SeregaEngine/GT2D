@@ -74,6 +74,7 @@ public:
     // Pop only if you checked list with IsEmpty()
     void Pop();
     void PopBack();
+    void Remove(const T& data);
     void Clean();
 
     T& Front() { return m_pFirst->data; }
@@ -138,6 +139,29 @@ inline void TList<T>::PopBack() {
         delete m_pLast;
         pTemp->pNext = nullptr;
         m_pLast = pTemp;
+    }
+}
+
+template<class T>
+inline void TList<T>::Remove(const T& data) {
+    // If it's our back
+    if (m_pLast->data == data)
+    {
+        PopBack();
+        return;
+    }
+
+    // Find which item to remove
+    Item** ppItem = &m_pFirst;
+    for ( ; *ppItem && (*ppItem)->data != data; ppItem = &(*ppItem)->pNext)
+        {}
+
+    // If found
+    if (*ppItem)
+    {
+        Item* pRemove = *ppItem;
+        *ppItem = pRemove->pNext;
+        delete pRemove;
     }
 }
 

@@ -10,7 +10,9 @@ class World final : EngineModule
     GT_Texture* m_pBackground;
     GT_Texture* m_pParallax;
     SRect m_groundBounds;
+
     TList<Entity*> m_lstEntity;
+    TList<Entity*> m_lstRemove;
 public:
     World() : EngineModule("World", CHANNEL_GAME) {}
 
@@ -28,6 +30,7 @@ public:
     TList<Entity*>& GetEntityList() { return m_lstEntity; }
 
     void AddEntity(Entity* pEntity) { m_lstEntity.Push(pEntity); }
+    void RemoveEntity(Entity* pEntity) { m_lstRemove.Push(pEntity); }
     void UpdateAllEntities(f32 dtTime);
 };
 
