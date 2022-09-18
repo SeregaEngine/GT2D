@@ -396,7 +396,7 @@ s32 ScriptModule::_setCameraBounds(lua_State* L)
         (s32)( GTU::UnitToScreenY((f32)lua_tonumber(L, 4)) ) - 1,
     };
 
-    g_graphicsModule.GetCamera().SetBoundary(rect);
+    g_graphicsModule.GetCamera().SetBounds(rect);
 
     return 0;
 }
