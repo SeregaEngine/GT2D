@@ -29,3 +29,7 @@ b32f CollisionManager::IsOnGround(const Vector2& vPoint, const FRect& hitBox)
     return false;
 }
 
+void CollisionManager::GetCollidedEntities(const Vector2& vPoint, const FRect& hitBox, TList<Entity*>& lstEntity) const
+{
+
+}

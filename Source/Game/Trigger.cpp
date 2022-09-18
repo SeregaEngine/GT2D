@@ -1,5 +1,7 @@
 /* ====== INCLUDES ====== */
 #include "CollisionManager.h"
+#include "ScriptModule.h"
+#include "TList.h"
 
 #include "Trigger.h"
 
@@ -15,8 +17,24 @@ void Trigger::Init(const Vector2& vPosition, s32 width, s32 height, GT_Texture* 
 
 void Trigger::Update(f32 dtTime)
 {
-    if (m_pAttached)
+    if (!m_pAttached)
+        return;
+
+    // Get collided with trigger entities
+    TList<Entity*> lstEntity;
+    g_collisionMgr.GetCollidedEntities(m_pAttached->GetPosition(), m_pAttached->GetHitBox(), lstEntity);
+
+    // Try to find our Attached entity
+    auto end = lstEntity.End();
+    for (auto it = lstEntity.Begin(); it != end; ++it)
     {
-        // TODO(sean) Call collision manager, check collided list for our attached entity
+        if (it->data == m_pAttached)
+        {
+            g_scriptModule.CallFunction(m_functionName, m_pAttached);
+            break;
+        }
     }
+
+    // Ask to remove this trigger
+    // TODO(sean) Use remove list or remove here?..
 }

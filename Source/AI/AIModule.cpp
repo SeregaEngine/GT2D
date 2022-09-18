@@ -59,7 +59,7 @@ const GT_State* AIModule::DefineState(const char* functionName)
 void AIModule::HandleState(Actor* pActor)
 {
     if (pActor->GetState())
-        g_scriptModule.CallStateFunction(pActor, pActor->GetState()->functionName);
+        g_scriptModule.CallFunction(pActor->GetState()->functionName, pActor);
 }
 
 void AIModule::AddNote(s32 priority, const char* fmt, ...)

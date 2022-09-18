@@ -278,12 +278,12 @@ void ScriptModule::UpdateMission(f32 dtTime)
     lua_pcall(m_pMission, 1, 0, 0);
 }
 
-void ScriptModule::CallStateFunction(Actor* pActor, const char* functionName)
+void ScriptModule::CallFunction(const char* functionName, void* userdata)
 {
     // Check for null
     if (!functionName)
     {
-        AddNote(PR_WARNING, "CallStateFunction: called with null functionName");
+        AddNote(PR_WARNING, "CallFunction: called with null functionName");
         return;
     }
 
@@ -292,12 +292,12 @@ void ScriptModule::CallStateFunction(Actor* pActor, const char* functionName)
     if (!lua_isfunction(m_pMission, -1))
     {
         lua_pop(m_pMission, 1);
-        AddNote(PR_WARNING, "CallStateFunction(): there're no function %s", functionName);
+        AddNote(PR_WARNING, "CallFunction(): there're no %s function", functionName);
         return;
     }
 
     // Call function
-    lua_pushlightuserdata(m_pMission, pActor);
+    lua_pushlightuserdata(m_pMission, userdata);
     lua_pcall(m_pMission, 1, 0, 0);
 }
 

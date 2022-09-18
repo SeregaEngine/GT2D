@@ -3,10 +3,13 @@
 
 /* ====== INCLUDES ====== */
 #include "GTMath.h"
+#include "TList.h"
 
 #include "EngineModule.h"
 
 /* ====== STRUCTURES ====== */
+class Entity;
+
 class CollisionManager final : public EngineModule
 {
 public:
@@ -16,6 +19,7 @@ public:
     void ShutDown();
 
     b32f IsOnGround(const Vector2& vPoint, const FRect& hitBox);
+    void GetCollidedEntities(const Vector2& vPoint, const FRect& hitBox, TList<Entity*>& lstEntity) const;
 };
 
 extern CollisionManager g_collisionMgr;

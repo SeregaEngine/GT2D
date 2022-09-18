@@ -26,7 +26,7 @@ public:
     void UnloadMission();
     void UpdateMission(f32 dtTime);
 
-    void CallStateFunction(Actor* pActor, const char* functionName);
+    void CallFunction(const char* functionName, void* userdata);
 private:
     void DefineFunctions(lua_State* L);
     void DefineSymbols(lua_State* L);
