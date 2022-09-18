@@ -1,7 +1,6 @@
 /* ====== INCLUDES ====== */
 #include "GraphicsModule.h"
 #include "PlayState.h"
-#include "ClockManager.h"
 
 #include "Game.h"
 
@@ -16,9 +15,6 @@ b32 Game::StartUp()
 
     m_pCurrentState = new PlayState();
     m_pCurrentState->OnEnter();
-
-    // Stabilize delta time
-    g_clockMgr.GetDelta();
 
     AddNote(PR_NOTE, "Module started");
 

@@ -74,7 +74,7 @@
     <OutDir>..\..\Bin\</OutDir>
     <IntDir>..\..\Build\</IntDir>
     <TargetName>GT2D</TargetName>
-    <IncludePath>C:\Workshop\GT2D\Source\Templates;C:\Workshop\GT2D\Source\Sound;C:\Workshop\GT2D\Source\Script;C:\Workshop\GT2D\Source\Math;C:\Workshop\GT2D\Source\Input;C:\Workshop\GT2D\Source\Graphics;C:\Workshop\GT2D\Source\Game;C:\Workshop\GT2D\Source\Engine;C:\Workshop\GT2D\Source\Animation;C:\Workshop\GT2D\Source\AI;C:\Workshop\GT2D\ThirdParty\Lua\Include;C:\Workshop\GT2D\ThirdParty\SDL\Include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Workshop\GT2D\Source\Collision;C:\Workshop\GT2D\Source\Templates;C:\Workshop\GT2D\Source\Sound;C:\Workshop\GT2D\Source\Script;C:\Workshop\GT2D\Source\Math;C:\Workshop\GT2D\Source\Input;C:\Workshop\GT2D\Source\Graphics;C:\Workshop\GT2D\Source\Game;C:\Workshop\GT2D\Source\Engine;C:\Workshop\GT2D\Source\Animation;C:\Workshop\GT2D\Source\AI;C:\Workshop\GT2D\ThirdParty\Lua\Include;C:\Workshop\GT2D\ThirdParty\SDL\Include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Workshop\GT2D\ThirdParty\Lua\Libs\;C:\Workshop\GT2D\ThirdParty\SDL\Libs;$(LibraryPath)</LibraryPath>
     <SourcePath>$(SourcePath)</SourcePath>
   </PropertyGroup>
@@ -82,7 +82,7 @@
     <OutDir>..\..\Bin\</OutDir>
     <IntDir>..\..\Build\</IntDir>
     <TargetName>GT2D</TargetName>
-    <IncludePath>C:\Workshop\GT2D\Source\Templates;C:\Workshop\GT2D\Source\Sound;C:\Workshop\GT2D\Source\Script;C:\Workshop\GT2D\Source\Math;C:\Workshop\GT2D\Source\Input;C:\Workshop\GT2D\Source\Graphics;C:\Workshop\GT2D\Source\Game;C:\Workshop\GT2D\Source\Engine;C:\Workshop\GT2D\Source\Animation;C:\Workshop\GT2D\Source\AI;C:\Workshop\GT2D\ThirdParty\Lua\Include;C:\Workshop\GT2D\ThirdParty\SDL\Include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Workshop\GT2D\Source\Collision;C:\Workshop\GT2D\Source\Templates;C:\Workshop\GT2D\Source\Sound;C:\Workshop\GT2D\Source\Script;C:\Workshop\GT2D\Source\Math;C:\Workshop\GT2D\Source\Input;C:\Workshop\GT2D\Source\Graphics;C:\Workshop\GT2D\Source\Game;C:\Workshop\GT2D\Source\Engine;C:\Workshop\GT2D\Source\Animation;C:\Workshop\GT2D\Source\AI;C:\Workshop\GT2D\ThirdParty\Lua\Include;C:\Workshop\GT2D\ThirdParty\SDL\Include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Workshop\GT2D\ThirdParty\Lua\Libs\;C:\Workshop\GT2D\ThirdParty\SDL\Libs;$(LibraryPath)</LibraryPath>
     <SourcePath>$(SourcePath)</SourcePath>
   </PropertyGroup>
@@ -90,7 +90,7 @@
     <OutDir>..\..\Bin\</OutDir>
     <IntDir>..\..\Build\</IntDir>
     <TargetName>GT2D</TargetName>
-    <IncludePath>C:\Workshop\GT2D\Source\Templates;C:\Workshop\GT2D\Source\Sound;C:\Workshop\GT2D\Source\Script;C:\Workshop\GT2D\Source\Math;C:\Workshop\GT2D\Source\Input;C:\Workshop\GT2D\Source\Graphics;C:\Workshop\GT2D\Source\Game;C:\Workshop\GT2D\Source\Engine;C:\Workshop\GT2D\Source\Animation;C:\Workshop\GT2D\Source\AI;C:\Workshop\GT2D\ThirdParty\Lua\Include;C:\Workshop\GT2D\ThirdParty\SDL\Include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Workshop\GT2D\Source\Collision;C:\Workshop\GT2D\Source\Templates;C:\Workshop\GT2D\Source\Sound;C:\Workshop\GT2D\Source\Script;C:\Workshop\GT2D\Source\Math;C:\Workshop\GT2D\Source\Input;C:\Workshop\GT2D\Source\Graphics;C:\Workshop\GT2D\Source\Game;C:\Workshop\GT2D\Source\Engine;C:\Workshop\GT2D\Source\Animation;C:\Workshop\GT2D\Source\AI;C:\Workshop\GT2D\ThirdParty\Lua\Include;C:\Workshop\GT2D\ThirdParty\SDL\Include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Workshop\GT2D\ThirdParty\Lua\Libs\;C:\Workshop\GT2D\ThirdParty\SDL\Libs;$(LibraryPath)</LibraryPath>
     <SourcePath>$(SourcePath)</SourcePath>
   </PropertyGroup>
@@ -98,7 +98,7 @@
     <OutDir>..\..\Bin\</OutDir>
     <IntDir>..\..\Build\</IntDir>
     <TargetName>GT2D</TargetName>
-    <IncludePath>C:\Workshop\GT2D\Source\Templates;C:\Workshop\GT2D\Source\Sound;C:\Workshop\GT2D\Source\Script;C:\Workshop\GT2D\Source\Math;C:\Workshop\GT2D\Source\Input;C:\Workshop\GT2D\Source\Graphics;C:\Workshop\GT2D\Source\Game;C:\Workshop\GT2D\Source\Engine;C:\Workshop\GT2D\Source\Animation;C:\Workshop\GT2D\Source\AI;C:\Workshop\GT2D\ThirdParty\Lua\Include;C:\Workshop\GT2D\ThirdParty\SDL\Include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Workshop\GT2D\Source\Collision;C:\Workshop\GT2D\Source\Templates;C:\Workshop\GT2D\Source\Sound;C:\Workshop\GT2D\Source\Script;C:\Workshop\GT2D\Source\Math;C:\Workshop\GT2D\Source\Input;C:\Workshop\GT2D\Source\Graphics;C:\Workshop\GT2D\Source\Game;C:\Workshop\GT2D\Source\Engine;C:\Workshop\GT2D\Source\Animation;C:\Workshop\GT2D\Source\AI;C:\Workshop\GT2D\ThirdParty\Lua\Include;C:\Workshop\GT2D\ThirdParty\SDL\Include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Workshop\GT2D\ThirdParty\Lua\Libs\;C:\Workshop\GT2D\ThirdParty\SDL\Libs;$(LibraryPath)</LibraryPath>
     <SourcePath>$(SourcePath)</SourcePath>
   </PropertyGroup>
@@ -176,6 +176,7 @@
     <ClCompile Include="..\..\Source\AI\AIModule.cpp" />
     <ClCompile Include="..\..\Source\AI\GotoTask.cpp" />
     <ClCompile Include="..\..\Source\Animation\AnimationModule.cpp" />
+    <ClCompile Include="..\..\Source\Collision\CollisionManager.cpp" />
     <ClCompile Include="..\..\Source\Engine\ClockManager.cpp" />
     <ClCompile Include="..\..\Source\Engine\DebugLogManager.cpp" />
     <ClCompile Include="..\..\Source\Engine\EngineModule.cpp" />
@@ -205,6 +206,7 @@
     <ClInclude Include="..\..\Source\AI\GTCommand.h" />
     <ClInclude Include="..\..\Source\AI\GTTask.h" />
     <ClInclude Include="..\..\Source\Animation\AnimationModule.h" />
+    <ClInclude Include="..\..\Source\Collision\CollisionManager.h" />
     <ClInclude Include="..\..\Source\Engine\ClockManager.h" />
     <ClInclude Include="..\..\Source\Engine\DebugLogManager.h" />
     <ClInclude Include="..\..\Source\Engine\EngineModule.h" />

@@ -96,6 +96,7 @@ void ScriptModule::DefineFunctions(lua_State* L)
     // Background stuff
     lua_register(L, "setBackground", _setBackground);
     lua_register(L, "setParallax", _setParallax);
+    lua_register(L, "setGroundBounds", _setGroundBounds);
 
     // Entities
     lua_register(L, "addEntity", _addEntity);
@@ -389,12 +390,11 @@ s32 ScriptModule::_setCameraBounds(lua_State* L)
     if (!LuaExpect(L, "setCameraBounds", 4))
         return -1;
 
-    SRect rect = {
-        (s32)( GTU::UnitToScreenX((f32)lua_tonumber(L, 1)) ),
-        (s32)( GTU::UnitToScreenY((f32)lua_tonumber(L, 2)) ),
-        (s32)( GTU::UnitToScreenX((f32)lua_tonumber(L, 3)) ) - 1,
-        (s32)( GTU::UnitToScreenY((f32)lua_tonumber(L, 4)) ) - 1,
-    };
+    SRect rect;
+    rect.x1 = (s32)( GTU::UnitToScreenX((f32)lua_tonumber(L, 1)) );
+    rect.y1 = (s32)( GTU::UnitToScreenY((f32)lua_tonumber(L, 2)) );
+    rect.x2 = rect.x1 + (s32)( GTU::UnitToScreenX((f32)lua_tonumber(L, 3)) ) - 1;
+    rect.y2 = rect.y1 + (s32)( GTU::UnitToScreenY((f32)lua_tonumber(L, 4)) ) - 1;
 
     g_graphicsModule.GetCamera().SetBounds(rect);
 
@@ -417,6 +417,22 @@ s32 ScriptModule::_setParallax(lua_State* L)
         return -1;
 
     g_game.GetWorld().SetParallax( (GT_Texture*)lua_touserdata(L, 1) );
+
+    return 0;
+}
+
+s32 ScriptModule::_setGroundBounds(lua_State* L)
+{
+    if (!LuaExpect(L, "setGroundBounds", 4))
+        return -1;
+
+    SRect rect;
+    rect.x1 = (s32)( GTU::UnitToScreenX((f32)lua_tonumber(L, 1)) );
+    rect.y1 = (s32)( GTU::UnitToScreenY((f32)lua_tonumber(L, 2)) );
+    rect.x2 = rect.x1 + (s32)( GTU::UnitToScreenX((f32)lua_tonumber(L, 3)) ) - 1;
+    rect.y2 = rect.y1 + (s32)( GTU::UnitToScreenY((f32)lua_tonumber(L, 4)) ) - 1,
+
+    g_game.GetWorld().SetGroundBounds(rect);
 
     return 0;
 }

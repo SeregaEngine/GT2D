@@ -18,6 +18,7 @@
 #include "AIModule.h"
 #include "ScriptModule.h"
 #include "Game.h"
+#include "CollisionManager.h"
 
 #include "GT2D.h"
 
@@ -77,8 +78,6 @@ b32 GT2D::StartUp()
     }
 
     { // Start up engine`s modules
-        if (!g_clockMgr.StartUp(FPS))
-            return false;
         if (!GTM::StartUp())
             return false;
         if (!g_graphicsModule.StartUp(m_pRenderer, SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -94,6 +93,10 @@ b32 GT2D::StartUp()
         if (!g_scriptModule.StartUp())
             return false;
         if (!g_game.StartUp())
+            return false;
+        if (!g_collisionMgr.StartUp())
+            return false;
+        if (!g_clockMgr.StartUp(FPS))
             return false;
     }
 
@@ -115,6 +118,8 @@ void GT2D::ShutDown()
     }
 
     { // Shut down engine's modules
+        g_clockMgr.ShutDown();
+        g_collisionMgr.ShutDown();
         g_game.ShutDown();
         g_scriptModule.ShutDown();
         g_AIModule.ShutDown();
@@ -123,7 +128,6 @@ void GT2D::ShutDown()
         g_inputModule.ShutDown();
         g_graphicsModule.ShutDown();
         GTM::ShutDown();
-        g_clockMgr.ShutDown();
     }
 
     AddNote(PR_NOTE, "Engine shut down");

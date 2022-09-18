@@ -39,6 +39,9 @@
     <Filter Include="Lua Scripts">
       <UniqueIdentifier>{cf39e093-c64c-4501-b65d-a7ade6640ad8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Collision">
+      <UniqueIdentifier>{94605afb-2e90-4d46-a2ed-ad0b0af2d03a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\AI\AIModule.cpp">
@@ -100,6 +103,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\main.cpp">
       <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Collision\CollisionManager.cpp">
+      <Filter>Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -185,6 +191,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\AI\GotoTask.h">
       <Filter>AI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Collision\CollisionManager.h">
+      <Filter>Collision</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

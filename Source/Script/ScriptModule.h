@@ -68,9 +68,10 @@ private:
     static s32 _stopGame(lua_State* L);
 
     /* World */
-    // Background
+    // World's stuff
     static s32 _setBackground(lua_State* L);
     static s32 _setParallax(lua_State* L);
+    static s32 _setGroundBounds(lua_State* L);
 
     // Entity
     static s32 _addEntity(lua_State* L);

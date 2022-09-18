@@ -5,7 +5,7 @@
 #include <Types.h>
 
 /* ====== DEFINES ====== */
-enum eGTTaskStatus
+enum eGT_TaskStatus
 {
     GTT_DONE = 1,
     GTT_INPROCESS = 2,
@@ -13,7 +13,7 @@ enum eGTTaskStatus
     GTT_STATUS_END
 };
 
-enum eGTTaskID
+enum eGT_TaskID
 {
     GTT_TASK_START = GTT_STATUS_END,
 

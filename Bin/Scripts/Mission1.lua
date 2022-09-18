@@ -1,6 +1,15 @@
 dofile "Scripts/GraphicsDefines.lua"
 
 -- Defines
+CAMERA_X = 0
+CAMERA_Y = 0
+CAMERA_WIDTH = SCREEN_WIDTH * 2
+CAMERA_HEIGHT = SCREEN_HEIGHT
+
+GROUND_WIDTH = SCREEN_WIDTH * 2
+GROUND_HEIGHT = 20
+GROUND_X = 0
+GROUND_Y = SCREEN_HEIGHT - GROUND_HEIGHT
 
 -- Variables
 local textures = {}
@@ -31,7 +40,9 @@ function onEnter()
   -- Set up level
   setBackground(textures["background"])
   setParallax(textures["parallax"])
-  setCameraBounds(0, 0, TW_LOCATION * 2, TH_LOCATION) -- setCameraBounds(x, y, width, height)
+  setGroundBounds(GROUND_X, GROUND_Y, GROUND_WIDTH, GROUND_HEIGHT)
+
+  setCameraBounds(CAMERA_X, CAMERA_Y, CAMERA_WIDTH, CAMERA_HEIGHT)
   attachCamera(entities["player"])
 
   -- Set up Actors

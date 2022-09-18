@@ -9,6 +9,7 @@ class World final : EngineModule
 {
     GT_Texture* m_pBackground;
     GT_Texture* m_pParallax;
+    SRect m_groundBounds;
     TList<Entity*> m_lstEntity;
 public:
     World() : EngineModule("World", CHANNEL_GAME) {}
@@ -21,6 +22,10 @@ public:
 
     void SetBackground(GT_Texture* pTexture) { m_pBackground = pTexture; }
     void SetParallax(GT_Texture* pTexture) { m_pParallax = pTexture; }
+    void SetGroundBounds(SRect& rect) { m_groundBounds = rect; }
+
+    const SRect& GetGroundBounds() const { return m_groundBounds; }
+    const TList<Entity*>& GetEntityList() const { return m_lstEntity; }
 
     void AddEntity(Entity* pEntity) { m_lstEntity.Push(pEntity); }
     void UpdateAllEntities(f32 dtTime);

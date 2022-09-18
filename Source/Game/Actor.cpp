@@ -1,6 +1,7 @@
 /* ====== INCLUDES ====== */
 #include "Game.h"
 #include "InputModule.h"
+#include "CollisionManager.h"
 #include "GTUnit.h"
 
 #include "Actor.h"
@@ -67,9 +68,9 @@ void Actor::HandleCommand(f32 dtTime)
         GT_Command& cmd = m_lstCommand.Front();
         switch (cmd.cmd)
         {
-        case GTC_MOVE_UP: { m_vVelocity.y -= GTU::UnitToScreenY(ACTOR_UNIT_SPEED_Y) * dtTime; } break;
-        case GTC_MOVE_LEFT: { m_vVelocity.x -= GTU::UnitToScreenX(ACTOR_UNIT_SPEED_X) * dtTime; } break;
-        case GTC_MOVE_DOWN: { m_vVelocity.y += GTU::UnitToScreenY(ACTOR_UNIT_SPEED_Y) * dtTime; } break;
+        case GTC_MOVE_UP:    { m_vVelocity.y -= GTU::UnitToScreenY(ACTOR_UNIT_SPEED_Y) * dtTime; } break;
+        case GTC_MOVE_LEFT:  { m_vVelocity.x -= GTU::UnitToScreenX(ACTOR_UNIT_SPEED_X) * dtTime; } break;
+        case GTC_MOVE_DOWN:  { m_vVelocity.y += GTU::UnitToScreenY(ACTOR_UNIT_SPEED_Y) * dtTime; } break;
         case GTC_MOVE_RIGHT: { m_vVelocity.x += GTU::UnitToScreenX(ACTOR_UNIT_SPEED_X) * dtTime; } break;
 
         default: break;
@@ -78,7 +79,26 @@ void Actor::HandleCommand(f32 dtTime)
     }
 
     // Update position
-    m_vPosition += m_vVelocity;
+    Vector2 vNewPosition = m_vPosition + m_vVelocity;
+    // TODO(sean) ask collision mgr where we can place ourselves
+    if (!g_collisionMgr.IsOnGround(vNewPosition, m_hitBox))
+    {
+        // Try move only through x-axis
+        vNewPosition.y -= m_vVelocity.y;
+        if (!g_collisionMgr.IsOnGround(vNewPosition, m_hitBox))
+        {
+            // Try to move only through y-axis
+            vNewPosition.x -= m_vVelocity.x;
+            vNewPosition.y += m_vVelocity.y;
+            if (!g_collisionMgr.IsOnGround(vNewPosition, m_hitBox))
+            {
+                // So we'll not move...
+                vNewPosition.y -= m_vVelocity.y;
+            }
+        }
+    }
+
+    m_vPosition = vNewPosition;
 }
 
 void Actor::HandleAnimation(f32 dtTime)
