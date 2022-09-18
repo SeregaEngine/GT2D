@@ -554,7 +554,7 @@ s32 ScriptModule::_addEntity(lua_State* L)
     pEntity->Init(vPosition, width, height, pTexture);
 
     // Push him to the world
-    g_game.GetWorld().AddEntity(pEntity);
+    g_game.GetWorld().PushEntity(pEntity);
 
     // Return pointer to lua
     lua_pushlightuserdata(L, pEntity);
@@ -603,7 +603,7 @@ s32 ScriptModule::_addActor(lua_State* L)
     pActor->Init(vPosition, width, height, pTexture);
 
     // Push him to the world
-    g_game.GetWorld().AddEntity(pActor);
+    g_game.GetWorld().PushEntity(pActor);
 
     // Return pointer to lua
     lua_pushlightuserdata(L, pActor);
@@ -726,7 +726,7 @@ s32 ScriptModule::_addTrigger(lua_State* L)
     pTrigger->SetFunctionName(lua_tostring(L, 6));
 
     // Push entity to the world
-    g_game.GetWorld().AddEntity(pTrigger);
+    g_game.GetWorld().PushEntity(pTrigger);
 
     return 1;
 }

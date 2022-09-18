@@ -29,7 +29,7 @@ public:
     const SRect& GetGroundBounds() const { return m_groundBounds; }
     TList<Entity*>& GetEntityList() { return m_lstEntity; }
 
-    void AddEntity(Entity* pEntity) { m_lstEntity.Push(pEntity); }
+    void PushEntity(Entity* pEntity) { m_lstEntity.Push(pEntity); }
     void RemoveEntity(Entity* pEntity) { m_lstRemove.Push(pEntity); }
     void UpdateAllEntities(f32 dtTime);
 };
