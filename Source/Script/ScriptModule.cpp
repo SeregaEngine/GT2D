@@ -602,7 +602,7 @@ s32 ScriptModule::_sendActorCmd(lua_State* L)
     // Init command
     GT_Command cmd;
     cmd.cmd = (s32)lua_tointeger(L, 2);
-    for (s32 i = 3; i <= lua_gettop(L); i++)
+    for (i32f i = 3; i <= lua_gettop(L); i++)
     {
         f32 arg = (f32)lua_tonumber(L, i);
         cmd.lstArgument.PushBack(arg);

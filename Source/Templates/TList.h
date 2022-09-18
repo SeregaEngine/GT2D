@@ -20,30 +20,30 @@ private:
     struct Item
     {
         T data;
-        Item* next;
+        Item* pNext;
 
-        Item() : data(), next(nullptr) {}
-        Item(T& _data, Item* _next) : data(_data), next(_next) {}
+        Item() : data(), pNext(nullptr) {}
+        Item(T& _data, Item* _pNext) : data(_data), pNext(_pNext) {}
         ~Item() {}
     };
 
 public:
     struct Iterator
     {
-        Item* item;
+        Item* pItem;
 
-        Iterator() : item(nullptr) {}
-        Iterator(Item* _item) : item(_item) {}
+        Iterator() : pItem(nullptr) {}
+        Iterator(Item* _pItem) : pItem(_pItem) {}
         ~Iterator() {}
 
-        Iterator operator=(Item* _item) { item = _item; return *this; }
-        void operator++() { item = item->next; }
-        Iterator operator++(int) { item = item->next; return *this; }
+        Iterator operator=(Item* _pItem) { pItem = _pItem; return *this; }
+        void operator++() { pItem = pItem->pNext; }
+        Iterator operator++(int) { pItem = pItem->pNext; return *this; }
 
-        b32 operator!=(Iterator it) { return item != it.item; }
-        b32 operator!=(void* ptr) { return item != ptr; }
+        b32 operator!=(Iterator it) { return pItem != it.pItem; }
+        b32 operator!=(void* ptr) { return pItem != ptr; }
 
-        Item* operator->() { return item; }
+        Item* operator->() { return pItem; }
     };
 
     Item *m_pFirst, *m_pLast;
@@ -100,7 +100,7 @@ template<class T>
 inline void TList<T>::PushBack(T& data) {
     Item* pTemp = new Item(data, m_pFirst);
     if (m_pLast)
-        m_pLast->next = pTemp;
+        m_pLast->pNext = pTemp;
     m_pLast = pTemp;
 
     if (!m_pFirst)
@@ -117,7 +117,7 @@ inline void TList<T>::Pop() {
     else
     {
         Item* pTemp = m_pFirst;
-        m_pFirst = m_pFirst->next;
+        m_pFirst = m_pFirst->pNext;
         delete pTemp;
     }
 }
@@ -132,11 +132,11 @@ inline void TList<T>::PopBack() {
     else
     {
         Item* pTemp;
-        for (pTemp = m_pFirst; pTemp->next != m_pLast; pTemp = pTemp->next)
+        for (pTemp = m_pFirst; pTemp->pNext != m_pLast; pTemp = pTemp->pNext)
             {}
 
         delete m_pLast;
-        pTemp->next = nullptr;
+        pTemp->pNext = nullptr;
         m_pLast = pTemp;
     }
 }
@@ -146,7 +146,7 @@ inline void TList<T>::Clean() {
     while (m_pFirst)
     {
         Item* pTemp = m_pFirst;
-        m_pFirst = m_pFirst->next;
+        m_pFirst = m_pFirst->pNext;
         delete pTemp;
     }
 
@@ -156,13 +156,13 @@ inline void TList<T>::Clean() {
 
 template<class T>
 inline void TList<T>::Mapcar(void (*fun)(T, void*), void* userdata) {
-    for (Item* pTemp = m_pFirst; pTemp; pTemp = pTemp->next)
+    for (Item* pTemp = m_pFirst; pTemp; pTemp = pTemp->pNext)
         fun(pTemp->data, userdata);
 }
 
 template<class T>
 inline void TList<T>::Mapcar(void (*fun)(T)) {
-    for (Item* pTemp = m_pFirst; pTemp; pTemp = pTemp->next)
+    for (Item* pTemp = m_pFirst; pTemp; pTemp = pTemp->pNext)
         fun(pTemp->data);
 }
 

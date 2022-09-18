@@ -31,12 +31,12 @@ void Actor::Init(const Vector2& vPosition, s32 width, s32 height, GT_Texture* pT
     m_pTask = nullptr;
 
     // Init actor animations
-    for (s32 i = 0; i < MAX_ACTOR_ANIMATIONS; ++i)
+    for (i32f i = 0; i < MAX_ACTOR_ANIMATIONS; ++i)
         m_aActorAnims[i] = nullptr;
 
     { // DEBUG(sean)
         const GT_Animation* aAnims[MAX_ACTOR_ANIMATIONS];
-        for (s32 i = 0; i < MAX_ACTOR_ANIMATIONS; ++i)
+        for (i32f i = 0; i < MAX_ACTOR_ANIMATIONS; ++i)
             aAnims[i] = g_animModule.DefineAnimation(s_aActorAnims[i]);
         SetActorAnims(aAnims);
     }
@@ -52,7 +52,7 @@ void Actor::Update(f32 dtTime)
 
 void Actor::SetActorAnims(const GT_Animation* aActorAnims[])
 {
-    for (s32 i = 0; i < MAX_ACTOR_ANIMATIONS; ++i)
+    for (i32f i = 0; i < MAX_ACTOR_ANIMATIONS; ++i)
         m_aActorAnims[i] = aActorAnims[i];
 }
 

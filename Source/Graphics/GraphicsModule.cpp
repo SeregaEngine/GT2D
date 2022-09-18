@@ -41,7 +41,7 @@ b32 GraphicsModule::StartUp(SDL_Renderer* pRenderer, s32 width, s32 height)
 
     // Allocate textures
     m_aTextures = new GT_Texture[MAX_TEXTURES];
-    for (s32 i = 0; i < MAX_TEXTURES; ++i)
+    for (i32f i = 0; i < MAX_TEXTURES; ++i)
         m_aTextures[i].pTexture = nullptr;
 
     AddNote(PR_NOTE, "Module started");
@@ -52,7 +52,7 @@ b32 GraphicsModule::StartUp(SDL_Renderer* pRenderer, s32 width, s32 height)
 void GraphicsModule::ShutDown()
 {
     // Free memory
-    for (s32 i = 0; i < MAX_TEXTURES; ++i)
+    for (i32f i = 0; i < MAX_TEXTURES; ++i)
         SDL_DestroyTexture(m_aTextures[i].pTexture);
     delete[] m_aTextures;
 
@@ -63,7 +63,7 @@ const GT_Texture* GraphicsModule::DefineTexture(const char* fileName, s32 sprite
 {
     // Try to find free slot
     GT_Texture* pFree = nullptr;
-    for (s32 i = 0; i < MAX_TEXTURES; ++i)
+    for (i32f i = 0; i < MAX_TEXTURES; ++i)
     {
         if (!m_aTextures[i].pTexture)
         {
@@ -107,7 +107,7 @@ const GT_Texture* GraphicsModule::DefineTexture(const char* fileName, s32 sprite
 
 void GraphicsModule::UndefineTextures()
 {
-    for (s32 i = 0; i < MAX_TEXTURES; ++i)
+    for (i32f i = 0; i < MAX_TEXTURES; ++i)
     {
         SDL_DestroyTexture(m_aTextures[i].pTexture);
         m_aTextures[i].pTexture = nullptr;
@@ -187,7 +187,7 @@ void GraphicsModule::DrawLine8(u8* videoBuffer, s32 pitch, s32 color, s32 fromX,
         // Set error according to start position
         error = dy2 - dx;
 
-        for (s32 i = 0; i < dx; i++)
+        for (i32f i = 0; i < dx; i++)
         {
             // Set color
             *videoBuffer = (u8)color;
@@ -211,7 +211,7 @@ void GraphicsModule::DrawLine8(u8* videoBuffer, s32 pitch, s32 color, s32 fromX,
         // Set error according to start position
         error = dx2 - dy;
 
-        for (s32 i = 0; i < dy; i++)
+        for (i32f i = 0; i < dy; i++)
         {
             // Set color
             *videoBuffer = (u8)color;
@@ -237,7 +237,7 @@ void GraphicsModule::DrawPoly2(const Poly2* poly, u8* videoBuffer, s32 pitch) co
     if (!poly || !poly->state)
         return;
 
-    for (s32 i = 0; i < poly->vtxCount-1; ++i)
+    for (i32f i = 0; i < poly->vtxCount-1; ++i)
         DrawLine8(videoBuffer, pitch, poly->color, (s32)(poly->x + poly->aVtx[i].x), (s32)(poly->y + (s32)poly->aVtx[i].y),
                                                    (s32)(poly->x + poly->aVtx[i+1].x), (s32)(poly->y + poly->aVtx[i+1].y));
 
@@ -350,7 +350,7 @@ void GraphicsModule::DrawTopTriangle(u8* videoBuffer, s32 pitch, s32 color, s32 
         x2 >= 0 && x2 < m_screenWidth &&
         x3 >= 0 && x3 < m_screenWidth)
     {
-        for (s32 y = y1; y <= y3; y++)
+        for (i32f y = y1; y <= y3; y++)
         {
             memset(videoBuffer+(s32)startX, (u8)color, (s32)(endX-startX)+1);
 
@@ -361,7 +361,7 @@ void GraphicsModule::DrawTopTriangle(u8* videoBuffer, s32 pitch, s32 color, s32 
     }
     else // So we need...
     {
-        for (s32 y = y1; y <= y3; y++)
+        for (i32f y = y1; y <= y3; y++)
         {
             // X clipping
             s32 left = (s32)startX;
@@ -430,7 +430,7 @@ void GraphicsModule::DrawBottomTriangle(u8* videoBuffer, s32 pitch, s32 color, s
         x2 >= 0 && x2 < m_screenWidth &&
         x3 >= 0 && x3 < m_screenWidth)
     {
-        for (s32 y = y1; y <= y3; y++)
+        for (i32f y = y1; y <= y3; y++)
         {
             memset(videoBuffer+(s32)startX, (u8)color, (s32)(endX-startX)+1);
 
@@ -441,7 +441,7 @@ void GraphicsModule::DrawBottomTriangle(u8* videoBuffer, s32 pitch, s32 color, s
     }
     else // So we need...
     {
-        for (s32 y = y1; y <= y3; y++)
+        for (i32f y = y1; y <= y3; y++)
         {
             // X clipping
             s32 left = (s32)startX;
@@ -531,7 +531,7 @@ LPDIRECTDRAWSURFACE7 GraphicsModule::LoadBMP(const char* fileName) const
     s32 surfacePitch = DDSurfaceDesc.lPitch;
     s32 bmpPitch = bmp.info.biWidth * (bmp.info.biBitCount/8);
 
-    for (s32 i = 0; i < bmp.info.biHeight; i++)
+    for (i32f i = 0; i < bmp.info.biHeight; i++)
     {
         memcpy(dst, src, bmpPitch); // TODO/NOTE(sean) bitmap buffer contains pixels in BGR format
 
@@ -701,7 +701,7 @@ LPDIRECTDRAWCLIPPER GraphicsModule::AttachClipper(LPDIRECTDRAWSURFACE7 pDDSurfac
     pRegionData->rdh.rcBound.bottom = -64000;
 
     // Resize bound
-    for (s32 i = 0; i < count; ++i)
+    for (i32f i = 0; i < count; ++i)
     {
         // Left
         if (clipList[i].left < pRegionData->rdh.rcBound.left)

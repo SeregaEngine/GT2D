@@ -31,11 +31,11 @@ b32 SoundModule::StartUp()
 {
     // Init sounds
     m_aSounds = new GT_Sound[MAX_SOUNDS];
-    for (s32 i = 0; i < MAX_SOUNDS; ++i)
+    for (i32f i = 0; i < MAX_SOUNDS; ++i)
         m_aSounds[i].pSound = nullptr;
 
     m_aMusics = new GT_Music[MAX_MUSICS];
-    for (s32 i = 0; i < MAX_MUSICS; ++i)
+    for (i32f i = 0; i < MAX_MUSICS; ++i)
         m_aMusics[i].pMusic = nullptr;
 
     AddNote(PR_NOTE, "Module started");
@@ -55,7 +55,7 @@ void SoundModule::ShutDown()
 
 GT_Sound* SoundModule::DefineWAV(const char* fileName)
 {
-    for (s32 i = 0; i < MAX_SOUNDS; ++i)
+    for (i32f i = 0; i < MAX_SOUNDS; ++i)
     {
         if (!m_aSounds[i].pSound)
         {
@@ -76,7 +76,7 @@ GT_Sound* SoundModule::DefineWAV(const char* fileName)
 
 GT_Music* SoundModule::DefineMusic(const char* fileName)
 {
-    for (s32 i = 0; i < MAX_MUSICS; ++i)
+    for (i32f i = 0; i < MAX_MUSICS; ++i)
     {
         if (!m_aMusics[i].pMusic)
         {
@@ -99,7 +99,7 @@ void SoundModule::UndefineSounds()
 {
     if (m_aSounds)
     {
-        for (s32 i = 0; i < MAX_SOUNDS; ++i)
+        for (i32f i = 0; i < MAX_SOUNDS; ++i)
         {
             if (m_aSounds[i].pSound)
             {
@@ -114,7 +114,7 @@ void SoundModule::UndefineMusics()
 {
     if (m_aMusics)
     {
-        for (s32 i = 0; i < MAX_MUSICS; ++i)
+        for (i32f i = 0; i < MAX_MUSICS; ++i)
         {
             if (m_aMusics[i].pMusic)
             {

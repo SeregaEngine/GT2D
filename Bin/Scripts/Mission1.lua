@@ -109,12 +109,13 @@ function stateNPC(actor)
   if stateNPC_counter == 0 or checkActorTask(actor) == GTT_DONE then
     stateNPC_counter = stateNPC_counter + 1
     if stateNPC_tasks[stateNPC_counter].task == GTT_NONE then
+      stateNPC_counter = 0
+      --[[
       setActorTask(actor, GTT_NONE)
       setActorState(actor, nil)
-      GT_LOG(PR_NOTE, "Tasks done, leaving stateNPC state...")
+      ]]--
     else
       setActorTask(actor, stateNPC_tasks[stateNPC_counter].task, stateNPC_tasks[stateNPC_counter].x, stateNPC_tasks[stateNPC_counter].y)
-      GT_LOG(PR_NOTE, string.format("\n\ttask:%d\n\tx:%f\n\ty:%f\n", stateNPC_counter, stateNPC_tasks[stateNPC_counter].x, stateNPC_tasks[stateNPC_counter].y))
     end
   end
 end

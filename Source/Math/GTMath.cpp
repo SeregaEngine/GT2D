@@ -11,7 +11,7 @@ f32 GTM::g_cosLook[361];
 b32 GTM::StartUp()
 {
     // Sin/Cos look
-    for (s32 i = 0; i < 361; ++i)
+    for (i32f i = 0; i < 361; ++i)
     {
         f32 angle = DEG_TO_RAD((f32)i);
         g_sinLook[i] = sinf(angle);
@@ -52,7 +52,7 @@ void GTM::RotatePoly2(Poly2* poly, s32 angle)
     if (!poly)
         return;
 
-    for (s32 i = 0; i < poly->vtxCount; ++i)
+    for (i32f i = 0; i < poly->vtxCount; ++i)
     {
         f32 x = poly->aVtx[i].x*g_cosLook[angle] - poly->aVtx[i].y*g_sinLook[angle];
         f32 y = poly->aVtx[i].x*g_sinLook[angle] + poly->aVtx[i].y*g_cosLook[angle];
@@ -67,7 +67,7 @@ void GTM::ScalePoly2(Poly2* poly, f32 scaleX, f32 scaleY)
     if (!poly)
         return;
 
-    for (s32 i = 0; i < poly->vtxCount; ++i)
+    for (i32f i = 0; i < poly->vtxCount; ++i)
     {
         poly->aVtx[i].x *= scaleX;
         poly->aVtx[i].y *= scaleY;
@@ -84,7 +84,7 @@ b32 GTM::FindBoxPoly2(const Poly2* poly, f32& minX, f32& minY, f32& maxX, f32& m
     minX = minY = maxX = maxY = 0;
 
     // Find box
-    for (s32 i = 0; i < poly->vtxCount; ++i)
+    for (i32f i = 0; i < poly->vtxCount; ++i)
     {
         if (poly->aVtx[i].x < minX)
             minX = poly->aVtx[i].x;
