@@ -35,10 +35,10 @@ function onEnter()
 
   -- Entities
   entities["player"] = addActor(10, 60, TW_ACTOR, TH_ACTOR, textures["player"])
-  entities["NPC"] = addActor(10, 60, TW_ACTOR, TH_ACTOR, textures["player"])
+  entities["NPC"] = addActor(20, 60, TW_ACTOR, TH_ACTOR, textures["player"])
 
   -- Triggers
-  entities["trigger"] = addTrigger(60, SCREEN_HEIGHT-8, 30, 16, entities["player"], "onTrigger")
+  entities["trigger"] = addTrigger(120, SCREEN_HEIGHT-8, 30, 8, entities["player"], "onTrigger")
 
   -- Set up level
   setBackground(textures["background"])
@@ -76,8 +76,10 @@ function handleInput()
   end
 end
 
+local onTrigger_count = 0 -- DEBUG(sean)
 function onTrigger(entity)
-  GT_LOG(PR_NOTE, "onTrigger() entered") -- DEBUG(sean)
+  onTrigger_count = onTrigger_count + 1
+  GT_LOG(PR_NOTE, string.format("onTrigger() entered %d times", onTrigger_count))
 end
 
 local stateNPC_tasks = {

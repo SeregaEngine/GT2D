@@ -22,7 +22,7 @@ void Trigger::Update(f32 dtTime)
 
     // Get collided with trigger entities
     TList<Entity*> lstEntity;
-    g_collisionMgr.GetCollidedEntities(m_pAttached->GetPosition(), m_pAttached->GetHitBox(), lstEntity);
+    g_collisionMgr.GetCollidedEntities(m_vPosition, m_hitBox, lstEntity, this);
 
     // Try to find our Attached entity
     auto end = lstEntity.End();
@@ -31,10 +31,9 @@ void Trigger::Update(f32 dtTime)
         if (it->data == m_pAttached)
         {
             g_scriptModule.CallFunction(m_functionName, m_pAttached);
+            // Ask to remove this trigger
+            // TODO(sean) Use remove list or remove here?..
             break;
         }
     }
-
-    // Ask to remove this trigger
-    // TODO(sean) Use remove list or remove here?..
 }

@@ -18,8 +18,9 @@ public:
     b32f StartUp();
     void ShutDown();
 
-    b32f IsOnGround(const Vector2& vPoint, const FRect& hitBox);
-    void GetCollidedEntities(const Vector2& vPoint, const FRect& hitBox, TList<Entity*>& lstEntity) const;
+    b32f IsOnGround(const Vector2& vPoint, const FRect& hitBox) const;
+    void GetCollidedEntities(const Vector2& vPoint, const FRect& hitBox,
+                             TList<Entity*>& lstEntity, Entity* pExcept = nullptr) const;
 };
 
 extern CollisionManager g_collisionMgr;
