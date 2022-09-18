@@ -2,11 +2,11 @@
 #define COLLISIONMANAGER_H_
 
 /* ====== INCLUDES ====== */
+#include "GTMath.h"
+
 #include "EngineModule.h"
 
 /* ====== STRUCTURES ====== */
-class Entity;
-
 class CollisionManager final : public EngineModule
 {
 public:

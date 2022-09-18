@@ -87,6 +87,9 @@ private:
 
     static s32 _checkActorTask(lua_State* L);
     static s32 _getActorCurrentTask(lua_State* L);
+
+    // Trigger
+    static s32 _addTrigger(lua_State* L);
 };
 
 extern ScriptModule g_scriptModule;

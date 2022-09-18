@@ -185,6 +185,7 @@
     <ClCompile Include="..\..\Source\Game\Entity.cpp" />
     <ClCompile Include="..\..\Source\Game\Game.cpp" />
     <ClCompile Include="..\..\Source\Game\PlayState.cpp" />
+    <ClCompile Include="..\..\Source\Game\Trigger.cpp" />
     <ClCompile Include="..\..\Source\Game\World.cpp" />
     <ClCompile Include="..\..\Source\Graphics\Camera.cpp" />
     <ClCompile Include="..\..\Source\Graphics\GraphicsModule.cpp" />
@@ -217,6 +218,7 @@
     <ClInclude Include="..\..\Source\Game\Game.h" />
     <ClInclude Include="..\..\Source\Game\GameState.h" />
     <ClInclude Include="..\..\Source\Game\PlayState.h" />
+    <ClInclude Include="..\..\Source\Game\Trigger.h" />
     <ClInclude Include="..\..\Source\Game\World.h" />
     <ClInclude Include="..\..\Source\Graphics\Camera.h" />
     <ClInclude Include="..\..\Source\Graphics\GraphicsModule.h" />

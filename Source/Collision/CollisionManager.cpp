@@ -28,3 +28,4 @@ b32f CollisionManager::IsOnGround(const Vector2& vPoint, const FRect& hitBox)
         return true;
     return false;
 }
+

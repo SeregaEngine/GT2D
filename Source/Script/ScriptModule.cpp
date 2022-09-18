@@ -15,6 +15,7 @@ extern "C"
 #include "InputModule.h"
 #include "Game.h"
 #include "Actor.h"
+#include "Trigger.h"
 #include "GotoTask.h"
 
 #include "ScriptModule.h"
@@ -110,6 +111,9 @@ void ScriptModule::DefineFunctions(lua_State* L)
     lua_register(L, "sendActorCmd", _sendActorCmd);
     lua_register(L, "checkActorTask", _checkActorTask);
     lua_register(L, "getActorCurrentTask", _getActorCurrentTask);
+
+    // Trigger
+    lua_register(L, "addTrigger", _addTrigger);
 }
 
 void ScriptModule::DefineSymbols(lua_State* L)
@@ -699,6 +703,30 @@ s32 ScriptModule::_getActorCurrentTask(lua_State* L)
         lua_pushinteger(L, pTask->GetID());
     else
         lua_pushinteger(L, GTT_NONE);
+
+    return 1;
+}
+
+s32 ScriptModule::_addTrigger(lua_State* L)
+{
+    if (!LuaExpect(L, "addTrigger", 6))
+        return -1;
+
+    // Allocate trigger
+    Trigger* pTrigger = new Trigger();
+
+    // Init trigger
+    Vector2 vPosition = { GTU::UnitToScreenX((f32)lua_tonumber(L, 1)),
+                          GTU::UnitToScreenY((f32)lua_tonumber(L, 2)) };
+    s32 width  = (s32)( GTU::UnitToScreenX((f32)lua_tonumber(L, 3)) );
+    s32 height = (s32)( GTU::UnitToScreenY((f32)lua_tonumber(L, 4)) );
+
+    pTrigger->Init(vPosition, width, height, nullptr);
+    pTrigger->AttachEntity((Entity*)lua_touserdata(L, 5));
+    pTrigger->SetFunctionName(lua_tostring(L, 6));
+
+    // Push entity to the world
+    g_game.GetWorld().AddEntity(pTrigger);
 
     return 1;
 }

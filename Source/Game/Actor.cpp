@@ -80,7 +80,6 @@ void Actor::HandleCommand(f32 dtTime)
 
     // Update position
     Vector2 vNewPosition = m_vPosition + m_vVelocity;
-    // TODO(sean) ask collision mgr where we can place ourselves
     if (!g_collisionMgr.IsOnGround(vNewPosition, m_hitBox))
     {
         // Try move only through x-axis
@@ -92,6 +91,7 @@ void Actor::HandleCommand(f32 dtTime)
             vNewPosition.y += m_vVelocity.y;
             if (!g_collisionMgr.IsOnGround(vNewPosition, m_hitBox))
             {
+                // TODO(sean) Later we'll may have to set GTT_IMPOSSIBLE status for GotoTask
                 // So we'll not move...
                 vNewPosition.y -= m_vVelocity.y;
             }

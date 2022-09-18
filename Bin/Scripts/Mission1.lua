@@ -7,7 +7,7 @@ CAMERA_WIDTH = SCREEN_WIDTH * 2
 CAMERA_HEIGHT = SCREEN_HEIGHT
 
 GROUND_WIDTH = SCREEN_WIDTH * 2
-GROUND_HEIGHT = 20
+GROUND_HEIGHT = 19
 GROUND_X = 0
 GROUND_Y = SCREEN_HEIGHT - GROUND_HEIGHT
 
@@ -36,6 +36,9 @@ function onEnter()
   -- Entities
   entities["player"] = addActor(10, 60, TW_ACTOR, TH_ACTOR, textures["player"])
   entities["NPC"] = addActor(10, 60, TW_ACTOR, TH_ACTOR, textures["player"])
+
+  -- Triggers
+  entities["trigger"] = addTrigger(60, SCREEN_HEIGHT-8, 30, 16, entities["player"], "onTrigger")
 
   -- Set up level
   setBackground(textures["background"])
@@ -71,6 +74,10 @@ function handleInput()
   if isKeyDown(GTK_D) then
     sendActorCmd(entities["player"], GTC_MOVE_RIGHT)
   end
+end
+
+function onTrigger(entity)
+  GT_LOG(PR_NOTE, "onTrigger() entered") -- DEBUG(sean)
 end
 
 local stateNPC_tasks = {

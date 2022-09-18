@@ -107,6 +107,9 @@
     <ClCompile Include="..\..\Source\Collision\CollisionManager.cpp">
       <Filter>Collision</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Game\Trigger.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Bin\Scripts\Loader.lua">
@@ -194,6 +197,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Collision\CollisionManager.h">
       <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Game\Trigger.h">
+      <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
