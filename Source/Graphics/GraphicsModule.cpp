@@ -16,6 +16,8 @@
 /* ====== DEFINES ====== */
 #define MAX_TEXTURES 256
 
+#define CONSOLE_FONT_UNIT_PIXELS 2.0f
+
 /* ====== STRUCTURES ====== */
 struct GT_Texture
 {
@@ -24,8 +26,10 @@ struct GT_Texture
     s32 spriteWidth, spriteHeight;
 };
 
-/* ====== GLOBALS ====== */
+/* ====== VARIABLES ====== */
 GraphicsModule g_graphicsModule;
+
+TTF_Font* GraphicsModule::s_pConsoleFont = nullptr;
 
 /* ====== METHODS ====== */
 b32 GraphicsModule::StartUp(SDL_Renderer* pRenderer, s32 width, s32 height)
@@ -44,6 +48,9 @@ b32 GraphicsModule::StartUp(SDL_Renderer* pRenderer, s32 width, s32 height)
     for (i32f i = 0; i < MAX_TEXTURES; ++i)
         m_aTextures[i].pTexture = nullptr;
 
+    // Open console font
+    s_pConsoleFont = TTF_OpenFont("Fonts/Cascadia.ttf", 15);
+
     AddNote(PR_NOTE, "Module started");
 
     return true;
@@ -51,6 +58,13 @@ b32 GraphicsModule::StartUp(SDL_Renderer* pRenderer, s32 width, s32 height)
 
 void GraphicsModule::ShutDown()
 {
+    // Close font
+    if (s_pConsoleFont)
+    {
+        TTF_CloseFont(s_pConsoleFont);
+        s_pConsoleFont = nullptr;
+    }
+
     // Free memory
     for (i32f i = 0; i < MAX_TEXTURES; ++i)
         SDL_DestroyTexture(m_aTextures[i].pTexture);
@@ -142,6 +156,34 @@ void GraphicsModule::Draw(const GT_Texture* pTexture, s32 row, s32 col, SDL_Rect
     {
         AddNote(PR_WARNING, "Draw() called with null texture");
     }
+}
+
+void GraphicsModule::DrawText(s32 x, s32 y, TTF_Font* pFont, const char* text, SDL_Color color)
+{
+    // TODO(sean) Optimize it
+
+    // Create text surface and convert to texture
+    SDL_Surface* pSurface = TTF_RenderText_Blended_Wrapped(pFont, text, color, m_screenWidth);
+    if (!pSurface)
+    {
+        AddNote(PR_WARNING, "DrawText(): Can't create surface: %s", TTF_GetError());
+        return;
+    }
+    SDL_Texture* pTexture = SDL_CreateTextureFromSurface(m_pRenderer, pSurface);
+    if (!pTexture)
+    {
+        SDL_FreeSurface(pSurface);
+        AddNote(PR_WARNING, "DrawText(): Can't create texture from surface: %s", SDL_GetError());
+        return;
+    }
+
+    // Blit to screen
+    SDL_Rect dest = { x, y, pSurface->w, pSurface->h };
+    SDL_RenderCopy(m_pRenderer, pTexture, nullptr, &dest);
+
+    // Free memory
+    SDL_FreeSurface(pSurface);
+    SDL_DestroyTexture(pTexture);
 }
 
 /*

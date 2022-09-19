@@ -14,7 +14,7 @@ public:
     virtual void OnExit() override;
 
     virtual void Update(f32 dtTime) override;
-    virtual void Render() override { m_world.Render(); }
+    virtual void Render() override;
 
     World& GetWorld() { return m_world; }
 };

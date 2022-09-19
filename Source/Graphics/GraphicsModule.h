@@ -3,6 +3,7 @@
 
 /* ====== INCLUDES ====== */
 #include "SDL.h"
+#include "SDL_ttf.h"
 
 #include "Types.h"
 #include "GTMath.h"
@@ -26,12 +27,16 @@ struct GT_Texture;
 
 class GraphicsModule final : public EngineModule
 {
+public:
+    static TTF_Font* s_pConsoleFont;
+private:
     s32 m_screenWidth;
     s32 m_screenHeight;
 
     Camera m_camera;
     SDL_Renderer* m_pRenderer;
     GT_Texture* m_aTextures;
+
 public:
     GraphicsModule() : EngineModule("GraphicsModule", CHANNEL_GRAPHICS) {}
 
@@ -51,6 +56,7 @@ public:
 
     void Draw(const GT_Texture* pTexture, s32 row, s32 col,
               SDL_Rect* dstRect, f32 angle = 0.0f, SDL_RendererFlip flip = SDL_FLIP_NONE);
+    void DrawText(s32 x, s32 y, TTF_Font* pFont, const char* text, SDL_Color color);
     /*
     void PlotPixel32(u32* videoBuffer, s32 pitch32, s32 x, s32 y, s32 a, s32 r, s32 g, s32 b) const
         { videoBuffer[y*pitch32 + x] = _RGB32BIT(a, r, g, b); }

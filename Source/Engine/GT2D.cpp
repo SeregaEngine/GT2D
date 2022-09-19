@@ -7,6 +7,7 @@
 #include "SDL.h"
 #include "SDL_image.h"
 #include "SDL_mixer.h"
+#include "SDL_ttf.h"
 
 #include "DebugLogManager.h"
 #include "ClockManager.h"
@@ -75,6 +76,12 @@ b32 GT2D::StartUp()
             AddNote(PR_ERROR, "Error on SDL Mixer initialization: %s", Mix_GetError());
             return false;
         }
+
+        if (0 != TTF_Init())
+        {
+            AddNote(PR_ERROR, "%s", TTF_GetError());
+            return false;
+        }
     }
 
     { // Start up engine`s modules
@@ -100,7 +107,7 @@ b32 GT2D::StartUp()
             return false;
     }
 
-    AddNote(PR_NOTE, "Engine started successfully");
+    AddNote(PR_NOTE, "Engine started successfully\n");
 
     // Success
     return true;
@@ -108,15 +115,6 @@ b32 GT2D::StartUp()
 
 void GT2D::ShutDown()
 {
-    { // Shut down SDL
-        SDL_DestroyRenderer(m_pRenderer);
-        SDL_DestroyWindow(m_pWindow);
-
-        Mix_Quit();
-        IMG_Quit();
-        SDL_Quit();
-    }
-
     { // Shut down engine's modules
         g_clockMgr.ShutDown();
         g_collisionMgr.ShutDown();
@@ -129,6 +127,17 @@ void GT2D::ShutDown()
         g_graphicsModule.ShutDown();
         GTM::ShutDown();
     }
+
+    { // Shut down SDL
+        SDL_DestroyRenderer(m_pRenderer);
+        SDL_DestroyWindow(m_pWindow);
+
+        TTF_Quit();
+        Mix_Quit();
+        IMG_Quit();
+        SDL_Quit();
+    }
+
 
     AddNote(PR_NOTE, "Engine shut down");
 
