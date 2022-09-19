@@ -37,6 +37,22 @@ void World::ShutDown()
     AddNote(PR_NOTE, "World shut down");
 }
 
+void World::Update(f32 dtTime)
+{
+    // Update entities
+    auto end = m_lstEntity.End();
+    for (auto it = m_lstEntity.Begin(); it != end; ++it)
+        it->data->Update(dtTime);
+
+    // Remove entities from remove list
+    end = m_lstRemove.End();
+    for (auto it = m_lstRemove.Begin(); it != end; ++it)
+        m_lstEntity.Remove(it->data);
+
+    // Clean remove list
+    m_lstRemove.Clean();
+}
+
 void World::Render()
 {
     // Draw parallax
@@ -54,21 +70,5 @@ void World::Render()
     m_lstEntity.Mapcar([](auto pEntity) {
         pEntity->Draw();
     });
-}
-
-void World::UpdateAllEntities(f32 dtTime)
-{
-    // Update entities
-    auto end = m_lstEntity.End();
-    for (auto it = m_lstEntity.Begin(); it != end; ++it)
-        it->data->Update(dtTime);
-
-    // Remove entities from remove list
-    end = m_lstRemove.End();
-    for (auto it = m_lstRemove.Begin(); it != end; ++it)
-        m_lstEntity.Remove(it->data);
-
-    // Clean remove list
-    m_lstRemove.Clean();
 }
 

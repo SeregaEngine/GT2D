@@ -19,7 +19,7 @@ public:
     void StartUp();
     void ShutDown();
 
-    void Update(f32 dtTime) {}
+    void Update(f32 dtTime);
     void Render();
 
     void SetBackground(GT_Texture* pTexture) { m_pBackground = pTexture; }
@@ -31,7 +31,6 @@ public:
 
     void PushEntity(Entity* pEntity) { m_lstEntity.Push(pEntity); }
     void RemoveEntity(Entity* pEntity) { m_lstRemove.Push(pEntity); }
-    void UpdateAllEntities(f32 dtTime);
 };
 
 #endif // WORLD_H_

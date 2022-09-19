@@ -54,7 +54,6 @@ end
 
 function onUpdate(dt)
   handleInput()
-  updateAllEntities(dt)
 end
 
 function handleInput()
