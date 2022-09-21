@@ -40,12 +40,25 @@ void Console::ShutDown()
 void Console::Render() const
 {
     // Draw console's background
-    SDL_Rect dest = { 0, 0, g_graphicsModule.GetScreenWidth(), g_graphicsModule.GetScreenHeight() / 2 };
+    SDL_Rect dest = { 0, 0, g_graphicsModule.GetScreenWidth(),
+                            g_graphicsModule.GetScreenHeight() / 2 };
     g_graphicsModule.SetColor(0x00, 0x00, 0x00, 0x10);
     g_graphicsModule.FillRect(&dest);
 
     // Draw text
-    g_graphicsModule.DrawText(&dest, GraphicsModule::s_pConsoleFont, (const char*)m_buffer, { 255, 255, 255, 255 });
+    SDL_Color color = { 255, 255, 255, 255 };
+    dest.h /= CONSOLE_STRING_HEIGHT;
+
+    for (i32f i = 0; i < CONSOLE_STRING_HEIGHT; dest.y += dest.h, ++i)
+    {
+        i32f tempIndex = (i + 1) * CONSOLE_STRING_WIDTH;
+        u8 temp = m_buffer[tempIndex]; // Save start of next string that will be null terminated
+        m_buffer[tempIndex] = 0;
+
+        g_graphicsModule.DrawText(&dest, GraphicsModule::s_pConsoleFont, (const char*) &m_buffer[i * CONSOLE_STRING_WIDTH], color);
+
+        m_buffer[tempIndex] = temp; // Restore
+    }
 }
 
 void Console::Print(const char* text)

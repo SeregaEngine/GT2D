@@ -12,11 +12,13 @@ GROUND_X = 0
 GROUND_Y = SCREEN_HEIGHT - GROUND_HEIGHT
 
 -- Variables
-local textures = {}
-local sounds = {}
-local music = {}
-local states = {}
-local entities = {}
+textures = {}
+sounds = {}
+music = {}
+states = {}
+entities = {}
+
+player = {}
 
 function onEnter()
   GT_LOG(PR_NOTE, "Mission1 entered")
@@ -35,6 +37,7 @@ function onEnter()
 
   -- Entities
   entities["player"] = addActor(10, 60, TW_ACTOR, TH_ACTOR, textures["player"])
+  player = entities["player"]
   entities["NPC"] = addActor(20, 60, TW_ACTOR, TH_ACTOR, textures["player"])
 
   -- Triggers
@@ -68,10 +71,10 @@ function handleInput()
   end
 
   -- Handle player's movement
-  if isKeyDown(GTK_W) then sendActorCmd(entities["player"], GTC_MOVE_UP) end
-  if isKeyDown(GTK_A) then sendActorCmd(entities["player"], GTC_MOVE_LEFT) end
-  if isKeyDown(GTK_S) then sendActorCmd(entities["player"], GTC_MOVE_DOWN) end
-  if isKeyDown(GTK_D) then sendActorCmd(entities["player"], GTC_MOVE_RIGHT) end
+  if isKeyDown(GTK_W) then sendActorCmd(player, GTC_MOVE_UP) end
+  if isKeyDown(GTK_A) then sendActorCmd(player, GTC_MOVE_LEFT) end
+  if isKeyDown(GTK_S) then sendActorCmd(player, GTC_MOVE_DOWN) end
+  if isKeyDown(GTK_D) then sendActorCmd(player, GTC_MOVE_RIGHT) end
 end
 
 local onTrigger_count = 0 -- DEBUG(sean)

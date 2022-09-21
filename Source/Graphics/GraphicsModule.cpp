@@ -16,8 +16,6 @@
 /* ====== DEFINES ====== */
 #define MAX_TEXTURES 256
 
-#define CONSOLE_FONT_UNIT_PIXELS 2.0f
-
 /* ====== STRUCTURES ====== */
 struct GT_Texture
 {
@@ -163,7 +161,7 @@ void GraphicsModule::DrawText(const SDL_Rect* dst, TTF_Font* pFont, const char* 
     // TODO(sean) Optimize it
 
     // Create text surface and convert to texture
-    SDL_Surface* pSurface = TTF_RenderText_Blended_Wrapped(pFont, text, color, m_screenWidth);
+    SDL_Surface* pSurface = TTF_RenderText_Blended(pFont, text, color);
     if (!pSurface)
     {
         AddNote(PR_WARNING, "DrawText(): Can't create surface: %s", TTF_GetError());
