@@ -56,7 +56,10 @@ public:
 
     void Draw(const GT_Texture* pTexture, s32 row, s32 col,
               SDL_Rect* dstRect, f32 angle = 0.0f, SDL_RendererFlip flip = SDL_FLIP_NONE);
-    void DrawText(s32 x, s32 y, TTF_Font* pFont, const char* text, SDL_Color color);
+    void DrawText(const SDL_Rect* dst, TTF_Font* pFont, const char* text, SDL_Color color);
+
+    void SetColor(s32 r, s32 g, s32 b, s32 a) { SDL_SetRenderDrawColor(m_pRenderer, (Uint8)r, (Uint8)g, (Uint8)b, (Uint8)a); }
+    void FillRect(const SDL_Rect* dst) { SDL_RenderFillRect(m_pRenderer, dst); }
     /*
     void PlotPixel32(u32* videoBuffer, s32 pitch32, s32 x, s32 y, s32 a, s32 r, s32 g, s32 b) const
         { videoBuffer[y*pitch32 + x] = _RGB32BIT(a, r, g, b); }

@@ -49,7 +49,7 @@ b32 GraphicsModule::StartUp(SDL_Renderer* pRenderer, s32 width, s32 height)
         m_aTextures[i].pTexture = nullptr;
 
     // Open console font
-    s_pConsoleFont = TTF_OpenFont("Fonts/Cascadia.ttf", 15);
+    s_pConsoleFont = TTF_OpenFont("Fonts/Cascadia.ttf", 28);
 
     AddNote(PR_NOTE, "Module started");
 
@@ -158,7 +158,7 @@ void GraphicsModule::Draw(const GT_Texture* pTexture, s32 row, s32 col, SDL_Rect
     }
 }
 
-void GraphicsModule::DrawText(s32 x, s32 y, TTF_Font* pFont, const char* text, SDL_Color color)
+void GraphicsModule::DrawText(const SDL_Rect* dst, TTF_Font* pFont, const char* text, SDL_Color color)
 {
     // TODO(sean) Optimize it
 
@@ -178,8 +178,7 @@ void GraphicsModule::DrawText(s32 x, s32 y, TTF_Font* pFont, const char* text, S
     }
 
     // Blit to screen
-    SDL_Rect dest = { x, y, pSurface->w, pSurface->h };
-    SDL_RenderCopy(m_pRenderer, pTexture, nullptr, &dest);
+    SDL_RenderCopy(m_pRenderer, pTexture, nullptr, dst);
 
     // Free memory
     SDL_FreeSurface(pSurface);

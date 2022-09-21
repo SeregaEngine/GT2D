@@ -49,7 +49,4 @@ void PlayState::Render()
 {
     // Render world
     m_world.Render();
-
-    // Render console
-    g_graphicsModule.DrawText(0, 0, GraphicsModule::s_pConsoleFont, "Random text\n123", { 255, 255, 255, 0 });
 }
