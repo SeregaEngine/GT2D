@@ -13,6 +13,7 @@ extern "C"
 #include "GTUnit.h"
 #include "SoundModule.h"
 #include "InputModule.h"
+#include "Console.h"
 #include "Game.h"
 #include "Actor.h"
 #include "Trigger.h"
@@ -86,6 +87,7 @@ void ScriptModule::DefineFunctions(lua_State* L)
     lua_register(L, "isKeyDown", _isKeyDown);
     lua_register(L, "isMouseDown", _isMouseDown);
     lua_register(L, "getMousePosition", _getMousePosition);
+    lua_register(L, "isConsoleShown", _isConsoleShown);
 
     /* AI */
     lua_register(L, "defineState", _defineState);
@@ -514,6 +516,13 @@ s32 ScriptModule::_getMousePosition(lua_State* L)
     lua_pushinteger(L, (lua_Integer)( GTU::ScreenToUnitY((f32)y) ));
 
     return 2;
+}
+
+s32 ScriptModule::_isConsoleShown(lua_State* L)
+{
+    lua_pushboolean(L, g_console.IsShown());
+
+    return 1;
 }
 
 s32 ScriptModule::_defineState(lua_State* L)

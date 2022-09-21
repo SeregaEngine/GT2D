@@ -57,22 +57,21 @@ function onUpdate(dt)
 end
 
 function handleInput()
+  -- Leave if console is shown
+  if isConsoleShown() then
+    return
+  end
+
+  -- Stop game on escape
   if isKeyDown(GTK_ESCAPE) then
     stopGame()
   end
 
-  if isKeyDown(GTK_W) then
-    sendActorCmd(entities["player"], GTC_MOVE_UP)
-  end
-  if isKeyDown(GTK_A) then
-    sendActorCmd(entities["player"], GTC_MOVE_LEFT)
-  end
-  if isKeyDown(GTK_S) then
-    sendActorCmd(entities["player"], GTC_MOVE_DOWN)
-  end
-  if isKeyDown(GTK_D) then
-    sendActorCmd(entities["player"], GTC_MOVE_RIGHT)
-  end
+  -- Handle player's movement
+  if isKeyDown(GTK_W) then sendActorCmd(entities["player"], GTC_MOVE_UP) end
+  if isKeyDown(GTK_A) then sendActorCmd(entities["player"], GTC_MOVE_LEFT) end
+  if isKeyDown(GTK_S) then sendActorCmd(entities["player"], GTC_MOVE_DOWN) end
+  if isKeyDown(GTK_D) then sendActorCmd(entities["player"], GTC_MOVE_RIGHT) end
 end
 
 local onTrigger_count = 0 -- DEBUG(sean)

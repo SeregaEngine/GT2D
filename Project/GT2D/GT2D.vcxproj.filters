@@ -110,6 +110,9 @@
     <ClCompile Include="..\..\Source\Game\Trigger.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Engine\Console.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Bin\Scripts\Loader.lua">
@@ -200,6 +203,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Game\Trigger.h">
       <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Engine\Console.h">
+      <Filter>Engine</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

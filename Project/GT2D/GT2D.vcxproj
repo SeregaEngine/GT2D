@@ -178,6 +178,7 @@
     <ClCompile Include="..\..\Source\Animation\AnimationModule.cpp" />
     <ClCompile Include="..\..\Source\Collision\CollisionManager.cpp" />
     <ClCompile Include="..\..\Source\Engine\ClockManager.cpp" />
+    <ClCompile Include="..\..\Source\Engine\Console.cpp" />
     <ClCompile Include="..\..\Source\Engine\DebugLogManager.cpp" />
     <ClCompile Include="..\..\Source\Engine\EngineModule.cpp" />
     <ClCompile Include="..\..\Source\Engine\GT2D.cpp" />
@@ -209,6 +210,7 @@
     <ClInclude Include="..\..\Source\Animation\AnimationModule.h" />
     <ClInclude Include="..\..\Source\Collision\CollisionManager.h" />
     <ClInclude Include="..\..\Source\Engine\ClockManager.h" />
+    <ClInclude Include="..\..\Source\Engine\Console.h" />
     <ClInclude Include="..\..\Source\Engine\DebugLogManager.h" />
     <ClInclude Include="..\..\Source\Engine\EngineModule.h" />
     <ClInclude Include="..\..\Source\Engine\GT2D.h" />

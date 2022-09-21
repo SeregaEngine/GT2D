@@ -14,6 +14,8 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
+#include "Console.h"
+
 #include "DebugLogManager.h"
 
 /* ====== VARIABLES ====== */
@@ -265,6 +267,8 @@ void DebugLogManager::VAddNote(s32 channel, s32 priority, const char* name, cons
     size_t noteLength = strlen(noteFinal);
 
     // Output
+    g_console.Print(noteFinal);
+
     SetConsoleTextAttribute(hConsole, noteColor);
     WriteConsoleA(hConsole, noteFinal, (DWORD)noteLength, NULL, NULL);
 

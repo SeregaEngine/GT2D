@@ -5,6 +5,7 @@
 #include "SoundModule.h"
 #include "ScriptModule.h"
 #include "AIModule.h"
+#include "Console.h"
 
 #include "PlayState.h"
 
@@ -49,4 +50,8 @@ void PlayState::Render()
 {
     // Render world
     m_world.Render();
+
+    // Render console
+    if (g_console.IsShown())
+        g_console.Render();
 }

@@ -31,6 +31,7 @@ public:
     void ShutDown();
 
     b32 HandleEvents();
+    void OnKeyDown(SDL_Event& e);
 
     // Keyboard
     b32 IsKeyDown_s(SDL_Scancode scan) const { return m_keyState[scan]; }
