@@ -57,9 +57,15 @@ b32 InputModule::HandleEvents()
 
 void InputModule::OnKeyDown(SDL_Event& e)
 {
-    // Don't check lshift
-    if (e.key.keysym.sym == SDLK_LSHIFT)
-        return;
+    // Don't check some symbols
+    switch (e.key.keysym.sym)
+    {
+    case SDLK_LSHIFT: return;
+    case SDLK_LALT: return;
+    case SDLK_LCTRL: return;
+    case SDLK_TAB: return;
+    case SDLK_CAPSLOCK: return;
+    }
 
     // Toggle console
     if (e.key.keysym.sym == SDLK_BACKQUOTE)
@@ -82,11 +88,13 @@ void InputModule::OnKeyDown(SDL_Event& e)
             // Special symbols
             switch (e.key.keysym.sym)
             {
+            case '5': g_console.Input('%'); break;
             case '8': g_console.Input('*'); break;
             case '9': g_console.Input('('); break;
             case '0': g_console.Input(')'); break;
             case '-': g_console.Input('_'); break;
             case '=': g_console.Input('+'); break;
+            case '\'': g_console.Input('"'); break;
             }
         }
         else // Without left shift

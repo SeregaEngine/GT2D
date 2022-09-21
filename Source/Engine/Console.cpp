@@ -52,12 +52,19 @@ void Console::Print(const char* text)
 {
     for (i32f y = m_currentRow * CONSOLE_STRING_WIDTH, x = 0, j = 0; text[j]; ++x, ++j)
     {
-        if (text[j] == '\n' || x >= CONSOLE_STRING_WIDTH)
+        if (text[j] == '\n')
         {
             LineFeed();
             y = m_currentRow * CONSOLE_STRING_WIDTH;
             x = 0;
             continue;
+        }
+
+        if (x >= CONSOLE_STRING_WIDTH)
+        {
+            LineFeed();
+            y = m_currentRow * CONSOLE_STRING_WIDTH;
+            x = 0;
         }
 
         m_buffer[y + x] = text[j];

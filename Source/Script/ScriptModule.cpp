@@ -87,7 +87,10 @@ void ScriptModule::DefineFunctions(lua_State* L)
     lua_register(L, "isKeyDown", _isKeyDown);
     lua_register(L, "isMouseDown", _isMouseDown);
     lua_register(L, "getMousePosition", _getMousePosition);
+
+    // Console
     lua_register(L, "isConsoleShown", _isConsoleShown);
+    lua_register(L, "cls", _cls);
 
     /* AI */
     lua_register(L, "defineState", _defineState);
@@ -533,6 +536,13 @@ s32 ScriptModule::_isConsoleShown(lua_State* L)
     lua_pushboolean(L, g_console.IsShown());
 
     return 1;
+}
+
+s32 ScriptModule::_cls(lua_State* L)
+{
+    g_console.Clear();
+
+    return 0;
 }
 
 s32 ScriptModule::_defineState(lua_State* L)

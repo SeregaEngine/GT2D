@@ -61,7 +61,10 @@ private:
     static s32 _isKeyDown(lua_State* L);
     static s32 _isMouseDown(lua_State* L);
     static s32 _getMousePosition(lua_State* L);
+
+    // Console
     static s32 _isConsoleShown(lua_State* L);
+    static s32 _cls(lua_State* L);
 
     /* AI */
     static s32 _defineState(lua_State* L);
