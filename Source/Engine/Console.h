@@ -27,6 +27,10 @@ public:
 
     void Clear();
     void Reset();
+
+private:
+    void LineFeed();
+    void Erase();
 };
 
 extern Console g_console;

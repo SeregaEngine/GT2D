@@ -65,31 +65,31 @@ void InputModule::OnKeyDown(SDL_Event& e)
     if (e.key.keysym.sym == SDLK_BACKQUOTE)
     {
         g_console.Toggle(~g_console.IsShown());
-        AddNote(PR_NOTE, "Console toggled");
     }
     // Send input to the console only if it's not backquote and it's shown
     else if (g_console.IsShown())
     {
-        if (e.key.keysym.sym == SDLK_RETURN)
+        // With left shift
+        if (IsKeyDown(SDLK_LSHIFT))
         {
-            g_console.Interpret();
-        }
-        else if (IsKeyDown(SDLK_LSHIFT))
-        {
+            // Uppercase
             if (e.key.keysym.sym >= 'a' && e.key.keysym.sym <= 'z')
             {
                 g_console.Input(e.key.keysym.sym + ('A' - 'a'));
+                return;
             }
-            else if (e.key.keysym.sym == '9')
+
+            // Special symbols
+            switch (e.key.keysym.sym)
             {
-                g_console.Input('(');
-            }
-            else if (e.key.keysym.sym == '0')
-            {
-                g_console.Input(')');
+            case '8': g_console.Input('*'); break;
+            case '9': g_console.Input('('); break;
+            case '0': g_console.Input(')'); break;
+            case '-': g_console.Input('_'); break;
+            case '=': g_console.Input('+'); break;
             }
         }
-        else
+        else // Without left shift
         {
             g_console.Input(e.key.keysym.sym);
         }

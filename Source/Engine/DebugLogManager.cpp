@@ -107,16 +107,20 @@ enum ePriorityColor
 /* ====== METHODS ====== */
 b32 DebugLogManager::StartUp()
 {
-    // Allocate console
+    // Allocate windows console
     if (!AllocConsole())
         return false;
     hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    // Start up engine's console
+    if (!g_console.StartUp())
+        return false;
 
     // Open all log files
     std::filesystem::create_directory(DIR_LOGS);
     
     if ( nullptr == (hLogFull = fopen(FILENAME_LOGFULL, "w")) )
-        AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
+        return false;
     if ( nullptr == (hLogMgr = fopen(FILENAME_DEBUGLOGMANAGER, "w")) )
         AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
     if ( nullptr == (hGT2D = fopen(FILENAME_GT2D, "w")) )
@@ -154,7 +158,8 @@ void DebugLogManager::ShutDown()
     fclose(hScript);
     fclose(hGame);
 
-    // Detach console
+    // Detach consoles
+    g_console.ShutDown();
     FreeConsole();
 }
 

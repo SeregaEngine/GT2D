@@ -13,8 +13,6 @@
 
 #define CONSOLE_INPUT_INDEX (CONSOLE_STRING_WIDTH * (CONSOLE_STRING_HEIGHT - 1))
 
-#define CONSOLE_UNIT_HEIGHT 2.5f
-
 static const char s_consolePrompt[] = "> ";
 
 /* ====== VARIABLES ====== */
@@ -30,8 +28,6 @@ b32f Console::StartUp()
 
     // Defaults
     m_bShown = false;
-
-    AddNote(PR_NOTE, "Module started");
 
     return true;
 }
@@ -54,30 +50,30 @@ void Console::Render() const
 
 void Console::Print(const char* text)
 {
-    for (i32f i = 0; i < strlen(text); ++i)
+    for (i32f y = m_currentRow * CONSOLE_STRING_WIDTH, x = 0, j = 0; text[j]; ++x, ++j)
     {
-        // TODO(sean)
+        if (text[j] == '\n' || x >= CONSOLE_STRING_WIDTH)
+        {
+            LineFeed();
+            y = m_currentRow * CONSOLE_STRING_WIDTH;
+            x = 0;
+            continue;
+        }
+
+        m_buffer[y + x] = text[j];
     }
 }
 
 void Console::Input(i32f ch)
 {
-    // Erase on backspace
-    if (ch == SDLK_BACKSPACE)
+    // Check if it's special symbol
+    switch (ch)
     {
-        if (m_currentInput > CONSOLE_INPUT_INDEX + strlen(s_consolePrompt))
-        {
-            --m_currentInput;
-            m_buffer[m_currentInput] = ' ';
-        }
-        return;
-    }
+    case SDLK_ESCAPE: Reset(); return;
+    case SDLK_RETURN: Interpret(); return;
+    case SDLK_BACKSPACE: Erase(); return;
 
-    // Clear input on escape
-    if (ch == SDLK_ESCAPE)
-    {
-        Reset();
-        return;
+    default: break;
     }
 
     // Return if there no space for new character
@@ -113,4 +109,28 @@ void Console::Reset()
     m_currentInput = CONSOLE_INPUT_INDEX + (s32)strlen(s_consolePrompt);
     memset(&m_buffer[CONSOLE_INPUT_INDEX], ' ', CONSOLE_STRING_WIDTH);
     memcpy(&m_buffer[CONSOLE_INPUT_INDEX], s_consolePrompt, strlen(s_consolePrompt));
+}
+
+void Console::LineFeed()
+{
+    if (m_currentRow >= CONSOLE_STRING_HEIGHT - 2)
+    {
+        memcpy(m_buffer, &m_buffer[CONSOLE_STRING_WIDTH],
+               CONSOLE_STRING_WIDTH * (CONSOLE_STRING_HEIGHT - 2));
+        memset(&m_buffer[CONSOLE_STRING_WIDTH * (CONSOLE_STRING_HEIGHT - 2)], ' ',
+               CONSOLE_STRING_WIDTH);
+    }
+    else
+    {
+        ++m_currentRow;
+    }
+}
+
+void Console::Erase()
+{
+    if (m_currentInput > CONSOLE_INPUT_INDEX + strlen(s_consolePrompt))
+    {
+        --m_currentInput;
+        m_buffer[m_currentInput] = ' ';
+    }
 }

@@ -86,8 +86,6 @@ b32 GT2D::StartUp()
     }
 
     { // Start up engine`s modules
-        if (!g_console.StartUp())
-            return false;
         if (!GTM::StartUp())
             return false;
         if (!g_graphicsModule.StartUp(m_pRenderer, SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -129,7 +127,6 @@ void GT2D::ShutDown()
         g_inputModule.ShutDown();
         g_graphicsModule.ShutDown();
         GTM::ShutDown();
-        g_console.ShutDown();
     }
 
     { // Shut down SDL
