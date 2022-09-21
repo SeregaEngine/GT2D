@@ -27,6 +27,7 @@ public:
     void UpdateMission(f32 dtTime);
 
     void CallFunction(const char* functionName, void* userdata);
+    void Interpret(const char* text);
 private:
     void DefineFunctions(lua_State* L);
     void DefineSymbols(lua_State* L);

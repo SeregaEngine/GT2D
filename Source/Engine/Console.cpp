@@ -2,7 +2,7 @@
 #include <string.h>
 
 #include "GraphicsModule.h"
-#include "GTUnit.h"
+#include "ScriptModule.h"
 
 #include "Console.h"
 
@@ -87,8 +87,15 @@ void Console::Input(i32f ch)
 
 void Console::Interpret()
 {
-    // Additional work on buffer...
-    // g_scriptModule.ConsoleInterpret(&m_buffer[...])
+    // Null-terminate input string
+    if (m_currentInput < CONSOLE_BUFSIZE - 1)
+        m_buffer[m_currentInput] = 0;
+
+    g_scriptModule.Interpret((const char*) &m_buffer[CONSOLE_INPUT_INDEX + strlen(s_consolePrompt)]);
+
+    // Restore null-terminated string to 'space'
+    if (m_currentInput < CONSOLE_BUFSIZE - 1)
+        m_buffer[m_currentInput] = ' ';
 
     // Reset console's input
     Reset();

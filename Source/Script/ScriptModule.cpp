@@ -302,6 +302,16 @@ void ScriptModule::CallFunction(const char* functionName, void* userdata)
     lua_pcall(m_pMission, 1, 0, 0);
 }
 
+
+void ScriptModule::Interpret(const char* text)
+{
+    if (0 != luaL_dostring(m_pMission, text))
+    {
+        LuaNote(PR_WARNING, lua_tostring(m_pMission, -1));
+        lua_pop(m_pMission, 1);
+    }
+}
+
 void ScriptModule::LuaNote(s32 priority, const char* fmt, ...)
 {
     va_list vl;
