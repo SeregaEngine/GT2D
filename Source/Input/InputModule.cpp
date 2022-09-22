@@ -11,6 +11,8 @@ b32 InputModule::StartUp()
 {
     // Defaults
     m_keyState = SDL_GetKeyboardState(nullptr);
+    m_bCapslock = false;
+
     m_mouseState = 0;
     m_mousePosX = 0;
     m_mousePosY = 0;
@@ -60,11 +62,16 @@ void InputModule::OnKeyDown(SDL_Event& e)
     // Don't check some symbols
     switch (e.key.keysym.sym)
     {
+    case SDLK_CAPSLOCK:
+    {
+        m_bCapslock = !m_bCapslock;
+        return;
+    }
+
     case SDLK_LSHIFT:
     case SDLK_LALT:
     case SDLK_LCTRL:
     case SDLK_TAB:
-    case SDLK_CAPSLOCK:
         return;
 
     default:
@@ -74,36 +81,52 @@ void InputModule::OnKeyDown(SDL_Event& e)
     // Toggle console
     if (e.key.keysym.sym == SDLK_BACKQUOTE)
     {
-        g_console.Toggle(~g_console.IsShown());
+        g_console.Toggle(!g_console.IsShown());
     }
     // Send input to the console only if it's not backquote and it's shown
     else if (g_console.IsShown())
     {
-        // With left shift
-        if (IsKeyDown(SDLK_LSHIFT))
-        {
-            // Uppercase
-            if (e.key.keysym.sym >= 'a' && e.key.keysym.sym <= 'z')
-            {
-                g_console.Input(e.key.keysym.sym + ('A' - 'a'));
-                return;
-            }
+        // Check shift
+        b32f bShift = IsKeyDown(SDLK_LSHIFT);
 
-            // Special symbols
+        // Latin characters
+        if (e.key.keysym.sym >= 'a' && e.key.keysym.sym <= 'z')
+        {
+            AddNote(PR_NOTE, "%c: %d", e.key.keysym.sym, m_bCapslock ^ bShift);
+            if (m_bCapslock ^ bShift)
+                g_console.Input(e.key.keysym.sym + ('A' - 'a'));
+            else
+                g_console.Input(e.key.keysym.sym);
+            return;
+        }
+
+        // With left shift
+        if (bShift)
+        {
             switch (e.key.keysym.sym)
             {
+            case '1': g_console.Input('!'); break;
             case '5': g_console.Input('%'); break;
+            case '6': g_console.Input('^'); break;
             case '8': g_console.Input('*'); break;
             case '9': g_console.Input('('); break;
             case '0': g_console.Input(')'); break;
             case '-': g_console.Input('_'); break;
             case '=': g_console.Input('+'); break;
+
+            case ';': g_console.Input(':'); break;
             case '\'': g_console.Input('"'); break;
+            case ',': g_console.Input('<'); break;
+            case '.': g_console.Input('>'); break;
+            case '/': g_console.Input('?'); break;
+
+            default: break;
             }
+
+            return;
         }
-        else // Without left shift
-        {
-            g_console.Input(e.key.keysym.sym);
-        }
+
+        // Other
+        g_console.Input(e.key.keysym.sym);
     }
 }

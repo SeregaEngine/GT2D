@@ -21,6 +21,7 @@ enum eMouseButton
 class InputModule final : public EngineModule
 {
     const Uint8* m_keyState;
+    b32 m_bCapslock;
 
     Uint32 m_mouseState;
     s32 m_mousePosX, m_mousePosY;
