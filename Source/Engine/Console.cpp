@@ -69,16 +69,16 @@ void Console::Render() const
     // Draw cursor
     s32 letterWidth = g_graphicsModule.GetScreenWidth() / CONSOLE_STRING_WIDTH;
     s32 letterHeight = (g_graphicsModule.GetScreenHeight() / 2) / CONSOLE_STRING_HEIGHT;
-    s32 underscoreHeight = letterHeight / 10;
+    s32 underscoreHeight = letterHeight / 5;
 
     dest = {
-        (CONSOLE_INPUT_INDEX - m_cursorPosition) * letterWidth,
+        (m_cursorPosition - CONSOLE_INPUT_INDEX) * letterWidth,
         g_graphicsModule.GetScreenHeight() / 2 - underscoreHeight,
         letterWidth,
         underscoreHeight
     };
 
-    g_graphicsModule.SetColor(0x00, 0x00, 0x00, 0xFF);
+    g_graphicsModule.SetColor(0xFF, 0xFF, 0xFF, 0xFF);
     g_graphicsModule.FillRect(&dest);
 }
 
