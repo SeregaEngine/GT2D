@@ -34,6 +34,7 @@ b32f Console::StartUp()
 
     // Defaults
     m_bShown = false;
+    m_lastCursorPosition = m_cursorPosition;
 
     return true;
 }
@@ -131,14 +132,26 @@ void Console::Input(i32f ch)
         return;
 
     // Place character
-    m_buffer[m_currentInput] = (u8)ch;
-    ++m_currentInput;
+    if (m_cursorPosition >= m_currentInput)
+    {
+        m_buffer[m_currentInput] = (u8)ch;
+        ++m_currentInput;
+        ++m_cursorPosition;
+    }
+    else
+    {
+        memmove(&m_buffer[m_cursorPosition + 1], &m_buffer[m_cursorPosition], (CONSOLE_BUFSIZE - 1) - m_currentInput);
+        m_buffer[m_cursorPosition] = (u8)ch;
+        ++m_currentInput;
+        ++m_cursorPosition;
+    }
 }
 
 void Console::Interpret()
 {
     // Save this input
     memcpy(m_lastInput, &m_buffer[CONSOLE_INPUT_INDEX], LAST_BUFSIZE);
+    m_lastCursorPosition = m_cursorPosition;
 
     // Null-terminate input string
     if (m_currentInput < CONSOLE_BUFSIZE - 1)
@@ -178,6 +191,10 @@ void Console::Arrow(i32f ch)
     case SDLK_UP:
     case SDLK_DOWN:
     {
+        s32 tempCursor = m_lastCursorPosition;
+        m_lastCursorPosition = m_cursorPosition;
+        m_cursorPosition = tempCursor;
+
         u8 temp[LAST_BUFSIZE];
         memcpy(temp, &m_buffer[CONSOLE_INPUT_INDEX], LAST_BUFSIZE);
         memcpy(&m_buffer[CONSOLE_INPUT_INDEX], m_lastInput, LAST_BUFSIZE);
@@ -192,7 +209,7 @@ void Console::Arrow(i32f ch)
 
     case SDLK_RIGHT:
     {
-        if (m_cursorPosition < CONSOLE_BUFSIZE - 1)
+        if (m_cursorPosition < m_currentInput)
             ++m_cursorPosition;
     } break;
 
@@ -221,6 +238,7 @@ void Console::Erase()
     if (m_currentInput > CONSOLE_INPUT_INDEX + strlen(s_consolePrompt))
     {
         --m_currentInput;
+        --m_cursorPosition;
         m_buffer[m_currentInput] = ' ';
     }
 }

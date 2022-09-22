@@ -12,6 +12,7 @@ class Console : public EngineModule
     s32 m_currentRow;   // Row for Print()
     s32 m_currentInput; // Last position in input's row
     s32 m_cursorPosition; // Cursor's position
+    s32 m_lastCursorPosition;
 public:
     Console() : EngineModule("Console", CHANNEL_LOGMGR) {}
 
