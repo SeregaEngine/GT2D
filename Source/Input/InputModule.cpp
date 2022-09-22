@@ -92,7 +92,6 @@ void InputModule::OnKeyDown(SDL_Event& e)
         // Latin characters
         if (e.key.keysym.sym >= 'a' && e.key.keysym.sym <= 'z')
         {
-            AddNote(PR_NOTE, "%c: %d", e.key.keysym.sym, m_bCapslock ^ bShift);
             if (m_bCapslock ^ bShift)
                 g_console.Input(e.key.keysym.sym + ('A' - 'a'));
             else
