@@ -71,10 +71,12 @@ function handleInput()
   end
 
   -- Handle player's movement
-  if isKeyDown(GTK_W) then sendActorCmd(player, GTC_MOVE_UP) end
-  if isKeyDown(GTK_A) then sendActorCmd(player, GTC_MOVE_LEFT) end
-  if isKeyDown(GTK_S) then sendActorCmd(player, GTC_MOVE_DOWN) end
-  if isKeyDown(GTK_D) then sendActorCmd(player, GTC_MOVE_RIGHT) end
+  if player then
+    if isKeyDown(GTK_W) then sendActorCmd(player, GTC_MOVE_UP) end
+    if isKeyDown(GTK_A) then sendActorCmd(player, GTC_MOVE_LEFT) end
+    if isKeyDown(GTK_S) then sendActorCmd(player, GTC_MOVE_DOWN) end
+    if isKeyDown(GTK_D) then sendActorCmd(player, GTC_MOVE_RIGHT) end
+  end
 end
 
 local onTrigger_count = 0 -- DEBUG(sean)

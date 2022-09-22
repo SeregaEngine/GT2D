@@ -60,11 +60,15 @@ void InputModule::OnKeyDown(SDL_Event& e)
     // Don't check some symbols
     switch (e.key.keysym.sym)
     {
-    case SDLK_LSHIFT: return;
-    case SDLK_LALT: return;
-    case SDLK_LCTRL: return;
-    case SDLK_TAB: return;
-    case SDLK_CAPSLOCK: return;
+    case SDLK_LSHIFT:
+    case SDLK_LALT:
+    case SDLK_LCTRL:
+    case SDLK_TAB:
+    case SDLK_CAPSLOCK:
+        return;
+
+    default:
+        break;
     }
 
     // Toggle console

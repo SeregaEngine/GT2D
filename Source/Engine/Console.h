@@ -6,6 +6,7 @@
 class Console : public EngineModule
 {
     u8* m_buffer;
+    u8* m_lastInput;
     b32 m_bShown;
 
     s32 m_currentRow;   // Row for Print()
@@ -29,7 +30,9 @@ public:
     void Reset();
 
 private:
+    void Arrow(i32f ch);
     void LineFeed();
+
     void Erase();
 };
 

@@ -13,6 +13,8 @@
 
 #define CONSOLE_INPUT_INDEX (CONSOLE_STRING_WIDTH * (CONSOLE_STRING_HEIGHT - 1))
 
+#define LAST_BUFSIZE (CONSOLE_STRING_WIDTH + 1)
+
 static const char s_consolePrompt[] = "> ";
 
 /* ====== VARIABLES ====== */
@@ -25,6 +27,10 @@ b32f Console::StartUp()
     m_buffer = new u8[CONSOLE_BUFSIZE];
     Clear();
     Reset();
+
+    // Allocate and init last input buffer
+    m_lastInput = new u8[CONSOLE_STRING_WIDTH + 1];
+    memcpy(m_lastInput, &m_buffer[CONSOLE_INPUT_INDEX], LAST_BUFSIZE);
 
     // Defaults
     m_bShown = false;
@@ -93,6 +99,15 @@ void Console::Input(i32f ch)
     case SDLK_RETURN: Interpret(); return;
     case SDLK_BACKSPACE: Erase(); return;
 
+    case SDLK_UP:
+    case SDLK_LEFT:
+    case SDLK_DOWN:
+    case SDLK_RIGHT:
+    {
+        Arrow(ch);
+        return;
+    }
+
     default: break;
     }
 
@@ -107,15 +122,11 @@ void Console::Input(i32f ch)
 
 void Console::Interpret()
 {
-    // Null-terminate input string
-    if (m_currentInput < CONSOLE_BUFSIZE - 1)
-        m_buffer[m_currentInput] = 0;
+    // Save this input
+    memcpy(m_lastInput, &m_buffer[CONSOLE_INPUT_INDEX], LAST_BUFSIZE);
 
-    g_scriptModule.Interpret((const char*) &m_buffer[CONSOLE_INPUT_INDEX + strlen(s_consolePrompt)]);
-
-    // Restore null-terminated string to 'space'
-    if (m_currentInput < CONSOLE_BUFSIZE - 1)
-        m_buffer[m_currentInput] = ' ';
+    // Interpret it
+    g_scriptModule.Interpret((const char*)m_lastInput);
 
     // Reset console's input
     Reset();
@@ -136,6 +147,40 @@ void Console::Reset()
     m_currentInput = CONSOLE_INPUT_INDEX + (s32)strlen(s_consolePrompt);
     memset(&m_buffer[CONSOLE_INPUT_INDEX], ' ', CONSOLE_STRING_WIDTH);
     memcpy(&m_buffer[CONSOLE_INPUT_INDEX], s_consolePrompt, strlen(s_consolePrompt));
+}
+
+void Console::Arrow(i32f ch)
+{
+    switch (ch)
+    {
+
+    case SDLK_UP:
+    {
+        u8 temp[LAST_BUFSIZE];
+        memcpy(temp, &m_buffer[CONSOLE_INPUT_INDEX], LAST_BUFSIZE);
+        memcpy(&m_buffer[CONSOLE_INPUT_INDEX], m_lastInput, LAST_BUFSIZE);
+        memcpy(m_lastInput, temp, LAST_BUFSIZE);
+    } break;
+
+    case SDLK_LEFT:
+    {
+
+    } break;
+
+    case SDLK_DOWN:
+    {
+        memcpy(m_lastInput, &m_buffer[CONSOLE_INPUT_INDEX], LAST_BUFSIZE);
+        Reset();
+    } break;
+
+    case SDLK_RIGHT:
+    {
+
+    } break;
+
+    default: {} break;
+
+    }
 }
 
 void Console::LineFeed()
