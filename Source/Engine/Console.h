@@ -10,7 +10,8 @@ class Console : public EngineModule
     b32 m_bShown;
 
     s32 m_currentRow;   // Row for Print()
-    s32 m_currentInput; // Position in input's row
+    s32 m_currentInput; // Last position in input's row
+    s32 m_cursorPosition; // Cursor's position
 public:
     Console() : EngineModule("Console", CHANNEL_LOGMGR) {}
 
@@ -23,16 +24,15 @@ public:
     b32 IsShown() const { return m_bShown; }
 
     void Print(const char* text);
-    void Input(i32f ch);
     void Interpret();
 
+    void Input(i32f ch);
     void Clear();
     void Reset();
 
 private:
     void Arrow(i32f ch);
     void LineFeed();
-
     void Erase();
 };
 

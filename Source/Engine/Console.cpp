@@ -48,7 +48,7 @@ void Console::Render() const
     // Draw console's background
     SDL_Rect dest = { 0, 0, g_graphicsModule.GetScreenWidth(),
                             g_graphicsModule.GetScreenHeight() / 2 };
-    g_graphicsModule.SetColor(0x00, 0x00, 0x00, 0x10);
+    g_graphicsModule.SetColor(0x00, 0x00, 0x00, 0xFF);
     g_graphicsModule.FillRect(&dest);
 
     // Draw text
@@ -65,6 +65,21 @@ void Console::Render() const
 
         m_buffer[tempIndex] = temp; // Restore
     }
+
+    // Draw cursor
+    s32 letterWidth = g_graphicsModule.GetScreenWidth() / CONSOLE_STRING_WIDTH;
+    s32 letterHeight = (g_graphicsModule.GetScreenHeight() / 2) / CONSOLE_STRING_HEIGHT;
+    s32 underscoreHeight = letterHeight / 10;
+
+    dest = {
+        (CONSOLE_INPUT_INDEX - m_cursorPosition) * letterWidth,
+        g_graphicsModule.GetScreenHeight() / 2 - underscoreHeight,
+        letterWidth,
+        underscoreHeight
+    };
+
+    g_graphicsModule.SetColor(0x00, 0x00, 0x00, 0xFF);
+    g_graphicsModule.FillRect(&dest);
 }
 
 void Console::Print(const char* text)
@@ -125,8 +140,12 @@ void Console::Interpret()
     // Save this input
     memcpy(m_lastInput, &m_buffer[CONSOLE_INPUT_INDEX], LAST_BUFSIZE);
 
+    // Null-terminate input string
+    if (m_currentInput < CONSOLE_BUFSIZE - 1)
+        m_buffer[m_currentInput] = 0;
+
     // Interpret it
-    g_scriptModule.Interpret((const char*)m_lastInput);
+    g_scriptModule.Interpret((const char*)&m_buffer[CONSOLE_INPUT_INDEX + strlen(s_consolePrompt)]);
 
     // Reset console's input
     Reset();
@@ -145,6 +164,8 @@ void Console::Clear()
 void Console::Reset()
 {
     m_currentInput = CONSOLE_INPUT_INDEX + (s32)strlen(s_consolePrompt);
+    m_cursorPosition = m_currentInput;
+
     memset(&m_buffer[CONSOLE_INPUT_INDEX], ' ', CONSOLE_STRING_WIDTH);
     memcpy(&m_buffer[CONSOLE_INPUT_INDEX], s_consolePrompt, strlen(s_consolePrompt));
 }
@@ -155,6 +176,7 @@ void Console::Arrow(i32f ch)
     {
 
     case SDLK_UP:
+    case SDLK_DOWN:
     {
         u8 temp[LAST_BUFSIZE];
         memcpy(temp, &m_buffer[CONSOLE_INPUT_INDEX], LAST_BUFSIZE);
@@ -164,18 +186,14 @@ void Console::Arrow(i32f ch)
 
     case SDLK_LEFT:
     {
-
-    } break;
-
-    case SDLK_DOWN:
-    {
-        memcpy(m_lastInput, &m_buffer[CONSOLE_INPUT_INDEX], LAST_BUFSIZE);
-        Reset();
+        if (m_cursorPosition > CONSOLE_INPUT_INDEX + strlen(s_consolePrompt))
+            --m_cursorPosition;
     } break;
 
     case SDLK_RIGHT:
     {
-
+        if (m_cursorPosition < CONSOLE_BUFSIZE - 1)
+            ++m_cursorPosition;
     } break;
 
     default: {} break;
