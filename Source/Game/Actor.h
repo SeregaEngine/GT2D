@@ -5,27 +5,43 @@
 #include "Entity.h"
 #include "AIModule.h"
 
+/* ====== DEFINES ====== */
+enum eActorState
+{
+    ACTOR_STATE_IDLE = 0,
+    ACTOR_STATE_MOVE,
+    ACTOR_STATE_ATTACK,
+
+    MAX_ACTOR_STATES
+};
+
+enum eActorAnimation
+{
+    ACTOR_ANIMATION_IDLE_RIGHT = 0,
+    ACTOR_ANIMATION_IDLE_LEFT,
+    ACTOR_ANIMATION_RIGHT,
+    ACTOR_ANIMATION_LEFT,
+    ACTOR_ANIMATION_TOP,
+    ACTOR_ANIMATION_BOTTOM,
+
+    ACTOR_ANIMATION_ATTACK,
+
+    MAX_ACTOR_ANIMATIONS
+};
+
 /* ====== STRUCTURES ====== */
 class Actor : public Entity
 {
-public:
-    enum eActorAnimation
-    {
-        ACTOR_ANIMATION_IDLE_RIGHT = 0,
-        ACTOR_ANIMATION_IDLE_LEFT,
-        ACTOR_ANIMATION_RIGHT,
-        ACTOR_ANIMATION_LEFT,
-        ACTOR_ANIMATION_TOP,
-        ACTOR_ANIMATION_BOTTOM,
-
-        MAX_ACTOR_ANIMATIONS
-    };
-
 protected:
+    /* Actor */
+    s32 m_actorState;
+
+    /* AI */
     const GT_State* m_pState;
     GT_Task* m_pTask;
     TList<GT_Command> m_lstCommand;
 
+    /* Animations */
     const GT_Animation* m_aActorAnims[MAX_ACTOR_ANIMATIONS];
 
 public:
@@ -33,6 +49,7 @@ public:
     virtual void Clean() override { RemoveTask(); }
     virtual void Update(f32 dtTime) override;
 
+    /* AI */
     const GT_State* GetState() const { return m_pState; }
     GT_Task* GetTask() const { return m_pTask; }
 
@@ -45,13 +62,21 @@ public:
         m_lstCommand.Push(cmd);
     }
 
+    /* Animations */
     void SetActorAnims(const GT_Animation* aActorAnims[]);
 
 private:
+    /* AI */
+    // Handle AI stuff
     void HandleState() { g_AIModule.HandleState(this); }
     void HandleTask() { if (m_pTask) m_pTask->Handle(); }
     void HandleCommand(f32 dtTime);
 
+    // Commands
+    void Move(s32 cmd, f32 dtTime);
+    void Attack();
+
+    /* Animations */
     void HandleAnimation(f32 dtTime);
 };
 

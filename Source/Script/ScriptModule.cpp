@@ -191,6 +191,8 @@ void ScriptModule::DefineSymbols(lua_State* L)
     lua_setglobal(L, "GTC_MOVE_DOWN");
     lua_pushinteger(L, GTC_MOVE_RIGHT);
     lua_setglobal(L, "GTC_MOVE_RIGHT");
+    lua_pushinteger(L, GTC_ATTACK);
+    lua_setglobal(L, "GTC_ATTACK");
 
     lua_pushinteger(L, GTT_NONE);
     lua_setglobal(L, "GTT_NONE");

@@ -70,12 +70,14 @@ function handleInput()
     stopGame()
   end
 
-  -- Handle player's movement
+  -- Handle player's behaviour
   if player then
     if isKeyDown(GTK_W) then sendActorCmd(player, GTC_MOVE_UP) end
     if isKeyDown(GTK_A) then sendActorCmd(player, GTC_MOVE_LEFT) end
     if isKeyDown(GTK_S) then sendActorCmd(player, GTC_MOVE_DOWN) end
     if isKeyDown(GTK_D) then sendActorCmd(player, GTC_MOVE_RIGHT) end
+
+    if isKeyDown(GTK_SPACE) then sendActorCmd(player, GTC_ATTACK) end
   end
 end
 
