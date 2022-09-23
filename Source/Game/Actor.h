@@ -17,10 +17,8 @@ enum eActorState
 
 enum eActorAnimation
 {
-    ACTOR_ANIMATION_IDLE_RIGHT = 0,
-    ACTOR_ANIMATION_IDLE_LEFT,
-    ACTOR_ANIMATION_RIGHT,
-    ACTOR_ANIMATION_LEFT,
+    ACTOR_ANIMATION_IDLE = 0,
+    ACTOR_ANIMATION_MOVE_HORIZONTAL,
     ACTOR_ANIMATION_TOP,
     ACTOR_ANIMATION_BOTTOM,
 
@@ -35,6 +33,8 @@ class Actor : public Entity
 protected:
     /* Actor */
     s32 m_actorState;
+    b32 m_bWatchRight;
+    b32 m_bWantAttack;
 
     /* AI */
     const GT_State* m_pState;
@@ -46,7 +46,7 @@ protected:
 
 public:
     virtual void Init(const Vector2& vPosition, s32 width, s32 height, GT_Texture* pTexture) override;
-    virtual void Clean() override { RemoveTask(); }
+    virtual void Clean() override { Entity::Clean(); RemoveTask(); }
     virtual void Update(f32 dtTime) override;
 
     /* AI */

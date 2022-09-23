@@ -1,8 +1,3 @@
-/* TODO
- * - Make GT2D engine it's module? just for AddNote()
- * - Log errors
- */
-
 /* ====== INCLUDES ====== */
 #include "SDL.h"
 #include "SDL_image.h"

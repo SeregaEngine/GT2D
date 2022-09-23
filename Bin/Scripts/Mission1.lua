@@ -59,6 +59,7 @@ function onUpdate(dt)
   handleInput()
 end
 
+local canAttack = true
 function handleInput()
   -- Leave if console is shown
   if isConsoleShown() then
@@ -77,7 +78,15 @@ function handleInput()
     if isKeyDown(GTK_S) then sendActorCmd(player, GTC_MOVE_DOWN) end
     if isKeyDown(GTK_D) then sendActorCmd(player, GTC_MOVE_RIGHT) end
 
-    if isKeyDown(GTK_SPACE) then sendActorCmd(player, GTC_ATTACK) end
+    -- Handle attack
+    -- Player have to press space many times instead of just
+    local isSpaceDown = isKeyDown(GTK_SPACE)
+    if isSpaceDown and canAttack then
+      sendActorCmd(player, GTC_ATTACK)
+      canAttack = false
+    elseif not isSpaceDown then
+      canAttack = true
+    end
   end
 end
 
