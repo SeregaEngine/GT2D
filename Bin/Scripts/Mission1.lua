@@ -79,7 +79,7 @@ function handleInput()
     if isKeyDown(GTK_D) then sendActorCmd(player, GTC_MOVE_RIGHT) end
 
     -- Handle attack
-    -- Player have to press space many times instead of just
+    -- Player have to press space many times
     local isSpaceDown = isKeyDown(GTK_SPACE)
     if isSpaceDown and canAttack then
       sendActorCmd(player, GTC_ATTACK)

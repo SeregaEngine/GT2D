@@ -27,12 +27,21 @@ enum eActorAnimation
     MAX_ACTOR_ANIMATIONS
 };
 
+enum eActorTeam
+{
+    ACTOR_TEAM_DEFAULT = 0,
+    ACTOR_TEAM_FRIEND,
+    ACTOR_TEAM_ENEMY
+};
+
 /* ====== STRUCTURES ====== */
 class Actor : public Entity
 {
 protected:
     /* Actor */
     s32 m_actorState;
+    s32 m_actorTeam;
+
     b32 m_bWatchRight;
     b32 m_bWantAttack;
 
@@ -73,11 +82,16 @@ private:
     void HandleCommand(f32 dtTime);
 
     // Commands
-    void Move(s32 cmd, f32 dtTime);
-    void Attack();
+    void CommandMove(s32 cmd, f32 dtTime);
+    void CommandAttack();
 
     /* Animations */
     void HandleAnimation(f32 dtTime);
+
+    // Animate actor states
+    void AnimateIdle();
+    void AnimateMove();
+    void AnimateAttack();
 };
 
 #endif // ACTOR_H_

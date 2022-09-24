@@ -1,7 +1,3 @@
-/* TODO
- * - Handle parallax texture in Update()
- */
-
 /* ====== INCLUDES ====== */
 #include "GraphicsModule.h"
 
@@ -33,24 +29,17 @@ void World::ShutDown()
         delete pEntity;
     });
     m_lstEntity.Clean();
+    m_lstRemove.Clean();
+    m_lstEvent.Clean();
 
     AddNote(PR_NOTE, "World shut down");
 }
 
 void World::Update(f32 dtTime)
 {
-    // Update entities
-    auto end = m_lstEntity.End();
-    for (auto it = m_lstEntity.Begin(); it != end; ++it)
-        it->data->Update(dtTime);
-
-    // Remove entities from remove list
-    end = m_lstRemove.End();
-    for (auto it = m_lstRemove.Begin(); it != end; ++it)
-        m_lstEntity.Remove(it->data);
-
-    // Clean remove list
-    m_lstRemove.Clean();
+    UpdateEntities(dtTime);
+    HandleEvents();
+    RemoveEntities();
 }
 
 void World::Render()
@@ -72,3 +61,50 @@ void World::Render()
     });
 }
 
+void World::UpdateEntities(f32 dtTime)
+{
+    auto end = m_lstEntity.End();
+    for (auto it = m_lstEntity.Begin(); it != end; ++it)
+        it->data->Update(dtTime);
+}
+
+void World::HandleEvents()
+{
+    // Handle events
+    auto end = m_lstEvent.End();
+    for (auto it = m_lstEvent.Begin(); it != end; ++it)
+    {
+        switch (it->data.type)
+        {
+        case WORLD_EVENT_ATTACK:
+        {
+            // TODO(sean)
+            // Send to damage manager
+            // Play weapon's sound
+            AddNote(PR_NOTE, "HandleEvents(): WORLD_EVENT_ATTACK");
+        } break;
+
+        default: {} break;
+        }
+    }
+
+    // Free memory
+    m_lstEvent.Clean();
+}
+
+void World::RemoveEntities()
+{
+    auto end = m_lstRemove.End();
+    for (auto it = m_lstRemove.Begin(); it != end; ++it)
+    {
+        // Remove from entity list
+        m_lstEntity.Remove(it->data);
+
+        // Free memory
+        it->data->Clean();
+        delete it->data;
+    }
+
+    // Clean remove list
+    m_lstRemove.Clean();
+}

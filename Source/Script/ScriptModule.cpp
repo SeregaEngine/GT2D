@@ -1,7 +1,3 @@
-/* TODO
- * - More stringent check of lua arguments
- */
-
 /* ====== INCLUDES ====== */
 extern "C"
 {

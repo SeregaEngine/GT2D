@@ -10,7 +10,7 @@
 #define ACTOR_UNIT_SPEED_X 0.05f
 #define ACTOR_UNIT_SPEED_Y 0.02f
 
-#define ACTOR_ATTACK_RATE (1000.0f / 3.0f)
+#define ACTOR_ATTACK_RATE (1000.0f / 5.0f)
 
 /* ====== VARIABLES ====== */
 static const GT_Animation s_aActorAnims[] =
@@ -30,6 +30,8 @@ void Actor::Init(const Vector2& vPosition, s32 width, s32 height, GT_Texture* pT
 
     // Defaults
     m_actorState = ACTOR_STATE_IDLE;
+    m_actorTeam = ACTOR_TEAM_DEFAULT;
+
     m_bWatchRight = true;
     m_bWantAttack = false;
 
@@ -80,22 +82,14 @@ void Actor::HandleCommand(f32 dtTime)
         GT_Command& cmd = m_lstCommand.Front();
         switch (cmd.cmd)
         {
-
         case GTC_MOVE_UP:
         case GTC_MOVE_LEFT:
         case GTC_MOVE_DOWN:
-        case GTC_MOVE_RIGHT:
-        {
-            Move(cmd.cmd, dtTime);
-        } break;
+        case GTC_MOVE_RIGHT: CommandMove(cmd.cmd, dtTime); break;
 
-        case GTC_ATTACK:
-        {
-            Attack();
-        } break;
+        case GTC_ATTACK: CommandAttack(); break;
 
-        default: {} break;
-
+        default: break;
         }
         m_lstCommand.Pop();
     }
@@ -132,7 +126,7 @@ void Actor::HandleCommand(f32 dtTime)
     m_vPosition = vNewPosition;
 }
 
-void Actor::Move(s32 cmd, f32 dtTime)
+void Actor::CommandMove(s32 cmd, f32 dtTime)
 {
     switch (cmd)
     {
@@ -148,9 +142,12 @@ void Actor::Move(s32 cmd, f32 dtTime)
         m_actorState = ACTOR_STATE_MOVE;
 }
 
-void Actor::Attack()
+void Actor::CommandAttack()
 {
     m_actorState = ACTOR_STATE_ATTACK;
+
+    // TODO(sean) if we can hit send attack event
+    // Handle hits there, not in animations
 
     m_bWantAttack = true;
 }
@@ -175,86 +172,11 @@ void Actor::HandleAnimation(f32 dtTime)
 
     switch (m_actorState)
     {
+    case ACTOR_STATE_IDLE: AnimateIdle(); break;
+    case ACTOR_STATE_MOVE: AnimateMove(); break;
+    case ACTOR_STATE_ATTACK: AnimateAttack(); return;
 
-    case ACTOR_STATE_IDLE:
-    {
-        m_pAnim = m_aActorAnims[ACTOR_ANIMATION_IDLE];
-
-        m_flip = m_bWatchRight ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL;
-    } break;
-
-    case ACTOR_STATE_MOVE:
-    {
-        if (m_vVelocity.x > 0)
-        {
-            m_pAnim = m_aActorAnims[ACTOR_ANIMATION_MOVE_HORIZONTAL];
-
-            m_bWatchRight = true;
-            m_flip = SDL_FLIP_NONE;
-        }
-        else if (m_vVelocity.x < 0)
-        {
-            m_pAnim = m_aActorAnims[ACTOR_ANIMATION_MOVE_HORIZONTAL];
-
-            m_bWatchRight = false;
-            m_flip = SDL_FLIP_HORIZONTAL;
-        }
-        else if (m_vVelocity.y > 0)
-        {
-            m_pAnim = m_aActorAnims[ACTOR_ANIMATION_BOTTOM];
-
-            m_flip = SDL_FLIP_NONE;
-        }
-        else if (m_vVelocity.y < 0)
-        {
-            m_pAnim = m_aActorAnims[ACTOR_ANIMATION_TOP];
-
-            m_flip = SDL_FLIP_NONE;
-        }
-    } break;
-
-    case ACTOR_STATE_ATTACK:
-    {
-        // If it's first animation handling for this state
-        if (m_pAnim != m_aActorAnims[ACTOR_ANIMATION_ATTACK])
-        {
-            m_pAnim = m_aActorAnims[ACTOR_ANIMATION_ATTACK];
-            m_animFrame = 0;
-            m_animElapsed = 0.0f;
-        }
-
-        // Check if we need flip
-        if (m_vVelocity.x > 0)
-        {
-            m_bWatchRight = true;
-            m_flip = SDL_FLIP_NONE;
-        }
-        else if (m_vVelocity.x < 0)
-        {
-            m_bWatchRight = false;
-            m_flip = SDL_FLIP_HORIZONTAL;
-        }
-        else
-        {
-            m_flip = m_bWatchRight ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL;
-        }
-
-        // Handle new frame
-        if (m_bWantAttack && m_animElapsed >= ACTOR_ATTACK_RATE)
-        {
-            m_animElapsed = 0.0f;
-            ++m_animFrame;
-            if (m_animFrame >= m_pAnim->count)
-                m_animFrame = 0;
-        }
-
-        // We handled this hit
-        m_bWantAttack = false;
-
-        // Don't do other steps for auto animations
-        return;
-    } break;
-
+    default: g_debugLogMgr.AddNote(CHANNEL_GAME, PR_WARNING, "ACTOR", "HandleAnimation(): Unknown actor state: %d", m_actorState); break;
     }
 
     // Update frame
@@ -267,4 +189,80 @@ void Actor::HandleAnimation(f32 dtTime)
     // Loop animation and reset new animations with smaller count
     if (m_animFrame >= m_pAnim->count)
         m_animFrame = 0;
+}
+
+void Actor::AnimateIdle()
+{
+    m_pAnim = m_aActorAnims[ACTOR_ANIMATION_IDLE];
+
+    m_flip = m_bWatchRight ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL;
+}
+
+void Actor::AnimateMove()
+{
+    if (m_vVelocity.x > 0)
+    {
+        m_pAnim = m_aActorAnims[ACTOR_ANIMATION_MOVE_HORIZONTAL];
+
+        m_bWatchRight = true;
+        m_flip = SDL_FLIP_NONE;
+    }
+    else if (m_vVelocity.x < 0)
+    {
+        m_pAnim = m_aActorAnims[ACTOR_ANIMATION_MOVE_HORIZONTAL];
+
+        m_bWatchRight = false;
+        m_flip = SDL_FLIP_HORIZONTAL;
+    }
+    else if (m_vVelocity.y > 0)
+    {
+        m_pAnim = m_aActorAnims[ACTOR_ANIMATION_BOTTOM];
+
+        m_flip = SDL_FLIP_NONE;
+    }
+    else if (m_vVelocity.y < 0)
+    {
+        m_pAnim = m_aActorAnims[ACTOR_ANIMATION_TOP];
+
+        m_flip = SDL_FLIP_NONE;
+    }
+}
+
+void Actor::AnimateAttack()
+{
+    // If it's first animation handling for this state
+    if (m_pAnim != m_aActorAnims[ACTOR_ANIMATION_ATTACK])
+    {
+        m_pAnim = m_aActorAnims[ACTOR_ANIMATION_ATTACK];
+        m_animFrame = 0;
+        m_animElapsed = 0.0f;
+    }
+
+    // Check if we need flip
+    if (m_vVelocity.x > 0)
+    {
+        m_bWatchRight = true;
+        m_flip = SDL_FLIP_NONE;
+    }
+    else if (m_vVelocity.x < 0)
+    {
+        m_bWatchRight = false;
+        m_flip = SDL_FLIP_HORIZONTAL;
+    }
+    else
+    {
+        m_flip = m_bWatchRight ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL;
+    }
+
+    // Handle new frame
+    if (m_bWantAttack && m_animElapsed >= ACTOR_ATTACK_RATE)
+    {
+        m_animElapsed = 0.0f;
+        ++m_animFrame;
+        if (m_animFrame >= m_pAnim->count)
+            m_animFrame = 0;
+    }
+
+    // We handled this hit
+    m_bWantAttack = false;
 }
