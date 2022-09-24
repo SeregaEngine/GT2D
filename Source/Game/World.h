@@ -5,35 +5,9 @@
 #include "EngineModule.h"
 #include "Entity.h"
 #include "TList.h"
-
-/* ====== DEFINES ====== */
-enum eWorldEvent
-{
-    WORLD_EVENT_ATTACK = 0,
-};
+#include "WorldEvent.h"
 
 /* ====== STRUCTURES ====== */
-struct AttackEvent
-{
-    // TODO(sean) Maybe this event should contain only attacker?
-    Vector2 vPosition;
-    FRect hitBox;
-    s32 team;
-    s32 damage;
-};
-
-struct WorldEvent
-{
-    s32 type;
-    union
-    {
-        AttackEvent attack;
-    };
-
-    WorldEvent() = default;
-    WorldEvent(const WorldEvent& event) { memcpy(this, &event, sizeof(*this)); };
-};
-
 class World final : EngineModule
 {
     GT_Texture* m_pBackground;

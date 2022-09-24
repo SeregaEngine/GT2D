@@ -222,6 +222,7 @@
     <ClInclude Include="..\..\Source\Game\PlayState.h" />
     <ClInclude Include="..\..\Source\Game\Trigger.h" />
     <ClInclude Include="..\..\Source\Game\World.h" />
+    <ClInclude Include="..\..\Source\Game\WorldEvent.h" />
     <ClInclude Include="..\..\Source\Graphics\Camera.h" />
     <ClInclude Include="..\..\Source\Graphics\GraphicsModule.h" />
     <ClInclude Include="..\..\Source\Graphics\GTUnit.h" />

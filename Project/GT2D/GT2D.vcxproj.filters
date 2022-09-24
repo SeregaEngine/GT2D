@@ -207,5 +207,8 @@
     <ClInclude Include="..\..\Source\Engine\Console.h">
       <Filter>Engine</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Game\WorldEvent.h">
+      <Filter>Game</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
