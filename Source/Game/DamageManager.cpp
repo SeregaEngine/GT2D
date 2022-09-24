@@ -19,6 +19,4 @@ void DamageManager::ShutDown()
 
 void DamageManager::HandleAttack(const AttackEvent& event)
 {
-    // DEBUG(sean)
-    AddNote(PR_NOTE, "HandleAttack()");
 }

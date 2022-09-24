@@ -69,6 +69,9 @@ private:
     /* AI */
     static s32 _defineState(lua_State* L);
 
+    /* Animation */
+    static s32 _defineAnimation(lua_State* L);
+
     /* Game */
     static s32 _stopGame(lua_State* L);
 
@@ -91,6 +94,11 @@ private:
 
     static s32 _checkActorTask(lua_State* L);
     static s32 _getActorCurrentTask(lua_State* L);
+
+    static s32 _setActorWeapon(lua_State* L);
+
+    // Weapon
+    static s32 _defineWeapon(lua_State* L);
 
     // Trigger
     static s32 _addTrigger(lua_State* L);

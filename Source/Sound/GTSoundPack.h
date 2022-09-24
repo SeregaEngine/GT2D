@@ -12,9 +12,13 @@ class GT_SoundPack
     GT_Sound** m_aSounds;
     s32 m_count;
 public:
-    GT_SoundPack() : m_aSounds(nullptr), m_count(0) {}
-    GT_SoundPack(s32 count) :
-        m_aSounds(count > 0 ? new GT_Sound*[count] : nullptr), m_count(count) {}
+    GT_SoundPack()
+        : m_aSounds(nullptr), m_count(0) {}
+    GT_SoundPack(s32 count)
+        : m_aSounds(count > 0 ? new GT_Sound*[count] : nullptr), m_count(count) {
+        for (i32f i = 0; i < count; ++i)
+            m_aSounds[i] = nullptr;
+    }
     ~GT_SoundPack() { if (m_aSounds) delete[] m_aSounds; }
 
     GT_Sound** GetSounds() { return m_aSounds; }

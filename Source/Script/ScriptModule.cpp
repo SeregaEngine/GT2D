@@ -12,6 +12,7 @@ extern "C"
 #include "Console.h"
 #include "Game.h"
 #include "Actor.h"
+#include "Weapon.h"
 #include "Trigger.h"
 #include "GotoTask.h"
 
@@ -91,6 +92,9 @@ void ScriptModule::DefineFunctions(lua_State* L)
     /* AI */
     lua_register(L, "defineState", _defineState);
 
+    /* Animation */
+    lua_register(L, "defineAnimation", _defineAnimation);
+
     /* Game */
     lua_register(L, "stopGame", _stopGame);
 
@@ -111,6 +115,10 @@ void ScriptModule::DefineFunctions(lua_State* L)
     lua_register(L, "sendActorCmd", _sendActorCmd);
     lua_register(L, "checkActorTask", _checkActorTask);
     lua_register(L, "getActorCurrentTask", _getActorCurrentTask);
+    lua_register(L, "setActorWeapon", _setActorWeapon);
+
+    // Weapon
+    lua_register(L, "defineWeapon", _defineWeapon);
 
     // Trigger
     lua_register(L, "addTrigger", _addTrigger);
@@ -553,6 +561,17 @@ s32 ScriptModule::_defineState(lua_State* L)
     return 1;
 }
 
+s32 ScriptModule::_defineAnimation(lua_State* L)
+{
+    if (!LuaExpect(L, "defineAnimation", 3))
+        return -1;
+
+    GT_Animation anim = { (s32)lua_tointeger(L, 1), (s32)lua_tointeger(L, 2), (f32)lua_tonumber(L, 3) };
+    lua_pushlightuserdata(L, (void*)g_animModule.DefineAnimation(anim));
+
+    return 1;
+}
+
 s32 ScriptModule::_stopGame(lua_State* L)
 {
     if (!LuaExpect(L, "stopGame", 0))
@@ -719,6 +738,56 @@ s32 ScriptModule::_getActorCurrentTask(lua_State* L)
         lua_pushinteger(L, pTask->GetID());
     else
         lua_pushinteger(L, GTT_NONE);
+
+    return 1;
+}
+
+s32 ScriptModule::_setActorWeapon(lua_State* L)
+{
+    if (!LuaExpect(L, "setActorWeapon", 2))
+        return -1;
+
+    static_cast<Actor*>(lua_touserdata(L, 1))->SetWeapon((const Weapon*)lua_touserdata(L, 2));
+
+    return 0;
+}
+
+s32 ScriptModule::_defineWeapon(lua_State* L)
+{
+    if (lua_gettop(L) < 7)
+    {
+        LuaNote(PR_ERROR, "defineWeapon(): expected at least 7 arguments");
+        return -1;
+    }
+    else if (lua_gettop(L) != 7 + lua_tointeger(L, 2))
+    {
+        LuaNote(PR_ERROR, "defineWeapon(): expected 7 required + soundCount arguments");
+        return -1;
+    }
+
+    // Init weapon
+    const GT_Animation* pAnim = (const GT_Animation*)lua_touserdata(L, 1);
+    s32 soundCount = (s32)lua_tointeger(L, 2);
+    FRect hitBox = {
+        GTU::UnitToScreenX((f32)lua_tonumber(L, 3)),
+        GTU::UnitToScreenY((f32)lua_tonumber(L, 4)),
+        GTU::UnitToScreenX((f32)lua_tonumber(L, 5)),
+        GTU::UnitToScreenY((f32)lua_tonumber(L, 6)),
+    };
+    s32 damage = (s32)lua_tointeger(L, 7);
+
+    Weapon* pWeapon = new Weapon(pAnim, soundCount, hitBox, damage);
+
+    // Init weapon's soundpack
+    GT_Sound** aSounds = pWeapon->GetSoundPack().GetSounds();
+
+    for (i32f i = 0; i < soundCount; ++i)
+        aSounds[i] = (GT_Sound*)lua_touserdata(L, i + 8);
+
+    // Push to the world
+    g_game.GetWorld().PushWeapon(pWeapon);
+    // Return to script
+    lua_pushlightuserdata(L, (void*)pWeapon);
 
     return 1;
 }

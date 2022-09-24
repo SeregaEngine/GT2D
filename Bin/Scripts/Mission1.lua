@@ -15,6 +15,8 @@ GROUND_Y = SCREEN_HEIGHT - GROUND_HEIGHT
 textures = {}
 sounds = {}
 music = {}
+anims = {}
+weapons = {}
 states = {}
 entities = {}
 
@@ -28,17 +30,34 @@ function onEnter()
   textures["parallax"] = defineTexture("Textures/Locations/Mission1-1_Parallax.png", TW_PARALLAX, TH_PARALLAX)
   textures["player"] = defineTexture("Textures/Actors/Player.png", TW_ACTOR, TH_ACTOR)
 
-  -- Sound and music
+  -- Sounds
   sounds["test"] = defineSound("Sounds/TestSound.wav")
+  sounds["punch1"] = defineSound("Sounds/Punch1.wav")
+  sounds["punch2"] = defineSound("Sounds/Punch2.wav")
+  sounds["punch3"] = defineSound("Sounds/Punch3.wav")
+  sounds["punch4"] = defineSound("Sounds/Punch4.wav")
+
+  -- Music
   music["test"] = defineMusic("Music/TestMusic.mp3")
+
+  -- Animations
+  anims["attack"] = defineAnimation(4, 3, 1000.0 / 2.0)
+
+  -- Weapons
+  weapons["fist"] = defineWeapon(anims["attack"], 4,  -8, -8, 8, 8,  1,  sounds["punch1"], sounds["punch2"], sounds["punch3"], sounds["punch4"])
 
   -- States
   states["NPC"] = defineState("stateNPC")
 
   -- Entities
   entities["player"] = addActor(10, 60, TW_ACTOR, TH_ACTOR, textures["player"])
+  setActorWeapon(entities["player"], weapons["fist"])
   player = entities["player"]
+
   entities["NPC"] = addActor(20, 60, TW_ACTOR, TH_ACTOR, textures["player"])
+
+  entities["enemy"] = addActor(20, 60, TW_ACTOR, TH_ACTOR, textures["player"])
+  setActorWeapon(entities["enemy"], weapons["fist"])
 
   -- Triggers
   entities["trigger"] = addTrigger(120, SCREEN_HEIGHT-8, 30, 8, entities["player"], "onTrigger")

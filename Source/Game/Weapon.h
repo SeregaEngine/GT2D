@@ -18,7 +18,7 @@ class Weapon
     s32 m_damage;
 public:
     Weapon() :
-        m_pAttackAnim(nullptr), m_soundPack(0), m_hitBox(0.0f, 0.0f, 0.0f, 0.0f), m_damage(0) {}
+        m_pAttackAnim(nullptr), m_soundPack(), m_hitBox(0.0f, 0.0f, 0.0f, 0.0f), m_damage(0) {}
     Weapon(const GT_Animation* pAttackAnim, s32 soundCount, FRect hitBox, s32 damage) :
         m_pAttackAnim(pAttackAnim), m_soundPack(soundCount), m_hitBox(hitBox), m_damage(damage) {}
 
