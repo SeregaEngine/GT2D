@@ -177,7 +177,7 @@ void Actor::CommandAttack()
         // Init
         WorldEvent event;
         event.type = WORLD_EVENT_ATTACK;
-        event.attack = {  }; // TODO(sean)
+        event.attack.pAttacker = this;
 
         // Push
         g_game.GetWorld().PushEvent(event);

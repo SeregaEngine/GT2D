@@ -16,6 +16,7 @@
 #include "ScriptModule.h"
 #include "Game.h"
 #include "CollisionManager.h"
+#include "DamageManager.h"
 
 #include "GT2D.h"
 
@@ -99,6 +100,8 @@ b32 GT2D::StartUp()
             return false;
         if (!g_collisionMgr.StartUp())
             return false;
+        if (!g_damageMgr.StartUp())
+            return false;
         if (!g_clockMgr.StartUp(FPS))
             return false;
     }
@@ -113,6 +116,7 @@ void GT2D::ShutDown()
 {
     { // Shut down engine's modules
         g_clockMgr.ShutDown();
+        g_damageMgr.ShutDown();
         g_collisionMgr.ShutDown();
         g_game.ShutDown();
         g_scriptModule.ShutDown();

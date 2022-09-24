@@ -11,13 +11,11 @@ enum eWorldEvent
 };
 
 /* ====== STRUCTURES ====== */
+class Actor;
+
 struct AttackEvent
 {
-    // TODO(sean) Maybe this event should contain only attacker?
-    Vector2 vPosition;
-    FRect hitBox;
-    s32 team;
-    s32 damage;
+    Actor* pAttacker;
 };
 
 struct WorldEvent
