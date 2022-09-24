@@ -31,24 +31,17 @@ void Actor::Init(const Vector2& vPosition, s32 width, s32 height, GT_Texture* pT
     // Defaults
     m_actorState = ACTOR_STATE_IDLE;
     m_actorTeam = ACTOR_TEAM_DEFAULT;
-
     m_bWatchRight = true;
+
+    m_weapon.SetAnimation(&s_aActorAnims[ACTOR_ANIMATION_ATTACK]);
 
     // Init AI stuff
     m_pState = nullptr;
     m_pTask = nullptr;
 
-    // Init actor animations
+    // Init default actor animations
     for (i32f i = 0; i < MAX_ACTOR_ANIMATIONS; ++i)
-        m_aActorAnims[i] = nullptr;
-
-    // Default animations
-    { // FIXME(sean) We need static default actor's animations variable
-        const GT_Animation* aAnims[MAX_ACTOR_ANIMATIONS];
-        for (i32f i = 0; i < MAX_ACTOR_ANIMATIONS; ++i)
-            aAnims[i] = g_animModule.DefineAnimation(s_aActorAnims[i]);
-        SetActorAnims(aAnims);
-    }
+        m_aActorAnims[i] = &s_aActorAnims[i];
 }
 
 void Actor::Update(f32 dtTime)

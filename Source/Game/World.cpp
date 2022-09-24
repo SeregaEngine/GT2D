@@ -1,6 +1,7 @@
 /* ====== INCLUDES ====== */
 #include "GraphicsModule.h"
 #include "DamageManager.h"
+#include "Actor.h"
 
 #include "World.h"
 
@@ -80,7 +81,7 @@ void World::HandleEvents()
         case WORLD_EVENT_ATTACK:
         {
             g_damageMgr.HandleAttack(it->data.attack);
-            // TODO(sean) Play weapon's sound
+            it->data.attack.pAttacker->GetWeapon().PlaySound();
         } break;
 
         default: {} break;

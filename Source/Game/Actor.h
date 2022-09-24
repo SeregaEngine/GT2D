@@ -4,6 +4,7 @@
 /* ====== INCLUDES ====== */
 #include "Entity.h"
 #include "AIModule.h"
+#include "Weapon.h"
 
 /* ====== DEFINES ====== */
 enum eActorState
@@ -41,8 +42,9 @@ protected:
     /* Actor */
     s32 m_actorState;
     s32 m_actorTeam;
-
     b32 m_bWatchRight;
+
+    Weapon m_weapon;
 
     /* AI */
     const GT_State* m_pState;
@@ -56,6 +58,8 @@ public:
     virtual void Init(const Vector2& vPosition, s32 width, s32 height, GT_Texture* pTexture) override;
     virtual void Clean() override { Entity::Clean(); RemoveTask(); }
     virtual void Update(f32 dtTime) override;
+
+    Weapon& GetWeapon() { return m_weapon; }
 
     /* AI */
     const GT_State* GetState() const { return m_pState; }

@@ -116,6 +116,9 @@
     <ClCompile Include="..\..\Source\Game\DamageManager.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Game\Weapon.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Bin\Scripts\Loader.lua">
@@ -215,6 +218,15 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Game\DamageManager.h">
       <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Game\Weapon.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Sound\GTSound.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Sound\GTSoundPack.h">
+      <Filter>Sound</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

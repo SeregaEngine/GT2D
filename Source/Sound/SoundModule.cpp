@@ -6,6 +6,8 @@
 /* ====== INCLUDES ====== */
 #include "SDL_mixer.h"
 
+#include "GTSound.h"
+
 #include "SoundModule.h"
 
 /* ====== DEFINES ====== */
@@ -13,11 +15,6 @@
 #define MAX_MUSICS 256
 
 /* ====== STRUCTURES ====== */
-struct GT_Sound
-{
-    Mix_Chunk* pSound;
-};
-
 struct GT_Music
 {
     Mix_Music* pMusic;
