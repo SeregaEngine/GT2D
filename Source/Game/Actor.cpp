@@ -33,7 +33,6 @@ void Actor::Init(const Vector2& vPosition, s32 width, s32 height, GT_Texture* pT
     m_actorTeam = ACTOR_TEAM_DEFAULT;
 
     m_bWatchRight = true;
-    m_bWantAttack = false;
 
     // Init AI stuff
     m_pState = nullptr;
@@ -144,12 +143,45 @@ void Actor::CommandMove(s32 cmd, f32 dtTime)
 
 void Actor::CommandAttack()
 {
-    m_actorState = ACTOR_STATE_ATTACK;
+    /* We use animations to detect on which state of attack we are */
 
-    // TODO(sean) if we can hit send attack event
-    // Handle hits there, not in animations
+    // If true then send world event
+    b32f bHit = false;
 
-    m_bWantAttack = true;
+    // If we already attacking
+    if (m_actorState == ACTOR_STATE_ATTACK)
+    {
+        if (m_animElapsed >= ACTOR_ATTACK_RATE)
+        {
+            m_animElapsed = 0.0f;
+            ++m_animFrame;
+            if (m_animFrame >= m_pAnim->count)
+                m_animFrame = 0;
+
+            bHit = true;
+        }
+    }
+    else
+    {
+        m_pAnim = m_aActorAnims[ACTOR_ANIMATION_ATTACK];
+        m_animFrame = 0;
+        m_animElapsed = 0.0f;
+
+        bHit = true;
+        m_actorState = ACTOR_STATE_ATTACK;
+    }
+
+    // Send world event
+    if (bHit)
+    {
+        // Init
+        WorldEvent event;
+        event.type = WORLD_EVENT_ATTACK;
+        event.attack = {  }; // TODO(sean)
+
+        // Push
+        g_game.GetWorld().PushEvent(event);
+    }
 }
 
 void Actor::HandleAnimation(f32 dtTime)
@@ -230,14 +262,6 @@ void Actor::AnimateMove()
 
 void Actor::AnimateAttack()
 {
-    // If it's first animation handling for this state
-    if (m_pAnim != m_aActorAnims[ACTOR_ANIMATION_ATTACK])
-    {
-        m_pAnim = m_aActorAnims[ACTOR_ANIMATION_ATTACK];
-        m_animFrame = 0;
-        m_animElapsed = 0.0f;
-    }
-
     // Check if we need flip
     if (m_vVelocity.x > 0)
     {
@@ -253,16 +277,4 @@ void Actor::AnimateAttack()
     {
         m_flip = m_bWatchRight ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL;
     }
-
-    // Handle new frame
-    if (m_bWantAttack && m_animElapsed >= ACTOR_ATTACK_RATE)
-    {
-        m_animElapsed = 0.0f;
-        ++m_animFrame;
-        if (m_animFrame >= m_pAnim->count)
-            m_animFrame = 0;
-    }
-
-    // We handled this hit
-    m_bWantAttack = false;
 }

@@ -43,7 +43,6 @@ protected:
     s32 m_actorTeam;
 
     b32 m_bWatchRight;
-    b32 m_bWantAttack;
 
     /* AI */
     const GT_State* m_pState;
