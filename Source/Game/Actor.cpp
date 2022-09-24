@@ -3,6 +3,7 @@
 #include "InputModule.h"
 #include "CollisionManager.h"
 #include "GTUnit.h"
+#include "Weapon.h"
 
 #include "Actor.h"
 
@@ -19,8 +20,6 @@ static const GT_Animation s_aActorAnims[] =
     { 1, 5, 1000.0f / 15.0f },
     { 2, 3, 1000.0f / 5.0f },
     { 3, 3, 1000.0f / 5.0f },
-
-    { 4, 3, 1000.0f / 2.0f }
 };
 
 /* ====== METHODS ====== */
@@ -33,7 +32,7 @@ void Actor::Init(const Vector2& vPosition, s32 width, s32 height, GT_Texture* pT
     m_actorTeam = ACTOR_TEAM_DEFAULT;
     m_bWatchRight = true;
 
-    m_weapon.SetAnimation(&s_aActorAnims[ACTOR_ANIMATION_ATTACK]);
+    m_pWeapon = nullptr;
 
     // Init AI stuff
     m_pState = nullptr;
@@ -156,7 +155,7 @@ void Actor::CommandAttack()
     }
     else
     {
-        m_pAnim = m_aActorAnims[ACTOR_ANIMATION_ATTACK];
+        m_pAnim = m_pWeapon ? m_pWeapon->GetAnimation() : m_aActorAnims[ACTOR_ANIMATION_IDLE];
         m_animFrame = 0;
         m_animElapsed = 0.0f;
 

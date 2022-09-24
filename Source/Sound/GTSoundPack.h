@@ -37,7 +37,7 @@ public:
         m_count = 0;
     }
 
-    void Play(i32f index) {
+    void Play(i32f index) const {
         if (index >= 0 && index < m_count && m_aSounds[index])
             g_soundModule.PlaySound(m_aSounds[index]);
         else

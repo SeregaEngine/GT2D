@@ -4,7 +4,6 @@
 /* ====== INCLUDES ====== */
 #include "Entity.h"
 #include "AIModule.h"
-#include "Weapon.h"
 
 /* ====== DEFINES ====== */
 enum eActorState
@@ -36,6 +35,8 @@ enum eActorTeam
 };
 
 /* ====== STRUCTURES ====== */
+class Weapon;
+
 class Actor : public Entity
 {
 protected:
@@ -44,7 +45,7 @@ protected:
     s32 m_actorTeam;
     b32 m_bWatchRight;
 
-    Weapon m_weapon;
+    const Weapon* m_pWeapon;
 
     /* AI */
     const GT_State* m_pState;
@@ -59,7 +60,9 @@ public:
     virtual void Clean() override { Entity::Clean(); RemoveTask(); }
     virtual void Update(f32 dtTime) override;
 
-    Weapon& GetWeapon() { return m_weapon; }
+    /* Actor */
+    const Weapon* GetWeapon() const { return m_pWeapon; }
+    void SetWeapon(const Weapon* pWeapon) { m_pWeapon = pWeapon; }
 
     /* AI */
     const GT_State* GetState() const { return m_pState; }

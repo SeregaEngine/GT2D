@@ -8,6 +8,8 @@
 #include "WorldEvent.h"
 
 /* ====== STRUCTURES ====== */
+class Weapon;
+
 class World final : EngineModule
 {
     GT_Texture* m_pBackground;
@@ -16,6 +18,7 @@ class World final : EngineModule
 
     TList<Entity*> m_lstEntity;
     TList<Entity*> m_lstRemove;
+    TList<Weapon*> m_lstWeapon;
     TList<WorldEvent> m_lstEvent;
 public:
     World() : EngineModule("World", CHANNEL_GAME) {}
@@ -35,7 +38,7 @@ public:
 
     void PushEntity(Entity* pEntity) { m_lstEntity.Push(pEntity); }
     void RemoveEntity(Entity* pEntity) { m_lstRemove.Push(pEntity); }
-
+    void PushWeapon(Weapon* pWeapon) { m_lstWeapon.Push(pWeapon); }
     void PushEvent(WorldEvent& event) { m_lstEvent.Push(event); }
 private:
     void UpdateEntities(f32 dtTime);

@@ -2,6 +2,7 @@
 #include "GraphicsModule.h"
 #include "DamageManager.h"
 #include "Actor.h"
+#include "Weapon.h"
 
 #include "World.h"
 
@@ -26,12 +27,22 @@ void World::StartUp()
 
 void World::ShutDown()
 {
+    // Clean entities
     m_lstEntity.Mapcar([](auto pEntity) {
-        pEntity->Clean();
-        delete pEntity;
+        if (pEntity)
+        {
+            pEntity->Clean();
+            delete pEntity;
+        }
     });
     m_lstEntity.Clean();
     m_lstRemove.Clean();
+
+    // Clean weapons
+    m_lstWeapon.Mapcar([](auto pWeapon) { if (pWeapon) delete pWeapon; });
+    m_lstWeapon.Clean();
+
+    // Clean events
     m_lstEvent.Clean();
 
     AddNote(PR_NOTE, "World shut down");
@@ -58,9 +69,7 @@ void World::Render()
     g_graphicsModule.Draw(m_pBackground, 0, 1, &rect);
 
     // Draw entities
-    m_lstEntity.Mapcar([](auto pEntity) {
-        pEntity->Draw();
-    });
+    m_lstEntity.Mapcar([](auto pEntity) { pEntity->Draw(); });
 }
 
 void World::UpdateEntities(f32 dtTime)
@@ -81,7 +90,9 @@ void World::HandleEvents()
         case WORLD_EVENT_ATTACK:
         {
             g_damageMgr.HandleAttack(it->data.attack);
-            it->data.attack.pAttacker->GetWeapon().PlaySound();
+            const Weapon* pWeapon = it->data.attack.pAttacker->GetWeapon();
+            if (pWeapon)
+                pWeapon->PlaySound();
         } break;
 
         default: {} break;
@@ -97,12 +108,15 @@ void World::RemoveEntities()
     auto end = m_lstRemove.End();
     for (auto it = m_lstRemove.Begin(); it != end; ++it)
     {
-        // Remove from entity list
-        m_lstEntity.Remove(it->data);
+        if (it->data)
+        {
+            // Remove from entity list
+            m_lstEntity.Remove(it->data);
 
-        // Free memory
-        it->data->Clean();
-        delete it->data;
+            // Free memory
+            it->data->Clean();
+            delete it->data;
+        }
     }
 
     // Clean remove list

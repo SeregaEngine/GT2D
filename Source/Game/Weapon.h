@@ -19,6 +19,8 @@ class Weapon
 public:
     Weapon() :
         m_pAttackAnim(nullptr), m_soundPack(0), m_hitBox(0.0f, 0.0f, 0.0f, 0.0f), m_damage(0) {}
+    Weapon(const GT_Animation* pAttackAnim, s32 soundCount, FRect hitBox, s32 damage) :
+        m_pAttackAnim(pAttackAnim), m_soundPack(soundCount), m_hitBox(hitBox), m_damage(damage) {}
 
     void Init(const GT_Animation* pAttackAnim, s32 soundCount, FRect hitBox, s32 damage)
         { m_pAttackAnim = pAttackAnim; m_soundPack.Allocate(soundCount); m_hitBox = hitBox; m_damage = damage; }
@@ -32,8 +34,8 @@ public:
     void SetHitBox(const FRect& hitBox) { m_hitBox = hitBox; }
     void SetDamage(s32 damage) { m_damage = damage; }
 
-    void PlaySound() { if (m_soundPack.GetCount() > 0) m_soundPack.Play(rand() % m_soundPack.GetCount()); }
-    void PlaySound(i32f index) { if (m_soundPack.GetCount() > 0) m_soundPack.Play(index); }
+    void PlaySound() const { if (m_soundPack.GetCount() > 0) m_soundPack.Play(rand() % m_soundPack.GetCount()); }
+    void PlaySound(i32f index) const { if (m_soundPack.GetCount() > 0) m_soundPack.Play(index); }
 };
 
 #endif // WEAPON_H_
