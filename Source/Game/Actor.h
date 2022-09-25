@@ -84,7 +84,8 @@ public:
     }
 
     /* Animations */
-    void SetActorAnims(const GT_Animation* aActorAnims[]);
+    void SetActorAnims(const GT_Animation* aActorAnims[])
+        { memcpy(m_aActorAnims, aActorAnims, sizeof(m_aActorAnims[0]) * MAX_ACTOR_ANIMATIONS); }
 
 private:
     /* Actor */

@@ -8,6 +8,7 @@
 enum eWorldEvent
 {
     WORLD_EVENT_ATTACK = 0,
+    WORLD_EVENT_DEATH,
 };
 
 /* ====== STRUCTURES ====== */
@@ -18,16 +19,19 @@ struct AttackEvent
     Actor* pAttacker;
 };
 
+struct DeathEvent
+{
+    Actor* pDead;
+};
+
 struct WorldEvent
 {
     s32 type;
     union
     {
         AttackEvent attack;
+        DeathEvent death;
     };
-
-    WorldEvent() = default;
-    WorldEvent(const WorldEvent& event) { memcpy(this, &event, sizeof(*this)); };
 };
 
 

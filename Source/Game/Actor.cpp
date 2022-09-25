@@ -59,17 +59,13 @@ void Actor::Update(f32 dtTime)
     HandleAnimation(dtTime);
 }
 
-void Actor::SetActorAnims(const GT_Animation* aActorAnims[])
-{
-    // TODO(sean) memcpy()
-    for (i32f i = 0; i < MAX_ACTOR_ANIMATIONS; ++i)
-        m_aActorAnims[i] = aActorAnims[i];
-}
-
 b32f Actor::HandleDeath()
 {
     if (m_health <= 0)
     {
+        WorldEvent event = { WORLD_EVENT_DEATH, this };
+        g_game.GetWorld().PushEvent(event);
+
         g_game.GetWorld().RemoveEntity(this);
         return true;
     }

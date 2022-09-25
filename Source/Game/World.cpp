@@ -84,6 +84,7 @@ void World::HandleEvents()
     {
         switch (it->data.type)
         {
+
         case WORLD_EVENT_ATTACK:
         {
             const Weapon* pWeapon = it->data.attack.pAttacker->GetWeapon();
@@ -94,7 +95,13 @@ void World::HandleEvents()
             }
         } break;
 
+        case WORLD_EVENT_DEATH:
+        {
+            // TODO(sean)
+        } break;
+
         default: {} break;
+
         }
     }
 
