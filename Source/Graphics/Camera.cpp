@@ -2,6 +2,15 @@
 
 #include "Camera.h"
 
+void Camera::Detach()
+{
+    s32 x, y;
+    GetPosition(x, y);
+    m_x = x;
+    m_y = y;
+    m_pAttached = nullptr;
+}
+
 void Camera::GetPosition(s32& x, s32& y) const
 {
     if (m_pAttached)

@@ -29,11 +29,8 @@ void World::ShutDown()
 {
     // Clean entities
     m_lstEntity.Mapcar([](auto pEntity) {
-        if (pEntity)
-        {
-            pEntity->Clean();
-            delete pEntity;
-        }
+        pEntity->Clean();
+        delete pEntity;
     });
     m_lstEntity.Clean();
     m_lstRemove.Clean();
@@ -110,15 +107,16 @@ void World::RemoveEntities()
     auto end = m_lstRemove.End();
     for (auto it = m_lstRemove.Begin(); it != end; ++it)
     {
-        if (it->data)
-        {
-            // Remove from entity list
-            m_lstEntity.Remove(it->data);
+        // Detach camera
+        if (it->data == g_graphicsModule.GetCamera().GetAttached())
+            g_graphicsModule.GetCamera().Detach();
 
-            // Free memory
-            it->data->Clean();
-            delete it->data;
-        }
+        // Remove from entity list
+        m_lstEntity.Remove(it->data);
+
+        // Free memory
+        it->data->Clean();
+        delete it->data;
     }
 
     // Clean remove list

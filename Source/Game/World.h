@@ -36,9 +36,9 @@ public:
     const SRect& GetGroundBounds() const { return m_groundBounds; }
     TList<Entity*>& GetEntityList() { return m_lstEntity; }
 
-    void PushEntity(Entity* pEntity) { m_lstEntity.Push(pEntity); }
-    void RemoveEntity(Entity* pEntity) { m_lstRemove.Push(pEntity); }
-    void PushWeapon(Weapon* pWeapon) { m_lstWeapon.Push(pWeapon); }
+    void PushEntity(Entity* pEntity) { if (pEntity) m_lstEntity.Push(pEntity); }
+    void RemoveEntity(Entity* pEntity) { if (pEntity) m_lstRemove.Push(pEntity); }
+    void PushWeapon(Weapon* pWeapon) { if (pWeapon) m_lstWeapon.Push(pWeapon); }
     void PushEvent(WorldEvent& event) { m_lstEvent.Push(event); }
 private:
     void UpdateEntities(f32 dtTime);

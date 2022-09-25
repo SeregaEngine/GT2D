@@ -46,6 +46,5 @@ void DamageManager::HandleAttack(const AttackEvent& event)
     {
         static_cast<Actor*>(it->data)->SetHealth(
             static_cast<Actor*>(it->data)->GetHealth() - pWeapon->GetDamage());
-        AddNote(PR_NOTE, "Here");
     }
 }

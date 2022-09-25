@@ -87,6 +87,9 @@ public:
     void SetActorAnims(const GT_Animation* aActorAnims[]);
 
 private:
+    /* Actor */
+    b32f HandleDeath();
+
     /* AI */
     // Handle AI stuff
     void HandleState() { g_AIModule.HandleState(this); }

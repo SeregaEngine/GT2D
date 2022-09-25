@@ -19,9 +19,10 @@ public:
     void SetPosition(s32 x, s32 y) { m_x = x; m_y = y; }
     void SetBounds(const SRect& bounds) { m_bounds = bounds; }
     void Attach(const Entity* pEntity) { m_pAttached = pEntity; }
-    void Detach() { m_pAttached = nullptr; }
+    void Detach();
 
     void GetPosition(s32& x, s32& y) const;
+    const Entity* GetAttached() const { return m_pAttached; }
 };
 
 #endif // CAMERA_H_

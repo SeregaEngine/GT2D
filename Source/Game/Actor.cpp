@@ -8,6 +8,8 @@
 #include "Actor.h"
 
 /* ====== DEFINES ====== */
+#define ACTOR_DEFAULT_HEALTH 10
+
 #define ACTOR_UNIT_SPEED_X 0.05f
 #define ACTOR_UNIT_SPEED_Y 0.02f
 
@@ -32,7 +34,7 @@ void Actor::Init(const Vector2& vPosition, s32 width, s32 height, GT_Texture* pT
     m_actorState = ACTOR_STATE_IDLE;
     m_actorTeam = ACTOR_TEAM_DEFAULT;
 
-    m_health = 100;
+    m_health = ACTOR_DEFAULT_HEALTH;
     m_bLookRight = true;
 
     m_pWeapon = nullptr;
@@ -48,6 +50,9 @@ void Actor::Init(const Vector2& vPosition, s32 width, s32 height, GT_Texture* pT
 
 void Actor::Update(f32 dtTime)
 {
+    if (HandleDeath())
+        return;
+
     HandleState();
     HandleTask();
     HandleCommand(dtTime);
@@ -59,6 +64,16 @@ void Actor::SetActorAnims(const GT_Animation* aActorAnims[])
     // TODO(sean) memcpy()
     for (i32f i = 0; i < MAX_ACTOR_ANIMATIONS; ++i)
         m_aActorAnims[i] = aActorAnims[i];
+}
+
+b32f Actor::HandleDeath()
+{
+    if (m_health <= 0)
+    {
+        g_game.GetWorld().RemoveEntity(this);
+        return true;
+    }
+    return false;
 }
 
 void Actor::HandleCommand(f32 dtTime)
