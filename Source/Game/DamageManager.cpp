@@ -32,7 +32,13 @@ void DamageManager::HandleAttack(const AttackEvent& event)
 
     // Get collided actors with this hit
     TList<Entity*> lstActor;
-    g_collisionMgr.CheckCollision(vPoint, pWeapon->GetHitBox(), ENTITY_TYPE_ACTOR, lstActor, event.pAttacker);
+    g_collisionMgr.CheckCollision(vPoint, pWeapon->GetHitBox(), [](auto pEntity, auto pAttacker) -> b32f {
+        if (pEntity->GetType() == ENTITY_TYPE_ACTOR &&
+            (static_cast<Actor*>(pAttacker)->GetTeam() == ACTOR_TEAM_DEFAULT ||
+             static_cast<Actor*>(pAttacker)->GetTeam() != static_cast<Actor*>(pEntity)->GetTeam()))
+            return true;
+        return false;
+    }, event.pAttacker, lstActor, event.pAttacker);
 
     // Remove health from collided actors
     auto end = lstActor.End();
@@ -40,5 +46,6 @@ void DamageManager::HandleAttack(const AttackEvent& event)
     {
         static_cast<Actor*>(it->data)->SetHealth(
             static_cast<Actor*>(it->data)->GetHealth() - pWeapon->GetDamage());
+        AddNote(PR_NOTE, "Here");
     }
 }

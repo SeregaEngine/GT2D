@@ -55,7 +55,7 @@ void CollisionManager::CheckCollision(const Vector2& vPoint, const FRect& hitBox
     }
 }
 
-void CollisionManager::CheckCollision(const Vector2& vPoint, const FRect& hitBox, s32 entityType, TList<Entity*>& lstEntity, Entity* pExcept) const
+void CollisionManager::CheckCollision(const Vector2& vPoint, const FRect& hitBox, b32f (*predicate)(Entity*, void*), void* userdata, TList<Entity*>& lstEntity, Entity* pExcept) const
 {
     // Get hitbox in world coords
     FRect rect = {
@@ -69,7 +69,7 @@ void CollisionManager::CheckCollision(const Vector2& vPoint, const FRect& hitBox
 
     for (auto it = lstWorldEntity.Begin(); it != end; ++it)
     {
-        if (it->data == pExcept || it->data->GetType() != entityType || !it->data->IsCollidable())
+        if (it->data == pExcept || !it->data->IsCollidable() || !predicate(it->data, userdata))
             continue;
 
         const Vector2& vPosition = it->data->GetPosition();
