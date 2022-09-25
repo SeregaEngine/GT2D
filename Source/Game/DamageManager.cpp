@@ -1,4 +1,8 @@
 /* ====== INCLUDES ====== */
+#include "Actor.h"
+#include "Weapon.h"
+#include "CollisionManager.h"
+
 #include "DamageManager.h"
 
 /* ====== VARIABLES ====== */
@@ -19,4 +23,22 @@ void DamageManager::ShutDown()
 
 void DamageManager::HandleAttack(const AttackEvent& event)
 {
+    // Get attacker's weapon
+    const Weapon* pWeapon = event.pAttacker->GetWeapon();
+
+    // Get point for the hit registration
+    Vector2 vPoint = event.pAttacker->GetPosition();
+    vPoint.x += event.pAttacker->IsLookRight() ? pWeapon->GetHitBox().x2 : pWeapon->GetHitBox().x1;
+
+    // Get collided actors with this hit
+    TList<Entity*> lstActor;
+    g_collisionMgr.CheckCollision(vPoint, pWeapon->GetHitBox(), ENTITY_TYPE_ACTOR, lstActor, event.pAttacker);
+
+    // Remove health from collided actors
+    auto end = lstActor.End();
+    for (auto it = lstActor.Begin(); it != end; ++it)
+    {
+        static_cast<Actor*>(it->data)->SetHealth(
+            static_cast<Actor*>(it->data)->GetHealth() - pWeapon->GetDamage());
+    }
 }

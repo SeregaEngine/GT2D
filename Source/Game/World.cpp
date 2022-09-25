@@ -89,10 +89,12 @@ void World::HandleEvents()
         {
         case WORLD_EVENT_ATTACK:
         {
-            g_damageMgr.HandleAttack(it->data.attack);
             const Weapon* pWeapon = it->data.attack.pAttacker->GetWeapon();
             if (pWeapon)
+            {
+                g_damageMgr.HandleAttack(it->data.attack);
                 pWeapon->PlaySound();
+            }
         } break;
 
         default: {} break;

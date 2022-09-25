@@ -29,6 +29,8 @@ function onEnter()
   textures["background"] = defineTexture("Textures/Locations/Mission1-1.png", TW_LOCATION, TH_LOCATION)
   textures["parallax"] = defineTexture("Textures/Locations/Mission1-1_Parallax.png", TW_PARALLAX, TH_PARALLAX)
   textures["player"] = defineTexture("Textures/Actors/Player.png", TW_ACTOR, TH_ACTOR)
+  textures["dark_lord"] = defineTexture("Textures/Actors/DarkLord.png", TW_ACTOR, TH_ACTOR)
+  textures["zhenek"] = defineTexture("Textures/Actors/Zhenek.png", TW_ACTOR, TH_ACTOR)
 
   -- Sounds
   sounds["test"] = defineSound("Sounds/TestSound.wav")
@@ -54,9 +56,9 @@ function onEnter()
   setActorWeapon(entities["player"], weapons["fist"])
   player = entities["player"]
 
-  entities["NPC"] = addActor(20, 60, TW_ACTOR, TH_ACTOR, textures["player"])
+  entities["NPC"] = addActor(20, 60, TW_ACTOR, TH_ACTOR, textures["zhenek"])
 
-  entities["enemy"] = addActor(20, 60, TW_ACTOR, TH_ACTOR, textures["player"])
+  entities["enemy"] = addActor(20, 60, TW_ACTOR, TH_ACTOR, textures["dark_lord"])
   setActorWeapon(entities["enemy"], weapons["fist"])
 
   -- Triggers

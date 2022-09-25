@@ -27,7 +27,7 @@ public:
 
     const GT_Animation* GetAnimation() const { return m_pAttackAnim; }
     GT_SoundPack& GetSoundPack() { return m_soundPack; }
-    const FRect& GetHitBox() { return m_hitBox; }
+    const FRect& GetHitBox() const { return m_hitBox; }
     s32 GetDamage() const { return m_damage; }
 
     void SetAnimation(const GT_Animation* pAttackAnim) { m_pAttackAnim = pAttackAnim; }

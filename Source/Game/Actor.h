@@ -43,7 +43,9 @@ protected:
     /* Actor */
     s32 m_actorState;
     s32 m_actorTeam;
-    b32 m_bWatchRight;
+
+    s32 m_health;
+    b32 m_bLookRight;
 
     const Weapon* m_pWeapon;
 
@@ -61,6 +63,11 @@ public:
     virtual void Update(f32 dtTime) override;
 
     /* Actor */
+    s32 GetHealth() const { return m_health; }
+    void SetHealth(s32 health) { m_health = health; }
+
+    b32 IsLookRight() const { return m_bLookRight; }
+
     const Weapon* GetWeapon() const { return m_pWeapon; }
     void SetWeapon(const Weapon* pWeapon) { m_pWeapon = pWeapon; }
 

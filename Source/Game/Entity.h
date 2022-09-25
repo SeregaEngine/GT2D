@@ -5,10 +5,20 @@
 #include "GraphicsModule.h"
 #include "AnimationModule.h"
 
+/* ====== DEFINES ====== */
+enum eEntityType
+{
+    ENTITY_TYPE_ENTITY = 0,
+    ENTITY_TYPE_ACTOR,
+    ENTITY_TYPE_TRIGGER,
+};
+
 /* ====== STRUCTURES ====== */
 class Entity
 {
 protected:
+    s32 m_type;
+
     Vector2 m_vPosition;
     Vector2 m_vVelocity;
 
@@ -35,6 +45,7 @@ public:
     virtual void Update(f32 dtTime) {}
     virtual void Draw();
 
+    s32 GetType() const { return m_type; }
     const Vector2& GetPosition() const { return m_vPosition; }
     const Vector2& GetVelocity() const { return m_vVelocity; }
     s32 GetWidth() const { return m_width; }

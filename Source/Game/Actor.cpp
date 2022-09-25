@@ -26,11 +26,14 @@ static const GT_Animation s_aActorAnims[] =
 void Actor::Init(const Vector2& vPosition, s32 width, s32 height, GT_Texture* pTexture)
 {
     Entity::Init(vPosition, width, height, pTexture);
+    m_type = ENTITY_TYPE_ACTOR;
 
     // Defaults
     m_actorState = ACTOR_STATE_IDLE;
     m_actorTeam = ACTOR_TEAM_DEFAULT;
-    m_bWatchRight = true;
+
+    m_health = 100;
+    m_bLookRight = true;
 
     m_pWeapon = nullptr;
 
@@ -219,7 +222,7 @@ void Actor::AnimateIdle()
 {
     m_pAnim = m_aActorAnims[ACTOR_ANIMATION_IDLE];
 
-    m_flip = m_bWatchRight ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL;
+    m_flip = m_bLookRight ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL;
 }
 
 void Actor::AnimateMove()
@@ -228,14 +231,14 @@ void Actor::AnimateMove()
     {
         m_pAnim = m_aActorAnims[ACTOR_ANIMATION_MOVE_HORIZONTAL];
 
-        m_bWatchRight = true;
+        m_bLookRight = true;
         m_flip = SDL_FLIP_NONE;
     }
     else if (m_vVelocity.x < 0)
     {
         m_pAnim = m_aActorAnims[ACTOR_ANIMATION_MOVE_HORIZONTAL];
 
-        m_bWatchRight = false;
+        m_bLookRight = false;
         m_flip = SDL_FLIP_HORIZONTAL;
     }
     else if (m_vVelocity.y > 0)
@@ -257,16 +260,16 @@ void Actor::AnimateAttack()
     // Check if we need flip
     if (m_vVelocity.x > 0)
     {
-        m_bWatchRight = true;
+        m_bLookRight = true;
         m_flip = SDL_FLIP_NONE;
     }
     else if (m_vVelocity.x < 0)
     {
-        m_bWatchRight = false;
+        m_bLookRight = false;
         m_flip = SDL_FLIP_HORIZONTAL;
     }
     else
     {
-        m_flip = m_bWatchRight ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL;
+        m_flip = m_bLookRight ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL;
     }
 }

@@ -4,6 +4,8 @@
 
 void Entity::Init(const Vector2& vPosition, s32 width, s32 height, GT_Texture* pTexture)
 {
+    m_type = ENTITY_TYPE_ENTITY;
+
     m_vPosition = vPosition;
     m_vVelocity = { 0.0f, 0.0f };
 
