@@ -806,35 +806,37 @@ s32 ScriptModule::_setActorWeapon(lua_State* L)
 
 s32 ScriptModule::_defineWeapon(lua_State* L)
 {
-    if (lua_gettop(L) < 7)
+    if (lua_gettop(L) < 5)
     {
-        LuaNote(PR_ERROR, "defineWeapon(): expected at least 7 arguments");
+        LuaNote(PR_ERROR, "defineWeapon(): expected at least 5 arguments");
         return -1;
     }
-    else if (lua_gettop(L) != 7 + lua_tointeger(L, 2))
+    else if (lua_gettop(L) != 5 + lua_tointeger(L, 2))
     {
-        LuaNote(PR_ERROR, "defineWeapon(): expected 7 required + soundCount arguments");
+        LuaNote(PR_ERROR, "defineWeapon(): expected 5 required + soundCount arguments");
         return -1;
     }
 
     // Init weapon
     const GT_Animation* pAnim = (const GT_Animation*)lua_touserdata(L, 1);
     s32 soundCount = (s32)lua_tointeger(L, 2);
-    FRect hitBox = {
-        GTU::UnitToScreenX((f32)lua_tonumber(L, 3)),
-        GTU::UnitToScreenY((f32)lua_tonumber(L, 4)),
-        GTU::UnitToScreenX((f32)lua_tonumber(L, 5)),
-        GTU::UnitToScreenY((f32)lua_tonumber(L, 6)),
-    };
-    f32 damage = (f32)lua_tonumber(L, 7);
 
+    FRect hitBox;
+    hitBox.x1 = -GTU::UnitToScreenX((f32)lua_tonumber(L, 3));
+    hitBox.y1 = -GTU::UnitToScreenY((f32)lua_tonumber(L, 4));
+    hitBox.x2 = -hitBox.x1;
+    hitBox.y2 = -hitBox.y1;
+
+    f32 damage = (f32)lua_tonumber(L, 5);
+
+    // Allocate weapon
     Weapon* pWeapon = new Weapon(pAnim, soundCount, hitBox, damage);
 
     // Init weapon's soundpack
     GT_Sound** aSounds = pWeapon->GetSoundPack().GetSounds();
 
     for (i32f i = 0; i < soundCount; ++i)
-        aSounds[i] = (GT_Sound*)lua_touserdata(L, i + 8);
+        aSounds[i] = (GT_Sound*)lua_touserdata(L, i + 6);
 
     // Push to the world
     g_game.GetWorld().PushWeapon(pWeapon);

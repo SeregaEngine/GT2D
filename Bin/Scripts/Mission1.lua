@@ -50,7 +50,7 @@ function onEnter()
     anims["attack"] = defineAnimation(4, 3, 1000.0 / 2.0)
 
     -- Weapons
-    weapons["fist"] = defineWeapon(anims["attack"], 4,  -8, -8, 8, 8,  1.0,  sounds["punch1"], sounds["punch2"], sounds["punch3"], sounds["punch4"])
+    weapons["fist"] = defineWeapon(anims["attack"], 4, 8, 8, 1.0, sounds["punch1"], sounds["punch2"], sounds["punch3"], sounds["punch4"])
 
     -- States
     states["NPC"] = defineState("stateNPC")
