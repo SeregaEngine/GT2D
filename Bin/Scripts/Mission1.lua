@@ -137,9 +137,7 @@ function stateKillPlayer(actor)
         return
     elseif status == GTT_DONE then
         if task == GTT_GOTO_ENTITY then
-            -- DEBUG(sean)
-			setActorTask(actor, GTT_GOTO_ENTITY, player)
-            --setActorTask(actor, GTT_KILL, player)
+            setActorTask(actor, GTT_KILL, player)
         elseif task == GTT_KILL then
             GT_LOG(PR_NOTE, "Actor killed")
             setActorTask(actor, GTT_NONE)

@@ -33,13 +33,15 @@ public:
     void SetParallax(GT_Texture* pTexture) { m_pParallax = pTexture; }
     void SetGroundBounds(SRect& rect) { m_groundBounds = rect; }
 
-    const SRect& GetGroundBounds() const { return m_groundBounds; }
-    TList<Entity*>& GetEntityList() { return m_lstEntity; }
-
     void PushEntity(Entity* pEntity) { if (pEntity) m_lstEntity.Push(pEntity); }
     void RemoveEntity(Entity* pEntity) { if (pEntity) m_lstRemove.Push(pEntity); }
     void PushWeapon(Weapon* pWeapon) { if (pWeapon) m_lstWeapon.Push(pWeapon); }
     void PushEvent(WorldEvent& event) { m_lstEvent.Push(event); }
+
+    const SRect& GetGroundBounds() const { return m_groundBounds; }
+    TList<Entity*>& GetEntityList() { return m_lstEntity; }
+
+    b32f HasEntity(Entity* pEntity) { return m_lstEntity.IsMember(pEntity); }
 private:
     void UpdateEntities(f32 dtTime);
     void HandleEvents();

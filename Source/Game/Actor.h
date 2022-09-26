@@ -63,12 +63,15 @@ public:
     virtual void Update(f32 dtTime) override;
 
     /* Actor */
+    void TurnRight() { m_bLookRight = true; }
+    void TurnLeft() { m_bLookRight = false; }
+    void SetHealth(s32 health) { m_health = health; }
+    void SetWeapon(const Weapon* pWeapon) { m_pWeapon = pWeapon; }
+
     s32 GetTeam() const { return m_actorTeam; }
     s32 GetHealth() const { return m_health; }
-    void SetHealth(s32 health) { m_health = health; }
     b32 IsLookRight() const { return m_bLookRight; }
     const Weapon* GetWeapon() const { return m_pWeapon; }
-    void SetWeapon(const Weapon* pWeapon) { m_pWeapon = pWeapon; }
 
     /* AI */
     const GT_State* GetState() const { return m_pState; }

@@ -1,4 +1,5 @@
 /* ====== INCLUDES ====== */
+#include "Game.h"
 #include "Actor.h"
 #include "CollisionManager.h"
 
@@ -16,8 +17,13 @@ void GotoEntityTask::Handle()
         return;
     }
 
-    if (m_pEntity)
-        HandleActor();
+    if (!g_game.GetWorld().HasEntity(m_pEntity))
+    {
+        m_status = GTT_IMPOSSIBLE;
+        return;
+    }
+
+    HandleActor();
 }
 
 b32f GotoEntityTask::IsDone()

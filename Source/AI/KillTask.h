@@ -13,6 +13,10 @@ public:
         : GT_Task(pActor, GTT_KILL), m_pTarget(pTarget) {}
 
     virtual void Handle() override;
+private:
+    b32f IsDone();
+    b32f IsPossible();
+    void HandleActor();
 };
 
 #endif // KILLTASK_H_
