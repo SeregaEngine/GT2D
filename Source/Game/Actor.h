@@ -44,6 +44,8 @@ protected:
     s32 m_actorState;
     s32 m_actorTeam;
 
+    Vector2 m_vSpeed;
+
     f32 m_health;
     b32 m_bGodMode;
     b32 m_bLookRight;
@@ -67,6 +69,7 @@ public:
     void TurnRight() { m_bLookRight = true; }
     void TurnLeft() { m_bLookRight = false; }
 
+    void SetSpeed(const Vector2& vSpeed) { m_vSpeed = vSpeed; }
     void AddHealth(f32 diff) { if (!m_bGodMode) m_health += diff; }
     void SetHealth(f32 health) { m_health = health; }
     void ToggleGodMode(b32 bToggle) { m_bGodMode = bToggle; }
@@ -74,6 +77,7 @@ public:
     void SetWeapon(const Weapon* pWeapon) { m_pWeapon = pWeapon; }
 
     s32 GetTeam() const { return m_actorTeam; }
+    const Vector2& GetSpeed() const { return m_vSpeed; }
     f32 GetHealth() const { return m_health; }
     b32 IsLookRight() const { return m_bLookRight; }
     const Weapon* GetWeapon() const { return m_pWeapon; }

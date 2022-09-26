@@ -10,8 +10,8 @@
 /* ====== DEFINES ====== */
 #define ACTOR_DEFAULT_HEALTH 3.0f
 
-#define ACTOR_UNIT_SPEED_X 0.05f
-#define ACTOR_UNIT_SPEED_Y 0.02f
+#define ACTOR_DEFAULT_UNIT_SPEED_X 0.05f
+#define ACTOR_DEFAULT_UNIT_SPEED_Y 0.02f
 
 #define ACTOR_ATTACK_RATE (1000.0f / 5.0f)
 
@@ -33,6 +33,9 @@ void Actor::Init(const Vector2& vPosition, s32 width, s32 height, const GT_Textu
     // Defaults
     m_actorState = ACTOR_STATE_IDLE;
     m_actorTeam = ACTOR_TEAM_DEFAULT;
+
+    m_vSpeed = { GTU::UnitToScreenX(ACTOR_DEFAULT_UNIT_SPEED_X),
+                 GTU::UnitToScreenY(ACTOR_DEFAULT_UNIT_SPEED_Y) };
 
     m_health = ACTOR_DEFAULT_HEALTH;
     m_bLookRight = true;
@@ -134,10 +137,10 @@ void Actor::CommandMove(s32 cmd, f32 dtTime)
 {
     switch (cmd)
     {
-    case GTC_MOVE_UP:    m_vVelocity.y -= GTU::UnitToScreenY(ACTOR_UNIT_SPEED_Y) * dtTime; break;
-    case GTC_MOVE_LEFT:  m_vVelocity.x -= GTU::UnitToScreenX(ACTOR_UNIT_SPEED_X) * dtTime; break;
-    case GTC_MOVE_DOWN:  m_vVelocity.y += GTU::UnitToScreenY(ACTOR_UNIT_SPEED_Y) * dtTime; break;
-    case GTC_MOVE_RIGHT: m_vVelocity.x += GTU::UnitToScreenX(ACTOR_UNIT_SPEED_X) * dtTime; break;
+    case GTC_MOVE_UP:    m_vVelocity.y -= m_vSpeed.y * dtTime; break;
+    case GTC_MOVE_LEFT:  m_vVelocity.x -= m_vSpeed.x * dtTime; break;
+    case GTC_MOVE_DOWN:  m_vVelocity.y += m_vSpeed.y * dtTime; break;
+    case GTC_MOVE_RIGHT: m_vVelocity.x += m_vSpeed.x * dtTime; break;
 
     default: break;
     }

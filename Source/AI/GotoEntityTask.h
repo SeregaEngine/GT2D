@@ -18,6 +18,9 @@ public:
 private:
     b32f IsDone();
     void HandleActor();
+
+    void MoveX(const Vector2& vActor, const Vector2& vEntity, const Vector2& vError);
+    void MoveY(const Vector2& vActor, const Vector2& vEntity, const Vector2& vError);
 };
 
 #endif // GOTOENTITYTASK_H_

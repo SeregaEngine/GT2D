@@ -65,7 +65,7 @@ function onEnter()
     entities["NPC"] = addActor(20, 60, TW_ACTOR, TH_ACTOR, textures["zhenek"])
     setActorState(entities["NPC"], states["NPC"])
 
-    entities["enemy"] = addActor(128, 60, TW_ACTOR, TH_ACTOR, textures["dark_lord"])
+    entities["enemy"] = addActor(128, 59, TW_ACTOR, TH_ACTOR, textures["dark_lord"])
     setActorWeapon(entities["enemy"], weapons["fist"])
     setActorState(entities["enemy"], states["kill_player"])
 
