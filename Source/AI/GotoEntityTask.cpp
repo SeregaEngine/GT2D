@@ -39,6 +39,7 @@ void GotoEntityTask::HandleActor()
     const Vector2& vActor = m_pActor->GetPosition();
     const Vector2& vEntity = m_pEntity->GetPosition();
 
+    // TODO(sean) If we are near vEntity, don't do anything
     // X
     if (vEntity.x < vActor.x)
         m_pActor->SendCommand(GTC_MOVE_LEFT);
