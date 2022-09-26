@@ -13,7 +13,7 @@
 #define ACTOR_DEFAULT_UNIT_SPEED_X 0.05f
 #define ACTOR_DEFAULT_UNIT_SPEED_Y 0.02f
 
-#define ACTOR_ATTACK_RATE (1000.0f / 5.0f)
+#define ACTOR_DEFAULT_ATTACK_RATE (1000.0f / 5.0f)
 
 /* ====== VARIABLES ====== */
 static const GT_Animation s_aActorAnims[] =
@@ -40,6 +40,7 @@ void Actor::Init(const Vector2& vPosition, s32 width, s32 height, const GT_Textu
     m_health = ACTOR_DEFAULT_HEALTH;
     m_bLookRight = true;
 
+    m_attackRate = ACTOR_DEFAULT_ATTACK_RATE;
     m_pWeapon = nullptr;
 
     // Init AI stuff
@@ -159,7 +160,7 @@ void Actor::CommandAttack()
     // If we already attacking
     if (m_actorState == ACTOR_STATE_ATTACK)
     {
-        if (m_animElapsed >= ACTOR_ATTACK_RATE)
+        if (m_animElapsed >= m_attackRate)
         {
             m_animElapsed = 0.0f;
             ++m_animFrame;

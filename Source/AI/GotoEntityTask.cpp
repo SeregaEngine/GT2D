@@ -9,7 +9,7 @@
 
 /* ====== DEFINES ====== */
 #define ERROR_MULTIPLIER 7.5f
-#define DECISION_RATIO_XY 2.0f
+#define DECISION_RATIO_XY 4.0f
 
 /* ====== METHODS ====== */
 void GotoEntityTask::Handle()
