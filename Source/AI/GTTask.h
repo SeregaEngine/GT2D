@@ -7,8 +7,9 @@
 /* ====== DEFINES ====== */
 enum eGT_TaskStatus
 {
-    GTT_DONE = 1,
-    GTT_INPROCESS = 2,
+    GTT_INPROCESS = 1,
+    GTT_IMPOSSIBLE = 2,
+    GTT_DONE = 3,
 
     GTT_STATUS_END
 };
@@ -18,7 +19,9 @@ enum eGT_TaskID
     GTT_TASK_START = GTT_STATUS_END,
 
     GTT_NONE = 0,
-    GTT_GOTO = GTT_TASK_START
+    GTT_GOTO = GTT_TASK_START,
+    GTT_GOTO_ENTITY,
+    GTT_KILL,
 };
 
 /* ====== STRUCTURES ====== */
@@ -28,9 +31,9 @@ class Actor;
 class GT_Task
 {
 protected:
+    Actor* m_pActor;
     s32 m_id;
     s32 m_status;
-    Actor* m_pActor;
 public:
     GT_Task(Actor* pActor, s32 id) : m_pActor(pActor), m_id(id), m_status(GTT_INPROCESS) {}
     virtual ~GT_Task() {}

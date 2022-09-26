@@ -8,7 +8,7 @@
 #include "Actor.h"
 
 /* ====== DEFINES ====== */
-#define ACTOR_DEFAULT_HEALTH 10
+#define ACTOR_DEFAULT_HEALTH 3
 
 #define ACTOR_UNIT_SPEED_X 0.05f
 #define ACTOR_UNIT_SPEED_Y 0.02f
@@ -120,7 +120,6 @@ void Actor::HandleCommand(f32 dtTime)
             vNewPosition.y += m_vVelocity.y;
             if (!g_collisionMgr.IsOnGround(vNewPosition, m_hitBox))
             {
-                // TODO(sean) Later we'll may have to set GTT_IMPOSSIBLE status for GotoTask
                 // So we'll not move...
                 vNewPosition.y -= m_vVelocity.y;
             }

@@ -4,8 +4,6 @@
  */
 
 /* ====== INCLUDES ====== */
-#include "SDL_mixer.h"
-
 #include "GTSound.h"
 
 #include "SoundModule.h"
@@ -42,7 +40,7 @@ b32 SoundModule::StartUp()
 
 void SoundModule::ShutDown()
 {
-    HaltMusic();
+    StopSoundsAndMusic();
     UndefineResources();
     delete[] m_aMusics;
     delete[] m_aSounds;
@@ -94,6 +92,8 @@ GT_Music* SoundModule::DefineMusic(const char* fileName)
 
 void SoundModule::UndefineSounds()
 {
+    StopSounds();
+
     if (m_aSounds)
     {
         for (i32f i = 0; i < MAX_SOUNDS; ++i)
@@ -109,6 +109,8 @@ void SoundModule::UndefineSounds()
 
 void SoundModule::UndefineMusics()
 {
+    StopMusic();
+
     if (m_aMusics)
     {
         for (i32f i = 0; i < MAX_MUSICS; ++i)
@@ -148,9 +150,4 @@ b32 SoundModule::PlayMusic(GT_Music* pMusic)
         AddNote(PR_WARNING, "PlayMusic() called with null music");
         return false;
     }
-}
-
-void SoundModule::HaltMusic()
-{
-    Mix_HaltMusic();
 }

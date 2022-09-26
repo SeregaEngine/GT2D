@@ -15,6 +15,8 @@ extern "C"
 #include "Weapon.h"
 #include "Trigger.h"
 #include "GotoTask.h"
+#include "GotoEntityTask.h"
+#include "KillTask.h"
 
 #include "ScriptModule.h"
 
@@ -200,13 +202,19 @@ void ScriptModule::DefineSymbols(lua_State* L)
 
     lua_pushinteger(L, GTT_NONE);
     lua_setglobal(L, "GTT_NONE");
-    lua_pushinteger(L, GTT_DONE);
-    lua_setglobal(L, "GTT_DONE");
     lua_pushinteger(L, GTT_INPROCESS);
     lua_setglobal(L, "GTT_INPROCESS");
+    lua_pushinteger(L, GTT_IMPOSSIBLE);
+    lua_setglobal(L, "GTT_IMPOSSIBLE");
+    lua_pushinteger(L, GTT_DONE);
+    lua_setglobal(L, "GTT_DONE");
 
     lua_pushinteger(L, GTT_GOTO);
     lua_setglobal(L, "GTT_GOTO");
+    lua_pushinteger(L, GTT_GOTO_ENTITY);
+    lua_setglobal(L, "GTT_GOTO_ENTITY");
+    lua_pushinteger(L, GTT_KILL);
+    lua_setglobal(L, "GTT_KILL");
 }
 
 b32 ScriptModule::LoadMission()
@@ -702,6 +710,16 @@ s32 ScriptModule::_setActorTask(lua_State* L)
         Vector2 vDestination = { GTU::UnitToScreenX((f32)lua_tonumber(L, 3)),
                                  GTU::UnitToScreenY((f32)lua_tonumber(L, 4))};
         pActor->SetTask(new GotoTask(pActor, vDestination));
+    } break;
+
+    case GTT_GOTO_ENTITY:
+    {
+        pActor->SetTask(new GotoEntityTask(pActor, (Entity*)lua_touserdata(L, 3)));
+    } break;
+
+    case GTT_KILL:
+    {
+        pActor->SetTask(new KillTask(pActor, (Actor*)lua_touserdata(L, 3)));
     } break;
 
     default:

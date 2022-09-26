@@ -2,6 +2,8 @@
 #define SOUNDMODULE_H_
 
 /* ====== INCLUDES ====== */
+#include "SDL_mixer.h"
+
 #include "Types.h"
 #include "EngineModule.h"
 
@@ -30,7 +32,9 @@ public:
 
     b32 PlaySound(GT_Sound* pSound);
     b32 PlayMusic(GT_Music* pMusic);
-    void HaltMusic();
+    void StopSounds() { Mix_HaltChannel(-1); }
+    void StopMusic() { Mix_HaltMusic(); }
+    void StopSoundsAndMusic() { StopSounds(); StopMusic(); }
 };
 
 extern SoundModule g_soundModule;

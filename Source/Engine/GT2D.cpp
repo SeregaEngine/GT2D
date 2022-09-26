@@ -114,6 +114,8 @@ b32 GT2D::StartUp()
 
 void GT2D::ShutDown()
 {
+    AddNote(PR_NOTE, "Engine shut down");
+
     { // Shut down engine's modules
         g_clockMgr.ShutDown();
         g_damageMgr.ShutDown();
@@ -128,6 +130,8 @@ void GT2D::ShutDown()
         GTM::ShutDown();
     }
 
+    AddNote(PR_NOTE, "Engine modules shut down");
+
     { // Shut down SDL
         SDL_DestroyRenderer(m_pRenderer);
         SDL_DestroyWindow(m_pWindow);
@@ -138,7 +142,7 @@ void GT2D::ShutDown()
         SDL_Quit();
     }
 
-    AddNote(PR_NOTE, "Engine shut down");
+    AddNote(PR_NOTE, "SDL modules shut down");
 
     // Shut down log manager
     g_debugLogMgr.ShutDown();

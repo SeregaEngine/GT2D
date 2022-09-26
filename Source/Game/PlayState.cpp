@@ -26,7 +26,6 @@ void PlayState::OnExit()
     // Unload all resourses
     g_graphicsModule.UndefineTextures();
     g_animModule.UndefineAnimations();
-    g_soundModule.HaltMusic();
     g_soundModule.UndefineResources();
     g_AIModule.UndefineStates();
 

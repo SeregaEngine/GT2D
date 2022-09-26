@@ -174,7 +174,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\AI\AIModule.cpp" />
+    <ClCompile Include="..\..\Source\AI\GotoEntityTask.cpp" />
     <ClCompile Include="..\..\Source\AI\GotoTask.cpp" />
+    <ClCompile Include="..\..\Source\AI\KillTask.cpp" />
     <ClCompile Include="..\..\Source\Animation\AnimationModule.cpp" />
     <ClCompile Include="..\..\Source\Collision\CollisionManager.cpp" />
     <ClCompile Include="..\..\Source\Engine\ClockManager.cpp" />
@@ -206,9 +208,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\AI\AIModule.h" />
+    <ClInclude Include="..\..\Source\AI\GotoEntityTask.h" />
     <ClInclude Include="..\..\Source\AI\GotoTask.h" />
     <ClInclude Include="..\..\Source\AI\GTCommand.h" />
     <ClInclude Include="..\..\Source\AI\GTTask.h" />
+    <ClInclude Include="..\..\Source\AI\KillTask.h" />
     <ClInclude Include="..\..\Source\Animation\AnimationModule.h" />
     <ClInclude Include="..\..\Source\Collision\CollisionManager.h" />
     <ClInclude Include="..\..\Source\Engine\ClockManager.h" />
