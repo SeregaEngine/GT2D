@@ -34,5 +34,4 @@ struct WorldEvent
     };
 };
 
-
 #endif // WORLDEVENT_H_

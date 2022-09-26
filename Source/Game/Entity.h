@@ -39,7 +39,7 @@ protected:
 public:
     virtual ~Entity() {}
 
-    virtual void Init(const Vector2& vPosition, s32 width, s32 height, GT_Texture* pTexture);
+    virtual void Init(const Vector2& vPosition, s32 width, s32 height, const GT_Texture* pTexture);
     virtual void Clean() {}
 
     virtual void Update(f32 dtTime) {}

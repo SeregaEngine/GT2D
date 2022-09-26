@@ -2,7 +2,7 @@
 
 #include "Entity.h"
 
-void Entity::Init(const Vector2& vPosition, s32 width, s32 height, GT_Texture* pTexture)
+void Entity::Init(const Vector2& vPosition, s32 width, s32 height, const GT_Texture* pTexture)
 {
     m_type = ENTITY_TYPE_ENTITY;
 

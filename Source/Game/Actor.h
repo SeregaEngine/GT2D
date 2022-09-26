@@ -58,7 +58,7 @@ protected:
     const GT_Animation* m_aActorAnims[MAX_ACTOR_ANIMATIONS];
 
 public:
-    virtual void Init(const Vector2& vPosition, s32 width, s32 height, GT_Texture* pTexture) override;
+    virtual void Init(const Vector2& vPosition, s32 width, s32 height, const GT_Texture* pTexture) override;
     virtual void Clean() override { Entity::Clean(); RemoveTask(); }
     virtual void Update(f32 dtTime) override;
 
