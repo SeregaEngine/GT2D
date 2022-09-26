@@ -8,7 +8,7 @@
 #include "GotoEntityTask.h"
 
 /* ====== DEFINES ====== */
-#define ERROR_MULTIPLIER 7.5f
+#define ERROR_MULTIPLIER 10.0f
 #define DECISION_RATIO_XY 4.0f
 
 /* ====== METHODS ====== */

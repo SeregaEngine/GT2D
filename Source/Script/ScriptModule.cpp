@@ -1,3 +1,7 @@
+/* TODO
+ * - Check lua calls better
+ */
+
 /* ====== INCLUDES ====== */
 extern "C"
 {
@@ -626,9 +630,14 @@ s32 ScriptModule::_updateEntity(lua_State* L)
 
     Entity* pEntity = (Entity*)lua_touserdata(L, 1);
     if (pEntity)
+    {
         pEntity->Update((f32)lua_tonumber(L, 2));
+    }
     else
+    {
         LuaNote(PR_WARNING, "updateEntity(): function called with null entity");
+        return -1;
+    }
 
     return 0;
 }
@@ -663,7 +672,16 @@ s32 ScriptModule::_setActorHealth(lua_State* L)
     if (!LuaExpect(L, "setActorHealth", 2))
         return -1;
 
-    static_cast<Actor*>(lua_touserdata(L, 1))->SetHealth((f32)lua_tointeger(L, 2));
+    Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
+    if (pActor)
+    {
+        pActor->SetHealth((f32)lua_tointeger(L, 2));
+    }
+    else
+    {
+        LuaNote(PR_WARNING, "setActorHealth() called with null actor");
+        return -1;
+    }
 
     return 0;
 }
@@ -673,7 +691,21 @@ s32 ScriptModule::_getActorHealth(lua_State* L)
     if (!LuaExpect(L, "getActorHealth", 1))
         return -1;
 
-    lua_pushnumber(L, static_cast<Actor*>(lua_touserdata(L, 1))->GetHealth());
+    Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
+    f32 health;
+
+    if (pActor)
+    {
+        health = pActor->GetHealth();
+    }
+    else
+    {
+        health = 0;
+        LuaNote(PR_WARNING, "getActorHealth() called with null actor");
+        return -1;
+    }
+
+    lua_pushnumber(L, health);
 
     return 1;
 }
@@ -683,7 +715,16 @@ s32 ScriptModule::_toggleActorGodMode(lua_State* L)
     if (!LuaExpect(L, "toggleActorGodMode", 2))
         return -1;
 
-    static_cast<Actor*>(lua_touserdata(L, 1))->ToggleGodMode((b32)lua_toboolean(L, 2));
+    Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
+    if (pActor)
+    {
+        pActor->ToggleGodMode((b32)lua_toboolean(L, 2));
+    }
+    else
+    {
+        LuaNote(PR_WARNING, "toggleActorGodMode() called with null actor");
+        return -1;
+    }
 
     return 0;
 }
@@ -693,6 +734,14 @@ s32 ScriptModule::_sendActorCmd(lua_State* L)
     if (lua_gettop(L) < 2)
     {
         LuaNote(PR_ERROR, "sendActorCmd(): expected at least 2 arguments but %d given", lua_gettop(L));
+        return -1;
+    }
+
+    // Check for errors
+    Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
+    if (!pActor)
+    {
+        LuaNote(PR_WARNING, "sendActorCmd() called with null actor");
         return -1;
     }
 
@@ -706,7 +755,7 @@ s32 ScriptModule::_sendActorCmd(lua_State* L)
     }
 
     // Send command
-    static_cast<Actor*>(lua_touserdata(L, 1))->SendCommand(cmd);
+    pActor->SendCommand(cmd);
 
     return 0;
 }
@@ -716,7 +765,16 @@ s32 ScriptModule::_setActorState(lua_State* L)
     if (!LuaExpect(L, "setActorState", 2))
         return -1;
 
-    static_cast<Actor*>(lua_touserdata(L, 1))->SetState((GT_State*)lua_touserdata(L, 2));
+    Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
+    if (pActor)
+    {
+        pActor->SetState((GT_State*)lua_touserdata(L, 2));
+    }
+    else
+    {
+        LuaNote(PR_WARNING, "setActorState() called with null actor");
+        return -1;
+    }
 
     return 0;
 }
@@ -729,8 +787,15 @@ s32 ScriptModule::_setActorTask(lua_State* L)
         return -1;
     }
 
+    // Check for erros
     Actor* pActor = (Actor*)lua_touserdata(L, 1);
+    if (!pActor)
+    {
+        LuaNote(PR_WARNING, "setActorTask() called with null actor");
+        return -1;
+    }
 
+    // Set task
     switch (lua_tointeger(L, 2))
     {
 
@@ -759,6 +824,7 @@ s32 ScriptModule::_setActorTask(lua_State* L)
     default:
     {
         LuaNote(PR_WARNING, "setActorTask(): undefined task given: %d", lua_tointeger(L, 2));
+        return -1;
     } break;
 
     }
@@ -771,11 +837,20 @@ s32 ScriptModule::_checkActorTask(lua_State* L)
     if (!LuaExpect(L, "checkActorState", 1))
         return -1;
 
-    GT_Task* pTask = static_cast<Actor*>(lua_touserdata(L, 1))->GetTask();
-    if (pTask)
-        lua_pushinteger(L, pTask->GetStatus());
+    Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
+    if (pActor)
+    {
+        GT_Task* pTask = pActor->GetTask();
+        if (pTask)
+            lua_pushinteger(L, pTask->GetStatus());
+        else
+            lua_pushinteger(L, GTT_NONE);
+    }
     else
-        lua_pushinteger(L, GTT_NONE);
+    {
+        LuaNote(PR_WARNING, "checkActorTask() called with null actor");
+        return -1;
+    }
 
     return 1;
 }
@@ -785,11 +860,20 @@ s32 ScriptModule::_getActorCurrentTask(lua_State* L)
     if (!LuaExpect(L, "getActorCurrentTask", 1))
         return -1;
 
-    GT_Task* pTask = static_cast<Actor*>(lua_touserdata(L, 1))->GetTask();
-    if (pTask)
-        lua_pushinteger(L, pTask->GetID());
+    Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
+    if (pActor)
+    {
+        GT_Task* pTask = pActor->GetTask();
+        if (pTask)
+            lua_pushinteger(L, pTask->GetID());
+        else
+            lua_pushinteger(L, GTT_NONE);
+    }
     else
-        lua_pushinteger(L, GTT_NONE);
+    {
+        LuaNote(PR_WARNING, "getActorCurrentTask() called with null actor");
+        return -1;
+    }
 
     return 1;
 }
@@ -799,7 +883,16 @@ s32 ScriptModule::_setActorWeapon(lua_State* L)
     if (!LuaExpect(L, "setActorWeapon", 2))
         return -1;
 
-    static_cast<Actor*>(lua_touserdata(L, 1))->SetWeapon((const Weapon*)lua_touserdata(L, 2));
+    Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
+    if (pActor)
+    {
+    pActor->SetWeapon((const Weapon*)lua_touserdata(L, 2));
+    }
+    else
+    {
+        LuaNote(PR_WARNING, "setActorWeapon() called with null actor");
+        return -1;
+    }
 
     return 0;
 }

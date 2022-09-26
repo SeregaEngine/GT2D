@@ -6,7 +6,7 @@
 #include "GotoTask.h"
 
 /* ====== DEFINES ====== */
-#define ERROR_MULTIPLIER 7.5f
+#define ERROR_MULTIPLIER 10.0f
 
 /* ====== METHODS ====== */
 void GotoTask::Handle()
