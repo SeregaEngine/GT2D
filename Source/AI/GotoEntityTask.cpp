@@ -73,7 +73,6 @@ void GotoEntityTask::HandleActor()
 
 void GotoEntityTask::MoveX(const Vector2& vActor, const Vector2& vEntity, const Vector2& vError)
 {
-    // X
     if (vEntity.x < vActor.x - vError.x)
         m_pActor->SendCommand(GTC_MOVE_LEFT);
     else if (vEntity.x > vActor.x + vError.x)
@@ -82,7 +81,6 @@ void GotoEntityTask::MoveX(const Vector2& vActor, const Vector2& vEntity, const 
 
 void GotoEntityTask::MoveY(const Vector2& vActor, const Vector2& vEntity, const Vector2& vError)
 {
-    // Y
     if (vEntity.y < vActor.y - vError.y)
         m_pActor->SendCommand(GTC_MOVE_UP);
     else if (vEntity.y > vActor.y + vError.y)
