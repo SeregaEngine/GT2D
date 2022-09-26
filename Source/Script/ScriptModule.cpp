@@ -112,6 +112,10 @@ void ScriptModule::DefineFunctions(lua_State* L)
 
     // Actor
     lua_register(L, "addActor", _addActor);
+    lua_register(L, "setActorHealth", _setActorHealth);
+    lua_register(L, "getActorHealth", _getActorHealth);
+    lua_register(L, "toggleActorGodMode", _toggleActorGodMode);
+
     lua_register(L, "setActorState", _setActorState);
     lua_register(L, "setActorTask", _setActorTask);
     lua_register(L, "sendActorCmd", _sendActorCmd);
@@ -654,6 +658,36 @@ s32 ScriptModule::_addActor(lua_State* L)
     return 1;
 }
 
+s32 ScriptModule::_setActorHealth(lua_State* L)
+{
+    if (!LuaExpect(L, "setActorHealth", 2))
+        return -1;
+
+    static_cast<Actor*>(lua_touserdata(L, 1))->SetHealth((f32)lua_tointeger(L, 2));
+
+    return 0;
+}
+
+s32 ScriptModule::_getActorHealth(lua_State* L)
+{
+    if (!LuaExpect(L, "getActorHealth", 1))
+        return -1;
+
+    lua_pushnumber(L, static_cast<Actor*>(lua_touserdata(L, 1))->GetHealth());
+
+    return 1;
+}
+
+s32 ScriptModule::_toggleActorGodMode(lua_State* L)
+{
+    if (!LuaExpect(L, "toggleActorGodMode", 2))
+        return -1;
+
+    static_cast<Actor*>(lua_touserdata(L, 1))->ToggleGodMode((b32)lua_toboolean(L, 2));
+
+    return 0;
+}
+
 s32 ScriptModule::_sendActorCmd(lua_State* L)
 {
     if (lua_gettop(L) < 2)
@@ -792,7 +826,7 @@ s32 ScriptModule::_defineWeapon(lua_State* L)
         GTU::UnitToScreenX((f32)lua_tonumber(L, 5)),
         GTU::UnitToScreenY((f32)lua_tonumber(L, 6)),
     };
-    s32 damage = (s32)lua_tointeger(L, 7);
+    f32 damage = (f32)lua_tonumber(L, 7);
 
     Weapon* pWeapon = new Weapon(pAnim, soundCount, hitBox, damage);
 

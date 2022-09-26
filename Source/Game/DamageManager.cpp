@@ -43,8 +43,5 @@ void DamageManager::HandleAttack(const AttackEvent& event)
     // Remove health from collided actors
     auto end = lstActor.End();
     for (auto it = lstActor.Begin(); it != end; ++it)
-    {
-        static_cast<Actor*>(it->data)->SetHealth(
-            static_cast<Actor*>(it->data)->GetHealth() - pWeapon->GetDamage());
-    }
+        static_cast<Actor*>(it->data)->AddHealth(-pWeapon->GetDamage());
 }

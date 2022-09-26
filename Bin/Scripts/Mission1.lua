@@ -50,7 +50,7 @@ function onEnter()
     anims["attack"] = defineAnimation(4, 3, 1000.0 / 2.0)
 
     -- Weapons
-    weapons["fist"] = defineWeapon(anims["attack"], 4,  -8, -8, 8, 8,  1,  sounds["punch1"], sounds["punch2"], sounds["punch3"], sounds["punch4"])
+    weapons["fist"] = defineWeapon(anims["attack"], 4,  -8, -8, 8, 8,  1.0,  sounds["punch1"], sounds["punch2"], sounds["punch3"], sounds["punch4"])
 
     -- States
     states["NPC"] = defineState("stateNPC")
@@ -58,6 +58,7 @@ function onEnter()
 
     -- Entities
     entities["player"] = addActor(10, 60, TW_ACTOR, TH_ACTOR, textures["player"])
+    toggleActorGodMode(entities["player"], true)
     setActorWeapon(entities["player"], weapons["fist"])
     player = entities["player"]
 
@@ -139,13 +140,15 @@ function stateKillPlayer(actor)
         if task == GTT_GOTO_ENTITY then
             setActorTask(actor, GTT_KILL, player)
         elseif task == GTT_KILL then
-            GT_LOG(PR_NOTE, "Actor killed")
             setActorTask(actor, GTT_NONE)
             setActorState(actor, nil)
         end
     elseif status == GTT_IMPOSSIBLE then
         if task == GTT_KILL then
             setActorTask(actor, GTT_GOTO_ENTITY, player)
+        else
+            setActorTask(actor, GTT_NONE)
+            setActorState(actor, nil)
         end
     end
 end

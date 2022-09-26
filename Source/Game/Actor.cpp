@@ -8,7 +8,7 @@
 #include "Actor.h"
 
 /* ====== DEFINES ====== */
-#define ACTOR_DEFAULT_HEALTH 3
+#define ACTOR_DEFAULT_HEALTH 3.0f
 
 #define ACTOR_UNIT_SPEED_X 0.05f
 #define ACTOR_UNIT_SPEED_Y 0.02f
