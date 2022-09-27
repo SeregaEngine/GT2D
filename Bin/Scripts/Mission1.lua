@@ -151,7 +151,7 @@ function handleInput()
 end
 ---- <<<< Update
 
----- >>>> Triggers 
+---- >>>> Triggers
 function triggerSwitchLocation(Entity)
     GT_LOG(PR_NOTE, "SwitchLocation triggerred")
     switchLocation("onEnterLocation3")

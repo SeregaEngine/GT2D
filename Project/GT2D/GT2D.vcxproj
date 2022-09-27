@@ -234,6 +234,7 @@
     <ClInclude Include="..\..\Source\Graphics\Camera.h" />
     <ClInclude Include="..\..\Source\Graphics\GraphicsModule.h" />
     <ClInclude Include="..\..\Source\Graphics\GTUnit.h" />
+    <ClInclude Include="..\..\Source\Graphics\RenderQueue.h" />
     <ClInclude Include="..\..\Source\Input\InputModule.h" />
     <ClInclude Include="..\..\Source\Math\GTMath.h" />
     <ClInclude Include="..\..\Source\Script\ScriptModule.h" />

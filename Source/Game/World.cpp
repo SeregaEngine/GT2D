@@ -58,13 +58,13 @@ void World::Render()
     // Draw parallax
     SDL_Rect rect = { 0, 0, g_graphicsModule.GetScreenWidth() * 2,
                             g_graphicsModule.GetScreenHeight() };
-    g_graphicsModule.Draw(m_pParallax, 0, 0, &rect);
+    g_graphicsModule.DrawFrame(m_pParallax, 0, 0, &rect);
 
     // Draw background
     rect = { 0, 0, g_graphicsModule.GetScreenWidth(), g_graphicsModule.GetScreenHeight() };
-    g_graphicsModule.Draw(m_pBackground, 0, 0, &rect);
+    g_graphicsModule.DrawFrame(m_pBackground, 0, 0, &rect);
     rect.x = rect.w;
-    g_graphicsModule.Draw(m_pBackground, 0, 1, &rect);
+    g_graphicsModule.DrawFrame(m_pBackground, 0, 1, &rect);
 
     // Draw entities
     m_lstEntity.Mapcar([](auto pEntity) { pEntity->Draw(); });

@@ -77,9 +77,9 @@ inline void Entity::Draw() {
 
     // TODO(sean) We can have animation by default to remove this branch
     if (m_pAnim)
-        g_graphicsModule.Draw(m_pTexture, m_pAnim->row, m_animFrame, &dstRect, m_angle, m_flip);
+        g_graphicsModule.DrawFrame(m_pTexture, m_pAnim->row, m_animFrame, &dstRect, m_angle, m_flip);
     else
-        g_graphicsModule.Draw(m_pTexture, 0, 0, &dstRect, m_angle, m_flip);
+        g_graphicsModule.DrawFrame(m_pTexture, 0, 0, &dstRect, m_angle, m_flip);
 }
 
 #endif // ENTITY_H_

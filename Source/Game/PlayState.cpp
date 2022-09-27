@@ -53,4 +53,7 @@ void PlayState::Render()
     // Render console
     if (g_console.IsShown())
         g_console.Render();
+
+    // Ask graphics module for rendering
+    g_graphicsModule.Render();
 }

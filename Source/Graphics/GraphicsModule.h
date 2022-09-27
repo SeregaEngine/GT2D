@@ -9,6 +9,8 @@
 #include "GTMath.h"
 #include "EngineModule.h"
 #include "Camera.h"
+#include "RenderQueue.h"
+#include "TList.h"
 
 /* ====== DEFINES ====== */
 #define UNIT_SCREEN_WIDTH 128
@@ -34,19 +36,22 @@ private:
     s32 m_screenHeight;
 
     Camera m_camera;
-    SDL_Renderer* m_pRenderer;
     GT_Texture* m_aTextures;
 
+    SDL_Color m_drawColor;
+    SDL_Renderer* m_pRenderer;
+
+    TList<RenderQueue> m_queueBackground;
+    TList<RenderQueue> m_queueDynamic;
+    TList<RenderQueue> m_queueForeground;
+    TList<RenderQueue> m_queueDebug;
 public:
     GraphicsModule() : EngineModule("GraphicsModule", CHANNEL_GRAPHICS) {}
 
     b32 StartUp(SDL_Renderer* pRenderer, s32 width, s32 height);
     void ShutDown();
 
-    s32 GetScreenWidth() const { return m_screenWidth; }
-    s32 GetScreenHeight() const { return m_screenHeight; }
-    Camera& GetCamera() { return m_camera; }
-
+    void Render();
     void ClearScreen()
         { SDL_SetRenderDrawColor(m_pRenderer, 0x00, 0x00, 0x00, 0xFF); SDL_RenderClear(m_pRenderer); }
     void FlipScreen() { SDL_RenderPresent(m_pRenderer); }
@@ -54,28 +59,20 @@ public:
     const GT_Texture* DefineTexture(const char* fileName, s32 spriteWidth, s32 spriteHeight); // null on error
     void UndefineTextures();
 
-    void Draw(const GT_Texture* pTexture, s32 row, s32 col,
-              SDL_Rect* dstRect, f32 angle = 0.0f, SDL_RendererFlip flip = SDL_FLIP_NONE);
+    void DrawFrame(const GT_Texture* pTexture, s32 row, s32 col,
+                   SDL_Rect* dstRect, f32 angle = 0.0f, SDL_RendererFlip flip = SDL_FLIP_NONE);
     void DrawText(const SDL_Rect* dst, TTF_Font* pFont, const char* text, SDL_Color color);
 
-    void SetColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a) { SDL_SetRenderDrawColor(m_pRenderer, r, g, b, a); }
+    void SetColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
+        { m_drawColor = { r, g, b, a }; SDL_SetRenderDrawColor(m_pRenderer, r, g, b, a); }
     void DrawRect(const SDL_Rect* dst) { SDL_RenderDrawRect(m_pRenderer, dst); }
     void FillRect(const SDL_Rect* dst) { SDL_RenderFillRect(m_pRenderer, dst); }
-    /*
-    void PlotPixel32(u32* videoBuffer, s32 pitch32, s32 x, s32 y, s32 a, s32 r, s32 g, s32 b) const
-        { videoBuffer[y*pitch32 + x] = _RGB32BIT(a, r, g, b); }
 
-    void DrawLine8(u8* videoBuffer, s32 pitch, s32 color, s32 fromX, s32 fromY, s32 toX, s32 toY) const;
-    void DrawPoly2(const Poly2* poly, u8* videoBuffer, s32 pitch) const;
-
-    void DrawTriangle(u8* videoBuffer, s32 pitch, s32 color, s32 x1, s32 y1, s32 x2, s32 y2, s32 x3, s32 y3) const;
-    void DrawTopTriangle(u8* videoBuffer, s32 pitch, s32 color, s32 x1, s32 y1, s32 x2, s32 y2, s32 x3, s32 y3) const;
-    void DrawBottomTriangle(u8* videoBuffer, s32 pitch, s32 color, s32 x1, s32 y1, s32 x2, s32 y2, s32 x3, s32 y3) const;
-
-    void DrawQuad2(u8* videoBuffer, s32 pitch, s32 color, s32 x1, s32 y1, s32 x2, s32 y2, s32 x3, s32 y3, s32 x4, s32 y4) const;
-    */
+    s32 GetScreenWidth() const { return m_screenWidth; }
+    s32 GetScreenHeight() const { return m_screenHeight; }
+    Camera& GetCamera() { return m_camera; }
 private:
-    b32 ClipLine(s32& fromX, s32& fromY, s32& toX, s32& toY) const;
+
 };
 
 extern GraphicsModule g_graphicsModule;
