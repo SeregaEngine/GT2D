@@ -418,17 +418,20 @@ s32 ScriptModule::_defineTexture(lua_State* L)
 
 s32 ScriptModule::_setDrawColor(lua_State* L)
 {
+    /*
     if (!LuaExpect(L, "setDrawColor", 4))
         return -1;
 
     g_graphicsModule.SetColor((u8)lua_tointeger(L, 1), (u8)lua_tointeger(L, 2),
                               (u8)lua_tointeger(L, 3), (u8)lua_tointeger(L, 4));
 
+    */
     return 0;
 }
 
 s32 ScriptModule::_drawRect(lua_State* L)
 {
+    /*
     if (!LuaExpect(L, "drawRect", 4))
         return -1;
 
@@ -441,11 +444,13 @@ s32 ScriptModule::_drawRect(lua_State* L)
 
     g_graphicsModule.DrawRect(&dest);
 
+    */
     return 0;
 }
 
 s32 ScriptModule::_fillRect(lua_State* L)
 {
+    /*
     if (!LuaExpect(L, "fillRect", 4))
         return -1;
 
@@ -458,6 +463,7 @@ s32 ScriptModule::_fillRect(lua_State* L)
 
     g_graphicsModule.FillRect(&dest);
 
+    */
     return 0;
 }
 

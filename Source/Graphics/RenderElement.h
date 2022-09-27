@@ -1,5 +1,5 @@
-#ifndef RENDERQUEUE_H
-#define RENDERQUEUE_H
+#ifndef RENDERELEMENT_H
+#define RENDERELEMENT_H
 
 /* ====== INCLUDES ====== */
 #include <string.h>
@@ -12,15 +12,16 @@
 /* ====== DEFINES ====== */
 enum eRenderMode
 {
-    RENDER_BACKGROUND = 0,
-    RENDER_DYNAMIC,
-    RENDER_FOREGROUND,
-    RENDER_DEBUG
+    RENDER_MODE_BACKGROUND = 0,
+    RENDER_MODE_DYNAMIC,
+    RENDER_MODE_FOREGROUND,
+    RENDER_MODE_DEBUG
 };
 
 /* ====== STRUCTURES ====== */
 struct GT_Texture;
 
+/* TODO(sean)
 struct RenderQueueFrame
 {
     GT_Texture* pTexture;
@@ -39,12 +40,8 @@ struct RenderQueueText
 
 public:
     ~RenderQueueText() { if (text) delete[] text; }
-    void operator=(RenderQueueText& queueText)
-        { memcpy(this, &queueText, sizeof(*this)); text = queueText.text; queueText.text = nullptr; }
     void CopyText(const char* _text)
         { text = new char[strlen(_text) + 1]; memcpy(text, _text, strlen(_text) + 1); }
-private:
-    RenderQueueText(const RenderQueueText&) = delete;
 };
 
 struct RenderQueueRect
@@ -55,17 +52,13 @@ struct RenderQueueRect
     SDL_Color color;
     s32 action;
 };
+*/
 
-struct RenderQueue
+struct RenderElement
 {
-    s32 type;
-    s32 zIndex; // Background, Foreground, Debug render modes
-    union
-    {
-        struct RenderQueueFrame;
-        struct RenderQueueText;
-        struct RenderQueueRect;
-    };
+    s32 zIndex;
+
+    virtual void Render() = 0;
 };
 
-#endif // RENDERQUEUE_H
+#endif // RENDERELEMENT_H

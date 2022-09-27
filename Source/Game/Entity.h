@@ -1,3 +1,7 @@
+/* TODO
+ * - Make :1 flags from b32
+ */
+
 #ifndef ENTITY_H_
 #define ENTITY_H_
 
@@ -35,6 +39,9 @@ protected:
     f32 m_animElapsed;
     const GT_Animation* m_pAnim;
 
+    s32 m_renderMode;
+    s32 m_zIndex;
+    b32f m_bHUD;
     const GT_Texture* m_pTexture;
 public:
     virtual ~Entity() {}
@@ -67,19 +74,5 @@ public:
     void SetCollidable(b32 bCollidable) { m_bCollidable = bCollidable; }
     void SetTexture(const GT_Texture* pTexture) { m_pTexture = pTexture; }
 };
-
-/* ====== METHODS ====== */
-inline void Entity::Draw() {
-    // m_width >> 1 == m_width/2
-    SDL_Rect dstRect = { (s32)m_vPosition.x - (m_width >> 1),
-                         (s32)m_vPosition.y - (m_height >> 1),
-                         m_width, m_height };
-
-    // TODO(sean) We can have animation by default to remove this branch
-    if (m_pAnim)
-        g_graphicsModule.DrawFrame(m_pTexture, m_pAnim->row, m_animFrame, &dstRect, m_angle, m_flip);
-    else
-        g_graphicsModule.DrawFrame(m_pTexture, 0, 0, &dstRect, m_angle, m_flip);
-}
 
 #endif // ENTITY_H_

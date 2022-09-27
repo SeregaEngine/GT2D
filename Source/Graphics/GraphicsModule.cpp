@@ -36,17 +36,19 @@ b32 GraphicsModule::StartUp(SDL_Renderer* pRenderer, s32 width, s32 height)
     m_screenWidth = width;
     m_screenHeight = height;
 
+    m_camera.GetPosition(m_cameraX, m_cameraY);
+
     // Set global unitX/Y
     GTU::SetUnitXY(m_screenWidth / (f32)UNIT_SCREEN_WIDTH, m_screenHeight / (f32)UNIT_SCREEN_HEIGHT);
+
+    // Renderer stuff
+    m_drawColor = { 0x00, 0x00, 0x00, 0xFF };
+    m_pRenderer = pRenderer;
 
     // Allocate textures
     m_aTextures = new GT_Texture[MAX_TEXTURES];
     for (i32f i = 0; i < MAX_TEXTURES; ++i)
         m_aTextures[i].pTexture = nullptr;
-
-    // Renderer stuff
-    m_drawColor = { 0x00, 0x00, 0x00, 0xFF };
-    m_pRenderer = pRenderer;
 
     // Open console font
     s_pConsoleFont = TTF_OpenFont("Fonts/Cascadia.ttf", 28);
@@ -71,17 +73,18 @@ void GraphicsModule::ShutDown()
     delete[] m_aTextures;
 
     // Free render queues
-    m_queueBackground.Clean();
-    m_queueDynamic.Clean();
-    m_queueForeground.Clean();
-    m_queueDebug.Clean();
+    CleanQueues();
 
     AddNote(PR_NOTE, "Module shut down");
 }
 
 void GraphicsModule::Render()
 {
-
+    RenderQueue(m_queueBackground);
+    RenderQueue(m_queueDynamic);
+    RenderQueue(m_queueForeground);
+    RenderQueue(m_queueDebug);
+    CleanQueues();
 }
 
 const GT_Texture* GraphicsModule::DefineTexture(const char* fileName, s32 spriteWidth, s32 spriteHeight)
@@ -139,40 +142,37 @@ void GraphicsModule::UndefineTextures()
     }
 }
 
-void GraphicsModule::DrawFrame(const GT_Texture* pTexture, s32 row, s32 col, SDL_Rect* dstRect, f32 angle, SDL_RendererFlip flip)
+void GraphicsModule::DrawFrame(s32 renderMode, s32 zIndex, b32 bHUD, SDL_Rect* dstRect, const GT_Texture* pTexture, s32 row, s32 col, f32 angle, SDL_RendererFlip flip)
 {
-    if (pTexture)
-    {
-        // Get camera position
-        s32 cameraX, cameraY;
-        m_camera.GetPosition(cameraX, cameraY);
-
-        // Correct destination rectangle
-        dstRect->x -= cameraX;
-        dstRect->y -= cameraY;
-
-        // Check if we shouldn't draw it
-        if (dstRect->x + dstRect->w <= 0 || dstRect->y + dstRect->h <= 0 ||
-            dstRect->x >= cameraX + m_screenWidth || dstRect->y >= cameraY + m_screenHeight)
-            return;
-
-        // Find sprite
-        SDL_Rect srcRect = { pTexture->spriteWidth * col, pTexture->spriteHeight * row,
-                             pTexture->spriteWidth, pTexture->spriteHeight };
-
-        // Blit
-        SDL_RenderCopyEx(m_pRenderer, pTexture->pTexture, &srcRect, dstRect, angle, nullptr, flip);
-    }
-    else
+    if (!pTexture)
     {
         AddNote(PR_WARNING, "Draw() called with null texture");
+        return;
     }
+
+    // Get camera position
+    s32 cameraX, cameraY;
+    m_camera.GetPosition(cameraX, cameraY);
+
+    // Correct destination rectangle
+    dstRect->x -= cameraX;
+    dstRect->y -= cameraY;
+
+    // Check if we shouldn't draw it
+    if (dstRect->x + dstRect->w <= 0 || dstRect->y + dstRect->h <= 0 ||
+        dstRect->x >= cameraX + m_screenWidth || dstRect->y >= cameraY + m_screenHeight)
+        return;
+
+    // Find sprite
+    SDL_Rect srcRect = { pTexture->spriteWidth * col, pTexture->spriteHeight * row,
+                         pTexture->spriteWidth, pTexture->spriteHeight };
+
+    // Blit
+    SDL_RenderCopyEx(m_pRenderer, pTexture->pTexture, &srcRect, dstRect, angle, nullptr, flip);
 }
 
 void GraphicsModule::DrawText(const SDL_Rect* dst, TTF_Font* pFont, const char* text, SDL_Color color)
 {
-    // TODO(sean) Optimize it
-
     // Create text surface and convert to texture
     SDL_Surface* pSurface = TTF_RenderText_Blended(pFont, text, color);
     if (!pSurface)
@@ -194,4 +194,27 @@ void GraphicsModule::DrawText(const SDL_Rect* dst, TTF_Font* pFont, const char* 
     // Free memory
     SDL_FreeSurface(pSurface);
     SDL_DestroyTexture(pTexture);
+}
+
+void GraphicsModule::RenderQueue(const TList<RenderElement*>& queue) const
+{
+    auto end = queue.CEnd();
+    for (auto it = queue.CBegin(); it != end; ++it)
+        it->data->Render();
+}
+
+void GraphicsModule::CleanQueues()
+{
+    CleanQueue(m_queueBackground);
+    CleanQueue(m_queueDynamic);
+    CleanQueue(m_queueForeground);
+    CleanQueue(m_queueDebug);
+}
+
+void GraphicsModule::CleanQueue(TList<RenderElement*>& queue)
+{
+    auto end = queue.End();
+    for (auto it = queue.Begin(); it != end; ++it)
+        delete it->data;
+    queue.Clean();
 }

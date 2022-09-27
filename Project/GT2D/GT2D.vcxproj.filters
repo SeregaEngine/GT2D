@@ -240,7 +240,7 @@
     <ClInclude Include="..\..\Source\AI\KillTask.h">
       <Filter>AI</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Graphics\RenderQueue.h">
+    <ClInclude Include="..\..\Source\Graphics\RenderElement.h">
       <Filter>Graphics</Filter>
     </ClInclude>
   </ItemGroup>

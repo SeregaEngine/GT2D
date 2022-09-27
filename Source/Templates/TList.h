@@ -82,11 +82,13 @@ public:
     b32f IsEmpty() const { return m_pFirst ? false : true; }
     b32f IsMember(T) const;
 
-    void Mapcar(void (*fun)(T, void*), void* userdata = nullptr); // It's just iterator, not mapcar at all...
+    void Mapcar(void (*fun)(T, void*), void* userdata); // It's just iterator, not mapcar at all...
     void Mapcar(void (*fun)(T));
 
     Iterator Begin() { return m_pFirst; }
     Iterator End() { return nullptr; }
+    Iterator CBegin() const { return m_pFirst; }
+    Iterator CEnd() const { return nullptr; }
 };
 
 /* ====== METHODS ====== */

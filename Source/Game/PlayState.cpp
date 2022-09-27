@@ -12,10 +12,7 @@
 /* ====== METHODS ====== */
 b32 PlayState::OnEnter()
 {
-    // Start up world
     m_world.StartUp();
-
-    // Load mission from lua
     g_scriptModule.LoadMission();
 
     return true;
@@ -38,22 +35,18 @@ void PlayState::OnExit()
 
 void PlayState::Update(f32 dtTime)
 {
-    // Update mission
     g_scriptModule.UpdateMission(dtTime);
-
-    // Update world
     m_world.Update(dtTime);
 }
 
 void PlayState::Render()
 {
-    // Render world
-    m_world.Render();
+    g_graphicsModule.PrepareToRender();
 
-    // Render console
+    m_world.Render();
     if (g_console.IsShown())
         g_console.Render();
+    // TODO(sean) g_scriptModule.RenderMission();
 
-    // Ask graphics module for rendering
     g_graphicsModule.Render();
 }
