@@ -59,6 +59,7 @@ public:
     void DrawText(const SDL_Rect* dst, TTF_Font* pFont, const char* text, SDL_Color color);
 
     void SetColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a) { SDL_SetRenderDrawColor(m_pRenderer, r, g, b, a); }
+    void DrawRect(const SDL_Rect* dst) { SDL_RenderDrawRect(m_pRenderer, dst); }
     void FillRect(const SDL_Rect* dst) { SDL_RenderFillRect(m_pRenderer, dst); }
     /*
     void PlotPixel32(u32* videoBuffer, s32 pitch32, s32 x, s32 y, s32 a, s32 r, s32 g, s32 b) const

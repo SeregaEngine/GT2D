@@ -2,3 +2,5 @@
 TW_ACTOR = 16
 TH_ACTOR = 16
 
+TW_CAR = 72
+TH_CAR = 21

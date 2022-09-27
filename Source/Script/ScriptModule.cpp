@@ -1,7 +1,3 @@
-/* TODO
- * - Check lua calls better
- */
-
 /* ====== INCLUDES ====== */
 extern "C"
 {
@@ -72,6 +68,11 @@ void ScriptModule::DefineFunctions(lua_State* L)
     // Textures
     lua_register(L, "defineTexture", _defineTexture);
 
+    // Draw
+    lua_register(L, "setDrawColor", _setDrawColor);
+    lua_register(L, "drawRect", _drawRect);
+    lua_register(L, "fillRect", _fillRect);
+
     // Camera
     lua_register(L, "attachCamera", _attachCamera);
     lua_register(L, "detachCamera", _detachCamera);
@@ -105,7 +106,7 @@ void ScriptModule::DefineFunctions(lua_State* L)
     lua_register(L, "stopGame", _stopGame);
 
     /* World */
-    // Background stuff
+    lua_register(L, "switchLocation", _switchLocation);
     lua_register(L, "setBackground", _setBackground);
     lua_register(L, "setParallax", _setParallax);
     lua_register(L, "setGroundBounds", _setGroundBounds);
@@ -309,7 +310,7 @@ void ScriptModule::CallFunction(const char* functionName, void* userdata)
     // Check for null
     if (!functionName)
     {
-        AddNote(PR_WARNING, "CallFunction: called with null functionName");
+        AddNote(PR_WARNING, "CallFunction() called with null functionName");
         return;
     }
 
@@ -327,6 +328,27 @@ void ScriptModule::CallFunction(const char* functionName, void* userdata)
     lua_pcall(m_pMission, 1, 0, 0);
 }
 
+void ScriptModule::CallFunction(const char* functionName)
+{
+    // Check for null
+    if (!functionName)
+    {
+        AddNote(PR_WARNING, "CallFunction() called with null functionName");
+        return;
+    }
+
+    // Get function
+    lua_getglobal(m_pMission, functionName);
+    if (!lua_isfunction(m_pMission, -1))
+    {
+        lua_pop(m_pMission, 1);
+        AddNote(PR_WARNING, "CallFunction(): there're no %s function", functionName);
+        return;
+    }
+
+    // Call function
+    lua_pcall(m_pMission, 0, 0, 0);
+}
 
 void ScriptModule::Interpret(const char* text)
 {
@@ -394,6 +416,51 @@ s32 ScriptModule::_defineTexture(lua_State* L)
     return 1;
 }
 
+s32 ScriptModule::_setDrawColor(lua_State* L)
+{
+    if (!LuaExpect(L, "setDrawColor", 4))
+        return -1;
+
+    g_graphicsModule.SetColor((u8)lua_tointeger(L, 1), (u8)lua_tointeger(L, 2),
+                              (u8)lua_tointeger(L, 3), (u8)lua_tointeger(L, 4));
+
+    return 0;
+}
+
+s32 ScriptModule::_drawRect(lua_State* L)
+{
+    if (!LuaExpect(L, "drawRect", 4))
+        return -1;
+
+    SDL_Rect dest = {
+        (s32)GTU::UnitToScreenX((f32)lua_tonumber(L, 1)),
+        (s32)GTU::UnitToScreenY((f32)lua_tonumber(L, 2)),
+        (s32)GTU::UnitToScreenX((f32)lua_tonumber(L, 3)),
+        (s32)GTU::UnitToScreenY((f32)lua_tonumber(L, 4))
+    };
+
+    g_graphicsModule.DrawRect(&dest);
+
+    return 0;
+}
+
+s32 ScriptModule::_fillRect(lua_State* L)
+{
+    if (!LuaExpect(L, "fillRect", 4))
+        return -1;
+
+    SDL_Rect dest = {
+        (s32)GTU::UnitToScreenX((f32)lua_tonumber(L, 1)),
+        (s32)GTU::UnitToScreenY((f32)lua_tonumber(L, 2)),
+        (s32)GTU::UnitToScreenX((f32)lua_tonumber(L, 3)),
+        (s32)GTU::UnitToScreenY((f32)lua_tonumber(L, 4))
+    };
+
+    g_graphicsModule.FillRect(&dest);
+
+    return 0;
+}
+
 s32 ScriptModule::_attachCamera(lua_State* L)
 {
     if (!LuaExpect(L, "attachCamera", 1))
@@ -437,6 +504,16 @@ s32 ScriptModule::_setCameraBounds(lua_State* L)
     rect.y2 = rect.y1 + (s32)( GTU::UnitToScreenY((f32)lua_tonumber(L, 4)) ) - 1;
 
     g_graphicsModule.GetCamera().SetBounds(rect);
+
+    return 0;
+}
+
+s32 ScriptModule::_switchLocation(lua_State* L)
+{
+    if (!LuaExpect(L, "switchLocation", 1))
+        return -1;
+
+    g_game.GetWorld().SwitchLocation(lua_tostring(L, 1));
 
     return 0;
 }

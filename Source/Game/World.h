@@ -7,6 +7,9 @@
 #include "TList.h"
 #include "WorldEvent.h"
 
+/* ====== DEFINE ====== */
+#define WORLD_SWITCH_STRSIZE 32
+
 /* ====== STRUCTURES ====== */
 class Weapon;
 
@@ -20,6 +23,8 @@ class World final : EngineModule
     TList<Entity*> m_lstRemove;
     TList<Weapon*> m_lstWeapon;
     TList<WorldEvent> m_lstEvent;
+
+    char m_switchLocation[WORLD_SWITCH_STRSIZE];
 public:
     World() : EngineModule("World", CHANNEL_GAME) {}
 
@@ -28,6 +33,8 @@ public:
 
     void Update(f32 dtTime);
     void Render();
+
+    void SwitchLocation(const char* funName) { memcpy(m_switchLocation, funName, WORLD_SWITCH_STRSIZE); }
 
     void SetBackground(GT_Texture* pTexture) { m_pBackground = pTexture; }
     void SetParallax(GT_Texture* pTexture) { m_pParallax = pTexture; }
@@ -43,9 +50,14 @@ public:
 
     b32f HasEntity(Entity* pEntity) { return m_lstEntity.IsMember(pEntity); }
 private:
+    void HandleSwitchLocation();
     void UpdateEntities(f32 dtTime);
     void HandleEvents();
     void RemoveEntities();
+
+    void CleanEntities();
+    void CleanWeapons();
+    void CleanEvents();
 };
 
 #endif // WORLD_H_
