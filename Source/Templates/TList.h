@@ -1,7 +1,5 @@
 /* TODO
- * - Fix when we use standard types like f32
-
- * - Remake with doubly linked list for fast PopBack()
+ * - Remake with doubly linked list
  * - Remove() that delete everything
  * - RemoveIf() that delete everything with given function
  */
@@ -68,8 +66,8 @@ public:
         lst.m_pLast = nullptr;
     }
 
-    void Push(T& data);
-    void PushBack(T& data);
+    void Push(T data);
+    void PushBack(T data);
 
     // Pop only if you checked list with IsEmpty()
     void Pop();
@@ -93,7 +91,7 @@ public:
 
 /* ====== METHODS ====== */
 template<class T>
-inline void TList<T>::Push(T& data) {
+inline void TList<T>::Push(T data) {
     Item* pTemp = new Item(data, m_pFirst);
     m_pFirst = pTemp;
     if (!m_pLast)
@@ -101,7 +99,7 @@ inline void TList<T>::Push(T& data) {
 }
 
 template<class T>
-inline void TList<T>::PushBack(T& data) {
+inline void TList<T>::PushBack(T data) {
     Item* pTemp = new Item(data, nullptr);
     if (m_pLast)
         m_pLast->pNext = pTemp;

@@ -233,6 +233,7 @@
     <ClInclude Include="..\..\Source\Game\WorldEvent.h" />
     <ClInclude Include="..\..\Source\Graphics\Camera.h" />
     <ClInclude Include="..\..\Source\Graphics\GraphicsModule.h" />
+    <ClInclude Include="..\..\Source\Graphics\GTTexture.h" />
     <ClInclude Include="..\..\Source\Graphics\GTUnit.h" />
     <ClInclude Include="..\..\Source\Graphics\RenderElement.h" />
     <ClInclude Include="..\..\Source\Input\InputModule.h" />

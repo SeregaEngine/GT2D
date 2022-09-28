@@ -10,7 +10,6 @@
 #include "EngineModule.h"
 #include "Camera.h"
 #include "TList.h"
-#include "RenderElement.h"
 
 /* ====== DEFINES ====== */
 #define UNIT_SCREEN_WIDTH 128
@@ -19,13 +18,21 @@
 /* TODO(sean) Move this to GraphicsDefine.lua */
 #define TW_LOCATION UNIT_SCREEN_WIDTH
 #define TH_LOCATION UNIT_SCREEN_HEIGHT
-
 #define TW_PARALLAX (UNIT_SCREEN_WIDTH * 2)
 #define TH_PARALLAX UNIT_SCREEN_HEIGHT
 
-/* ====== GLOBALS ====== */
+enum eRenderMode
+{
+    RENDER_MODE_BACKGROUND = 0,
+    RENDER_MODE_DYNAMIC,
+    RENDER_MODE_FOREGROUND,
+    RENDER_MODE_DEBUG
+};
 
 /* ====== STRUCTURES ====== */
+struct RenderElement;
+struct GT_Texture;
+
 class GraphicsModule final : public EngineModule
 {
 public:
@@ -51,12 +58,8 @@ public:
     b32 StartUp(SDL_Renderer* pRenderer, s32 width, s32 height);
     void ShutDown();
 
-    void PrepareToRender() { m_camera.GetPosition(m_cameraX, m_cameraY); }
+    void PrepareToRender();
     void Render();
-
-    void ClearScreen()
-        { SDL_SetRenderDrawColor(m_pRenderer, 0x00, 0x00, 0x00, 0xFF); SDL_RenderClear(m_pRenderer); }
-    void FlipScreen() { SDL_RenderPresent(m_pRenderer); }
 
     const GT_Texture* DefineTexture(const char* fileName, s32 spriteWidth, s32 spriteHeight); // null on error
     void UndefineTextures();
@@ -75,6 +78,7 @@ public:
     s32 GetScreenWidth() const { return m_screenWidth; }
     s32 GetScreenHeight() const { return m_screenHeight; }
     Camera& GetCamera() { return m_camera; }
+    SDL_Renderer* GetRenderer() { return m_pRenderer; }
 private:
     void RenderQueue(const TList<RenderElement*>& queue) const;
     void CleanQueues();

@@ -8,29 +8,43 @@
 #include "SDL_ttf.h"
 
 #include "Types.h"
-
-/* ====== DEFINES ====== */
-enum eRenderMode
-{
-    RENDER_MODE_BACKGROUND = 0,
-    RENDER_MODE_DYNAMIC,
-    RENDER_MODE_FOREGROUND,
-    RENDER_MODE_DEBUG
-};
+#include "GraphicsModule.h"
+#include "GTTexture.h"
 
 /* ====== STRUCTURES ====== */
 struct GT_Texture;
 
-/* TODO(sean)
-struct RenderQueueFrame
+struct RenderElement
 {
-    GT_Texture* pTexture;
+    s32 zIndex;
     SDL_Rect dest;
+
+    RenderElement(s32 _zIndex, const SDL_Rect& _dest) : zIndex(_zIndex), dest(_dest) {}
+    virtual ~RenderElement() {}
+    virtual void Render() = 0;
+};
+
+struct RenderElementFrame final : public RenderElement
+{
+    const GT_Texture* pTexture;
     s32 row, col;
     f32 angle;
     SDL_RendererFlip flip;
+
+    RenderElementFrame(s32 _zIndex, const SDL_Rect& _dest, const GT_Texture* _pTexture, s32 _row, s32 _col, f32 _angle, SDL_RendererFlip _flip)
+        : RenderElement(_zIndex, _dest), pTexture(_pTexture), row(_row), col(_col), angle(_angle), flip(_flip) {}
+    virtual void Render() override
+    {
+        // Find sprite
+        SDL_Rect srcRect = { pTexture->spriteWidth * col, pTexture->spriteHeight * row,
+                             pTexture->spriteWidth, pTexture->spriteHeight };
+
+        // Blit
+        SDL_RenderCopyEx(g_graphicsModule.GetRenderer(), pTexture->pTexture, &srcRect, &dest, angle, nullptr, flip);
+    }
 };
 
+/* TODO(sean)
 struct RenderQueueText
 {
     SDL_Rect dest;
@@ -53,12 +67,4 @@ struct RenderQueueRect
     s32 action;
 };
 */
-
-struct RenderElement
-{
-    s32 zIndex;
-
-    virtual void Render() = 0;
-};
-
 #endif // RENDERELEMENT_H

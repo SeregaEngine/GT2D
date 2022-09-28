@@ -39,7 +39,7 @@ void Game::Update(f32 dtTime)
 
 void Game::Render() const
 {
-    g_graphicsModule.ClearScreen();
+    g_graphicsModule.PrepareToRender();
     m_pCurrentState->Render();
-    g_graphicsModule.FlipScreen();
+    g_graphicsModule.Render();
 }

@@ -1,6 +1,5 @@
-/* ====== TODO ======
+/* TODO
  * - At some point we could have need in texture ID to prevent texture copies in memory
- * - Translate all drawing stuff to SDL textures
  */
 
 /* ====== INCLUDES ====== */
@@ -10,19 +9,13 @@
 
 #include "GTMath.h"
 #include "GTUnit.h"
+#include "RenderElement.h"
+#include "GTTexture.h"
 
 #include "GraphicsModule.h"
 
 /* ====== DEFINES ====== */
 #define MAX_TEXTURES 256
-
-/* ====== STRUCTURES ====== */
-struct GT_Texture
-{
-    SDL_Texture* pTexture;
-    s32 textureWidth, textureHeight;
-    s32 spriteWidth, spriteHeight;
-};
 
 /* ====== VARIABLES ====== */
 GraphicsModule g_graphicsModule;
@@ -78,12 +71,28 @@ void GraphicsModule::ShutDown()
     AddNote(PR_NOTE, "Module shut down");
 }
 
+void GraphicsModule::PrepareToRender()
+{
+    // Clear screen
+    SDL_SetRenderDrawColor(m_pRenderer, 0x00, 0x00, 0x00, 0xFF);
+    SDL_RenderClear(m_pRenderer);
+
+    // Get camera position
+    m_camera.GetPosition(m_cameraX, m_cameraY);
+}
+
 void GraphicsModule::Render()
 {
+    // Render
     RenderQueue(m_queueBackground);
     RenderQueue(m_queueDynamic);
     RenderQueue(m_queueForeground);
     RenderQueue(m_queueDebug);
+
+    // Present
+    SDL_RenderPresent(m_pRenderer);
+
+    // Clean
     CleanQueues();
 }
 
@@ -142,33 +151,42 @@ void GraphicsModule::UndefineTextures()
     }
 }
 
+// TODO(sean) dstRect -> const SDL_Rect&
 void GraphicsModule::DrawFrame(s32 renderMode, s32 zIndex, b32 bHUD, SDL_Rect* dstRect, const GT_Texture* pTexture, s32 row, s32 col, f32 angle, SDL_RendererFlip flip)
 {
     if (!pTexture)
     {
-        AddNote(PR_WARNING, "Draw() called with null texture");
+        AddNote(PR_WARNING, "DrawFrame() called with null texture");
         return;
     }
 
-    // Get camera position
-    s32 cameraX, cameraY;
-    m_camera.GetPosition(cameraX, cameraY);
+    if (!dstRect)
+    {
+        AddNote(PR_WARNING, "DrawFrame() called with null destination rectangle");
+        return;
+    }
 
     // Correct destination rectangle
-    dstRect->x -= cameraX;
-    dstRect->y -= cameraY;
+    if (!bHUD)
+    {
+        dstRect->x -= m_cameraX;
+        dstRect->y -= m_cameraY;
+    }
 
     // Check if we shouldn't draw it
     if (dstRect->x + dstRect->w <= 0 || dstRect->y + dstRect->h <= 0 ||
-        dstRect->x >= cameraX + m_screenWidth || dstRect->y >= cameraY + m_screenHeight)
+        dstRect->x >= m_cameraX + m_screenWidth || dstRect->y >= m_cameraY + m_screenHeight)
         return;
 
-    // Find sprite
-    SDL_Rect srcRect = { pTexture->spriteWidth * col, pTexture->spriteHeight * row,
-                         pTexture->spriteWidth, pTexture->spriteHeight };
-
-    // Blit
-    SDL_RenderCopyEx(m_pRenderer, pTexture->pTexture, &srcRect, dstRect, angle, nullptr, flip);
+    // DEBUG(sean)
+    RenderElementFrame* pFrame = new RenderElementFrame(zIndex, *dstRect, pTexture, row, col, angle, flip);
+    switch (renderMode)
+    {
+    case RENDER_MODE_BACKGROUND: m_queueBackground.PushBack(pFrame); break;
+    case RENDER_MODE_DYNAMIC:    m_queueDynamic.PushBack(pFrame); break;
+    case RENDER_MODE_FOREGROUND: m_queueForeground.PushBack(pFrame); break;
+    case RENDER_MODE_DEBUG:      m_queueDebug.PushBack(pFrame); break;
+    }
 }
 
 void GraphicsModule::DrawText(const SDL_Rect* dst, TTF_Font* pFont, const char* text, SDL_Color color)

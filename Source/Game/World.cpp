@@ -94,6 +94,7 @@ void World::UpdateEntities(f32 dtTime)
 
 void World::HandleEvents()
 {
+    // TODO(sean) Make polymorphic events instead of switch case
     // Handle events
     auto end = m_lstEvent.End();
     for (auto it = m_lstEvent.Begin(); it != end; ++it)
