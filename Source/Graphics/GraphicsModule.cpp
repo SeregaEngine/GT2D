@@ -164,15 +164,8 @@ void GraphicsModule::DrawFrame(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_R
     if (!CheckAndCorrectDest(dest, bHUD))
         return;
 
-    // DEBUG(sean)
-    RenderElementFrame* pFrame = new RenderElementFrame(zIndex, dest, pTexture, row, col, angle, flip);
-    switch (renderMode)
-    {
-    case RENDER_MODE_BACKGROUND: m_queueBackground.PushBack(pFrame); break;
-    case RENDER_MODE_DYNAMIC:    m_queueDynamic.PushBack(pFrame); break;
-    case RENDER_MODE_FOREGROUND: m_queueForeground.PushBack(pFrame); break;
-    case RENDER_MODE_DEBUG:      m_queueDebug.PushBack(pFrame); break;
-    }
+    // Push element
+    PushRenderElement(renderMode, new RenderElementFrame(zIndex, dest, pTexture, row, col, angle, flip));
 }
 
 void GraphicsModule::DrawText(const SDL_Rect* dst, TTF_Font* pFont, const char* text, SDL_Color color)
@@ -232,9 +225,38 @@ b32f GraphicsModule::CheckAndCorrectDest(SDL_Rect& dest, b32 bHUD)
         dest.y -= m_cameraY;
     }
 
-    // Check if we shouldn't draw it
+    // Clip if we can't see it on screen
     if (dest.x + dest.w <= 0 || dest.y + dest.h <= 0 ||
         dest.x >= m_screenWidth || dest.y >= m_screenHeight)
         return false;
     return true;
+}
+
+void GraphicsModule::PushRenderElement(s32 renderMode, RenderElement* pElement)
+{
+    switch (renderMode)
+    {
+    case RENDER_MODE_BACKGROUND: PushStaticElement(m_queueBackground, pElement); break;
+    case RENDER_MODE_DYNAMIC:    PushDynamicElement(m_queueDynamic, pElement); break;
+    case RENDER_MODE_FOREGROUND: PushStaticElement(m_queueForeground, pElement); break;
+    case RENDER_MODE_DEBUG:      PushStaticElement(m_queueDebug, pElement); break;
+
+    default:
+    {
+        if (pElement)
+            delete pElement;
+        AddNote(PR_WARNING, "PushRenderElement: Unknown render mode %d", renderMode);
+    } break;
+
+    }
+}
+
+void GraphicsModule::PushStaticElement(TList<RenderElement*>& queue, RenderElement* pElement)
+{
+    queue.PushBack(pElement);
+}
+
+void GraphicsModule::PushDynamicElement(TList<RenderElement*>& queue, RenderElement* pElement)
+{
+    queue.PushBack(pElement);
 }
