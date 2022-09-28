@@ -70,8 +70,9 @@ void ScriptModule::DefineFunctions(lua_State* L)
 
     // Draw
     lua_register(L, "setDrawColor", _setDrawColor);
-    lua_register(L, "drawRect", _drawRect);
+    lua_register(L, "drawFrame", _drawFrame);
     lua_register(L, "fillRect", _fillRect);
+    lua_register(L, "drawRect", _drawRect);
 
     // Camera
     lua_register(L, "attachCamera", _attachCamera);
@@ -107,8 +108,6 @@ void ScriptModule::DefineFunctions(lua_State* L)
 
     /* World */
     lua_register(L, "switchLocation", _switchLocation);
-    lua_register(L, "setBackground", _setBackground);
-    lua_register(L, "setParallax", _setParallax);
     lua_register(L, "setGroundBounds", _setGroundBounds);
 
     // Entities
@@ -151,15 +150,14 @@ void ScriptModule::DefineSymbols(lua_State* L)
     lua_pushinteger(L, UNIT_SCREEN_HEIGHT);
     lua_setglobal(L, "SCREEN_HEIGHT");
 
-    lua_pushinteger(L, TW_LOCATION);
-    lua_setglobal(L, "TW_LOCATION");
-    lua_pushinteger(L, TH_LOCATION);
-    lua_setglobal(L, "TH_LOCATION");
-
-    lua_pushinteger(L, TW_PARALLAX);
-    lua_setglobal(L, "TW_PARALLAX");
-    lua_pushinteger(L, TH_PARALLAX);
-    lua_setglobal(L, "TH_PARALLAX");
+    lua_pushinteger(L, RENDER_MODE_BACKGROUND);
+    lua_setglobal(L, "RENDER_MODE_BACKGROUND");
+    lua_pushinteger(L, RENDER_MODE_DYNAMIC);
+    lua_setglobal(L, "RENDER_MODE_DYNAMIC");
+    lua_pushinteger(L, RENDER_MODE_FOREGROUND);
+    lua_setglobal(L, "RENDER_MODE_FOREGROUND");
+    lua_pushinteger(L, RENDER_MODE_DEBUG);
+    lua_setglobal(L, "RENDER_MODE_DEBUG");
 
     /* Input */
     // WASD/Arrows
@@ -305,6 +303,11 @@ void ScriptModule::UpdateMission(f32 dtTime)
     lua_pcall(m_pMission, 1, 0, 0);
 }
 
+void ScriptModule::RenderMission()
+{
+    CallFunction("onRender");
+}
+
 void ScriptModule::CallFunction(const char* functionName, void* userdata)
 {
     // Check for null
@@ -429,6 +432,29 @@ s32 ScriptModule::_setDrawColor(lua_State* L)
     return 0;
 }
 
+s32 ScriptModule::_drawFrame(lua_State* L)
+{
+    i32f argsCount = lua_gettop(L);
+    if (argsCount != 10 && argsCount != 12)
+    {
+        LuaNote(PR_ERROR, "drawFrame(): Expected 10 or 12 arguments but %d given", argsCount);
+        return -1;
+    }
+
+    SDL_Rect dest = {
+        (s32)GTU::UnitToScreenX((f32)lua_tonumber(L, 4)),
+        (s32)GTU::UnitToScreenY((f32)lua_tonumber(L, 5)),
+        (s32)GTU::UnitToScreenX((f32)lua_tonumber(L, 6)),
+        (s32)GTU::UnitToScreenY((f32)lua_tonumber(L, 7))
+    };
+    if (argsCount == 10)
+        g_graphicsModule.DrawFrame((s32)lua_tointeger(L, 1), (s32)lua_tointeger(L, 2), (b32)lua_toboolean(L, 3), dest, (const GT_Texture*)lua_touserdata(L, 8), (s32)lua_tointeger(L, 9), (s32)lua_tointeger(L, 10));
+    else
+        g_graphicsModule.DrawFrame((s32)lua_tointeger(L, 1), (s32)lua_tointeger(L, 2), (b32)lua_toboolean(L, 3), dest, (const GT_Texture*)lua_touserdata(L, 8), (s32)lua_tointeger(L, 9), (s32)lua_tointeger(L, 10), (f32)lua_tonumber(L, 11), (SDL_RendererFlip)lua_tointeger(L, 12));
+
+    return 0;
+}
+
 s32 ScriptModule::_drawRect(lua_State* L)
 {
     /*
@@ -520,26 +546,6 @@ s32 ScriptModule::_switchLocation(lua_State* L)
         return -1;
 
     g_game.GetWorld().SwitchLocation(lua_tostring(L, 1));
-
-    return 0;
-}
-
-s32 ScriptModule::_setBackground(lua_State* L)
-{
-    if (!LuaExpect(L, "setBackground", 1))
-        return -1;
-
-    g_game.GetWorld().SetBackground( (GT_Texture*)lua_touserdata(L, 1) );
-
-    return 0;
-}
-
-s32 ScriptModule::_setParallax(lua_State* L)
-{
-    if (!LuaExpect(L, "setParallax", 1))
-        return -1;
-
-    g_game.GetWorld().SetParallax( (GT_Texture*)lua_touserdata(L, 1) );
 
     return 0;
 }

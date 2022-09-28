@@ -24,7 +24,6 @@
 void World::StartUp()
 {
     // Defaults
-    m_pParallax = m_pBackground = nullptr;
     m_groundBounds = { GROUND_BOUNDS_DEFAULT_X1, GROUND_BOUNDS_DEFAULT_Y1,
                        GROUND_BOUNDS_DEFAULT_X2, GROUND_BOUNDS_DEFAULT_Y2 };
     m_switchLocation[0] = 0;
@@ -55,17 +54,6 @@ void World::Update(f32 dtTime)
 
 void World::Render()
 {
-    // Draw parallax
-    SDL_Rect rect = { 0, 0, g_graphicsModule.GetScreenWidth() * 2,
-                            g_graphicsModule.GetScreenHeight() };
-    g_graphicsModule.DrawFrame(RENDER_MODE_BACKGROUND, 0, false, rect, m_pParallax, 0, 0);
-
-    // Draw background
-    rect = { 0, 0, g_graphicsModule.GetScreenWidth(), g_graphicsModule.GetScreenHeight() };
-    g_graphicsModule.DrawFrame(RENDER_MODE_BACKGROUND, 1, false, rect, m_pBackground, 0, 0);
-    rect.x = rect.w;
-    g_graphicsModule.DrawFrame(RENDER_MODE_BACKGROUND, 1, false, rect, m_pBackground, 0, 1);
-
     // Draw entities
     m_lstEntity.Mapcar([](auto pEntity) { pEntity->Draw(); });
 }

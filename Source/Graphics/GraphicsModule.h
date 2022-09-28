@@ -15,12 +15,6 @@
 #define UNIT_SCREEN_WIDTH 128
 #define UNIT_SCREEN_HEIGHT 72
 
-/* TODO(sean) Move this to GraphicsDefine.lua */
-#define TW_LOCATION UNIT_SCREEN_WIDTH
-#define TH_LOCATION UNIT_SCREEN_HEIGHT
-#define TW_PARALLAX (UNIT_SCREEN_WIDTH * 2)
-#define TH_PARALLAX UNIT_SCREEN_HEIGHT
-
 enum eRenderMode
 {
     RENDER_MODE_BACKGROUND = 0,
@@ -86,7 +80,6 @@ private:
 
     b32f CheckAndCorrectDest(SDL_Rect& dest, b32 bHUD);
     void PushRenderElement(s32 renderMode, RenderElement* pElement);
-
     void PushStaticElement(TList<RenderElement*>& queue, RenderElement* pElement);
     void PushDynamicElement(TList<RenderElement*>& queue, RenderElement* pElement);
 };

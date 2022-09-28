@@ -12,12 +12,16 @@ Entities = {}
 
 Player = {}
 
+-- Functions
+onUpdate = {}
+onRender = {}
+
 ---- >>>> Enter
 function onEnter()
     GT_LOG(PR_NOTE, "Mission1 entered")
 
     defineResources()
-    onEnterLocation1()
+    onEnterLocation3()
 end
 
 function defineResources()
@@ -54,6 +58,10 @@ function defineResources()
 end
 
 function onEnterLocation1()
+    -- Functions
+    onUpdate = onUpdateLocation1
+    onRender = onRenderLocation1
+
     -- Local defines
     local GROUND_WIDTH = SCREEN_WIDTH * 2
     local GROUND_HEIGHT = 19
@@ -61,8 +69,6 @@ function onEnterLocation1()
     local GROUND_Y = SCREEN_HEIGHT - GROUND_HEIGHT
 
     -- Level
-    setBackground(Textures["Background1"])
-    setParallax(Textures["Parallax"])
     setGroundBounds(GROUND_X, GROUND_Y, GROUND_WIDTH, GROUND_HEIGHT)
 
     -- Entities
@@ -82,6 +88,10 @@ function onEnterLocation1()
 end
 
 function onEnterLocation3()
+    -- Function
+    onUpdate = onUpdateLocation3
+    onRender = onRenderLocation3
+
     -- Local defines
     local GROUND_WIDTH = SCREEN_WIDTH - 10
     local GROUND_HEIGHT = 10
@@ -89,13 +99,9 @@ function onEnterLocation3()
     local GROUND_Y = SCREEN_HEIGHT - GROUND_HEIGHT
 
     -- Level
-    setBackground(Textures["Background3"])
-    setParallax(Textures["Parallax"])
     setGroundBounds(GROUND_X, GROUND_Y, GROUND_WIDTH, GROUND_HEIGHT)
 
     -- Entities
-    Entities["Car"] = addEntity(70, 55, 64, 18, Textures["BrownTrashCar"])
-
     Entities["Player"] = addActor(SCREEN_WIDTH - 20, 64, TW_ACTOR, TH_ACTOR, Textures["Player"])
     Player = Entities["Player"]
     toggleActorGodMode(Player, true)
@@ -115,7 +121,11 @@ end
 ---- <<<< Enter
 
 ---- >>>> Update
-function onUpdate(dt)
+function onUpdateLocation1(dt)
+    handleInput()
+end
+
+function onUpdateLocation3(dt)
     handleInput()
 end
 
@@ -150,6 +160,19 @@ function handleInput()
     end
 end
 ---- <<<< Update
+
+---- >>>> Render
+function onRenderLocation1()
+    drawFrame(RENDER_MODE_BACKGROUND, 0, false, 0,0,SCREEN_WIDTH*2,SCREEN_HEIGHT, Textures["Parallax"], 0, 0)
+    drawFrame(RENDER_MODE_BACKGROUND, 1, false, 0,0,SCREEN_WIDTH,SCREEN_HEIGHT, Textures["Background1"], 0, 0)
+    drawFrame(RENDER_MODE_BACKGROUND, 1, false, SCREEN_WIDTH,0,SCREEN_WIDTH,SCREEN_HEIGHT, Textures["Background1"], 0, 1)
+end
+
+function onRenderLocation3()
+    drawFrame(RENDER_MODE_BACKGROUND, 0, false, 0,0,SCREEN_WIDTH,SCREEN_HEIGHT, Textures["Background3"], 0, 0)
+    drawFrame(RENDER_MODE_BACKGROUND, 1, false, 42,45,68,20, Textures["BrownTrashCar"], 0, 0)
+end
+---- <<<< Render
 
 ---- >>>> Triggers
 function triggerSwitchLocation(Entity)

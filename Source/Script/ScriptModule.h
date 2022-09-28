@@ -24,7 +24,9 @@ public:
 
     b32 LoadMission();
     void UnloadMission();
+
     void UpdateMission(f32 dtTime);
+    void RenderMission();
 
     void CallFunction(const char* functionName, void* userdata);
     void CallFunction(const char* functionName);
@@ -45,10 +47,11 @@ private:
     static s32 _defineTexture(lua_State* L);
 
     // Draw
-    // TODO(sean) Make it work after implementing render queue
     static s32 _setDrawColor(lua_State* L);
-    static s32 _drawRect(lua_State* L);
+
+    static s32 _drawFrame(lua_State* L);
     static s32 _fillRect(lua_State* L);
+    static s32 _drawRect(lua_State* L);
 
     // Camera
     static s32 _attachCamera(lua_State* L);
@@ -83,11 +86,7 @@ private:
     static s32 _stopGame(lua_State* L);
 
     /* World */
-    // World's stuff
     static s32 _switchLocation(lua_State* L);
-
-    static s32 _setBackground(lua_State* L);
-    static s32 _setParallax(lua_State* L);
     static s32 _setGroundBounds(lua_State* L);
 
     // Entity

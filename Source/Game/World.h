@@ -15,15 +15,12 @@ class Weapon;
 
 class World final : EngineModule
 {
-    GT_Texture* m_pBackground;
-    GT_Texture* m_pParallax;
-    SRect m_groundBounds;
-
     TList<Entity*> m_lstEntity;
     TList<Entity*> m_lstRemove;
     TList<Weapon*> m_lstWeapon;
     TList<WorldEvent> m_lstEvent;
 
+    SRect m_groundBounds;
     char m_switchLocation[WORLD_SWITCH_STRSIZE];
 public:
     World() : EngineModule("World", CHANNEL_GAME) {}
@@ -35,9 +32,6 @@ public:
     void Render();
 
     void SwitchLocation(const char* funName) { memcpy(m_switchLocation, funName, WORLD_SWITCH_STRSIZE); }
-
-    void SetBackground(GT_Texture* pTexture) { m_pBackground = pTexture; }
-    void SetParallax(GT_Texture* pTexture) { m_pParallax = pTexture; }
     void SetGroundBounds(SRect& rect) { m_groundBounds = rect; }
 
     void PushEntity(Entity* pEntity) { if (pEntity) m_lstEntity.Push(pEntity); }
