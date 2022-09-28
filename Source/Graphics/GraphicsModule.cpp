@@ -44,7 +44,7 @@ b32 GraphicsModule::StartUp(SDL_Renderer* pRenderer, s32 width, s32 height)
         m_aTextures[i].pTexture = nullptr;
 
     // Open console font
-    s_pConsoleFont = TTF_OpenFont("Fonts/Cascadia.ttf", 28);
+    s_pConsoleFont = TTF_OpenFont("Fonts/Cascadia.ttf", 48);
 
     AddNote(PR_NOTE, "Module started");
 

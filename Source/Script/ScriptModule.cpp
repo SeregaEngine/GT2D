@@ -114,6 +114,9 @@ void ScriptModule::DefineFunctions(lua_State* L)
     lua_register(L, "addEntity", _addEntity);
     lua_register(L, "updateEntity", _updateEntity);
 
+    lua_register(L, "getEntityPosition", _getEntityPosition);
+    lua_register(L, "getEntityHitBox", _getEntityHitBox);
+
     // Actor
     lua_register(L, "addActor", _addActor);
     lua_register(L, "setActorHealth", _setActorHealth);
@@ -421,14 +424,12 @@ s32 ScriptModule::_defineTexture(lua_State* L)
 
 s32 ScriptModule::_setDrawColor(lua_State* L)
 {
-    /*
     if (!LuaExpect(L, "setDrawColor", 4))
         return -1;
 
-    g_graphicsModule.SetColor((u8)lua_tointeger(L, 1), (u8)lua_tointeger(L, 2),
-                              (u8)lua_tointeger(L, 3), (u8)lua_tointeger(L, 4));
+    g_graphicsModule.SetDrawColor((u8)lua_tointeger(L, 1), (u8)lua_tointeger(L, 2),
+                                (u8)lua_tointeger(L, 3), (u8)lua_tointeger(L, 4));
 
-    */
     return 0;
 }
 
@@ -455,41 +456,36 @@ s32 ScriptModule::_drawFrame(lua_State* L)
     return 0;
 }
 
-s32 ScriptModule::_drawRect(lua_State* L)
+s32 ScriptModule::_fillRect(lua_State* L)
 {
-    /*
-    if (!LuaExpect(L, "drawRect", 4))
+    if (!LuaExpect(L, "fillRect", 7))
         return -1;
 
     SDL_Rect dest = {
-        (s32)GTU::UnitToScreenX((f32)lua_tonumber(L, 1)),
-        (s32)GTU::UnitToScreenY((f32)lua_tonumber(L, 2)),
-        (s32)GTU::UnitToScreenX((f32)lua_tonumber(L, 3)),
-        (s32)GTU::UnitToScreenY((f32)lua_tonumber(L, 4))
+        (s32)GTU::UnitToScreenX((f32)lua_tonumber(L, 4)),
+        (s32)GTU::UnitToScreenY((f32)lua_tonumber(L, 5)),
+        (s32)GTU::UnitToScreenX((f32)lua_tonumber(L, 6)),
+        (s32)GTU::UnitToScreenY((f32)lua_tonumber(L, 7))
     };
 
-    g_graphicsModule.DrawRect(&dest);
+    g_graphicsModule.FillRect((s32)lua_tointeger(L, 1), (s32)lua_tointeger(L, 2), (s32)lua_toboolean(L, 3), dest);
 
-    */
     return 0;
 }
 
-s32 ScriptModule::_fillRect(lua_State* L)
+s32 ScriptModule::_drawRect(lua_State* L)
 {
-    /*
-    if (!LuaExpect(L, "fillRect", 4))
+    if (!LuaExpect(L, "drawRect", 7))
         return -1;
 
     SDL_Rect dest = {
-        (s32)GTU::UnitToScreenX((f32)lua_tonumber(L, 1)),
-        (s32)GTU::UnitToScreenY((f32)lua_tonumber(L, 2)),
-        (s32)GTU::UnitToScreenX((f32)lua_tonumber(L, 3)),
-        (s32)GTU::UnitToScreenY((f32)lua_tonumber(L, 4))
+        (s32)GTU::UnitToScreenX((f32)lua_tonumber(L, 4)),
+        (s32)GTU::UnitToScreenY((f32)lua_tonumber(L, 5)),
+        (s32)GTU::UnitToScreenX((f32)lua_tonumber(L, 6)),
+        (s32)GTU::UnitToScreenY((f32)lua_tonumber(L, 7))
     };
 
-    g_graphicsModule.FillRect(&dest);
-
-    */
+    g_graphicsModule.DrawRect((s32)lua_tointeger(L, 1), (s32)lua_tointeger(L, 2), (s32)lua_toboolean(L, 3), dest);
     return 0;
 }
 
@@ -729,6 +725,46 @@ s32 ScriptModule::_updateEntity(lua_State* L)
     }
 
     return 0;
+}
+
+s32 ScriptModule::_getEntityPosition(lua_State* L)
+{
+    if (!LuaExpect(L, "getEntityPosition", 1))
+        return -1;
+
+    Entity* pEntity = (Entity*)lua_touserdata(L, 1);
+    if (!pEntity)
+    {
+        LuaNote(PR_WARNING, "getEntityPosition(): function called with null entity");
+        return -1;
+    }
+
+    const Vector2& vPosition = pEntity->GetPosition();
+    lua_pushnumber(L, GTU::ScreenToUnitX(vPosition.x));
+    lua_pushnumber(L, GTU::ScreenToUnitY(vPosition.y));
+
+    return 2;
+}
+
+s32 ScriptModule::_getEntityHitBox(lua_State* L)
+{
+    if (!LuaExpect(L, "getEntityHitBox", 1))
+        return -1;
+
+    Entity* pEntity = (Entity*)lua_touserdata(L, 1);
+    if (!pEntity)
+    {
+        LuaNote(PR_WARNING, "getEntityHitBox(): function called with null entity");
+        return -1;
+    }
+
+    const FRect& hitBox = pEntity->GetHitBox();
+    lua_pushnumber(L, GTU::ScreenToUnitX(hitBox.x1));
+    lua_pushnumber(L, GTU::ScreenToUnitY(hitBox.y1));
+    lua_pushnumber(L, GTU::ScreenToUnitX(hitBox.x2));
+    lua_pushnumber(L, GTU::ScreenToUnitY(hitBox.y2));
+
+    return 4;
 }
 
 s32 ScriptModule::_addActor(lua_State* L)
@@ -1046,8 +1082,9 @@ s32 ScriptModule::_addTrigger(lua_State* L)
     pTrigger->AttachEntity((Entity*)lua_touserdata(L, 5));
     pTrigger->SetFunctionName(lua_tostring(L, 6));
 
-    // Push entity to the world
+    // Push entity to the world and lua
     g_game.GetWorld().PushEntity(pTrigger);
+    lua_pushlightuserdata(L, (void*)pTrigger);
 
     return 1;
 }

@@ -48,10 +48,10 @@ void Console::ShutDown()
 void Console::Render() const
 {
     // Draw console's background
-    g_graphicsModule.SetDrawColor(0x00, 0x00, 0x00, 0xFF);
+    g_graphicsModule.SetDrawColor(0x00, 0x00, 0x00, 0xCC);
     SDL_Rect dest = { 0, 0, g_graphicsModule.GetScreenWidth(),
                             g_graphicsModule.GetScreenHeight() / 2 };
-    g_graphicsModule.FillRect(RENDER_MODE_DEBUG, 0, true, dest);
+    g_graphicsModule.FillRect(RENDER_MODE_DEBUG, 997, true, dest);
 
     // Draw text
     g_graphicsModule.SetDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
@@ -63,7 +63,7 @@ void Console::Render() const
         u8 temp = m_buffer[tempIndex]; // Save start of next string that will be null terminated
         m_buffer[tempIndex] = 0;
 
-        g_graphicsModule.DrawText(RENDER_MODE_DEBUG, 1, true, dest, (const char*) &m_buffer[i * CONSOLE_STRING_WIDTH], GraphicsModule::s_pConsoleFont);
+        g_graphicsModule.DrawText(RENDER_MODE_DEBUG, 998, true, dest, (const char*) &m_buffer[i * CONSOLE_STRING_WIDTH], GraphicsModule::s_pConsoleFont);
 
         m_buffer[tempIndex] = temp; // Restore
     }
@@ -81,7 +81,7 @@ void Console::Render() const
     };
 
     g_graphicsModule.SetDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
-    g_graphicsModule.FillRect(RENDER_MODE_DEBUG, 2, true, dest);
+    g_graphicsModule.FillRect(RENDER_MODE_DEBUG, 999, true, dest);
 }
 
 void Console::Print(const char* text)

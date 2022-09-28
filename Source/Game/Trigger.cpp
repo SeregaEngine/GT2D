@@ -25,18 +25,16 @@ void Trigger::Update(f32 dtTime)
 
     // Get collided with trigger entities
     TList<Entity*> lstEntity;
-    g_collisionMgr.CheckCollision(m_vPosition, m_hitBox, lstEntity, this);
+    g_collisionMgr.CheckCollision(m_vPosition, m_hitBox, [](auto pEntity, auto pAttached) -> b32f {
+        if (pEntity == pAttached)
+            return true;
+        return false;
+    }, m_pAttached, lstEntity, this);
 
-    // Try to find our Attached entity
-    auto end = lstEntity.End();
-    for (auto it = lstEntity.Begin(); it != end; ++it)
+    if (!lstEntity.IsEmpty())
     {
-        if (it->data == m_pAttached)
-        {
-            // Call trigger's function and remove it
-            g_scriptModule.CallFunction(m_functionName, m_pAttached);
-            g_game.GetWorld().RemoveEntity(this);
-            break;
-        }
+        // Call trigger's function and remove it
+        g_scriptModule.CallFunction(m_functionName, m_pAttached);
+        g_game.GetWorld().RemoveEntity(this);
     }
 }

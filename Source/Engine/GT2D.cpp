@@ -59,6 +59,7 @@ b32 GT2D::StartUp()
             AddNote(PR_ERROR, "Error on creating renderer: %s", SDL_GetError());
             return false;
         }
+        SDL_SetRenderDrawBlendMode(m_pRenderer, SDL_BLENDMODE_BLEND);
 
         // Init SDL Image
         if (~IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)

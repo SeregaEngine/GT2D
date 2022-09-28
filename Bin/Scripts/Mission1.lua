@@ -21,7 +21,7 @@ function onEnter()
     GT_LOG(PR_NOTE, "Mission1 entered")
 
     defineResources()
-    onEnterLocation3()
+    onEnterLocation1()
 end
 
 function defineResources()
@@ -72,12 +72,12 @@ function onEnterLocation1()
     setGroundBounds(GROUND_X, GROUND_Y, GROUND_WIDTH, GROUND_HEIGHT)
 
     -- Entities
-    Entities["Player"] = addActor(10, 60, TW_ACTOR, TH_ACTOR, Textures["Player"])
+    Entities["Player"] = addActor(120, 60, TW_ACTOR, TH_ACTOR, Textures["Player"])
     toggleActorGodMode(Entities["Player"], true)
     setActorWeapon(Entities["Player"], Weapons["Fist"])
     Player = Entities["Player"]
 
-    Entities["SwitchLocation"] = addTrigger(GROUND_WIDTH - 70, GROUND_Y + 10, 50, 50, Player, "triggerSwitchLocation")
+    Entities["SwitchLocation"] = addTrigger(GROUND_WIDTH - 70, GROUND_Y + 30, 20, 100, Player, "triggerSwitchLocation")
 
     -- Camera
     setCameraBounds(0, 0, GROUND_WIDTH, SCREEN_HEIGHT)
@@ -163,12 +163,26 @@ end
 
 ---- >>>> Render
 function onRenderLocation1()
+    -- Background
     drawFrame(RENDER_MODE_BACKGROUND, 0, false, 0,0,SCREEN_WIDTH*2,SCREEN_HEIGHT, Textures["Parallax"], 0, 0)
-    drawFrame(RENDER_MODE_BACKGROUND, 1, false, 0,0,SCREEN_WIDTH,SCREEN_HEIGHT, Textures["Background1"], 0, 0)
-    drawFrame(RENDER_MODE_BACKGROUND, 1, false, SCREEN_WIDTH,0,SCREEN_WIDTH,SCREEN_HEIGHT, Textures["Background1"], 0, 1)
+    setDrawColor(0, 0, 0, 0)
+    fillRect(RENDER_MODE_BACKGROUND, 1, true, 0,0,SCREEN_WIDTH,SCREEN_HEIGHT)
+    drawFrame(RENDER_MODE_BACKGROUND, 2, false, 0,0,SCREEN_WIDTH,SCREEN_HEIGHT, Textures["Background1"], 0, 0)
+    drawFrame(RENDER_MODE_BACKGROUND, 2, false, SCREEN_WIDTH,0,SCREEN_WIDTH,SCREEN_HEIGHT, Textures["Background1"], 0, 1)
+
+    -- Debug draw trigger
+    local X,Y = getEntityPosition(Entities["SwitchLocation"])
+    local X1,Y1,X2,Y2 = getEntityHitBox(Entities["SwitchLocation"])
+    local W = -X1 + X2
+    local H = -Y1 + Y2
+    X = X + X1
+    Y = Y + Y1
+    setDrawColor(255, 0, 0, 255)
+    drawRect(RENDER_MODE_DEBUG, 0, false, X,Y,W,H)
 end
 
 function onRenderLocation3()
+    -- Background
     drawFrame(RENDER_MODE_BACKGROUND, 0, false, 0,0,SCREEN_WIDTH,SCREEN_HEIGHT, Textures["Background3"], 0, 0)
     drawFrame(RENDER_MODE_BACKGROUND, 1, false, 42,45,68,20, Textures["BrownTrashCar"], 0, 0)
 end
