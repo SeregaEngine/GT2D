@@ -159,19 +159,9 @@ void GraphicsModule::DrawFrame(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_R
         return;
     }
 
-    // Copy dest
+    // Check and correct destination rectangle
     SDL_Rect dest = dstRect;
-
-    // Correct destination rectangle
-    if (!bHUD)
-    {
-        dest.x -= m_cameraX;
-        dest.y -= m_cameraY;
-    }
-
-    // Check if we shouldn't draw it
-    if (dest.x + dest.w <= 0 || dest.y + dest.h <= 0 ||
-        dstRect.x >= m_cameraX + m_screenWidth || dest.y >= m_cameraY + m_screenHeight)
+    if (!CheckAndCorrectDest(dest, bHUD))
         return;
 
     // DEBUG(sean)
@@ -231,4 +221,20 @@ void GraphicsModule::CleanQueue(TList<RenderElement*>& queue)
     for (auto it = queue.Begin(); it != end; ++it)
         delete it->data;
     queue.Clean();
+}
+
+b32f GraphicsModule::CheckAndCorrectDest(SDL_Rect& dest, b32 bHUD)
+{
+    // Make screen coords from world coords
+    if (!bHUD)
+    {
+        dest.x -= m_cameraX;
+        dest.y -= m_cameraY;
+    }
+
+    // Check if we shouldn't draw it
+    if (dest.x + dest.w <= 0 || dest.y + dest.h <= 0 ||
+        dest.x >= m_screenWidth || dest.y >= m_screenHeight)
+        return false;
+    return true;
 }

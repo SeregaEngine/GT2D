@@ -83,6 +83,8 @@ private:
     void RenderQueue(const TList<RenderElement*>& queue) const;
     void CleanQueues();
     void CleanQueue(TList<RenderElement*>& queue);
+
+    b32f CheckAndCorrectDest(SDL_Rect& dest, b32 bHUD);
 };
 
 extern GraphicsModule g_graphicsModule;
