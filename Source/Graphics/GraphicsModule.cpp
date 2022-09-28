@@ -151,8 +151,7 @@ void GraphicsModule::UndefineTextures()
     }
 }
 
-// TODO(sean) dstRect -> const SDL_Rect&
-void GraphicsModule::DrawFrame(s32 renderMode, s32 zIndex, b32 bHUD, SDL_Rect* dstRect, const GT_Texture* pTexture, s32 row, s32 col, f32 angle, SDL_RendererFlip flip)
+void GraphicsModule::DrawFrame(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Rect& dstRect, const GT_Texture* pTexture, s32 row, s32 col, f32 angle, SDL_RendererFlip flip)
 {
     if (!pTexture)
     {
@@ -160,26 +159,23 @@ void GraphicsModule::DrawFrame(s32 renderMode, s32 zIndex, b32 bHUD, SDL_Rect* d
         return;
     }
 
-    if (!dstRect)
-    {
-        AddNote(PR_WARNING, "DrawFrame() called with null destination rectangle");
-        return;
-    }
+    // Copy dest
+    SDL_Rect dest = dstRect;
 
     // Correct destination rectangle
     if (!bHUD)
     {
-        dstRect->x -= m_cameraX;
-        dstRect->y -= m_cameraY;
+        dest.x -= m_cameraX;
+        dest.y -= m_cameraY;
     }
 
     // Check if we shouldn't draw it
-    if (dstRect->x + dstRect->w <= 0 || dstRect->y + dstRect->h <= 0 ||
-        dstRect->x >= m_cameraX + m_screenWidth || dstRect->y >= m_cameraY + m_screenHeight)
+    if (dest.x + dest.w <= 0 || dest.y + dest.h <= 0 ||
+        dstRect.x >= m_cameraX + m_screenWidth || dest.y >= m_cameraY + m_screenHeight)
         return;
 
     // DEBUG(sean)
-    RenderElementFrame* pFrame = new RenderElementFrame(zIndex, *dstRect, pTexture, row, col, angle, flip);
+    RenderElementFrame* pFrame = new RenderElementFrame(zIndex, dest, pTexture, row, col, angle, flip);
     switch (renderMode)
     {
     case RENDER_MODE_BACKGROUND: m_queueBackground.PushBack(pFrame); break;

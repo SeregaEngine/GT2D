@@ -64,7 +64,7 @@ public:
     const GT_Texture* DefineTexture(const char* fileName, s32 spriteWidth, s32 spriteHeight); // null on error
     void UndefineTextures();
 
-    void DrawFrame(s32 renderMode, s32 zIndex, b32 bHUD, SDL_Rect* dstRect, 
+    void DrawFrame(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Rect& dstRect, 
                    const GT_Texture* pTexture, s32 row, s32 col,
                    f32 angle = 0.0f, SDL_RendererFlip flip = SDL_FLIP_NONE);
     void DrawText(const SDL_Rect* dst, TTF_Font* pFont, const char* text, SDL_Color color);
