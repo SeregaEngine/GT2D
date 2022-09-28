@@ -63,14 +63,14 @@ public:
         SDL_Surface* pSurface = TTF_RenderText_Blended(pFont, text, color);
         if (!pSurface)
         {
-            g_debugLogMgr.AddNote(CHANNEL_GAME, PR_WARNING, "RenderElementText", "Can't create surface: %s", TTF_GetError());
+            g_debugLogMgr.AddNote(CHANNEL_GRAPHICS, PR_WARNING, "RenderElementText", "Can't create surface: %s", TTF_GetError());
             return;
         }
         SDL_Texture* pTexture = SDL_CreateTextureFromSurface(g_graphicsModule.GetRenderer(), pSurface);
         if (!pTexture)
         {
             SDL_FreeSurface(pSurface);
-            g_debugLogMgr.AddNote(CHANNEL_GAME, PR_WARNING, "RenderElementText", "Can't create texture from surface: %s", TTF_GetError());
+            g_debugLogMgr.AddNote(CHANNEL_GRAPHICS, PR_WARNING, "RenderElementText", "Can't create texture from surface: %s", TTF_GetError());
             return;
         }
 
@@ -83,14 +83,28 @@ public:
     }
 };
 
-/*
-struct RenderQueueRect
+struct RenderElementRect final : public RenderElement
 {
     enum eAction { ACTION_FILL, ACTION_DRAW };
 
-    SDL_Rect dest;
-    SDL_Color color;
     s32 action;
+    SDL_Color color;
+
+    RenderElementRect(s32 zIndex, const SDL_Rect& dest, s32 _action)
+        : RenderElement(zIndex, dest), action(_action), color(g_graphicsModule.GetDrawColor()) {}
+    virtual void Render() override
+    {
+        // Set render color
+        SDL_SetRenderDrawColor(g_graphicsModule.GetRenderer(), color.r, color.g, color.b, color.a);
+
+        // Do action
+        switch (action)
+        {
+        case ACTION_FILL: SDL_RenderFillRect(g_graphicsModule.GetRenderer(), &dest); break;
+        case ACTION_DRAW: SDL_RenderDrawRect(g_graphicsModule.GetRenderer(), &dest); break;
+        default: g_debugLogMgr.AddNote(CHANNEL_GRAPHICS, PR_WARNING, "RenderElementRect", "Unknown action %d", action); break;
+        }
+    }
 };
-*/
+
 #endif // RENDERELEMENT_H

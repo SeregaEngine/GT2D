@@ -61,19 +61,18 @@ public:
     void PrepareToRender();
     void Render();
 
-    const GT_Texture* DefineTexture(const char* fileName, s32 spriteWidth, s32 spriteHeight); // null on error
+    const GT_Texture* DefineTexture(const char* fileName, s32 spriteWidth, s32 spriteHeight); // Null on error
     void UndefineTextures();
+
+    void SetDrawColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
+        { m_drawColor = { r, g, b, a }; }
 
     void DrawFrame(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Rect& dstRect, 
                    const GT_Texture* pTexture, s32 row, s32 col,
                    f32 angle = 0.0f, SDL_RendererFlip flip = SDL_FLIP_NONE);
     void DrawText(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Rect& dstRect, const char* text, TTF_Font* pFont);
-
-    // TODO(sean) -> SetDrawColor(), don't change SDL's draw color
-    void SetDrawColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
-        { m_drawColor = { r, g, b, a }; }
-    void DrawRect(const SDL_Rect* dst) { SDL_RenderDrawRect(m_pRenderer, dst); }
-    void FillRect(const SDL_Rect* dst) { SDL_RenderFillRect(m_pRenderer, dst); }
+    void FillRect(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Rect& dstRect);
+    void DrawRect(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Rect& dstRect);
 
     s32 GetScreenWidth() const { return m_screenWidth; }
     s32 GetScreenHeight() const { return m_screenHeight; }

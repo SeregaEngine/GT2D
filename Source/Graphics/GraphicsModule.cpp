@@ -179,6 +179,28 @@ void GraphicsModule::DrawText(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Re
     PushRenderElement(renderMode, new RenderElementText(zIndex, dest, text, pFont));
 }
 
+void GraphicsModule::FillRect(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Rect& dstRect)
+{
+    // Check and correct destination rectangle
+    SDL_Rect dest = dstRect;
+    if (!CheckAndCorrectDest(dest, bHUD))
+        return;
+
+    // Push element
+    PushRenderElement(renderMode, new RenderElementRect(zIndex, dest, RenderElementRect::ACTION_FILL));
+}
+
+void GraphicsModule::DrawRect(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Rect& dstRect)
+{
+    // Check and correct destination rectangle
+    SDL_Rect dest = dstRect;
+    if (!CheckAndCorrectDest(dest, bHUD))
+        return;
+
+    // Push element
+    PushRenderElement(renderMode, new RenderElementRect(zIndex, dest, RenderElementRect::ACTION_DRAW));
+}
+
 void GraphicsModule::RenderQueue(const TList<RenderElement*>& queue) const
 {
     auto end = queue.CEnd();

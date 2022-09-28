@@ -48,10 +48,10 @@ void Console::ShutDown()
 void Console::Render() const
 {
     // Draw console's background
+    g_graphicsModule.SetDrawColor(0x00, 0x00, 0x00, 0xFF);
     SDL_Rect dest = { 0, 0, g_graphicsModule.GetScreenWidth(),
                             g_graphicsModule.GetScreenHeight() / 2 };
-    g_graphicsModule.SetDrawColor(0x00, 0x00, 0x00, 0xFF);
-    g_graphicsModule.FillRect(&dest);
+    g_graphicsModule.FillRect(RENDER_MODE_DEBUG, 0, true, dest);
 
     // Draw text
     g_graphicsModule.SetDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
@@ -81,7 +81,7 @@ void Console::Render() const
     };
 
     g_graphicsModule.SetDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
-    g_graphicsModule.FillRect(&dest);
+    g_graphicsModule.FillRect(RENDER_MODE_DEBUG, 2, true, dest);
 }
 
 void Console::Print(const char* text)
