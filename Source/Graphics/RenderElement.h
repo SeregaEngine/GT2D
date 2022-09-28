@@ -44,20 +44,46 @@ struct RenderElementFrame final : public RenderElement
     }
 };
 
-/* TODO(sean)
-struct RenderQueueText
+struct RenderElementText final : public RenderElement
 {
-    SDL_Rect dest;
     char* text;
     TTF_Font* pFont;
     SDL_Color color;
 
 public:
-    ~RenderQueueText() { if (text) delete[] text; }
-    void CopyText(const char* _text)
+    RenderElementText(s32 zIndex, const SDL_Rect& dest, const char* _text, TTF_Font* _pFont)
+        : RenderElement(zIndex, dest), pFont(_pFont), color(g_graphicsModule.GetDrawColor())
         { text = new char[strlen(_text) + 1]; memcpy(text, _text, strlen(_text) + 1); }
+
+    ~RenderElementText() { if (text) delete[] text; }
+
+    virtual void Render() override
+    {
+        // Create text surface and convert to texture
+        SDL_Surface* pSurface = TTF_RenderText_Blended(pFont, text, color);
+        if (!pSurface)
+        {
+            g_debugLogMgr.AddNote(CHANNEL_GAME, PR_WARNING, "RenderElementText", "Can't create surface: %s", TTF_GetError());
+            return;
+        }
+        SDL_Texture* pTexture = SDL_CreateTextureFromSurface(g_graphicsModule.GetRenderer(), pSurface);
+        if (!pTexture)
+        {
+            SDL_FreeSurface(pSurface);
+            g_debugLogMgr.AddNote(CHANNEL_GAME, PR_WARNING, "RenderElementText", "Can't create texture from surface: %s", TTF_GetError());
+            return;
+        }
+
+        // Copy to screen
+        SDL_RenderCopy(g_graphicsModule.GetRenderer(), pTexture, nullptr, &dest);
+
+        // Free memory
+        SDL_FreeSurface(pSurface);
+        SDL_DestroyTexture(pTexture);
+    }
 };
 
+/*
 struct RenderQueueRect
 {
     enum eAction { ACTION_FILL, ACTION_DRAW };

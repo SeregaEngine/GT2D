@@ -67,17 +67,18 @@ public:
     void DrawFrame(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Rect& dstRect, 
                    const GT_Texture* pTexture, s32 row, s32 col,
                    f32 angle = 0.0f, SDL_RendererFlip flip = SDL_FLIP_NONE);
-    void DrawText(const SDL_Rect* dst, TTF_Font* pFont, const char* text, SDL_Color color);
+    void DrawText(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Rect& dstRect, const char* text, TTF_Font* pFont);
 
     // TODO(sean) -> SetDrawColor(), don't change SDL's draw color
-    void SetColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
-        { m_drawColor = { r, g, b, a }; SDL_SetRenderDrawColor(m_pRenderer, r, g, b, a); }
+    void SetDrawColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
+        { m_drawColor = { r, g, b, a }; }
     void DrawRect(const SDL_Rect* dst) { SDL_RenderDrawRect(m_pRenderer, dst); }
     void FillRect(const SDL_Rect* dst) { SDL_RenderFillRect(m_pRenderer, dst); }
 
     s32 GetScreenWidth() const { return m_screenWidth; }
     s32 GetScreenHeight() const { return m_screenHeight; }
     Camera& GetCamera() { return m_camera; }
+    const SDL_Color& GetDrawColor() const { return m_drawColor; }
     SDL_Renderer* GetRenderer() { return m_pRenderer; }
 private:
     void RenderQueue(const TList<RenderElement*>& queue) const;

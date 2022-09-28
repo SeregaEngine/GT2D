@@ -168,29 +168,15 @@ void GraphicsModule::DrawFrame(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_R
     PushRenderElement(renderMode, new RenderElementFrame(zIndex, dest, pTexture, row, col, angle, flip));
 }
 
-void GraphicsModule::DrawText(const SDL_Rect* dst, TTF_Font* pFont, const char* text, SDL_Color color)
+void GraphicsModule::DrawText(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Rect& dstRect, const char* text, TTF_Font* pFont)
 {
-    // Create text surface and convert to texture
-    SDL_Surface* pSurface = TTF_RenderText_Blended(pFont, text, color);
-    if (!pSurface)
-    {
-        AddNote(PR_WARNING, "DrawText(): Can't create surface: %s", TTF_GetError());
+    // Check and correct destination rectangle
+    SDL_Rect dest = dstRect;
+    if (!CheckAndCorrectDest(dest, bHUD))
         return;
-    }
-    SDL_Texture* pTexture = SDL_CreateTextureFromSurface(m_pRenderer, pSurface);
-    if (!pTexture)
-    {
-        SDL_FreeSurface(pSurface);
-        AddNote(PR_WARNING, "DrawText(): Can't create texture from surface: %s", SDL_GetError());
-        return;
-    }
 
-    // Blit to screen
-    SDL_RenderCopy(m_pRenderer, pTexture, nullptr, dst);
-
-    // Free memory
-    SDL_FreeSurface(pSurface);
-    SDL_DestroyTexture(pTexture);
+    // Push element
+    PushRenderElement(renderMode, new RenderElementText(zIndex, dest, text, pFont));
 }
 
 void GraphicsModule::RenderQueue(const TList<RenderElement*>& queue) const
