@@ -38,6 +38,8 @@ public:
         void operator++() { pItem = pItem->pNext; }
         Iterator operator++(int) { pItem = pItem->pNext; return *this; }
 
+        b32 operator==(Iterator it) { return pItem == it.pItem; }
+        b32 operator==(void* ptr) { return pItem == ptr; }
         b32 operator!=(Iterator it) { return pItem != it.pItem; }
         b32 operator!=(void* ptr) { return pItem != ptr; }
 
@@ -68,6 +70,7 @@ public:
 
     void Push(T data);
     void PushBack(T data);
+    void PushBefore(Iterator& beforeIterator, T data);
 
     // Pop only if you checked list with IsEmpty()
     void Pop();
@@ -107,6 +110,32 @@ inline void TList<T>::PushBack(T data) {
 
     if (!m_pFirst)
         m_pFirst = m_pLast;
+}
+
+template<class T>
+inline void TList<T>::PushBefore(Iterator& beforeIterator, T data) {
+    // Push front if beforeIterator item is our first item
+    if (beforeIterator.pItem == m_pFirst)
+    {
+        Push(data);
+        return;
+    }
+
+    // Try to find list item before beforeIterator
+    Item* pTemp = m_pFirst;
+    for ( ; pTemp && pTemp->pNext != beforeIterator.pItem; pTemp = pTemp->pNext)
+        {}
+
+    // Push back if we didn't find this item
+    if (!pTemp)
+    {
+        PushBack(data);
+        return;
+    }
+
+    // Allocate new item
+    Item* pNew = new Item(data, beforeIterator.pItem);
+    pTemp->pNext = pNew;
 }
 
 template<class T>

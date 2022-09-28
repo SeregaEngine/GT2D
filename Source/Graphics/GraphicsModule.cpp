@@ -253,10 +253,52 @@ void GraphicsModule::PushRenderElement(s32 renderMode, RenderElement* pElement)
 
 void GraphicsModule::PushStaticElement(TList<RenderElement*>& queue, RenderElement* pElement)
 {
+    auto end = queue.End();
+    auto it = queue.Begin();
+
+    // Check if there're nothing in queue
+    if (it == end)
+    {
+        queue.Push(pElement);
+        return;
+    }
+
+    // Try to find place
+    for ( ; it != end; ++it)
+    {
+        if (pElement->zIndex <= it->data->zIndex)
+        {
+            queue.PushBefore(it, pElement);
+            return;
+        }
+    }
+
+    // So element's zIndex is the biggest
     queue.PushBack(pElement);
 }
 
 void GraphicsModule::PushDynamicElement(TList<RenderElement*>& queue, RenderElement* pElement)
 {
+    auto end = queue.End();
+    auto it = queue.Begin();
+
+    // Check if there're nothing in queue
+    if (it == end)
+    {
+        queue.Push(pElement);
+        return;
+    }
+
+    // Try to find place
+    for ( ; it != end; ++it)
+    {
+        if (pElement->dest.y <= it->data->dest.y)
+        {
+            queue.PushBefore(it, pElement);
+            return;
+        }
+    }
+
+    // So element's zIndex is the biggest
     queue.PushBack(pElement);
 }
