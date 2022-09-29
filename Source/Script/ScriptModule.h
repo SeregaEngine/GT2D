@@ -88,6 +88,7 @@ private:
     /* World */
     static s32 _hostSwitchLocation(lua_State* L);
     static s32 _setGroundBounds(lua_State* L);
+    static s32 _hasWorldEntity(lua_State* L);
 
     // Entity
     static s32 _addEntity(lua_State* L);
@@ -120,12 +121,10 @@ private:
 
     // Trigger
     static s32 _addTrigger(lua_State* L);
-    static s32 _hasTriggerTriggerred(lua_State* L);
 
     // Dialog
     static s32 _addDialog(lua_State* L);
     static s32 _runDialog(lua_State* L);
-    static s32 _hasDialogEnded(lua_State* L);
 };
 
 extern ScriptModule g_scriptModule;

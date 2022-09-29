@@ -17,7 +17,6 @@ void Dialog::Init(const Vector2& vPosition, s32 width, s32 height, const GT_Text
     m_pAttached = nullptr;
     m_time = 0.0f;
     m_bRunning = false;
-    m_bEnded = false;
     m_text[0] = 0;
 }
 
@@ -27,16 +26,8 @@ void Dialog::Update(f32 dtTime)
     if (!m_bRunning)
         return;
 
-    // Dialog ended on timeout
-    if (m_time <= 0.0f)
-    {
-        m_bRunning = false;
-        m_bEnded = true;
-        return;
-    }
-
-    // Dialog didn't ended but can't run
-    if (!g_game.GetWorld().HasEntity(m_pAttached))
+    // Check time and attached entity
+    if (m_time <= 0.0f || !g_game.GetWorld().HasEntity(m_pAttached))
     {
         m_bRunning = false;
         return;

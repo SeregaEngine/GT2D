@@ -110,6 +110,7 @@ void ScriptModule::DefineFunctions(lua_State* L)
     /* World */
     lua_register(L, "hostSwitchLocation", _hostSwitchLocation);
     lua_register(L, "setGroundBounds", _setGroundBounds);
+    lua_register(L, "hasWorldEntity", _hasWorldEntity);
 
     // Entities
     lua_register(L, "addEntity", _addEntity);
@@ -139,12 +140,10 @@ void ScriptModule::DefineFunctions(lua_State* L)
 
     // Trigger
     lua_register(L, "addTrigger", _addTrigger);
-    lua_register(L, "hasTriggerTriggered", _hasTriggerTriggerred);
 
     // Dialog
     lua_register(L, "addDialog", _addDialog);
     lua_register(L, "runDialog", _runDialog);
-    lua_register(L, "hasDialogEnded", _hasDialogEnded);
 }
 
 void ScriptModule::DefineSymbols(lua_State* L)
@@ -570,6 +569,16 @@ s32 ScriptModule::_setGroundBounds(lua_State* L)
     g_game.GetWorld().SetGroundBounds(rect);
 
     return 0;
+}
+
+s32 ScriptModule::_hasWorldEntity(lua_State* L)
+{
+    if (!LuaExpect(L, "hasWorldEntity", 1))
+        return -1;
+
+    lua_pushboolean(L, g_game.GetWorld().HasEntity((Entity*)lua_touserdata(L, 1)));
+
+    return 1;
 }
 
 s32 ScriptModule::_defineSound(lua_State* L)
@@ -1153,20 +1162,6 @@ s32 ScriptModule::_addTrigger(lua_State* L)
     return 1;
 }
 
-s32 ScriptModule::_hasTriggerTriggerred(lua_State* L)
-{
-    if (!LuaExpect(L, "hasTriggerTriggered", 1))
-        return -1;
-
-    Trigger* pTrigger = (Trigger*)lua_touserdata(L, 1);
-    if (pTrigger)
-        lua_pushboolean(L, pTrigger->HasTriggered());
-    else
-        lua_pushboolean(L, false);
-
-    return 1;
-}
-
 s32 ScriptModule::_addDialog(lua_State* L)
 {
     if (!LuaExpect(L, "addDialog", 6))
@@ -1209,18 +1204,4 @@ s32 ScriptModule::_runDialog(lua_State* L)
     pDialog->Run();
 
     return 0;
-}
-
-s32 ScriptModule::_hasDialogEnded(lua_State* L)
-{
-    if (!LuaExpect(L, "hasDialogEnded", 1))
-        return -1;
-
-    Dialog* pDialog = (Dialog*)lua_touserdata(L, 1);
-    if (pDialog)
-        lua_pushboolean(L, pDialog->HasEnded());
-    else
-        lua_pushboolean(L, false);
-
-    return 1;
 }

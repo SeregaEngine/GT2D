@@ -16,12 +16,11 @@ void Trigger::Init(const Vector2& vPosition, s32 width, s32 height, const GT_Tex
     // Defaults
     memset(m_functionName, 0, TRIGGER_STRSIZE);
     m_pAttached = nullptr;
-    m_bTriggered = false;
 }
 
 void Trigger::Update(f32 dtTime)
 {
-    if (!m_pAttached || m_bTriggered)
+    if (!m_pAttached)
         return;
 
     // Get collided with trigger entities
@@ -34,8 +33,8 @@ void Trigger::Update(f32 dtTime)
 
     if (!lstEntity.IsEmpty())
     {
-        // Call trigger's function and set bTriggered
+        // Call trigger's function and remove
         g_scriptModule.CallFunction(m_functionName, m_pAttached);
-        m_bTriggered = true;
+        g_game.GetWorld().RemoveEntity(this);
     }
 }

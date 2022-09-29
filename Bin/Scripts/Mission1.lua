@@ -139,38 +139,10 @@ end
 ---- >>>> Update
 function onUpdateLocation1(dt)
     handleInput()
-
-    for k,v in pairs(Triggers) do
-        if hasTriggerTrigerred(v) then
-            removeEntity(v)
-            Triggers[k] = nil
-        end
-    end
-
-    for k,v in pairs(Dialogs) do
-        if hasDialogEnded(v) then
-            removeEntity(v)
-            Dialogs[k] = nil
-        end
-    end
 end
 
 function onUpdateLocation3(dt)
     handleInput()
-
-    for k,v in pairs(Triggers) do
-        if hasTriggerTrigerred(v) then
-            removeEntity(v)
-            Triggers[k] = nil
-        end
-    end
-
-    for k,v in pairs(Dialogs) do
-        if hasDialogEnded(v) then
-            removeEntity(v)
-            Dialogs[k] = nil
-        end
-    end
 end
 
 local CanAttack = true
@@ -225,7 +197,7 @@ function onRenderLocation1()
     drawFrame(RENDER_MODE_BACKGROUND, 1, false, SCREEN_WIDTH,0,SCREEN_WIDTH,SCREEN_HEIGHT, Textures["Background1"], 0, 1)
 
     -- Debug draw trigger
-    if Triggers["SwitchLocation"] then
+    if hasWorldEntity(Triggers["SwitchLocation"]) then
 		local X,Y = getEntityPosition(Triggers["SwitchLocation"])
 		local X1,Y1,X2,Y2 = getEntityHitBox(Triggers["SwitchLocation"])
 		local W = -X1 + X2

@@ -16,7 +16,6 @@ class Dialog final : public Entity
     Actor* m_pAttached;
     f32 m_time;
     b32 m_bRunning;
-    b32 m_bEnded;
     char m_text[DIALOG_BUFSIZE];
 public:
     virtual void Init(const Vector2& vPosition, s32 width, s32 height, const GT_Texture* pTexture) override;
@@ -27,8 +26,6 @@ public:
     void Attach(Actor* pActor) { m_pAttached = pActor; }
     void SetTime(f32 time) { m_time = time; }
     void SetText(const char* text);
-
-    b32 HasEnded() const { return m_bEnded; }
 };
 
 #endif // DIALOG_H_
