@@ -1,13 +1,15 @@
 -- Includes
 dofile "Scripts/GraphicsDefines.lua"
 
--- Tables
+-- Resources
 Textures = {}
 Sounds = {}
 Music = {}
 Anims = {}
 Weapons = {}
 States = {}
+
+-- Location's stuff
 Entities = {}
 Triggers = {}
 Dialogs = {}
@@ -25,7 +27,7 @@ function onEnter()
     GT_LOG(PR_NOTE, "Mission1 entered")
 
     defineResources()
-    onEnterLocation3()
+    onEnterLocation1()
 end
 
 function defineResources()
@@ -137,10 +139,31 @@ end
 ---- >>>> Update
 function onUpdateLocation1(dt)
     handleInput()
+
+    for k,v in pairs(Triggers) do
+        if hasTriggerTrigerred(v) then
+            removeEntity(v)
+            Triggers[k] = nil
+        end
+    end
+
+    for k,v in pairs(Dialogs) do
+        if hasDialogEnded(v) then
+            removeEntity(v)
+            Dialogs[k] = nil
+        end
+    end
 end
 
 function onUpdateLocation3(dt)
     handleInput()
+
+    for k,v in pairs(Triggers) do
+        if hasTriggerTrigerred(v) then
+            removeEntity(v)
+            Triggers[k] = nil
+        end
+    end
 
     for k,v in pairs(Dialogs) do
         if hasDialogEnded(v) then
@@ -180,6 +203,18 @@ function handleInput()
         end
     end
 end
+
+function switchLocation(funName)
+    -- Set defaults
+    Entities = {}
+    Triggers = {}
+    Dialogs = {}
+    Player = nil
+    PlayerControllable = true
+
+    -- Switch
+    hostSwitchLocation(funName)
+end
 ---- <<<< Update
 
 ---- >>>> Render
@@ -190,9 +225,9 @@ function onRenderLocation1()
     drawFrame(RENDER_MODE_BACKGROUND, 1, false, SCREEN_WIDTH,0,SCREEN_WIDTH,SCREEN_HEIGHT, Textures["Background1"], 0, 1)
 
     -- Debug draw trigger
-    if Entities["SwitchLocation"] then
-		local X,Y = getEntityPosition(Entities["SwitchLocation"])
-		local X1,Y1,X2,Y2 = getEntityHitBox(Entities["SwitchLocation"])
+    if Triggers["SwitchLocation"] then
+		local X,Y = getEntityPosition(Triggers["SwitchLocation"])
+		local X1,Y1,X2,Y2 = getEntityHitBox(Triggers["SwitchLocation"])
 		local W = -X1 + X2
 		local H = -Y1 + Y2
 		X = X + X1

@@ -14,6 +14,7 @@ class Trigger final : public Entity
 {
     char m_functionName[TRIGGER_STRSIZE];
     Entity* m_pAttached;
+    b32 m_bTriggered;
 public:
     virtual void Init(const Vector2& vPosition, s32 width, s32 height, const GT_Texture* pTexture) override;
     virtual void Update(f32 dtTime) override;
@@ -21,6 +22,8 @@ public:
 
     void SetFunctionName(const char* functionName) { strncpy(m_functionName, functionName, TRIGGER_STRSIZE); }
     void Attach(Entity* pEntity) { m_pAttached = pEntity; }
+
+    b32 HasTriggered() const { return m_bTriggered; }
 };
 
 #endif // TRIGGER_H_

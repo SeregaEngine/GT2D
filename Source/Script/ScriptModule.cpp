@@ -108,7 +108,7 @@ void ScriptModule::DefineFunctions(lua_State* L)
     lua_register(L, "stopGame", _stopGame);
 
     /* World */
-    lua_register(L, "switchLocation", _switchLocation);
+    lua_register(L, "hostSwitchLocation", _hostSwitchLocation);
     lua_register(L, "setGroundBounds", _setGroundBounds);
 
     // Entities
@@ -139,6 +139,7 @@ void ScriptModule::DefineFunctions(lua_State* L)
 
     // Trigger
     lua_register(L, "addTrigger", _addTrigger);
+    lua_register(L, "hasTriggerTriggered", _hasTriggerTriggerred);
 
     // Dialog
     lua_register(L, "addDialog", _addDialog);
@@ -545,9 +546,9 @@ s32 ScriptModule::_setCameraBounds(lua_State* L)
     return 0;
 }
 
-s32 ScriptModule::_switchLocation(lua_State* L)
+s32 ScriptModule::_hostSwitchLocation(lua_State* L)
 {
-    if (!LuaExpect(L, "switchLocation", 1))
+    if (!LuaExpect(L, "hostSwitchLocation", 1))
         return -1;
 
     g_game.GetWorld().SwitchLocation(lua_tostring(L, 1));
@@ -1148,6 +1149,20 @@ s32 ScriptModule::_addTrigger(lua_State* L)
     // Push entity to the world and lua
     g_game.GetWorld().PushEntity(pTrigger);
     lua_pushlightuserdata(L, (void*)pTrigger);
+
+    return 1;
+}
+
+s32 ScriptModule::_hasTriggerTriggerred(lua_State* L)
+{
+    if (!LuaExpect(L, "hasTriggerTriggered", 1))
+        return -1;
+
+    Trigger* pTrigger = (Trigger*)lua_touserdata(L, 1);
+    if (pTrigger)
+        lua_pushboolean(L, pTrigger->HasTriggered());
+    else
+        lua_pushboolean(L, false);
 
     return 1;
 }

@@ -86,7 +86,7 @@ private:
     static s32 _stopGame(lua_State* L);
 
     /* World */
-    static s32 _switchLocation(lua_State* L);
+    static s32 _hostSwitchLocation(lua_State* L);
     static s32 _setGroundBounds(lua_State* L);
 
     // Entity
@@ -120,6 +120,7 @@ private:
 
     // Trigger
     static s32 _addTrigger(lua_State* L);
+    static s32 _hasTriggerTriggerred(lua_State* L);
 
     // Dialog
     static s32 _addDialog(lua_State* L);
