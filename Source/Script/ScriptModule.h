@@ -91,6 +91,7 @@ private:
 
     // Entity
     static s32 _addEntity(lua_State* L);
+    static s32 _removeEntity(lua_State* L);
     static s32 _updateEntity(lua_State* L);
 
     static s32 _getEntityPosition(lua_State* L);
@@ -102,6 +103,8 @@ private:
     static s32 _setActorHealth(lua_State* L);
     static s32 _getActorHealth(lua_State* L);
     static s32 _toggleActorGodMode(lua_State* L);
+    static s32 _turnActorLeft(lua_State* L);
+    static s32 _turnActorRight(lua_State* L);
 
     static s32 _setActorState(lua_State* L);
     static s32 _setActorTask(lua_State* L);
@@ -120,6 +123,8 @@ private:
 
     // Dialog
     static s32 _addDialog(lua_State* L);
+    static s32 _runDialog(lua_State* L);
+    static s32 _hasDialogEnded(lua_State* L);
 };
 
 extern ScriptModule g_scriptModule;

@@ -9,6 +9,6 @@ TH_ACTOR = 16
 TW_CAR = 72
 TH_CAR = 21
 
-TW_DIALOG = 16 * 4
-TH_DIALOG = 8 * 2.5
+TW_DIALOG = 16 * 3
+TH_DIALOG = 8 * 3
 

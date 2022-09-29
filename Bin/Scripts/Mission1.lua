@@ -1,7 +1,7 @@
 -- Includes
 dofile "Scripts/GraphicsDefines.lua"
 
--- Variables
+-- Tables
 Textures = {}
 Sounds = {}
 Music = {}
@@ -9,12 +9,16 @@ Anims = {}
 Weapons = {}
 States = {}
 Entities = {}
+Triggers = {}
+Dialogs = {}
 
-Player = {}
+-- Player
+Player = nil
+PlayerControllable = true
 
 -- Functions
-onUpdate = {}
-onRender = {}
+onUpdate = nil
+onRender = nil
 
 ---- >>>> Enter
 function onEnter()
@@ -79,7 +83,7 @@ function onEnterLocation1()
     setActorWeapon(Entities["Player"], Weapons["Fist"])
     Player = Entities["Player"]
 
-    Entities["SwitchLocation"] = addTrigger(GROUND_WIDTH - 70, GROUND_Y + 30, 20, 100, Player, "triggerSwitchLocation")
+    Triggers["SwitchLocation"] = addTrigger(GROUND_WIDTH - 70, GROUND_Y + 30, 20, 100, Player, "triggerSwitchLocation")
 
     -- Camera
     setCameraBounds(0, 0, GROUND_WIDTH, SCREEN_HEIGHT)
@@ -106,15 +110,20 @@ function onEnterLocation3()
     -- Entities
     Entities["Player"] = addActor(SCREEN_WIDTH - 20, 64, TW_ACTOR, TH_ACTOR, Textures["Player"])
     Player = Entities["Player"]
+    --PlayerControllable = false
     toggleActorGodMode(Player, true)
     setActorWeapon(Player, Weapons["Fist"])
+    turnActorLeft(Player)
 
     Entities["DarkLord"] = addActor(20, 60, TW_ACTOR, TH_ACTOR, Textures["DarkLord"])
     setActorWeapon(Entities["DarkLord"], Weapons["Fist"])
     setActorState(Entities["DarkLord"], States["KillPlayer"])
 
-    Entities["DarkLordDialog1"] = addDialog(TW_DIALOG, TH_DIALOG, "One two three four five six seven",
-                                            5, Entities["DarkLord"], Textures["DialogBox"])
+    Dialogs["DarkLordDialog1"] = addDialog(TW_DIALOG, TH_DIALOG, "What are you doing here",
+                                           5, Entities["DarkLord"], Textures["DialogBox"])
+    Dialogs["PlayerDialog1"] = addDialog(TW_DIALOG, TH_DIALOG, "Just walking around, my lord",
+                                         5, Player, Textures["DialogBox"])
+    runDialog(Dialogs["DarkLordDialog1"])
 
     -- Camera
     setCameraBounds(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
@@ -132,6 +141,13 @@ end
 
 function onUpdateLocation3(dt)
     handleInput()
+
+    for k,v in pairs(Dialogs) do
+        if hasDialogEnded(v) then
+            removeEntity(v)
+            Dialogs[k] = nil
+        end
+    end
 end
 
 local CanAttack = true
@@ -147,7 +163,7 @@ function handleInput()
     end
 
     -- Handle Player's behaviour
-    if Player then
+    if Player and PlayerControllable then
         if isKeyDown(GTK_W) then sendActorCmd(Player, GTC_MOVE_UP) end
         if isKeyDown(GTK_A) then sendActorCmd(Player, GTC_MOVE_LEFT) end
         if isKeyDown(GTK_S) then sendActorCmd(Player, GTC_MOVE_DOWN) end
@@ -170,20 +186,20 @@ end
 function onRenderLocation1()
     -- Background
     drawFrame(RENDER_MODE_BACKGROUND, 0, false, 0,0,SCREEN_WIDTH*2,SCREEN_HEIGHT, Textures["Parallax"], 0, 0)
-    setDrawColor(0, 0, 0, 0)
-    fillRect(RENDER_MODE_BACKGROUND, 1, true, 0,0,SCREEN_WIDTH,SCREEN_HEIGHT)
-    drawFrame(RENDER_MODE_BACKGROUND, 2, false, 0,0,SCREEN_WIDTH,SCREEN_HEIGHT, Textures["Background1"], 0, 0)
-    drawFrame(RENDER_MODE_BACKGROUND, 2, false, SCREEN_WIDTH,0,SCREEN_WIDTH,SCREEN_HEIGHT, Textures["Background1"], 0, 1)
+    drawFrame(RENDER_MODE_BACKGROUND, 1, false, 0,0,SCREEN_WIDTH,SCREEN_HEIGHT, Textures["Background1"], 0, 0)
+    drawFrame(RENDER_MODE_BACKGROUND, 1, false, SCREEN_WIDTH,0,SCREEN_WIDTH,SCREEN_HEIGHT, Textures["Background1"], 0, 1)
 
     -- Debug draw trigger
-    local X,Y = getEntityPosition(Entities["SwitchLocation"])
-    local X1,Y1,X2,Y2 = getEntityHitBox(Entities["SwitchLocation"])
-    local W = -X1 + X2
-    local H = -Y1 + Y2
-    X = X + X1
-    Y = Y + Y1
-    setDrawColor(255, 0, 0, 255)
-    drawRect(RENDER_MODE_DEBUG, 0, false, X,Y,W,H)
+    if Entities["SwitchLocation"] then
+		local X,Y = getEntityPosition(Entities["SwitchLocation"])
+		local X1,Y1,X2,Y2 = getEntityHitBox(Entities["SwitchLocation"])
+		local W = -X1 + X2
+		local H = -Y1 + Y2
+		X = X + X1
+		Y = Y + Y1
+		setDrawColor(255, 0, 0, 255)
+		drawRect(RENDER_MODE_DEBUG, 0, false, X,Y,W,H)
+    end
 end
 
 function onRenderLocation3()

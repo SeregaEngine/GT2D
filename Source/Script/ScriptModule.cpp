@@ -113,6 +113,7 @@ void ScriptModule::DefineFunctions(lua_State* L)
 
     // Entities
     lua_register(L, "addEntity", _addEntity);
+    lua_register(L, "removeEntity", _removeEntity);
     lua_register(L, "updateEntity", _updateEntity);
 
     lua_register(L, "getEntityPosition", _getEntityPosition);
@@ -123,6 +124,8 @@ void ScriptModule::DefineFunctions(lua_State* L)
     lua_register(L, "setActorHealth", _setActorHealth);
     lua_register(L, "getActorHealth", _getActorHealth);
     lua_register(L, "toggleActorGodMode", _toggleActorGodMode);
+    lua_register(L, "turnActorLeft", _turnActorLeft);
+    lua_register(L, "turnActorRight", _turnActorRight);
 
     lua_register(L, "setActorState", _setActorState);
     lua_register(L, "setActorTask", _setActorTask);
@@ -139,6 +142,8 @@ void ScriptModule::DefineFunctions(lua_State* L)
 
     // Dialog
     lua_register(L, "addDialog", _addDialog);
+    lua_register(L, "runDialog", _runDialog);
+    lua_register(L, "hasDialogEnded", _hasDialogEnded);
 }
 
 void ScriptModule::DefineSymbols(lua_State* L)
@@ -712,6 +717,22 @@ s32 ScriptModule::_addEntity(lua_State* L)
     return 1;
 }
 
+s32 ScriptModule::_removeEntity(lua_State* L)
+{
+    if (!LuaExpect(L, "removeEntity", 1))
+        return -1;
+
+    Entity* pEntity = (Entity*)lua_touserdata(L, 1);
+    if (!pEntity)
+    {
+        LuaNote(PR_WARNING, "removeEntity() called with null entity");
+        return -1;
+    }
+    g_game.GetWorld().RemoveEntity(pEntity);
+
+    return 0;
+}
+
 s32 ScriptModule::_updateEntity(lua_State* L)
 {
     if (!LuaExpect(L, "updateEntity", 2))
@@ -852,6 +873,44 @@ s32 ScriptModule::_toggleActorGodMode(lua_State* L)
     else
     {
         LuaNote(PR_WARNING, "toggleActorGodMode() called with null actor");
+        return -1;
+    }
+
+    return 0;
+}
+
+s32 ScriptModule::_turnActorLeft(lua_State* L)
+{
+    if (!LuaExpect(L, "turnActorLeft", 1))
+        return -1;
+
+    Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
+    if (pActor)
+    {
+        pActor->TurnLeft();
+    }
+    else
+    {
+        LuaNote(PR_WARNING, "turnActorLeft() called with null actor");
+        return -1;
+    }
+
+    return 0;
+}
+
+s32 ScriptModule::_turnActorRight(lua_State* L)
+{
+    if (!LuaExpect(L, "turnActorRight", 1))
+        return -1;
+
+    Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
+    if (pActor)
+    {
+        pActor->TurnRight();
+    }
+    else
+    {
+        LuaNote(PR_WARNING, "turnActorRight() called with null actor");
         return -1;
     }
 
@@ -1116,6 +1175,37 @@ s32 ScriptModule::_addDialog(lua_State* L)
     // Push dialog to world and lua
     g_game.GetWorld().PushEntity(pDialog);
     lua_pushlightuserdata(L, (void*)pDialog);
+
+    return 1;
+}
+
+s32 ScriptModule::_runDialog(lua_State* L)
+{
+    if (!LuaExpect(L, "runDialog", 1))
+        return -1;
+
+    Dialog* pDialog = (Dialog*)lua_touserdata(L, 1);
+    if (!pDialog)
+    {
+        LuaNote(PR_WARNING, "runDialog() called with null dialog");
+        return -1;
+    }
+    
+    pDialog->Run();
+
+    return 0;
+}
+
+s32 ScriptModule::_hasDialogEnded(lua_State* L)
+{
+    if (!LuaExpect(L, "hasDialogEnded", 1))
+        return -1;
+
+    Dialog* pDialog = (Dialog*)lua_touserdata(L, 1);
+    if (pDialog)
+        lua_pushboolean(L, pDialog->HasEnded());
+    else
+        lua_pushboolean(L, false);
 
     return 1;
 }
