@@ -2,7 +2,7 @@
 #define DIALOG_H_
 
 /* ====== INCLUDES ====== */
-#include "Entity.h"
+#include "Actor.h"
 
 /* ====== DEFINES ====== */
 #define DIALOG_STRING_WIDTH 14
@@ -13,9 +13,10 @@
 /* ====== STRUCTURES ====== */
 class Dialog final : public Entity
 {
-    const Entity* m_pAttached;
+    Actor* m_pAttached;
     f32 m_time;
     b32 m_bRunning;
+    b32 m_bEnded;
     char m_text[DIALOG_BUFSIZE];
 public:
     virtual void Init(const Vector2& vPosition, s32 width, s32 height, const GT_Texture* pTexture) override;
@@ -23,11 +24,11 @@ public:
     virtual void Draw() override;
 
     void Run() { m_bRunning = true; }
-    void Attach(const Entity* pEntity) { m_pAttached = pEntity; }
+    void Attach(Actor* pActor) { m_pAttached = pActor; }
     void SetTime(f32 time) { m_time = time; }
     void SetText(const char* text);
 
-    b32 HasEnded() const { return !m_bRunning; }
+    b32 HasEnded() const { return m_bEnded; }
 };
 
 #endif // DIALOG_H_

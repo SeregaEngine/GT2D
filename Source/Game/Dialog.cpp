@@ -1,4 +1,6 @@
 /* ====== INCLUDES ====== */
+#include "Game.h"
+
 #include "Dialog.h"
 
 /* ====== METHODS ====== */
@@ -8,24 +10,46 @@ void Dialog::Init(const Vector2& vPosition, s32 width, s32 height, const GT_Text
     m_type = ENTITY_TYPE_DIALOG;
     m_bCollidable = false;
 
+    m_renderMode = RENDER_MODE_FOREGROUND;
+    m_zIndex = 0; // TODO(sean) Think about this default z-index
+
     // Defaults
     m_pAttached = nullptr;
     m_time = 0.0f;
     m_bRunning = false;
+    m_bEnded = false;
     m_text[0] = 0;
 }
 
 void Dialog::Update(f32 dtTime)
 {
+    // Return if we're not running
     if (!m_bRunning)
         return;
 
+    // Dialog ended on timeout
     if (m_time <= 0.0f)
+    {
+        m_bRunning = false;
+        m_bEnded = true;
+        return;
+    }
+
+    // Dialog didn't ended but can't run
+    if (!g_game.GetWorld().HasEntity(m_pAttached))
     {
         m_bRunning = false;
         return;
     }
 
+    // Compute position
+    if (m_pAttached->IsLookRight())
+        m_vPosition.x = m_pAttached->GetPosition().x + m_pAttached->GetHitBox().x2;
+    else
+        m_vPosition.x = m_pAttached->GetPosition().x + m_pAttached->GetHitBox().x1 - m_width;
+    m_vPosition.y = m_pAttached->GetPosition().y + m_pAttached->GetHitBox().y1 - m_height;
+
+    // Handle time
     m_time -= dtTime;
 }
 
@@ -36,7 +60,7 @@ void Dialog::Draw()
 
     // Draw dialog box
     SDL_Rect dest = {
-        (s32)m_vPosition.x - m_width / 2, (s32)m_vPosition.y - m_height / 2,
+        (s32)m_vPosition.x, (s32)m_vPosition.y,
         m_width, m_height
     };
     // DEBUG(sean)
@@ -47,6 +71,7 @@ void Dialog::Draw()
     // Draw text
     dest.h /= DIALOG_STRING_HEIGHT;
     i32f tempIndex = DIALOG_STRING_WIDTH;
+    g_graphicsModule.SetDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
     for (i32f i = 0; i < DIALOG_STRING_HEIGHT; ++i)
     {
         // Null terminate string line
@@ -63,6 +88,7 @@ void Dialog::Draw()
 
         // Go to next line
         tempIndex += DIALOG_STRING_WIDTH;
+        dest.y += dest.h;
     }
 }
 

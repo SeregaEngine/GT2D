@@ -12,11 +12,12 @@ extern "C"
 #include "Console.h"
 #include "Game.h"
 #include "Actor.h"
-#include "Weapon.h"
-#include "Trigger.h"
 #include "GotoTask.h"
 #include "GotoEntityTask.h"
 #include "KillTask.h"
+#include "Weapon.h"
+#include "Trigger.h"
+#include "Dialog.h"
 
 #include "ScriptModule.h"
 
@@ -135,6 +136,9 @@ void ScriptModule::DefineFunctions(lua_State* L)
 
     // Trigger
     lua_register(L, "addTrigger", _addTrigger);
+
+    // Dialog
+    lua_register(L, "addDialog", _addDialog);
 }
 
 void ScriptModule::DefineSymbols(lua_State* L)
@@ -1085,6 +1089,33 @@ s32 ScriptModule::_addTrigger(lua_State* L)
     // Push entity to the world and lua
     g_game.GetWorld().PushEntity(pTrigger);
     lua_pushlightuserdata(L, (void*)pTrigger);
+
+    return 1;
+}
+
+s32 ScriptModule::_addDialog(lua_State* L)
+{
+    if (!LuaExpect(L, "addDialog", 6))
+        return -1;
+
+    // Params
+    s32 width = (s32)GTU::UnitToScreenX((f32)lua_tonumber(L, 1));
+    s32 height = (s32)GTU::UnitToScreenX((f32)lua_tonumber(L, 2));
+    const char* text = lua_tostring(L, 3);
+    f32 time = (f32)lua_tonumber(L, 4) * 1000.0f;
+    Actor* pActor = (Actor*)lua_touserdata(L, 5);
+    const GT_Texture* pTexture = (const GT_Texture*)lua_touserdata(L, 6);
+
+    // Allocate and init dialog
+    Dialog* pDialog = new Dialog();
+    pDialog->Init(Vector2(0.0f, 0.0f), width, height, pTexture);
+    pDialog->Attach(pActor);
+    pDialog->SetTime(time);
+    pDialog->SetText(text);
+
+    // Push dialog to world and lua
+    g_game.GetWorld().PushEntity(pDialog);
+    lua_pushlightuserdata(L, (void*)pDialog);
 
     return 1;
 }

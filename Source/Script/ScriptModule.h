@@ -117,6 +117,9 @@ private:
 
     // Trigger
     static s32 _addTrigger(lua_State* L);
+
+    // Dialog
+    static s32 _addDialog(lua_State* L);
 };
 
 extern ScriptModule g_scriptModule;

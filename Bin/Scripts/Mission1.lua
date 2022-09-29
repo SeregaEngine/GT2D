@@ -37,6 +37,8 @@ function defineResources()
     Textures["DarkLord"] = defineTexture("Textures/Actors/DarkLord.png", TW_ACTOR, TH_ACTOR)
     Textures["Zhenek"] = defineTexture("Textures/Actors/Zhenek.png", TW_ACTOR, TH_ACTOR)
 
+    Textures["DialogBox"] = {}
+
     -- Sounds
     Sounds["Punch1"] = defineSound("Sounds/Punch1.wav")
     Sounds["Punch2"] = defineSound("Sounds/Punch2.wav")
@@ -110,6 +112,9 @@ function onEnterLocation3()
     Entities["DarkLord"] = addActor(20, 60, TW_ACTOR, TH_ACTOR, Textures["DarkLord"])
     setActorWeapon(Entities["DarkLord"], Weapons["Fist"])
     setActorState(Entities["DarkLord"], States["KillPlayer"])
+
+    Entities["DarkLordDialog1"] = addDialog(TW_DIALOG, TH_DIALOG, "One two three four five six seven",
+                                            5, Entities["DarkLord"], Textures["DialogBox"])
 
     -- Camera
     setCameraBounds(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
