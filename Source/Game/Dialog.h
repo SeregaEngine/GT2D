@@ -5,8 +5,8 @@
 #include "Actor.h"
 
 /* ====== DEFINES ====== */
-#define DIALOG_STRING_WIDTH 14
-#define DIALOG_STRING_HEIGHT 4
+#define DIALOG_STRING_WIDTH 20
+#define DIALOG_STRING_HEIGHT 5
 #define DIALOG_STRSIZE (DIALOG_STRING_WIDTH * DIALOG_STRING_HEIGHT)
 #define DIALOG_BUFSIZE (DIALOG_STRSIZE + 1)
 
@@ -22,10 +22,13 @@ public:
     virtual void Update(f32 dtTime) override;
     virtual void Draw() override;
 
-    void Run() { m_bRunning = true; }
+    void Run() { m_bRunning = true; HandlePosition(); }
     void Attach(Actor* pActor) { m_pAttached = pActor; }
     void SetTime(f32 time) { m_time = time; }
     void SetText(const char* text);
+private:
+    void HandlePosition();
+    i32f WordLength(const char* text);
 };
 
 #endif // DIALOG_H_

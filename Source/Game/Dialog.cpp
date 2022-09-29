@@ -30,15 +30,12 @@ void Dialog::Update(f32 dtTime)
     if (m_time <= 0.0f || !g_game.GetWorld().HasEntity(m_pAttached))
     {
         m_bRunning = false;
+        g_game.GetWorld().RemoveEntity(this);
         return;
     }
 
-    // Compute position
-    if (m_pAttached->IsLookRight())
-        m_vPosition.x = m_pAttached->GetPosition().x + m_pAttached->GetHitBox().x2;
-    else
-        m_vPosition.x = m_pAttached->GetPosition().x + m_pAttached->GetHitBox().x1 - m_width;
-    m_vPosition.y = m_pAttached->GetPosition().y + m_pAttached->GetHitBox().y1 - m_height;
+    // Update position
+    HandlePosition();
 
     // Handle time
     m_time -= dtTime;
@@ -86,13 +83,44 @@ void Dialog::Draw()
 void Dialog::SetText(const char* text)
 {
     // Copy text
-    size_t len = strlen(text);
-    if (len > DIALOG_STRSIZE)
-        len = DIALOG_STRSIZE;
-    memcpy(m_text, text, len);
+    i32f i = 0, j = 0;
+    for ( ; i < DIALOG_STRING_HEIGHT; ++i)
+    {
+        for (j = 0; j < DIALOG_STRING_WIDTH; ++j, ++text)
+        {
+            if (*text)
+                m_text[i * DIALOG_STRING_WIDTH + j] = *text;
+            else
+                break;
+        }
 
-    // Set spaces and null-terminate
-    for (size_t i = len; i < DIALOG_STRSIZE; ++i)
-        m_text[i] = ' ';
+        if (!*text)
+            break;
+    }
+
+    // Set spaces
+    i32f done = i * DIALOG_STRING_WIDTH + j;
+    i32f remaining = DIALOG_STRSIZE - done;
+    if (remaining > 0)
+        memset(&m_text[done], ' ', remaining);
+
+    // Null-terminate
     m_text[DIALOG_STRSIZE] = 0;
+}
+
+void Dialog::HandlePosition()
+{
+    if (m_pAttached->IsLookRight())
+        m_vPosition.x = m_pAttached->GetPosition().x + m_pAttached->GetHitBox().x2;
+    else
+        m_vPosition.x = m_pAttached->GetPosition().x + m_pAttached->GetHitBox().x1 - m_width;
+    m_vPosition.y = m_pAttached->GetPosition().y + m_pAttached->GetHitBox().y1 - m_height;
+}
+
+i32f Dialog::WordLength(const char* text)
+{
+    i32f i = 0;
+    for ( ; text[i] && text[i] != ' '; ++i)
+        {}
+    return i;
 }

@@ -41,8 +41,8 @@ void PlayState::Update(f32 dtTime)
 
 void PlayState::Render()
 {
-    m_world.Render();
     g_scriptModule.RenderMission();
+    m_world.Render();
     if (g_console.IsShown())
         g_console.Render();
 }

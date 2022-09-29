@@ -27,7 +27,7 @@ function onEnter()
     GT_LOG(PR_NOTE, "Mission1 entered")
 
     defineResources()
-    onEnterLocation1()
+    onEnterLocation3()
 end
 
 function defineResources()
@@ -43,7 +43,7 @@ function defineResources()
     Textures["DarkLord"] = defineTexture("Textures/Actors/DarkLord.png", TW_ACTOR, TH_ACTOR)
     Textures["Zhenek"] = defineTexture("Textures/Actors/Zhenek.png", TW_ACTOR, TH_ACTOR)
 
-    Textures["DialogBox"] = {}
+    Textures["DialogBox"] = nil
 
     -- Sounds
     Sounds["Punch1"] = defineSound("Sounds/Punch1.wav")
@@ -63,6 +63,8 @@ function defineResources()
 
     -- States
     States["KillPlayer"] = defineState("stateKillPlayer")
+    States["PlayerDialog"] = defineState("statePlayerDialog")
+    States["DarkLordDialog"] = defineState("stateDarkLordDialog")
 end
 
 function onEnterLocation1()
@@ -112,20 +114,29 @@ function onEnterLocation3()
     -- Entities
     Entities["Player"] = addActor(SCREEN_WIDTH - 20, 64, TW_ACTOR, TH_ACTOR, Textures["Player"])
     Player = Entities["Player"]
-    --PlayerControllable = false
-    toggleActorGodMode(Player, true)
+    PlayerControllable = false
     setActorWeapon(Player, Weapons["Fist"])
+    setActorState(Player, States["PlayerDialog"])
+    toggleActorGodMode(Player, true)
     turnActorLeft(Player)
 
     Entities["DarkLord"] = addActor(20, 60, TW_ACTOR, TH_ACTOR, Textures["DarkLord"])
     setActorWeapon(Entities["DarkLord"], Weapons["Fist"])
-    setActorState(Entities["DarkLord"], States["KillPlayer"])
+    setActorState(Entities["DarkLord"], States["DarkLordDialog"])
 
-    Dialogs["DarkLordDialog1"] = addDialog(TW_DIALOG, TH_DIALOG, "What are you doing here",
-                                           5, Entities["DarkLord"], Textures["DialogBox"])
-    Dialogs["PlayerDialog1"] = addDialog(TW_DIALOG, TH_DIALOG, "Just walking around, my lord",
-                                         5, Player, Textures["DialogBox"])
-    runDialog(Dialogs["DarkLordDialog1"])
+    Dialogs["DarkLordDialog1"] = addDialog(TW_DIALOG, TH_DIALOG, "What are you  doing here",
+                                           1, Entities["DarkLord"], Textures["DialogBox"])
+    Dialogs["PlayerDialog1"] = addDialog(TW_DIALOG, TH_DIALOG, "Just walking  around, my lord",
+                                         1, Player, Textures["DialogBox"])
+    Dialogs["DarkLordDialog2"] = addDialog(TW_DIALOG, TH_DIALOG, "Let's fight for these wheels, Petrol!",
+                                           1, Entities["DarkLord"], Textures["DialogBox"])
+
+	DialogL3_1 = {
+		Dialogs["DarkLordDialog1"],
+		Dialogs["PlayerDialog1"],
+		Dialogs["DarkLordDialog2"],
+	}
+    DialogStateL3_1 = 1
 
     -- Camera
     setCameraBounds(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
@@ -224,6 +235,31 @@ end
 ---- <<<< Triggers
 
 ---- >>>> AI States
+function statePlayerDialog(Actor)
+    if DialogStateL3_1 == 2 then
+        if hasWorldEntity(DialogL3_1[DialogStateL3_1]) then
+			runDialog(DialogL3_1[DialogStateL3_1])
+        else
+            DialogStateL3_1 = DialogStateL3_1 + 1
+        end
+    elseif DialogStateL3_1 > 3 then
+        setActorState(Player, nil)
+        PlayerControllable = true
+    end
+end
+
+function stateDarkLordDialog(Actor)
+    if DialogStateL3_1 == 1 or DialogStateL3_1 == 3 then
+        if hasWorldEntity(DialogL3_1[DialogStateL3_1]) then
+			runDialog(DialogL3_1[DialogStateL3_1])
+        else
+            DialogStateL3_1 = DialogStateL3_1 + 1
+        end
+    elseif DialogStateL3_1 > 3 then
+        setActorState(Actor, States["KillPlayer"])
+    end
+end
+
 function stateKillPlayer(Actor)
     local Task = getActorCurrentTask(Actor)
     local Status = checkActorTask(Actor)
