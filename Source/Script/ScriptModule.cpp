@@ -1079,7 +1079,7 @@ s32 ScriptModule::_addTrigger(lua_State* L)
     s32 height = (s32)( GTU::UnitToScreenY((f32)lua_tonumber(L, 4)) );
 
     pTrigger->Init(vPosition, width, height, nullptr);
-    pTrigger->AttachEntity((Entity*)lua_touserdata(L, 5));
+    pTrigger->Attach((Entity*)lua_touserdata(L, 5));
     pTrigger->SetFunctionName(lua_tostring(L, 6));
 
     // Push entity to the world and lua

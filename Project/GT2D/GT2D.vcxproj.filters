@@ -125,6 +125,9 @@
     <ClCompile Include="..\..\Source\AI\KillTask.cpp">
       <Filter>AI</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Game\Dialog.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Bin\Scripts\Loader.lua">
@@ -245,6 +248,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Graphics\GTTexture.h">
       <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Game\Dialog.h">
+      <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -33,7 +33,7 @@ enum eActorTeam
 /* ====== STRUCTURES ====== */
 class Weapon;
 
-class Actor : public Entity
+class Actor final : public Entity
 {
 protected:
     /* Actor */

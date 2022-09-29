@@ -20,7 +20,7 @@ public:
     virtual void Draw() override {} // No drawing
 
     void SetFunctionName(const char* functionName) { strncpy(m_functionName, functionName, TRIGGER_STRSIZE); }
-    void AttachEntity(Entity* pEntity) { m_pAttached = pEntity; }
+    void Attach(Entity* pEntity) { m_pAttached = pEntity; }
 };
 
 #endif // TRIGGER_H_

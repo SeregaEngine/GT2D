@@ -15,6 +15,7 @@ enum eEntityType
     ENTITY_TYPE_ENTITY = 0,
     ENTITY_TYPE_ACTOR,
     ENTITY_TYPE_TRIGGER,
+    ENTITY_TYPE_DIALOG,
 };
 
 /* ====== STRUCTURES ====== */

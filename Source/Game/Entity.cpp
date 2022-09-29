@@ -35,10 +35,10 @@ void Entity::Init(const Vector2& vPosition, s32 width, s32 height, const GT_Text
 
 void Entity::Draw()
 {
-    // m_width >> 1 == m_width/2
-    SDL_Rect dstRect = { (s32)m_vPosition.x - (m_width >> 1),
-                         (s32)m_vPosition.y - (m_height >> 1),
-                         m_width, m_height };
+    SDL_Rect dstRect = {
+        (s32)m_vPosition.x - m_width/2, (s32)m_vPosition.y - m_height/2,
+        m_width, m_height
+    };
 
     if (m_pAnim)
         g_graphicsModule.DrawFrame(m_renderMode, m_zIndex, m_bHUD, dstRect, m_pTexture, m_pAnim->row, m_animFrame, m_angle, m_flip);
