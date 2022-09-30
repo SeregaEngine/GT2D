@@ -28,7 +28,9 @@ public:
     void SetText(const char* text);
 private:
     void HandlePosition();
+
     i32f WordLength(const char* text);
+    const char* NextWord(const char* text);
 };
 
 #endif // DIALOG_H_

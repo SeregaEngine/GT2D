@@ -125,9 +125,9 @@ function onEnterLocation3()
     setActorWeapon(Entities["DarkLord"], Weapons["Fist"])
     setActorState(Entities["DarkLord"], States["DarkLordDialog"])
 
-    Dialogs["DarkLordDialog1"] = addDialog(GW_DIALOG, GH_DIALOG, "What are you  doing here11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111",
+    Dialogs["DarkLordDialog1"] = addDialog(GW_DIALOG, GH_DIALOG, "What are you doing here, Petrol?",
                                            1, Entities["DarkLord"], Textures["DialogSquare"])
-    Dialogs["PlayerDialog1"] = addDialog(GW_DIALOG, GH_DIALOG, "Just walking  around, my lord",
+    Dialogs["PlayerDialog1"] = addDialog(GW_DIALOG, GH_DIALOG, "Just walking around, my lord",
                                          1, Player, Textures["DialogSquare"])
     Dialogs["DarkLordDialog2"] = addDialog(GW_DIALOG, GH_DIALOG, "Let's fight for these wheels, Petrol!",
                                            1, Entities["DarkLord"], Textures["DialogSquare"])

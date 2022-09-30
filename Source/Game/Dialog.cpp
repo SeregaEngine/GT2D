@@ -58,7 +58,7 @@ void Dialog::Draw()
         (s32)m_vPosition.x, (s32)m_vPosition.y,
         m_width, m_height
     };
-    g_graphicsModule.DrawFrame(m_renderMode, m_zIndex, false, dest, m_pTexture, 0, 0);
+    g_graphicsModule.DrawFrame(m_renderMode, m_zIndex, false, dest, m_pTexture, 0, 0, 0.0f, m_flip);
 
     // Draw text
     dest.x += (s32)DIALOG_TEXT_MARGIN_LEFT;
@@ -91,26 +91,41 @@ void Dialog::Draw()
 void Dialog::SetText(const char* text)
 {
     // Copy text
-    i32f i = 0, j = 0;
-    for ( ; i < DIALOG_STRING_HEIGHT; ++i)
+    for (i32f i = 0; i < DIALOG_STRING_HEIGHT; ++i)
     {
-        for (j = 0; j < DIALOG_STRING_WIDTH; ++j, ++text)
+        i32f j = 0;
+        while (j < DIALOG_STRING_WIDTH)
         {
-            if (*text)
-                m_text[i * DIALOG_STRING_WIDTH + j] = *text;
-            else
+            i32f len = WordLength(text);
+            if (len > DIALOG_STRING_WIDTH - j) // Linefeed, we have no room for this word
+            {
                 break;
+            }
+            else if (len <= 0) // Get next word, we have spaces here
+            {
+                // Try get next word
+                text = NextWord(text);
+                if (!*text)
+                    break;
+                
+                // If we need space between words
+                if (j > 0)
+                {
+                    m_text[i * DIALOG_STRING_WIDTH + j] = ' ';
+                    ++j;
+                }
+                continue;
+            }
+            else // We have enough room for this word
+            {
+                memcpy(&m_text[i * DIALOG_STRING_WIDTH + j], text, len);
+                j += len;
+                text += len;
+            }
         }
 
-        if (!*text)
-            break;
+        memset(&m_text[i * DIALOG_STRING_WIDTH + j], ' ', DIALOG_STRING_WIDTH - j);
     }
-
-    // Set spaces
-    i32f done = i * DIALOG_STRING_WIDTH + j;
-    i32f remaining = DIALOG_STRSIZE - done;
-    if (remaining > 0)
-        memset(&m_text[done], ' ', remaining);
 
     // Null-terminate
     m_text[DIALOG_STRSIZE] = 0;
@@ -119,9 +134,15 @@ void Dialog::SetText(const char* text)
 void Dialog::HandlePosition()
 {
     if (m_pAttached->IsLookRight())
+    {
         m_vPosition.x = m_pAttached->GetPosition().x + m_pAttached->GetHitBox().x2;
+        m_flip = SDL_FLIP_NONE;
+    }
     else
+    {
         m_vPosition.x = m_pAttached->GetPosition().x + m_pAttached->GetHitBox().x1 - m_width;
+        m_flip = SDL_FLIP_HORIZONTAL;
+    }
     m_vPosition.y = m_pAttached->GetPosition().y + m_pAttached->GetHitBox().y1 - m_height;
 }
 
@@ -131,4 +152,11 @@ i32f Dialog::WordLength(const char* text)
     for ( ; text[i] && text[i] != ' '; ++i)
         {}
     return i;
+}
+
+const char* Dialog::NextWord(const char* text)
+{
+    for (; *text && *text == ' '; ++text)
+        {}
+    return text;
 }
