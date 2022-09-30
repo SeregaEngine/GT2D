@@ -5,10 +5,10 @@
 #include "Dialog.h"
 
 /* ====== DEFINES ====== */
-#define DIALOG_TEXT_MARGIN_LEFT GTU::UnitToScreenX(1.0f)
-#define DIALOG_TEXT_MARGIN_TOP  GTU::UnitToScreenY(0.75f)
+#define DIALOG_TEXT_MARGIN_LEFT ((f32)m_width / 20.0f)
+#define DIALOG_TEXT_MARGIN_TOP  ((f32)m_height / 15.0f)
 #define DIALOG_LINE_WIDTH       ((f32)m_width - DIALOG_TEXT_MARGIN_LEFT * 2.0f)
-#define DIALOG_LINE_HEIGHT      (((f32)m_height - DIALOG_TEXT_MARGIN_TOP * 2.5f) / (f32)DIALOG_STRING_HEIGHT)
+#define DIALOG_LINE_HEIGHT      (((f32)m_height - DIALOG_TEXT_MARGIN_TOP * 3.0f) / (f32)DIALOG_STRING_HEIGHT)
 
 /* ====== METHODS ====== */
 void Dialog::Init(const Vector2& vPosition, s32 width, s32 height, const GT_Texture* pTexture)

@@ -132,11 +132,11 @@ function onEnterLocation3()
     Dialogs["DarkLordDialog2"] = addDialog(GW_DIALOG, GH_DIALOG, "Let's fight for these wheels, Petrol!",
                                            1, Entities["DarkLord"], Textures["DialogSquare"])
 
-	DialogL3_1 = {
-		Dialogs["DarkLordDialog1"],
-		Dialogs["PlayerDialog1"],
-		Dialogs["DarkLordDialog2"],
-	}
+    DialogL3_1 = {
+        Dialogs["DarkLordDialog1"],
+        Dialogs["PlayerDialog1"],
+        Dialogs["DarkLordDialog2"],
+    }
     DialogStateL3_1 = 1
 
     -- Camera
@@ -210,14 +210,14 @@ function onRenderLocation1()
 
     -- Debug draw trigger
     if hasWorldEntity(Triggers["SwitchLocation"]) then
-		local X,Y = getEntityPosition(Triggers["SwitchLocation"])
-		local X1,Y1,X2,Y2 = getEntityHitBox(Triggers["SwitchLocation"])
-		local W = -X1 + X2
-		local H = -Y1 + Y2
-		X = X + X1
-		Y = Y + Y1
-		setDrawColor(255, 0, 0, 255)
-		drawRect(RENDER_MODE_DEBUG, 0, false, X,Y,W,H)
+        local X,Y = getEntityPosition(Triggers["SwitchLocation"])
+        local X1,Y1,X2,Y2 = getEntityHitBox(Triggers["SwitchLocation"])
+        local W = -X1 + X2
+        local H = -Y1 + Y2
+        X = X + X1
+        Y = Y + Y1
+        setDrawColor(255, 0, 0, 255)
+        drawRect(RENDER_MODE_DEBUG, 0, false, X,Y,W,H)
     end
 end
 
@@ -239,7 +239,7 @@ end
 function statePlayerDialog(Actor)
     if DialogStateL3_1 == 2 then
         if hasWorldEntity(DialogL3_1[DialogStateL3_1]) then
-			runDialog(DialogL3_1[DialogStateL3_1])
+            runDialog(DialogL3_1[DialogStateL3_1])
         else
             DialogStateL3_1 = DialogStateL3_1 + 1
         end
@@ -252,7 +252,7 @@ end
 function stateDarkLordDialog(Actor)
     if DialogStateL3_1 == 1 or DialogStateL3_1 == 3 then
         if hasWorldEntity(DialogL3_1[DialogStateL3_1]) then
-			runDialog(DialogL3_1[DialogStateL3_1])
+            runDialog(DialogL3_1[DialogStateL3_1])
         else
             DialogStateL3_1 = DialogStateL3_1 + 1
         end
