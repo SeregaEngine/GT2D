@@ -27,7 +27,7 @@ function onEnter()
     GT_LOG(PR_NOTE, "Mission1 entered")
 
     defineResources()
-    onEnterLocation3()
+    onEnterLocation1()
 end
 
 function defineResources()
@@ -282,60 +282,6 @@ function stateKillPlayer(Actor)
         else
             setActorTask(Actor, GTT_NONE)
             setActorState(Actor, nil)
-        end
-    end
-end
-
-local stateNPC_Tasks = {
-    [1] = {
-        ["Task"] = GTT_GOTO,
-        ["X"] = 30.0,
-        ["Y"] = 56.0
-    },
-
-    [2] = {
-        ["Task"] = GTT_GOTO,
-        ["X"] = 40.0,
-        ["Y"] = 60.0
-    },
-
-    [3] = {
-        ["Task"] = GTT_GOTO,
-        ["X"] = 50.0,
-        ["Y"] = 60.0
-    },
-
-    [4] = {
-        ["Task"] = GTT_GOTO,
-        ["X"] = 70.0,
-        ["Y"] = 64.0
-    },
-
-    [5] = {
-        ["Task"] = GTT_GOTO,
-        ["X"] = 80.0,
-        ["Y"] = 64.0
-    },
-
-    [6] = {
-        ["Task"] = GTT_GOTO,
-        ["X"] = 128.0,
-        ["Y"] = 64.0
-    },
-
-    [7] = {
-        ["Task"] = GTT_NONE
-    }
-}
-local stateNPC_Counter = 0
-
-function stateNPC(Actor)
-    if stateNPC_Counter == 0 or checkActorTask(Actor) == GTT_DONE then
-        stateNPC_Counter = stateNPC_Counter + 1
-        if stateNPC_Tasks[stateNPC_Counter].Task == GTT_NONE then
-            stateNPC_Counter = 0
-        else
-            setActorTask(Actor, stateNPC_Tasks[stateNPC_Counter].Task, stateNPC_Tasks[stateNPC_Counter].X, stateNPC_Tasks[stateNPC_Counter].Y)
         end
     end
 end
