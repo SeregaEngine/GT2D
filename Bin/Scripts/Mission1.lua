@@ -43,7 +43,8 @@ function defineResources()
     Textures["DarkLord"] = defineTexture("Textures/Actors/DarkLord.png", TW_ACTOR, TH_ACTOR)
     Textures["Zhenek"] = defineTexture("Textures/Actors/Zhenek.png", TW_ACTOR, TH_ACTOR)
 
-    Textures["DialogBox"] = nil
+    Textures["DialogSquare"] = defineTexture("Textures/DialogBox/Square.png", TW_DIALOG, TH_DIALOG)
+    Textures["DialogCloud"] = defineTexture("Textures/DialogBox/Cloud.png", TW_DIALOG, TH_DIALOG)
 
     -- Sounds
     Sounds["Punch1"] = defineSound("Sounds/Punch1.wav")
@@ -82,7 +83,7 @@ function onEnterLocation1()
     setGroundBounds(GROUND_X, GROUND_Y, GROUND_WIDTH, GROUND_HEIGHT)
 
     -- Entities
-    Entities["Player"] = addActor(120, 60, TW_ACTOR, TH_ACTOR, Textures["Player"])
+    Entities["Player"] = addActor(120, 60, GW_ACTOR, GH_ACTOR, Textures["Player"])
     toggleActorGodMode(Entities["Player"], true)
     setActorWeapon(Entities["Player"], Weapons["Fist"])
     Player = Entities["Player"]
@@ -120,16 +121,16 @@ function onEnterLocation3()
     toggleActorGodMode(Player, true)
     turnActorLeft(Player)
 
-    Entities["DarkLord"] = addActor(20, 60, TW_ACTOR, TH_ACTOR, Textures["DarkLord"])
+    Entities["DarkLord"] = addActor(20, 60, GW_ACTOR, GH_ACTOR, Textures["DarkLord"])
     setActorWeapon(Entities["DarkLord"], Weapons["Fist"])
     setActorState(Entities["DarkLord"], States["DarkLordDialog"])
 
-    Dialogs["DarkLordDialog1"] = addDialog(TW_DIALOG, TH_DIALOG, "What are you  doing here",
-                                           1, Entities["DarkLord"], Textures["DialogBox"])
-    Dialogs["PlayerDialog1"] = addDialog(TW_DIALOG, TH_DIALOG, "Just walking  around, my lord",
-                                         1, Player, Textures["DialogBox"])
-    Dialogs["DarkLordDialog2"] = addDialog(TW_DIALOG, TH_DIALOG, "Let's fight for these wheels, Petrol!",
-                                           1, Entities["DarkLord"], Textures["DialogBox"])
+    Dialogs["DarkLordDialog1"] = addDialog(GW_DIALOG, GH_DIALOG, "What are you  doing here11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111",
+                                           1, Entities["DarkLord"], Textures["DialogSquare"])
+    Dialogs["PlayerDialog1"] = addDialog(GW_DIALOG, GH_DIALOG, "Just walking  around, my lord",
+                                         1, Player, Textures["DialogSquare"])
+    Dialogs["DarkLordDialog2"] = addDialog(GW_DIALOG, GH_DIALOG, "Let's fight for these wheels, Petrol!",
+                                           1, Entities["DarkLord"], Textures["DialogSquare"])
 
 	DialogL3_1 = {
 		Dialogs["DarkLordDialog1"],

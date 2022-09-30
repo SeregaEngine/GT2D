@@ -31,6 +31,7 @@ class GraphicsModule final : public EngineModule
 {
 public:
     static TTF_Font* s_pConsoleFont;
+    static TTF_Font* s_pGameFont;
 private:
     s32 m_screenWidth;
     s32 m_screenHeight;

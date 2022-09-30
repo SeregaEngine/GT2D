@@ -1,7 +1,14 @@
 /* ====== INCLUDES ====== */
 #include "Game.h"
+#include "GTUnit.h"
 
 #include "Dialog.h"
+
+/* ====== DEFINES ====== */
+#define DIALOG_TEXT_MARGIN_LEFT GTU::UnitToScreenX(1.0f)
+#define DIALOG_TEXT_MARGIN_TOP  GTU::UnitToScreenY(0.75f)
+#define DIALOG_LINE_WIDTH       ((f32)m_width - DIALOG_TEXT_MARGIN_LEFT * 2.0f)
+#define DIALOG_LINE_HEIGHT      (((f32)m_height - DIALOG_TEXT_MARGIN_TOP * 2.5f) / (f32)DIALOG_STRING_HEIGHT)
 
 /* ====== METHODS ====== */
 void Dialog::Init(const Vector2& vPosition, s32 width, s32 height, const GT_Texture* pTexture)
@@ -51,15 +58,16 @@ void Dialog::Draw()
         (s32)m_vPosition.x, (s32)m_vPosition.y,
         m_width, m_height
     };
-    // DEBUG(sean)
-    //g_graphicsModule.DrawFrame(m_renderMode, m_zIndex, false, dest, m_pTexture, 0, 0);
-    g_graphicsModule.SetDrawColor(0x00, 0x00, 0x00, 0xFF);
-    g_graphicsModule.FillRect(m_renderMode, m_zIndex, false, dest);
+    g_graphicsModule.DrawFrame(m_renderMode, m_zIndex, false, dest, m_pTexture, 0, 0);
 
     // Draw text
-    dest.h /= DIALOG_STRING_HEIGHT;
+    dest.x += (s32)DIALOG_TEXT_MARGIN_LEFT;
+    dest.y += (s32)DIALOG_TEXT_MARGIN_TOP;
+    dest.w = (s32)DIALOG_LINE_WIDTH;
+    dest.h = (s32)DIALOG_LINE_HEIGHT;
+
     i32f tempIndex = DIALOG_STRING_WIDTH;
-    g_graphicsModule.SetDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
+    g_graphicsModule.SetDrawColor(0x00, 0x00, 0x00, 0xFF);
     for (i32f i = 0; i < DIALOG_STRING_HEIGHT; ++i)
     {
         // Null terminate string line
@@ -69,7 +77,7 @@ void Dialog::Draw()
         // Draw this string line
         g_graphicsModule.DrawText(m_renderMode, m_zIndex + 1, false,
                                   dest, &m_text[tempIndex - DIALOG_STRING_WIDTH],
-                                  GraphicsModule::s_pConsoleFont);
+                                  GraphicsModule::s_pGameFont);
 
         // Recover string
         m_text[tempIndex] = temp;

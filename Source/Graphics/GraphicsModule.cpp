@@ -21,6 +21,7 @@
 GraphicsModule g_graphicsModule;
 
 TTF_Font* GraphicsModule::s_pConsoleFont = nullptr;
+TTF_Font* GraphicsModule::s_pGameFont = nullptr;
 
 /* ====== METHODS ====== */
 b32 GraphicsModule::StartUp(SDL_Renderer* pRenderer, s32 width, s32 height)
@@ -45,6 +46,7 @@ b32 GraphicsModule::StartUp(SDL_Renderer* pRenderer, s32 width, s32 height)
 
     // Open console font
     s_pConsoleFont = TTF_OpenFont("Fonts/Cascadia.ttf", 48);
+    s_pGameFont = TTF_OpenFont("Fonts/VT323-Regular.ttf", 48);
 
     AddNote(PR_NOTE, "Module started");
 
@@ -58,6 +60,11 @@ void GraphicsModule::ShutDown()
     {
         TTF_CloseFont(s_pConsoleFont);
         s_pConsoleFont = nullptr;
+    }
+    if (s_pGameFont)
+    {
+        TTF_CloseFont(s_pGameFont);
+        s_pGameFont = nullptr;
     }
 
     // Free textures
