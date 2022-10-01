@@ -81,8 +81,9 @@ public:
     b32 IsInGodMode() const { return m_bGodMode; }
 
     void SetAttackRate(f32 attackRate) { m_attackRate = attackRate; }
-    void SetWeapon(const Weapon* pWeapon) { m_pWeapon = pWeapon; }
     f32 GetAttackRate() const { return m_attackRate; }
+
+    void SetWeapon(const Weapon* pWeapon) { m_pWeapon = pWeapon; }
     const Weapon* GetWeapon() const { return m_pWeapon; }
 
     /* AI */

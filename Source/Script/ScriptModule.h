@@ -48,8 +48,8 @@ private:
 
     // Draw
     static s32 _setDrawColor(lua_State* L);
-
     static s32 _drawFrame(lua_State* L);
+    static s32 _drawText(lua_State* L);
     static s32 _fillRect(lua_State* L);
     static s32 _drawRect(lua_State* L);
 
@@ -58,6 +58,7 @@ private:
     static s32 _detachCamera(lua_State* L);
     static s32 _setCameraPosition(lua_State* L);
     static s32 _setCameraBounds(lua_State* L);
+    static s32 _getCameraPosition(lua_State* L);
 
     /* Sound */
     static s32 _defineSound(lua_State* L);
@@ -83,6 +84,7 @@ private:
     static s32 _defineAnimation(lua_State* L);
 
     /* Game */
+    static s32 _getTicks(lua_State* L);
     static s32 _stopGame(lua_State* L);
 
     /* World */
@@ -98,14 +100,46 @@ private:
     static s32 _getEntityPosition(lua_State* L);
     static s32 _getEntityHitBox(lua_State* L);
 
+    static s32 _setEntityAnimFrame(lua_State* L);
+    static s32 _getEntityAnimFrame(lua_State* L);
+
+    static s32 _setEntityAnimElapsed(lua_State* L);
+    static s32 _getEntityAnimElapsed(lua_State* L);
+
+    static s32 _setEntityAnim(lua_State* L);
+    static s32 _getEntityAnim(lua_State* L);
+
+    static s32 _setEntityRenderMode(lua_State* L);
+    static s32 _getEntityRenderMode(lua_State* L);
+
+    static s32 _setEntityZIndex(lua_State* L);
+    static s32 _getEntityZIndex(lua_State* L);
+
+    static s32 _toggleEntityHUD(lua_State* L);
+    static s32 _getEntityHUD(lua_State* L);
+
+    static s32 _setEntityTexture(lua_State* L);
+    static s32 _getEntityTexture(lua_State* L);
+
     // Actor
     static s32 _addActor(lua_State* L);
 
+    static s32 _setActorTeam(lua_State* L);
+    static s32 _getActorTeam(lua_State* L);
+
+    static s32 _addActorHealth(lua_State* L);
     static s32 _setActorHealth(lua_State* L);
     static s32 _getActorHealth(lua_State* L);
+
     static s32 _toggleActorGodMode(lua_State* L);
+    static s32 _isActorInGodMode(lua_State* L);
+    static s32 _isActorLookRight(lua_State* L);
+
     static s32 _turnActorLeft(lua_State* L);
     static s32 _turnActorRight(lua_State* L);
+
+    static s32 _setActorSpeed(lua_State* L);
+    static s32 _getActorSpeed(lua_State* L);
 
     static s32 _setActorState(lua_State* L);
     static s32 _setActorTask(lua_State* L);
@@ -115,6 +149,10 @@ private:
     static s32 _getActorCurrentTask(lua_State* L);
 
     static s32 _setActorWeapon(lua_State* L);
+    static s32 _getActorWeapon(lua_State* L);
+
+    static s32 _setActorAttackRate(lua_State* L);
+    static s32 _getActorAttackRate(lua_State* L);
 
     // Weapon
     static s32 _defineWeapon(lua_State* L);
@@ -125,6 +163,9 @@ private:
     // Dialog
     static s32 _addDialog(lua_State* L);
     static s32 _runDialog(lua_State* L);
+    static s32 _attachDialog(lua_State* L);
+    static s32 _setDialogTime(lua_State* L);
+    static s32 _setDialogText(lua_State* L);
 };
 
 extern ScriptModule g_scriptModule;

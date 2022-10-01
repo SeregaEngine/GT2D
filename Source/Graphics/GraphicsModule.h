@@ -65,7 +65,7 @@ public:
     void DrawFrame(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Rect& dstRect, 
                    const GT_Texture* pTexture, s32 row, s32 col,
                    f32 angle = 0.0f, SDL_RendererFlip flip = SDL_FLIP_NONE);
-    void DrawText(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Rect& dstRect, const char* text, TTF_Font* pFont);
+    void DrawText(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Rect& dstRect, const char* text, TTF_Font* pFont = s_pGameFont);
     void FillRect(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Rect& dstRect);
     void DrawRect(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Rect& dstRect);
 

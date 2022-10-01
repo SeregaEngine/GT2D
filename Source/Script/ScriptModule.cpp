@@ -72,6 +72,7 @@ void ScriptModule::DefineFunctions(lua_State* L)
     // Draw
     lua_register(L, "setDrawColor", _setDrawColor);
     lua_register(L, "drawFrame", _drawFrame);
+    lua_register(L, "drawText", _drawText);
     lua_register(L, "fillRect", _fillRect);
     lua_register(L, "drawRect", _drawRect);
 
@@ -80,6 +81,7 @@ void ScriptModule::DefineFunctions(lua_State* L)
     lua_register(L, "detachCamera", _detachCamera);
     lua_register(L, "setCameraPosition", _setCameraPosition);
     lua_register(L, "setCameraBounds", _setCameraBounds);
+    lua_register(L, "getCameraPosition", _getCameraPosition);
 
     /* Sound */
     lua_register(L, "defineSound", _defineSound);
@@ -465,6 +467,27 @@ s32 ScriptModule::_drawFrame(lua_State* L)
     return 0;
 }
 
+s32 ScriptModule::_drawText(lua_State* L)
+{
+    if (!LuaExpect(L, "drawText", 8))
+        return -1;
+
+    s32 renderMode = (s32)lua_tointeger(L, 1);
+    s32 zIndex = (s32)lua_tointeger(L, 2);
+    b32 bHUD = (b32)lua_toboolean(L, 3);
+    SDL_Rect dest = {
+        (s32)GTU::UnitToScreenX((f32)lua_tonumber(L, 4)),
+        (s32)GTU::UnitToScreenY((f32)lua_tonumber(L, 5)),
+        (s32)GTU::UnitToScreenX((f32)lua_tonumber(L, 6)),
+        (s32)GTU::UnitToScreenY((f32)lua_tonumber(L, 7))
+    };
+    const char* text = lua_tostring(L, 8);
+
+    g_graphicsModule.DrawText(renderMode, zIndex, bHUD, dest, text);
+
+    return 0;
+}
+
 s32 ScriptModule::_fillRect(lua_State* L)
 {
     if (!LuaExpect(L, "fillRect", 7))
@@ -543,6 +566,22 @@ s32 ScriptModule::_setCameraBounds(lua_State* L)
     g_graphicsModule.GetCamera().SetBounds(rect);
 
     return 0;
+}
+
+s32 ScriptModule::_getCameraPosition(lua_State* L)
+{
+    if (!LuaExpect(L, "getCameraPosition", 0))
+        return -1;
+
+    s32 x, y;
+    g_graphicsModule.GetCamera().GetPosition(x, y);
+    x = (s32)GTU::ScreenToUnitX((f32)x);
+    y = (s32)GTU::ScreenToUnitY((f32)y);
+
+    lua_pushinteger(L, x);
+    lua_pushinteger(L, y);
+
+    return 2;
 }
 
 s32 ScriptModule::_hostSwitchLocation(lua_State* L)

@@ -208,6 +208,11 @@ function onRenderL1()
     drawFrame(RENDER_MODE_BACKGROUND, 1, false, 0,0,SCREEN_WIDTH,SCREEN_HEIGHT, Textures["Background1"], 0, 0)
     drawFrame(RENDER_MODE_BACKGROUND, 1, false, SCREEN_WIDTH,0,SCREEN_WIDTH,SCREEN_HEIGHT, Textures["Background1"], 0, 1)
 
+    -- DEBUG(sean)
+    setDrawColor(255, 255, 255, 255)
+    X,Y = getCameraPosition()
+    drawText(RENDER_MODE_DEBUG, 0, true, 0,0,10,3, string.format("%d %d", X, Y))
+
     -- Debug draw trigger
     if hasWorldEntity(Triggers["SwitchLocation"]) then
         local X,Y = getEntityPosition(Triggers["SwitchLocation"])
