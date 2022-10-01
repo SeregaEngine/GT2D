@@ -113,7 +113,7 @@ void Actor::HandleCommand(f32 dtTime)
 
     // Compute new position
     Vector2 vNewPosition = m_vPosition + m_vVelocity;
-    if (!g_collisionMgr.IsOnGround(vNewPosition, m_hitBox))
+    if (m_bCollidable && !g_collisionMgr.IsOnGround(vNewPosition, m_hitBox))
     {
         // Try move only through x-axis
         vNewPosition.y -= m_vVelocity.y;

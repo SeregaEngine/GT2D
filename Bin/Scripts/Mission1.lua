@@ -66,6 +66,7 @@ function defineResources()
     States["KillPlayer"] = defineState("stateKillPlayer")
     States["PlayerDialog"] = defineState("statePlayerDialog")
     States["DarkLordDialog"] = defineState("stateDarkLordDialog")
+    States["PlayerComing"] = defineState("statePlayerComing")
 end
 
 function onEnterL1()
@@ -88,7 +89,7 @@ function onEnterL1()
     setActorWeapon(Entities["Player"], Weapons["Fist"])
     Player = Entities["Player"]
 
-    Triggers["SwitchLocation"] = addTrigger(GROUND_WIDTH - 70, GROUND_Y + 30, 20, 100, Player, "triggerSwitchLocation")
+    Triggers["SwitchLocation"] = addTrigger(GROUND_WIDTH - 80, GROUND_Y + 30, 20, 100, Player, "triggerPlayerComing")
 
     -- Camera
     setCameraBounds(0, 0, GROUND_WIDTH, SCREEN_HEIGHT)
@@ -229,13 +230,46 @@ end
 ---- <<<< Render
 
 ---- >>>> Triggers
-function triggerSwitchLocation(Entity)
-    GT_LOG(PR_NOTE, "SwitchLocation triggerred")
-    switchLocation("onEnterL3")
+function triggerPlayerComing(Entity)
+    setActorState(Entity, States["PlayerComing"])
 end
 ---- <<<< Triggers
 
 ---- >>>> AI States
+local PlayerComing = {
+    { ["Task"] = GTT_GOTO, ["X"] = 185, ["Y"] = 50 },
+    { ["Task"] = GTT_GOTO, ["X"] = 185, ["Y"] = 35 },
+    { ["Task"] = GTT_NONE }
+}
+local PlayerComingState = 0
+local PlayerComingTicks
+
+function statePlayerComing(Actor)
+    Task = getActorCurrentTask(Actor)
+    Status = checkActorTask(Actor)
+
+    if PlayerComingState == 0 then
+        PlayerComingTicks = getTicks()
+        PlayerControllable = false
+        toggleEntityCollidable(Player, false)
+    end
+
+    if Status == GTT_DONE or PlayerComingState == 0 then
+        PlayerComingState = PlayerComingState + 1
+		setActorTask(Actor, PlayerComing[PlayerComingState].Task, PlayerComing[PlayerComingState].X, PlayerComing[PlayerComingState].Y)
+    end
+
+    local Elapsed = getTicks() - PlayerComingTicks
+    local Alpha = Elapsed * 0.2
+    if Alpha > 255 or Elapsed > 3000 then
+        Alpha = 255
+        switchLocation("onEnterL3")
+    end
+
+    setDrawColor(0, 0, 0, math.floor(Alpha))
+    fillRect(RENDER_MODE_FOREGROUND, 999, true, 0,0,SCREEN_WIDTH,SCREEN_HEIGHT)
+end
+
 function statePlayerDialog(Actor)
     if DialogStateL3_1 == 2 then
         if hasWorldEntity(DialogL3_1[DialogStateL3_1]) then

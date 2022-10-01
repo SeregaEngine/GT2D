@@ -103,6 +103,9 @@ private:
     static s32 _setEntityHitBox(lua_State* L);
     static s32 _getEntityHitBox(lua_State* L);
 
+    static s32 _toggleEntityCollidable(lua_State* L);
+    static s32 _getEntityCollidable(lua_State* L);
+
     static s32 _setEntityAnimFrame(lua_State* L);
     static s32 _getEntityAnimFrame(lua_State* L);
 

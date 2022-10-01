@@ -123,6 +123,8 @@ void ScriptModule::DefineFunctions(lua_State* L)
     lua_register(L, "getEntityPosition", _getEntityPosition);
     lua_register(L, "setEntityHitBox", _setEntityHitBox);
     lua_register(L, "getEntityHitBox", _getEntityHitBox);
+    lua_register(L, "toggleEntityCollidable", _toggleEntityCollidable);
+    lua_register(L, "getEntityCollidable", _getEntityCollidable);
     lua_register(L, "setEntityAnimFrame", _setEntityAnimFrame);
     lua_register(L, "getEntityAnimFrame", _getEntityAnimFrame);
     lua_register(L, "setEntityAnimElapsed", _setEntityAnimElapsed);
@@ -913,6 +915,38 @@ s32 ScriptModule::_getEntityHitBox(lua_State* L)
     return 4;
 }
 
+s32 ScriptModule::_toggleEntityCollidable(lua_State* L)
+{
+    if (!LuaExpect(L, "toggleEntityCollidable", 2))
+        return -1;
+
+    Entity* pEntity = (Entity*)lua_touserdata(L, 1);
+    if (!pEntity)
+    {
+        LuaNote(PR_WARNING, "toggleEntityCollidable() called with null entity");
+        return -1;
+    }
+    pEntity->m_bCollidable = (b32)lua_toboolean(L, 2);
+
+    return 0;
+}
+
+s32 ScriptModule::_getEntityCollidable(lua_State* L)
+{
+    if (!LuaExpect(L, "getEntityCollidable", 1))
+        return -1;
+
+    Entity* pEntity = (Entity*)lua_touserdata(L, 1);
+    if (!pEntity)
+    {
+        LuaNote(PR_WARNING, "getEntityCollidable(): function called with null entity");
+        return -1;
+    }
+    lua_pushboolean(L, pEntity->m_bCollidable);
+
+    return 1;
+}
+
 s32 ScriptModule::_setEntityAnimFrame(lua_State* L)
 {
     if (!LuaExpect(L, "setEntityAnimFrame", 2))
@@ -1594,7 +1628,6 @@ s32 ScriptModule::_runDialog(lua_State* L)
         LuaNote(PR_WARNING, "runDialog() called with null dialog");
         return -1;
     }
-    
     pDialog->Run();
 
     return 0;
