@@ -151,6 +151,8 @@ void ScriptModule::DefineFunctions(lua_State* L)
     lua_register(L, "checkActorTask", _checkActorTask);
     lua_register(L, "getActorCurrentTask", _getActorCurrentTask);
     lua_register(L, "setActorWeapon", _setActorWeapon);
+    lua_register(L, "getActorAttackRate", _getActorAttackRate);
+    lua_register(L, "setActorAttackRate", _setActorAttackRate);
 
     // Weapon
     lua_register(L, "defineWeapon", _defineWeapon);
@@ -1438,7 +1440,7 @@ s32 ScriptModule::_setActorWeapon(lua_State* L)
     Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
     if (pActor)
     {
-    pActor->SetWeapon((const Weapon*)lua_touserdata(L, 2));
+        pActor->SetWeapon((const Weapon*)lua_touserdata(L, 2));
     }
     else
     {
@@ -1447,6 +1449,44 @@ s32 ScriptModule::_setActorWeapon(lua_State* L)
     }
 
     return 0;
+}
+
+s32 ScriptModule::_setActorAttackRate(lua_State* L)
+{
+    if (!LuaExpect(L, "setActorAttackRate", 2))
+        return -1;
+
+    Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
+    if (pActor)
+    {
+        pActor->m_attackRate = (f32)lua_tonumber(L, 2);
+    }
+    else
+    {
+        LuaNote(PR_WARNING, "setActorAttackRate() called with null actor");
+        return -1;
+    }
+
+    return 0;
+}
+
+s32 ScriptModule::_getActorAttackRate(lua_State* L)
+{
+    if (!LuaExpect(L, "getActorAttackRate", 1))
+        return -1;
+
+    Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
+    if (pActor)
+    {
+        lua_pushnumber(L, pActor->m_attackRate);
+    }
+    else
+    {
+        LuaNote(PR_WARNING, "getActorAttackRate() called with null actor");
+        lua_pushnumber(L, 0.0f);
+    }
+
+    return 1;
 }
 
 s32 ScriptModule::_defineWeapon(lua_State* L)
