@@ -35,7 +35,7 @@ class Weapon;
 
 class Actor final : public Entity
 {
-protected:
+public:
     /* Actor */
     s32 m_actorState;
     s32 m_actorTeam;
@@ -48,12 +48,12 @@ protected:
 
     f32 m_attackRate;
     const Weapon* m_pWeapon;
-
+private:
     /* AI */
     const GT_State* m_pState;
     GT_Task* m_pTask;
     TList<GT_Command> m_lstCommand;
-
+public:
     /* Animations */
     const GT_Animation* m_aActorAnims[MAX_ACTOR_ANIMATIONS];
 

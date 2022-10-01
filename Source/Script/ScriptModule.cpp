@@ -107,6 +107,7 @@ void ScriptModule::DefineFunctions(lua_State* L)
     lua_register(L, "defineAnimation", _defineAnimation);
 
     /* Game */
+    lua_register(L, "getTicks", _getTicks);
     lua_register(L, "stopGame", _stopGame);
 
     /* World */
@@ -118,9 +119,24 @@ void ScriptModule::DefineFunctions(lua_State* L)
     lua_register(L, "addEntity", _addEntity);
     lua_register(L, "removeEntity", _removeEntity);
     lua_register(L, "updateEntity", _updateEntity);
-
+    lua_register(L, "setEntityPosition", _setEntityPosition);
     lua_register(L, "getEntityPosition", _getEntityPosition);
+    lua_register(L, "setEntityHitBox", _setEntityHitBox);
     lua_register(L, "getEntityHitBox", _getEntityHitBox);
+    lua_register(L, "setEntityAnimFrame", _setEntityAnimFrame);
+    lua_register(L, "getEntityAnimFrame", _getEntityAnimFrame);
+    lua_register(L, "setEntityAnimElapsed", _setEntityAnimElapsed);
+    lua_register(L, "getEntityAnimElapsed", _getEntityAnimElapsed);
+    lua_register(L, "setEntityAnim", _setEntityAnim);
+    lua_register(L, "getEntityAnim", _getEntityAnim);
+    lua_register(L, "setEntityRenderMode", _setEntityRenderMode);
+    lua_register(L, "getEntityRenderMode", _getEntityRenderMode);
+    lua_register(L, "setEntityZIndex", _setEntityZIndex);
+    lua_register(L, "getEntityZIndex", _getEntityZIndex);
+    lua_register(L, "toggleEntityHUD", _toggleEntityHUD);
+    lua_register(L, "getEntityHUD", _getEntityHUD);
+    lua_register(L, "setEntityTexture", _setEntityTexture);
+    lua_register(L, "getEntityTexture", _getEntityTexture);
 
     // Actor
     lua_register(L, "addActor", _addActor);
@@ -129,7 +145,6 @@ void ScriptModule::DefineFunctions(lua_State* L)
     lua_register(L, "toggleActorGodMode", _toggleActorGodMode);
     lua_register(L, "turnActorLeft", _turnActorLeft);
     lua_register(L, "turnActorRight", _turnActorRight);
-
     lua_register(L, "setActorState", _setActorState);
     lua_register(L, "setActorTask", _setActorTask);
     lua_register(L, "sendActorCmd", _sendActorCmd);
@@ -731,6 +746,16 @@ s32 ScriptModule::_defineAnimation(lua_State* L)
     return 1;
 }
 
+s32 ScriptModule::_getTicks(lua_State* L)
+{
+    if (!LuaExpect(L, "getTicks", 0))
+        return -1;
+
+    lua_pushinteger(L, SDL_GetTicks());
+
+    return 1;
+}
+
 s32 ScriptModule::_stopGame(lua_State* L)
 {
     if (!LuaExpect(L, "stopGame", 0))
@@ -801,23 +826,65 @@ s32 ScriptModule::_updateEntity(lua_State* L)
     return 0;
 }
 
+s32 ScriptModule::_setEntityPosition(lua_State* L)
+{
+    if (!LuaExpect(L, "setEntityPosition", 3))
+        return -1;
+
+    Entity* pEntity = (Entity*)lua_touserdata(L, 1);
+    if (!pEntity)
+    {
+        LuaNote(PR_WARNING, "setEntityPosition() called with null entity");
+        return -1;
+    }
+    pEntity->m_vPosition = {
+        GTU::UnitToScreenX((f32)lua_tonumber(L, 2)),
+        GTU::UnitToScreenY((f32)lua_tonumber(L, 3))
+    };
+
+    return 0;
+}
+
 s32 ScriptModule::_getEntityPosition(lua_State* L)
 {
     if (!LuaExpect(L, "getEntityPosition", 1))
         return -1;
 
     Entity* pEntity = (Entity*)lua_touserdata(L, 1);
-    if (!pEntity)
+    if (pEntity)
+    {
+        lua_pushnumber(L, GTU::ScreenToUnitX(pEntity->m_vPosition.x));
+        lua_pushnumber(L, GTU::ScreenToUnitY(pEntity->m_vPosition.y));
+    }
+    else
     {
         LuaNote(PR_WARNING, "getEntityPosition(): function called with null entity");
-        return -1;
+        lua_pushnumber(L, 0.0f);
+        lua_pushnumber(L, 0.0f);
     }
 
-    const Vector2& vPosition = pEntity->GetPosition();
-    lua_pushnumber(L, GTU::ScreenToUnitX(vPosition.x));
-    lua_pushnumber(L, GTU::ScreenToUnitY(vPosition.y));
-
     return 2;
+}
+
+s32 ScriptModule::_setEntityHitBox(lua_State* L)
+{
+    if (!LuaExpect(L, "setEntityHitBox", 5))
+        return -1;
+
+    Entity* pEntity = (Entity*)lua_touserdata(L, 1);
+    if (!pEntity)
+    {
+        LuaNote(PR_WARNING, "setEntityHitBox() called with null entity");
+        return -1;
+    }
+    pEntity->m_hitBox = {
+        GTU::UnitToScreenX((f32)lua_tonumber(L, 2)),
+        GTU::UnitToScreenY((f32)lua_tonumber(L, 3)),
+        GTU::UnitToScreenX((f32)lua_tonumber(L, 4)),
+        GTU::UnitToScreenY((f32)lua_tonumber(L, 5)),
+    };
+
+    return 0;
 }
 
 s32 ScriptModule::_getEntityHitBox(lua_State* L)
@@ -839,6 +906,251 @@ s32 ScriptModule::_getEntityHitBox(lua_State* L)
     lua_pushnumber(L, GTU::ScreenToUnitY(hitBox.y2));
 
     return 4;
+}
+
+s32 ScriptModule::_setEntityAnimFrame(lua_State* L)
+{
+    if (!LuaExpect(L, "setEntityAnimFrame", 2))
+        return -1;
+
+    Entity* pEntity = (Entity*)lua_touserdata(L, 1);
+    if (!pEntity)
+    {
+        LuaNote(PR_WARNING, "setEntityAnimFrame(): function called with null entity");
+        return -1;
+    }
+    pEntity->m_animFrame = (s32)lua_tointeger(L, 2);
+
+    return 0;
+}
+
+s32 ScriptModule::_getEntityAnimFrame(lua_State* L)
+{
+    if (!LuaExpect(L, "getEntityAnimFrame", 1))
+        return -1;
+
+    Entity* pEntity = (Entity*)lua_touserdata(L, 1);
+    if (pEntity)
+    {
+        lua_pushinteger(L, pEntity->m_animFrame);
+    }
+    else
+    {
+        LuaNote(PR_WARNING, "getEntityAnimFrame(): function called with null entity");
+        lua_pushinteger(L, 0);
+    }
+
+    return 1;
+}
+
+s32 ScriptModule::_setEntityAnimElapsed(lua_State* L)
+{
+    if (!LuaExpect(L, "setEntityAnimElapsed", 2))
+        return -1;
+
+    Entity* pEntity = (Entity*)lua_touserdata(L, 1);
+    if (!pEntity)
+    {
+        LuaNote(PR_WARNING, "setEntityAnimElapsed(): function called with null entity");
+        return -1;
+    }
+    pEntity->m_animElapsed = (f32)lua_tonumber(L, 2);
+
+    return 0;
+}
+
+s32 ScriptModule::_getEntityAnimElapsed(lua_State* L)
+{
+    if (!LuaExpect(L, "getEntityAnimElapsed", 1))
+        return -1;
+
+    Entity* pEntity = (Entity*)lua_touserdata(L, 1);
+    if (pEntity)
+    {
+        lua_pushnumber(L, pEntity->m_animElapsed);
+    }
+    else
+    {
+        LuaNote(PR_WARNING, "getEntityAnimElapsed(): function called with null entity");
+        lua_pushnumber(L, 0);
+    }
+
+    return 1;
+}
+
+s32 ScriptModule::_setEntityAnim(lua_State* L)
+{
+    if (!LuaExpect(L, "setEntityAnim", 2))
+        return -1;
+
+    Entity* pEntity = (Entity*)lua_touserdata(L, 1);
+    if (!pEntity)
+    {
+        LuaNote(PR_WARNING, "setEntityAnim(): function called with null entity");
+        return -1;
+    }
+    pEntity->m_pAnim = (const GT_Animation*)lua_touserdata(L, 2);
+
+    return 0;
+}
+
+s32 ScriptModule::_getEntityAnim(lua_State* L)
+{
+    if (!LuaExpect(L, "getEntityAnim", 1))
+        return -1;
+
+    Entity* pEntity = (Entity*)lua_touserdata(L, 1);
+    if (pEntity)
+    {
+        lua_pushlightuserdata(L, (void*)pEntity->m_pAnim);
+    }
+    else
+    {
+        LuaNote(PR_WARNING, "getEntityAnim(): function called with null entity");
+        lua_pushlightuserdata(L, nullptr);
+    }
+
+    return 1;
+}
+
+s32 ScriptModule::_setEntityRenderMode(lua_State* L)
+{
+    if (!LuaExpect(L, "setEntityRenderMode", 2))
+        return -1;
+
+    Entity* pEntity = (Entity*)lua_touserdata(L, 1);
+    if (!pEntity)
+    {
+        LuaNote(PR_WARNING, "setEntityRenderMode(): function called with null entity");
+        return -1;
+    }
+    pEntity->m_renderMode = (s32)lua_tointeger(L, 2);
+
+    return 0;
+}
+
+s32 ScriptModule::_getEntityRenderMode(lua_State* L)
+{
+    if (!LuaExpect(L, "getEntityRenderMode", 1))
+        return -1;
+
+    Entity* pEntity = (Entity*)lua_touserdata(L, 1);
+    if (pEntity)
+    {
+        lua_pushinteger(L, pEntity->m_renderMode);
+    }
+    else
+    {
+        LuaNote(PR_WARNING, "getEntityRenderMode(): function called with null entity");
+        lua_pushinteger(L, RENDER_MODE_DYNAMIC);
+    }
+
+    return 1;
+}
+
+s32 ScriptModule::_setEntityZIndex(lua_State* L)
+{
+    if (!LuaExpect(L, "setEntityZIndex", 2))
+        return -1;
+
+    Entity* pEntity = (Entity*)lua_touserdata(L, 1);
+    if (!pEntity)
+    {
+        LuaNote(PR_WARNING, "setEntityZIndex(): function called with null entity");
+        return -1;
+    }
+    pEntity->m_zIndex = (s32)lua_tointeger(L, 2);
+
+    return 0;
+}
+
+s32 ScriptModule::_getEntityZIndex(lua_State* L)
+{
+    if (!LuaExpect(L, "getEntityZIndex", 1))
+        return -1;
+
+    Entity* pEntity = (Entity*)lua_touserdata(L, 1);
+    if (pEntity)
+    {
+        lua_pushinteger(L, pEntity->m_zIndex);
+    }
+    else
+    {
+        LuaNote(PR_WARNING, "getEntityZIndex(): function called with null entity");
+        lua_pushinteger(L, 0);
+    }
+
+    return 1;
+}
+
+s32 ScriptModule::_toggleEntityHUD(lua_State* L)
+{
+    if (!LuaExpect(L, "toggleEntityHUD", 2))
+        return -1;
+
+    Entity* pEntity = (Entity*)lua_touserdata(L, 1);
+    if (!pEntity)
+    {
+        LuaNote(PR_WARNING, "toggleEntityHUD(): function called with null entity");
+        return -1;
+    }
+    pEntity->m_bHUD = (b32)lua_toboolean(L, 2);
+
+    return 0;
+}
+
+s32 ScriptModule::_getEntityHUD(lua_State* L)
+{
+    if (!LuaExpect(L, "getEntityHUD", 1))
+        return -1;
+
+    Entity* pEntity = (Entity*)lua_touserdata(L, 1);
+    if (pEntity)
+    {
+        lua_pushboolean(L, pEntity->m_bHUD);
+    }
+    else
+    {
+        LuaNote(PR_WARNING, "getEntityHUD(): function called with null entity");
+        lua_pushboolean(L, false);
+    }
+
+    return 1;
+}
+
+s32 ScriptModule::_setEntityTexture(lua_State* L)
+{
+    if (!LuaExpect(L, "setEntityTexture", 2))
+        return -1;
+
+    Entity* pEntity = (Entity*)lua_touserdata(L, 1);
+    if (!pEntity)
+    {
+        LuaNote(PR_WARNING, "setEntityTexture(): function called with null entity");
+        return -1;
+    }
+    pEntity->m_pTexture = (const GT_Texture*)lua_touserdata(L, 2);
+
+    return 0;
+}
+
+s32 ScriptModule::_getEntityTexture(lua_State* L)
+{
+    if (!LuaExpect(L, "getEntityTexture", 1))
+        return -1;
+
+    Entity* pEntity = (Entity*)lua_touserdata(L, 1);
+    if (pEntity)
+    {
+        lua_pushlightuserdata(L, (void*)pEntity->m_pTexture);
+    }
+    else
+    {
+        LuaNote(PR_WARNING, "getEntityTexture(): function called with null entity");
+        lua_pushlightuserdata(L, nullptr);
+    }
+
+    return 1;
 }
 
 s32 ScriptModule::_addActor(lua_State* L)

@@ -97,7 +97,10 @@ private:
     static s32 _removeEntity(lua_State* L);
     static s32 _updateEntity(lua_State* L);
 
+    static s32 _setEntityPosition(lua_State* L);
     static s32 _getEntityPosition(lua_State* L);
+
+    static s32 _setEntityHitBox(lua_State* L);
     static s32 _getEntityHitBox(lua_State* L);
 
     static s32 _setEntityAnimFrame(lua_State* L);

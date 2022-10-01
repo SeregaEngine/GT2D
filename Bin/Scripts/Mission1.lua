@@ -210,8 +210,10 @@ function onRenderL1()
 
     -- DEBUG(sean)
     setDrawColor(255, 255, 255, 255)
-    X,Y = getCameraPosition()
-    drawText(RENDER_MODE_DEBUG, 0, true, 0,0,10,3, string.format("%d %d", X, Y))
+    drawText(RENDER_MODE_DEBUG, 0, true, 0,0,10,3, string.format("%d", getTicks()))
+    if hasWorldEntity(Player) then
+		setEntityHitBox(Player, -1, -1, 1, 1)
+    end
 
     -- Debug draw trigger
     if hasWorldEntity(Triggers["SwitchLocation"]) then

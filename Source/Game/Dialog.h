@@ -13,10 +13,13 @@
 /* ====== STRUCTURES ====== */
 class Dialog final : public Entity
 {
+public:
     Actor* m_pAttached;
     f32 m_time;
+private:
     b32 m_bRunning;
     char m_text[DIALOG_BUFSIZE];
+
 public:
     virtual void Init(const Vector2& vPosition, s32 width, s32 height, const GT_Texture* pTexture) override;
     virtual void Update(f32 dtTime) override;
