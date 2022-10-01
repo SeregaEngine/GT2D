@@ -161,6 +161,9 @@ void ScriptModule::DefineFunctions(lua_State* L)
     // Dialog
     lua_register(L, "addDialog", _addDialog);
     lua_register(L, "runDialog", _runDialog);
+    lua_register(L, "attachDialog", _attachDialog);
+    lua_register(L, "setDialogTime", _setDialogTime);
+    lua_register(L, "setDialogText", _setDialogText);
 }
 
 void ScriptModule::DefineSymbols(lua_State* L)
@@ -1553,6 +1556,54 @@ s32 ScriptModule::_runDialog(lua_State* L)
     }
     
     pDialog->Run();
+
+    return 0;
+}
+
+s32 ScriptModule::_attachDialog(lua_State* L)
+{
+    if (!LuaExpect(L, "attachDialog", 2))
+        return -1;
+
+    Dialog* pDialog = (Dialog*)lua_touserdata(L, 1);
+    if (!pDialog)
+    {
+        LuaNote(PR_WARNING, "attachDialog() called with null dialog");
+        return -1;
+    }
+    pDialog->m_pAttached = (Actor*)lua_touserdata(L, 2);
+
+    return 0;
+}
+
+s32 ScriptModule::_setDialogTime(lua_State* L)
+{
+    if (!LuaExpect(L, "setDialogTime", 2))
+        return -1;
+
+    Dialog* pDialog = (Dialog*)lua_touserdata(L, 1);
+    if (!pDialog)
+    {
+        LuaNote(PR_WARNING, "setDialogTime() called with null dialog");
+        return -1;
+    }
+    pDialog->m_time = (f32)lua_tonumber(L, 2);
+
+    return 0;
+}
+
+s32 ScriptModule::_setDialogText(lua_State* L)
+{
+    if (!LuaExpect(L, "setDialogText", 2))
+        return -1;
+
+    Dialog* pDialog = (Dialog*)lua_touserdata(L, 1);
+    if (!pDialog)
+    {
+        LuaNote(PR_WARNING, "setDialogText() called with null dialog");
+        return -1;
+    }
+    pDialog->SetText(lua_tostring(L, 2));
 
     return 0;
 }
