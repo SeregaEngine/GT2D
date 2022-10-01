@@ -27,7 +27,7 @@ function onEnter()
     GT_LOG(PR_NOTE, "Mission1 entered")
 
     defineResources()
-    onEnterLocation1()
+    onEnterL1()
 end
 
 function defineResources()
@@ -68,10 +68,10 @@ function defineResources()
     States["DarkLordDialog"] = defineState("stateDarkLordDialog")
 end
 
-function onEnterLocation1()
+function onEnterL1()
     -- Functions
-    onUpdate = onUpdateLocation1
-    onRender = onRenderLocation1
+    onUpdate = onUpdateL1
+    onRender = onRenderL1
 
     -- Local defines
     local GROUND_WIDTH = SCREEN_WIDTH * 2
@@ -98,10 +98,10 @@ function onEnterLocation1()
     playMusic(Music["Ambient1"])
 end
 
-function onEnterLocation3()
+function onEnterL3()
     -- Function
-    onUpdate = onUpdateLocation3
-    onRender = onRenderLocation3
+    onUpdate = onUpdateL3
+    onRender = onRenderL3
 
     -- Local defines
     local GROUND_WIDTH = SCREEN_WIDTH - 10
@@ -149,11 +149,11 @@ end
 ---- <<<< Enter
 
 ---- >>>> Update
-function onUpdateLocation1(dt)
+function onUpdateL1(dt)
     handleInput()
 end
 
-function onUpdateLocation3(dt)
+function onUpdateL3(dt)
     handleInput()
 end
 
@@ -202,7 +202,7 @@ end
 ---- <<<< Update
 
 ---- >>>> Render
-function onRenderLocation1()
+function onRenderL1()
     -- Background
     drawFrame(RENDER_MODE_BACKGROUND, 0, false, 0,0,SCREEN_WIDTH*2,SCREEN_HEIGHT, Textures["Parallax"], 0, 0)
     drawFrame(RENDER_MODE_BACKGROUND, 1, false, 0,0,SCREEN_WIDTH,SCREEN_HEIGHT, Textures["Background1"], 0, 0)
@@ -221,7 +221,7 @@ function onRenderLocation1()
     end
 end
 
-function onRenderLocation3()
+function onRenderL3()
     -- Background
     drawFrame(RENDER_MODE_BACKGROUND, 0, false, 0,0,SCREEN_WIDTH,SCREEN_HEIGHT, Textures["Background3"], 0, 0)
     drawFrame(RENDER_MODE_BACKGROUND, 1, false, 42,45,68,20, Textures["BrownTrashCar"], 0, 0)
@@ -231,7 +231,7 @@ end
 ---- >>>> Triggers
 function triggerSwitchLocation(Entity)
     GT_LOG(PR_NOTE, "SwitchLocation triggerred")
-    switchLocation("onEnterLocation3")
+    switchLocation("onEnterL3")
 end
 ---- <<<< Triggers
 

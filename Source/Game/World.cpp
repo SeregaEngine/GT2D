@@ -64,6 +64,9 @@ void World::HandleSwitchLocation()
     if (!m_switchLocation[0])
         return;
 
+    // Stop sounds and music
+    g_soundModule.StopSoundsAndMusic();
+
     // Clean current location stuff
     CleanEntities();
     CleanEvents();
