@@ -379,6 +379,26 @@ void ScriptModule::CallFunction(const char* functionName)
     }
 }
 
+void ScriptModule::CallTrigger(const char* functionName, Trigger* pTrigger, Entity* pEntity)
+{
+    // Check for null
+    if (!functionName)
+    {
+        AddNote(PR_WARNING, "CallFunction() called with null functionName");
+        return;
+    }
+
+    // Call function
+    lua_getglobal(m_pMission, functionName);
+    lua_pushlightuserdata(m_pMission, (void*)pTrigger);
+    lua_pushlightuserdata(m_pMission, (void*)pEntity);
+    if (lua_pcall(m_pMission, 2, 0, 0) != 0)
+    {
+        LuaNote(PR_ERROR, "CallFunction(): Error when function %s called: %s", functionName, lua_tostring(m_pMission, 1));
+        lua_pop(m_pMission, 1);
+    }
+}
+
 void ScriptModule::Interpret(const char* text)
 {
     if (0 != luaL_dostring(m_pMission, text))

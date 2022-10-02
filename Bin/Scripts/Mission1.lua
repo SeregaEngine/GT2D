@@ -1,6 +1,12 @@
 -- Includes
 dofile "Scripts/GraphicsDefines.lua"
 
+-- Defines
+local GROUND_WIDTH
+local GROUND_HEIGHT
+local GROUND_X
+local GROUND_Y
+
 -- Resources
 Textures = {}
 Sounds = {}
@@ -27,7 +33,7 @@ function onEnter()
     GT_LOG(PR_NOTE, "Mission1 entered")
 
     defineResources()
-    onEnterL3()
+    onEnterL1()
 end
 
 function defineResources()
@@ -71,6 +77,8 @@ function defineResources()
     States["DarkLordDialog"] = defineState("stateDarkLordDialog")
     States["KillPlayer"] = defineState("stateKillPlayer")
     States["PlayerFightingForWheels"] = defineState("statePlayerFightingForWheels")
+    States["PlayerTakeWheels"] = defineState("statePlayerTakeWheels")
+    States["PlayerLeavingGarage"] = defineState("statePlayerLeavingGarage")
 end
 
 function onEnterL1()
@@ -79,16 +87,16 @@ function onEnterL1()
     onRender = onRenderL1
 
     -- Local defines
-    local GROUND_WIDTH = SCREEN_WIDTH * 2
-    local GROUND_HEIGHT = 19
-    local GROUND_X = 0
-    local GROUND_Y = SCREEN_HEIGHT - GROUND_HEIGHT
+    GROUND_WIDTH = SCREEN_WIDTH * 2
+    GROUND_HEIGHT = 19
+    GROUND_X = 0
+    GROUND_Y = SCREEN_HEIGHT - GROUND_HEIGHT
 
     -- Level
     setGroundBounds(GROUND_X, GROUND_Y, GROUND_WIDTH, GROUND_HEIGHT)
 
     -- Entities
-    Entities["Player"] = addActor(120, 60, GW_ACTOR, GH_ACTOR, Textures["Player"])
+    Entities["Player"] = addActor(16, 60, GW_ACTOR, GH_ACTOR, Textures["Player"])
     toggleActorGodMode(Entities["Player"], true)
     setActorWeapon(Entities["Player"], Weapons["Fist"])
     Player = Entities["Player"]
@@ -102,8 +110,7 @@ function onEnterL1()
 		{ ["Task"] = GTT_NONE }
 	}
 	PlayerComingState = 0
-	PlayerComingTicks = 0
-
+	FadeTicks = 0
 
     -- Camera
     setCameraBounds(0, 0, GROUND_WIDTH, SCREEN_HEIGHT)
@@ -119,10 +126,10 @@ function onEnterL3()
     onRender = onRenderL3
 
     -- Local defines
-    local GROUND_WIDTH = SCREEN_WIDTH - 10
-    local GROUND_HEIGHT = 10
-    local GROUND_X = 7
-    local GROUND_Y = SCREEN_HEIGHT - GROUND_HEIGHT
+    GROUND_WIDTH = SCREEN_WIDTH - 10
+    GROUND_HEIGHT = 10
+    GROUND_X = 7
+    GROUND_Y = SCREEN_HEIGHT - GROUND_HEIGHT
 
     -- Level
     setGroundBounds(GROUND_X, GROUND_Y, GROUND_WIDTH, GROUND_HEIGHT)
@@ -132,10 +139,7 @@ function onEnterL3()
     Player = Entities["Player"]
     PlayerControllable = false
     setActorWeapon(Player, Weapons["Fist"])
-    -- DEBUG(sean)
-    --setActorState(Player, States["PlayerDialog"])
-    setActorState(Player, States["PlayerFightingForWheels"])
-    PlayerControllable = true
+    setActorState(Player, States["PlayerDialog"])
 
     toggleActorGodMode(Player, true)
     turnActorLeft(Player)
@@ -162,6 +166,8 @@ function onEnterL3()
                                            1, Entities["DarkLord"], Textures["DialogSquare"])
     Dialogs["PlayerDialog1"] = addDialog(GW_DIALOG, GH_DIALOG, "I came for your wheels, dawg",
                                          1, Player, Textures["DialogSquare"])
+    Dialogs["PlayerDialogAfterFight"] = addDialog(GW_DIALOG, GH_DIALOG, "I should take these wheels and run away from here",
+                                         1, Player, Textures["DialogSquare"])
 
     DialogL3_1 = {
         Dialogs["DarkLordDialog1"],
@@ -175,6 +181,7 @@ function onEnterL3()
 
     -- States
 	DarkLordDialogTicks = 0
+	FadeTicks = 0
 
     -- Camera
     setCameraBounds(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
@@ -244,18 +251,6 @@ function onRenderL1()
     drawFrame(RENDER_MODE_BACKGROUND, 0, false, 0,0,SCREEN_WIDTH*2,SCREEN_HEIGHT, Textures["Parallax"], 0, 0)
     drawFrame(RENDER_MODE_BACKGROUND, 1, false, 0,0,SCREEN_WIDTH,SCREEN_HEIGHT, Textures["Background1"], 0, 0)
     drawFrame(RENDER_MODE_BACKGROUND, 1, false, SCREEN_WIDTH,0,SCREEN_WIDTH,SCREEN_HEIGHT, Textures["Background1"], 0, 1)
-
-    -- Debug draw trigger
-    if hasWorldEntity(Triggers["SwitchLocation"]) then
-        local X,Y = getEntityPosition(Triggers["SwitchLocation"])
-        local X1,Y1,X2,Y2 = getEntityHitBox(Triggers["SwitchLocation"])
-        local W = -X1 + X2
-        local H = -Y1 + Y2
-        X = X + X1
-        Y = Y + Y1
-        setDrawColor(255, 0, 0, 255)
-        drawRect(RENDER_MODE_DEBUG, 0, false, X,Y,W,H)
-    end
 end
 
 function onRenderL3()
@@ -265,8 +260,17 @@ end
 ---- <<<< Render
 
 ---- >>>> Triggers
-function triggerPlayerComing(Entity)
+function triggerPlayerComing(Trigger, Entity)
     setActorState(Entity, States["PlayerComing"])
+end
+
+local TriggerToWheel = {}
+function triggerTakeWheel(Trigger, Entity)
+    removeEntity(TriggerToWheel[Trigger])
+end
+
+function triggerPlayerLeavingGarage(Trigger, Entity)
+    setActorState(Entity, States["PlayerLeavingGarage"])
 end
 ---- <<<< Triggers
 
@@ -276,7 +280,7 @@ function statePlayerComing(Actor)
     Status = checkActorTask(Actor)
 
     if PlayerComingState == 0 then
-        PlayerComingTicks = getTicks()
+        FadeTicks = getTicks()
         PlayerControllable = false
         toggleEntityCollidable(Player, false)
     end
@@ -286,7 +290,7 @@ function statePlayerComing(Actor)
         setActorTask(Actor, PlayerComing[PlayerComingState].Task, PlayerComing[PlayerComingState].X, PlayerComing[PlayerComingState].Y)
     end
 
-    local Elapsed = getTicks() - PlayerComingTicks
+    local Elapsed = getTicks() - FadeTicks
     local Alpha = Elapsed * 0.2
     if Alpha > 255 or Elapsed > 3000 then
         Alpha = 255
@@ -361,25 +365,84 @@ function stateKillPlayer(Actor)
     end
 end
 
+local Wheels = {}
 function statePlayerFightingForWheels(Actor)
-    if not hasWorldEntity(Entities["DarkLord"]) then
-        -- Remove wheels from the car
-        setEntityTexture(Entities["Car"], Textures["BrownTrashCar"])
-
-        -- Add wheels
-        for i = 1,4 do
-            local Wheel = addEntity(20 + GW_PROP * (i - 1), 60, GW_PROP, GH_PROP, Textures["Wheels"])
-            setEntityRenderMode(Wheel, RENDER_MODE_BACKGROUND)
-            setEntityZIndex(Wheel, 10+i)
-
-            if i % 2 == 0 then
-                setEntityAnimFrame(Wheel, 1)
-            end
-        end
-
-        -- Leave this state
-        setActorState(Actor, nil)
+    -- Waiting for Dark Lord's death
+    if hasWorldEntity(Entities["DarkLord"]) then
+        return
     end
+
+	-- Run and wait for dialog
+    if hasWorldEntity(Dialogs["PlayerDialogAfterFight"]) then
+		runDialog(Dialogs["PlayerDialogAfterFight"])
+        return
+    end
+
+    -- Fade off
+    if FadeTicks == 0 then
+        FadeTicks = getTicks()
+    end
+
+    local Elapsed = getTicks() - FadeTicks
+    local Alpha = Elapsed * 0.5
+    if Alpha <= 255 then
+		setDrawColor(0, 0, 0, math.floor(Alpha))
+		fillRect(RENDER_MODE_FOREGROUND, 999, true, 0,0,SCREEN_WIDTH,SCREEN_HEIGHT)
+        return
+    end
+
+	-- Remove wheels from the car
+	setEntityTexture(Entities["Car"], Textures["BrownTrashCar"])
+
+	-- Add wheels and triggers
+	for i = 1,4 do
+		local X = 20 + GW_PROP * (i - 1)
+		local Y = 60
+		Wheels[i] = addEntity(X, Y, GW_PROP, GH_PROP, Textures["Wheels"])
+		setEntityRenderMode(Wheels[i], RENDER_MODE_BACKGROUND)
+		setEntityZIndex(Wheels[i], 10+i)
+
+		TriggerToWheel[addTrigger(X, Y, GW_PROP/4, GH_PROP/4, Actor, "triggerTakeWheel")] = Wheels[i]
+
+		if i % 2 == 0 then
+			setEntityAnimFrame(Wheels[i], 1)
+		end
+	end
+
+	-- Leave this state and restore FadeTicks
+	setActorState(Actor, States["PlayerTakeWheels"])
+    FadeTicks = 0
+end
+
+function statePlayerTakeWheels(Actor)
+    -- Wait for player taking wheels
+    for k,v in pairs(TriggerToWheel) do
+        if hasWorldEntity(v) then
+            return
+        end
+    end
+
+    -- Now player can leave garage
+    setGroundBounds(GROUND_X, GROUND_Y, GROUND_WIDTH + 50, GROUND_HEIGHT)
+    addTrigger(SCREEN_WIDTH, SCREEN_HEIGHT/2, GW_ACTOR, SCREEN_HEIGHT, Actor, "triggerPlayerLeavingGarage")
+
+    setActorState(Actor, nil)
+end
+
+function statePlayerLeavingGarage(Actor)
+    if FadeTicks == 0 then
+        FadeTicks = getTicks()
+    end
+
+    local Elapsed = getTicks() - FadeTicks
+    local Alpha = Elapsed * 0.2
+    if Alpha > 255 or Elapsed > 3000 then
+        Alpha = 255
+        switchLocation("onEnterL3") -- DEBUG(sean)
+    end
+
+    setDrawColor(0, 0, 0, math.floor(Alpha))
+    fillRect(RENDER_MODE_FOREGROUND, 999, true, 0,0,SCREEN_WIDTH,SCREEN_HEIGHT)
 end
 ---- <<<< AI States
 

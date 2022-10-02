@@ -10,7 +10,9 @@ extern "C"
 #include "EngineModule.h"
 
 /* ====== STRUCTURES ====== */
+class Entity;
 class Actor;
+class Trigger;
 
 class ScriptModule final : public EngineModule
 {
@@ -30,6 +32,8 @@ public:
 
     void CallFunction(const char* functionName, void* userdata);
     void CallFunction(const char* functionName);
+    void CallTrigger(const char* functionName, Trigger* pTrigger, Entity* pEntity);
+
     void Interpret(const char* text);
 private:
     void DefineFunctions(lua_State* L);
