@@ -5,7 +5,6 @@
 #include "EngineModule.h"
 #include "Entity.h"
 #include "TList.h"
-#include "WorldEvent.h"
 
 /* ====== DEFINE ====== */
 #define WORLD_SWITCH_STRSIZE 32
@@ -18,7 +17,6 @@ class World final : EngineModule
     TList<Entity*> m_lstEntity;
     TList<Entity*> m_lstRemove;
     TList<Weapon*> m_lstWeapon;
-    TList<WorldEvent> m_lstEvent;
 
     SRect m_groundBounds;
     char m_switchLocation[WORLD_SWITCH_STRSIZE];
@@ -37,7 +35,6 @@ public:
     void PushEntity(Entity* pEntity) { if (pEntity) m_lstEntity.Push(pEntity); }
     void RemoveEntity(Entity* pEntity) { if (pEntity) m_lstRemove.Push(pEntity); }
     void PushWeapon(Weapon* pWeapon) { if (pWeapon) m_lstWeapon.Push(pWeapon); }
-    void PushEvent(WorldEvent& event) { m_lstEvent.Push(event); }
 
     const SRect& GetGroundBounds() const { return m_groundBounds; }
     TList<Entity*>& GetEntityList() { return m_lstEntity; }
@@ -46,12 +43,10 @@ public:
 private:
     void HandleSwitchLocation();
     void UpdateEntities(f32 dtTime);
-    void HandleEvents();
     void RemoveEntities();
 
     void CleanEntities();
     void CleanWeapons();
-    void CleanEvents();
 };
 
 #endif // WORLD_H_

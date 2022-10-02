@@ -3,9 +3,10 @@
 
 /* ====== INCLUDES ====== */
 #include "EngineModule.h"
-#include "WorldEvent.h"
 
 /* ====== STRUCTURES ====== */
+class Actor;
+
 class DamageManager final : public EngineModule
 {
 public:
@@ -14,7 +15,7 @@ public:
     b32f StartUp();
     void ShutDown(); 
 
-    void HandleAttack(const AttackEvent& event);
+    void HandleAttack(const Actor* pAttacker);
 };
 
 extern DamageManager g_damageMgr;

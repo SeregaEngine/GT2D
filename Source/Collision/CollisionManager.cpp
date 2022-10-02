@@ -29,7 +29,7 @@ b32f CollisionManager::IsOnGround(const Vector2& vPoint, const FRect& hitBox) co
     return false;
 }
 
-void CollisionManager::CheckCollision(const Vector2& vPoint, const FRect& hitBox, TList<Entity*>& lstEntity, Entity* pExcept) const
+void CollisionManager::CheckCollision(const Vector2& vPoint, const FRect& hitBox, TList<Entity*>& lstEntity, const Entity* pExcept) const
 {
     // Get check hitbox in world coords
     FRect checkRect = {
@@ -65,7 +65,7 @@ void CollisionManager::CheckCollision(const Vector2& vPoint, const FRect& hitBox
     }
 }
 
-void CollisionManager::CheckCollision(const Vector2& vPoint, const FRect& hitBox, b32f (*predicate)(Entity*, void*), void* userdata, TList<Entity*>& lstEntity, Entity* pExcept) const
+void CollisionManager::CheckCollision(const Vector2& vPoint, const FRect& hitBox, b32f (*predicate)(Entity*, void*), void* userdata, TList<Entity*>& lstEntity, const Entity* pExcept) const
 {
     // Get check hitbox in world coords
     FRect checkRect = {

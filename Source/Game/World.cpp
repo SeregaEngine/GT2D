@@ -39,7 +39,6 @@ void World::ShutDown()
 {
     CleanEntities();
     CleanWeapons();
-    CleanEvents();
 
     AddNote(PR_NOTE, "World shut down");
 }
@@ -48,7 +47,6 @@ void World::Update(f32 dtTime)
 {
     HandleSwitchLocation();
     UpdateEntities(dtTime);
-    HandleEvents();
     RemoveEntities();
 }
 
@@ -69,7 +67,6 @@ void World::HandleSwitchLocation()
 
     // Clean current location stuff
     CleanEntities();
-    CleanEvents();
 
     // Call switch location function
     g_scriptModule.CallFunction(m_switchLocation);
@@ -81,40 +78,6 @@ void World::UpdateEntities(f32 dtTime)
     auto end = m_lstEntity.End();
     for (auto it = m_lstEntity.Begin(); it != end; ++it)
         it->data->Update(dtTime);
-}
-
-void World::HandleEvents()
-{
-    // TODO(sean) Make polymorphic events instead of switch case
-    // Handle events
-    auto end = m_lstEvent.End();
-    for (auto it = m_lstEvent.Begin(); it != end; ++it)
-    {
-        switch (it->data.type)
-        {
-
-        case WORLD_EVENT_ATTACK:
-        {
-            const Weapon* pWeapon = it->data.attack.pAttacker->GetWeapon();
-            if (pWeapon)
-            {
-                g_damageMgr.HandleAttack(it->data.attack);
-                pWeapon->PlaySound();
-            }
-        } break;
-
-        case WORLD_EVENT_DEATH:
-        {
-            // TODO(sean)
-        } break;
-
-        default: {} break;
-
-        }
-    }
-
-    // Free memory
-    m_lstEvent.Clean();
 }
 
 void World::RemoveEntities()
@@ -154,7 +117,3 @@ void World::CleanWeapons()
     m_lstWeapon.Clean();
 }
 
-void World::CleanEvents()
-{
-    m_lstEvent.Clean();
-}

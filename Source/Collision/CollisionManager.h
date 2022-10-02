@@ -20,10 +20,10 @@ public:
 
     b32f IsOnGround(const Vector2& vPoint, const FRect& hitBox) const;
     void CheckCollision(const Vector2& vPoint, const FRect& hitBox,
-                        TList<Entity*>& lstEntity, Entity* pExcept = nullptr) const;
+                        TList<Entity*>& lstEntity, const Entity* pExcept = nullptr) const;
     void CheckCollision(const Vector2& vPoint, const FRect& hitBox,
                         b32f (*predicate)(Entity*, void*), void* userdata,
-                        TList<Entity*>& lstEntity, Entity* pExcept = nullptr) const;
+                        TList<Entity*>& lstEntity, const Entity* pExcept = nullptr) const;
 };
 
 extern CollisionManager g_collisionMgr;

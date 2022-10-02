@@ -67,9 +67,7 @@ b32f Actor::HandleDeath()
 {
     if (m_health <= 0)
     {
-        WorldEvent event = { WORLD_EVENT_DEATH, this };
-        g_game.GetWorld().PushEvent(event);
-
+        // TODO(sean) Death sound
         g_game.GetWorld().RemoveEntity(this);
         return true;
     }
@@ -154,7 +152,7 @@ void Actor::CommandAttack()
 {
     /* We use animations to detect on which state of attack we are */
 
-    // If true then send world event
+    // If true - play sound
     b32f bHit = false;
 
     // If we already attacking
@@ -180,16 +178,10 @@ void Actor::CommandAttack()
         m_actorState = ACTOR_STATE_ATTACK;
     }
 
-    // Send world event
+    // Play sound
     if (bHit)
     {
-        // Init
-        WorldEvent event;
-        event.type = WORLD_EVENT_ATTACK;
-        event.attack.pAttacker = this;
-
-        // Push
-        g_game.GetWorld().PushEvent(event);
+        //TODO(sean)
     }
 }
 
