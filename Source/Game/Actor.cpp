@@ -205,6 +205,8 @@ void Actor::HandleAnimation(f32 dtTime)
         m_pAnim = m_aActorAnims[ACTOR_ANIMATION_IDLE];
         m_animFrame = 0;
         m_animElapsed = 0.0f;
+        if (!m_bLookRight)
+            m_flip = SDL_FLIP_HORIZONTAL;
         return;
     }
 

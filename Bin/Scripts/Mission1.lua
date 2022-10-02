@@ -27,7 +27,7 @@ function onEnter()
     GT_LOG(PR_NOTE, "Mission1 entered")
 
     defineResources()
-    onEnterL1()
+    onEnterL3()
 end
 
 function defineResources()
@@ -125,20 +125,42 @@ function onEnterL3()
     Entities["DarkLord"] = addActor(20, 60, GW_ACTOR, GH_ACTOR, Textures["DarkLord"])
     setActorWeapon(Entities["DarkLord"], Weapons["Fist"])
     setActorState(Entities["DarkLord"], States["DarkLordDialog"])
+    turnActorLeft(Entities["DarkLord"])
 
-    Dialogs["DarkLordDialog1"] = addDialog(GW_DIALOG, GH_DIALOG, "What are you doing here, Petrol?",
+    -- Dialogs
+    Dialogs["DarkLordDialog1"] = addDialog(GW_DIALOG, GH_DIALOG, "Hmm?",
                                            1, Entities["DarkLord"], Textures["DialogSquare"])
-    Dialogs["PlayerDialog1"] = addDialog(GW_DIALOG, GH_DIALOG, "Just walking around, my lord",
+    Dialogs["DarkLordDialog2"] = addDialog(GW_DIALOG, GH_DIALOG, "What the hell? Who are you?!",
+                                           1, Entities["DarkLord"], Textures["DialogSquare"])
+    Dialogs["DarkLordDialog3"] = addDialog(GW_DIALOG, GH_DIALOG, "Pamella!!!",
+                                           1, Entities["DarkLord"], Textures["DialogSquare"])
+    Dialogs["DarkLordDialog4"] = addDialog(GW_DIALOG, GH_DIALOG, "Call the police! There's a bum in our garage",
+                                           1, Entities["DarkLord"], Textures["DialogSquare"])
+    Dialogs["DarkLordDialog5"] = addDialog(GW_DIALOG, GH_DIALOG, "I'm not gonna give you my wheels, asshole!",
+                                           1, Entities["DarkLord"], Textures["DialogSquare"])
+    Dialogs["PlayerDialog1"] = addDialog(GW_DIALOG, GH_DIALOG, "I came for your wheels, dawg",
                                          1, Player, Textures["DialogSquare"])
-    Dialogs["DarkLordDialog2"] = addDialog(GW_DIALOG, GH_DIALOG, "Let's fight for these wheels, Petrol!",
-                                           1, Entities["DarkLord"], Textures["DialogSquare"])
 
     DialogL3_1 = {
         Dialogs["DarkLordDialog1"],
-        Dialogs["PlayerDialog1"],
         Dialogs["DarkLordDialog2"],
+        Dialogs["PlayerDialog1"],
+        Dialogs["DarkLordDialog3"],
+        Dialogs["DarkLordDialog4"],
+        Dialogs["DarkLordDialog5"],
     }
-    DialogStateL3_1 = 1
+    DialogStateL3_1 = 0
+
+    -- States
+	PlayerComing = {
+		{ ["Task"] = GTT_GOTO, ["X"] = 185, ["Y"] = 50 },
+		{ ["Task"] = GTT_GOTO, ["X"] = 185, ["Y"] = 35 },
+		{ ["Task"] = GTT_NONE }
+	}
+	PlayerComingState = 0
+	PlayerComingTicks = 0
+
+	DarkLordDialogTicks = 0
 
     -- Camera
     setCameraBounds(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
@@ -236,14 +258,6 @@ end
 ---- <<<< Triggers
 
 ---- >>>> AI States
-local PlayerComing = {
-    { ["Task"] = GTT_GOTO, ["X"] = 185, ["Y"] = 50 },
-    { ["Task"] = GTT_GOTO, ["X"] = 185, ["Y"] = 35 },
-    { ["Task"] = GTT_NONE }
-}
-local PlayerComingState = 0
-local PlayerComingTicks
-
 function statePlayerComing(Actor)
     Task = getActorCurrentTask(Actor)
     Status = checkActorTask(Actor)
@@ -256,7 +270,7 @@ function statePlayerComing(Actor)
 
     if Status == GTT_DONE or PlayerComingState == 0 then
         PlayerComingState = PlayerComingState + 1
-		setActorTask(Actor, PlayerComing[PlayerComingState].Task, PlayerComing[PlayerComingState].X, PlayerComing[PlayerComingState].Y)
+        setActorTask(Actor, PlayerComing[PlayerComingState].Task, PlayerComing[PlayerComingState].X, PlayerComing[PlayerComingState].Y)
     end
 
     local Elapsed = getTicks() - PlayerComingTicks
@@ -271,27 +285,41 @@ function statePlayerComing(Actor)
 end
 
 function statePlayerDialog(Actor)
-    if DialogStateL3_1 == 2 then
+    if DialogStateL3_1 == 3 then
         if hasWorldEntity(DialogL3_1[DialogStateL3_1]) then
             runDialog(DialogL3_1[DialogStateL3_1])
         else
             DialogStateL3_1 = DialogStateL3_1 + 1
         end
-    elseif DialogStateL3_1 > 3 then
+    elseif DialogStateL3_1 > #DialogL3_1 then
         setActorState(Player, nil)
         PlayerControllable = true
     end
 end
 
 function stateDarkLordDialog(Actor)
-    if DialogStateL3_1 == 1 or DialogStateL3_1 == 3 then
+    -- Handle dialog
+    if (DialogStateL3_1 >= 1 and DialogStateL3_1 <= 2) or (DialogStateL3_1 >= 4 and DialogStateL3_1 <= 6) then
         if hasWorldEntity(DialogL3_1[DialogStateL3_1]) then
             runDialog(DialogL3_1[DialogStateL3_1])
         else
             DialogStateL3_1 = DialogStateL3_1 + 1
         end
-    elseif DialogStateL3_1 > 3 then
+    elseif DialogStateL3_1 > #DialogL3_1 then
         setActorState(Actor, States["KillPlayer"])
+        return
+    end
+
+    -- Handle behaviour
+    if DialogStateL3_1 == 0 then
+        if DarkLordDialogTicks == 0 then
+            DarkLordDialogTicks = getTicks()
+        end
+
+        if getTicks() - DarkLordDialogTicks >= 1000 then
+            DialogStateL3_1 = 1
+            turnActorRight(Actor)
+        end
     end
 end
 

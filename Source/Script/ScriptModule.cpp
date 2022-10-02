@@ -145,6 +145,7 @@ void ScriptModule::DefineFunctions(lua_State* L)
     lua_register(L, "setActorHealth", _setActorHealth);
     lua_register(L, "getActorHealth", _getActorHealth);
     lua_register(L, "toggleActorGodMode", _toggleActorGodMode);
+    lua_register(L, "isActorLookRight", _isActorLookRight);
     lua_register(L, "turnActorLeft", _turnActorLeft);
     lua_register(L, "turnActorRight", _turnActorRight);
     lua_register(L, "setActorState", _setActorState);
@@ -1277,6 +1278,25 @@ s32 ScriptModule::_toggleActorGodMode(lua_State* L)
     }
 
     return 0;
+}
+
+s32 ScriptModule::_isActorLookRight(lua_State* L)
+{
+    if (!LuaExpect(L, "isActorLookRight", 1))
+        return -1;
+
+    Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
+    if (pActor)
+    {
+        lua_pushboolean(L, pActor->m_bLookRight);
+    }
+    else
+    {
+        LuaNote(PR_WARNING, "isActorLookRight() called with null actor");
+        lua_pushboolean(L, true);
+    }
+
+    return 1;
 }
 
 s32 ScriptModule::_turnActorLeft(lua_State* L)
