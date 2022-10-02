@@ -85,10 +85,6 @@ void World::RemoveEntities()
     auto end = m_lstRemove.End();
     for (auto it = m_lstRemove.Begin(); it != end; ++it)
     {
-        // Detach camera
-        if (it->data == g_graphicsModule.GetCamera().GetAttached())
-            g_graphicsModule.GetCamera().Detach();
-
         // Remove from entity list
         m_lstEntity.Remove(it->data);
 

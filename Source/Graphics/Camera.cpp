@@ -1,7 +1,10 @@
+/* ======= INCLUDES ====== */
 #include "Entity.h"
+#include "Game.h"
 
 #include "Camera.h"
 
+/* ======= METHODS ====== */
 void Camera::Detach()
 {
     s32 x, y;
@@ -11,11 +14,15 @@ void Camera::Detach()
     m_pAttached = nullptr;
 }
 
-void Camera::GetPosition(s32& x, s32& y) const
+void Camera::GetPosition(s32& x, s32& y)
 {
+    // Check if our entity was attached
+    if (m_pAttached && !g_game.GetWorld().HasEntity(m_pAttached))
+        m_pAttached = nullptr;
+
     if (m_pAttached)
     {
-        Vector2 vPosition = m_pAttached->GetPosition();
+        const Vector2& vPosition = m_pAttached->GetPosition();
 
         x = (s32)vPosition.x - g_graphicsModule.GetScreenWidth() / 2;
         if (x < m_bounds.x1)
