@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "InputModule.h"
 #include "CollisionManager.h"
+#include "DamageManager.h"
 #include "GTUnit.h"
 #include "Weapon.h"
 
@@ -152,7 +153,6 @@ void Actor::CommandAttack()
 {
     /* We use animations to detect on which state of attack we are */
 
-    // If true - play sound
     b32f bHit = false;
 
     // If we already attacking
@@ -179,9 +179,10 @@ void Actor::CommandAttack()
     }
 
     // Play sound
-    if (bHit)
+    if (bHit && m_pWeapon)
     {
-        //TODO(sean)
+        m_pWeapon->PlaySound();
+        g_damageMgr.HandleAttack(this);
     }
 }
 
