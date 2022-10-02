@@ -38,6 +38,7 @@ function defineResources()
     Textures["Parallax"] = defineTexture("Textures/Locations/Mission1-1_Parallax.png", TW_PARALLAX, TH_PARALLAX)
 
     Textures["BrownTrashCar"] = defineTexture("Textures/Cars/BrownTrashCar.png", TW_CAR, TH_CAR)
+    Textures["BrownTrashCarWithWheels"] = defineTexture("Textures/Cars/BrownTrashCarWithWheels.png", TW_CAR, TH_CAR)
 
     Textures["Player"] = defineTexture("Textures/Actors/Player.png", TW_ACTOR, TH_ACTOR)
     Textures["DarkLord"] = defineTexture("Textures/Actors/DarkLord.png", TW_ACTOR, TH_ACTOR)
@@ -45,6 +46,8 @@ function defineResources()
 
     Textures["DialogSquare"] = defineTexture("Textures/DialogBox/Square.png", TW_DIALOG, TH_DIALOG)
     Textures["DialogCloud"] = defineTexture("Textures/DialogBox/Cloud.png", TW_DIALOG, TH_DIALOG)
+
+    Textures["Wheels"] = defineTexture("Textures/Props/Wheels.png", TW_PROP, TH_PROP)
 
     -- Sounds
     Sounds["Punch1"] = defineSound("Sounds/Punch1.wav")
@@ -63,10 +66,11 @@ function defineResources()
     Weapons["Fist"] = defineWeapon(Anims["Attack"], 4, 8, 8, 1.0, Sounds["Punch1"], Sounds["Punch2"], Sounds["Punch3"], Sounds["Punch4"])
 
     -- States
-    States["KillPlayer"] = defineState("stateKillPlayer")
+    States["PlayerComing"] = defineState("statePlayerComing")
     States["PlayerDialog"] = defineState("statePlayerDialog")
     States["DarkLordDialog"] = defineState("stateDarkLordDialog")
-    States["PlayerComing"] = defineState("statePlayerComing")
+    States["KillPlayer"] = defineState("stateKillPlayer")
+    States["PlayerFightingForWheels"] = defineState("statePlayerFightingForWheels")
 end
 
 function onEnterL1()
@@ -90,6 +94,16 @@ function onEnterL1()
     Player = Entities["Player"]
 
     Triggers["SwitchLocation"] = addTrigger(GROUND_WIDTH - 80, GROUND_Y + 30, 20, 100, Player, "triggerPlayerComing")
+
+    -- States
+	PlayerComing = {
+		{ ["Task"] = GTT_GOTO, ["X"] = 185, ["Y"] = 50 },
+		{ ["Task"] = GTT_GOTO, ["X"] = 185, ["Y"] = 35 },
+		{ ["Task"] = GTT_NONE }
+	}
+	PlayerComingState = 0
+	PlayerComingTicks = 0
+
 
     -- Camera
     setCameraBounds(0, 0, GROUND_WIDTH, SCREEN_HEIGHT)
@@ -118,7 +132,11 @@ function onEnterL3()
     Player = Entities["Player"]
     PlayerControllable = false
     setActorWeapon(Player, Weapons["Fist"])
-    setActorState(Player, States["PlayerDialog"])
+    -- DEBUG(sean)
+    --setActorState(Player, States["PlayerDialog"])
+    setActorState(Player, States["PlayerFightingForWheels"])
+    PlayerControllable = true
+
     toggleActorGodMode(Player, true)
     turnActorLeft(Player)
 
@@ -126,6 +144,10 @@ function onEnterL3()
     setActorWeapon(Entities["DarkLord"], Weapons["Fist"])
     setActorState(Entities["DarkLord"], States["DarkLordDialog"])
     turnActorLeft(Entities["DarkLord"])
+
+    Entities["Car"] = addEntity(76, 55, 68, 20, Textures["BrownTrashCarWithWheels"])
+    setEntityRenderMode(Entities["Car"], RENDER_MODE_BACKGROUND)
+    setEntityZIndex(Entities["Car"], 3)
 
     -- Dialogs
     Dialogs["DarkLordDialog1"] = addDialog(GW_DIALOG, GH_DIALOG, "Hmm?",
@@ -152,14 +174,6 @@ function onEnterL3()
     DialogStateL3_1 = 0
 
     -- States
-	PlayerComing = {
-		{ ["Task"] = GTT_GOTO, ["X"] = 185, ["Y"] = 50 },
-		{ ["Task"] = GTT_GOTO, ["X"] = 185, ["Y"] = 35 },
-		{ ["Task"] = GTT_NONE }
-	}
-	PlayerComingState = 0
-	PlayerComingTicks = 0
-
 	DarkLordDialogTicks = 0
 
     -- Camera
@@ -247,7 +261,6 @@ end
 function onRenderL3()
     -- Background
     drawFrame(RENDER_MODE_BACKGROUND, 0, false, 0,0,SCREEN_WIDTH,SCREEN_HEIGHT, Textures["Background3"], 0, 0)
-    drawFrame(RENDER_MODE_BACKGROUND, 1, false, 42,45,68,20, Textures["BrownTrashCar"], 0, 0)
 end
 ---- <<<< Render
 
@@ -292,7 +305,7 @@ function statePlayerDialog(Actor)
             DialogStateL3_1 = DialogStateL3_1 + 1
         end
     elseif DialogStateL3_1 > #DialogL3_1 then
-        setActorState(Player, nil)
+        setActorState(Player, States["PlayerFightingForWheels"])
         PlayerControllable = true
     end
 end
@@ -345,6 +358,27 @@ function stateKillPlayer(Actor)
             setActorTask(Actor, GTT_NONE)
             setActorState(Actor, nil)
         end
+    end
+end
+
+function statePlayerFightingForWheels(Actor)
+    if not hasWorldEntity(Entities["DarkLord"]) then
+        -- Remove wheels from the car
+        setEntityTexture(Entities["Car"], Textures["BrownTrashCar"])
+
+        -- Add wheels
+        for i = 1,4 do
+            local Wheel = addEntity(20 + GW_PROP * (i - 1), 60, GW_PROP, GH_PROP, Textures["Wheels"])
+            setEntityRenderMode(Wheel, RENDER_MODE_BACKGROUND)
+            setEntityZIndex(Wheel, 10+i)
+
+            if i % 2 == 0 then
+                setEntityAnimFrame(Wheel, 1)
+            end
+        end
+
+        -- Leave this state
+        setActorState(Actor, nil)
     end
 end
 ---- <<<< AI States

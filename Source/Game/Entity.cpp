@@ -43,6 +43,6 @@ void Entity::Draw()
     if (m_pAnim)
         g_graphicsModule.DrawFrame(m_renderMode, m_zIndex, m_bHUD, dstRect, m_pTexture, m_pAnim->row, m_animFrame, m_angle, m_flip);
     else
-        g_graphicsModule.DrawFrame(m_renderMode, m_zIndex, m_bHUD, dstRect, m_pTexture, 0, 0, m_angle, m_flip);
+        g_graphicsModule.DrawFrame(m_renderMode, m_zIndex, m_bHUD, dstRect, m_pTexture, 0, m_animFrame, m_angle, m_flip);
 }
 

@@ -326,18 +326,14 @@ void ScriptModule::UnloadMission()
 
 void ScriptModule::UpdateMission(f32 dtTime)
 {
-    // Check if we have onUpdate() function
     lua_getglobal(m_pMission, "onUpdate");
-    if (!lua_isfunction(m_pMission, -1))
-    {
-        AddNote(PR_ERROR, "UpdateMission(): There're no lua <onUpdate()> function");
-        lua_pop(m_pMission, 1); // Pop "onUpdate"
-        return;
-    }
-
-    // Call onUpdate()
     lua_pushnumber(m_pMission, dtTime);
-    lua_pcall(m_pMission, 1, 0, 0);
+
+    if (lua_pcall(m_pMission, 1, 0, 0) != 0)
+    {
+        LuaNote(PR_ERROR, "UpdateMission(): %s", lua_tostring(m_pMission, 1));
+        lua_pop(m_pMission, 1);
+    }
 }
 
 void ScriptModule::RenderMission()
@@ -354,18 +350,15 @@ void ScriptModule::CallFunction(const char* functionName, void* userdata)
         return;
     }
 
-    // Get function
-    lua_getglobal(m_pMission, functionName);
-    if (!lua_isfunction(m_pMission, -1))
-    {
-        lua_pop(m_pMission, 1);
-        AddNote(PR_WARNING, "CallFunction(): there're no %s function", functionName);
-        return;
-    }
-
     // Call function
+    lua_getglobal(m_pMission, functionName);
     lua_pushlightuserdata(m_pMission, userdata);
-    lua_pcall(m_pMission, 1, 0, 0);
+
+    if (lua_pcall(m_pMission, 1, 0, 0) != 0)
+    {
+        LuaNote(PR_ERROR, "CallFunction(): Error when function %s called: %s", functionName, lua_tostring(m_pMission, 1));
+        lua_pop(m_pMission, 1);
+    }
 }
 
 void ScriptModule::CallFunction(const char* functionName)
@@ -377,17 +370,13 @@ void ScriptModule::CallFunction(const char* functionName)
         return;
     }
 
-    // Get function
-    lua_getglobal(m_pMission, functionName);
-    if (!lua_isfunction(m_pMission, -1))
-    {
-        lua_pop(m_pMission, 1);
-        AddNote(PR_WARNING, "CallFunction(): there're no %s function", functionName);
-        return;
-    }
-
     // Call function
-    lua_pcall(m_pMission, 0, 0, 0);
+    lua_getglobal(m_pMission, functionName);
+    if (lua_pcall(m_pMission, 0, 0, 0) != 0)
+    {
+        LuaNote(PR_ERROR, "CallFunction(): Error when function %s called: %s", functionName, lua_tostring(m_pMission, 1));
+        lua_pop(m_pMission, 1);
+    }
 }
 
 void ScriptModule::Interpret(const char* text)
