@@ -32,6 +32,7 @@ enum eActorTeam
 
 /* ====== STRUCTURES ====== */
 class Weapon;
+struct GT_Sound;
 
 class Actor final : public Entity
 {
@@ -45,6 +46,8 @@ public:
 
     b32 m_bGodMode;
     b32 m_bLookRight;
+
+    GT_Sound* m_pDeathSound;
 
     f32 m_attackRate;
     const Weapon* m_pWeapon;

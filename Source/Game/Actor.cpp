@@ -41,6 +41,8 @@ void Actor::Init(const Vector2& vPosition, s32 width, s32 height, const GT_Textu
     m_health = ACTOR_DEFAULT_HEALTH;
     m_bLookRight = true;
 
+    m_pDeathSound = nullptr;
+
     m_attackRate = ACTOR_DEFAULT_ATTACK_RATE;
     m_pWeapon = nullptr;
 
@@ -68,7 +70,8 @@ b32f Actor::HandleDeath()
 {
     if (m_health <= 0)
     {
-        // TODO(sean) Death sound
+        if (m_pDeathSound)
+            g_soundModule.PlaySound(m_pDeathSound);
         g_game.GetWorld().RemoveEntity(this);
         return true;
     }

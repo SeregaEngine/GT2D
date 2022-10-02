@@ -158,6 +158,8 @@ private:
     static s32 _checkActorTask(lua_State* L);
     static s32 _getActorCurrentTask(lua_State* L);
 
+    static s32 _setActorDeathSound(lua_State* L);
+
     static s32 _setActorWeapon(lua_State* L);
     static s32 _getActorWeapon(lua_State* L);
 

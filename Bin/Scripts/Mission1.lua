@@ -61,6 +61,8 @@ function defineResources()
     Sounds["Punch3"] = defineSound("Sounds/Punch3.wav")
     Sounds["Punch4"] = defineSound("Sounds/Punch4.wav")
 
+    Sounds["ActorDeath"] = defineSound("Sounds/ActorDyingSound.wav")
+
     -- Music
     Music["Ambient1"] = defineMusic("Music/VnatureBgSound.wav")
     Music["Ambient3"] = defineMusic("Music/MainGarageAmbient.wav")
@@ -140,14 +142,15 @@ function onEnterL3()
     PlayerControllable = false
     setActorWeapon(Player, Weapons["Fist"])
     setActorState(Player, States["PlayerDialog"])
-
     toggleActorGodMode(Player, true)
     turnActorLeft(Player)
+    setActorDeathSound(Player, Sounds["ActorDeath"])
 
     Entities["DarkLord"] = addActor(20, 60, GW_ACTOR, GH_ACTOR, Textures["DarkLord"])
     setActorWeapon(Entities["DarkLord"], Weapons["Fist"])
     setActorState(Entities["DarkLord"], States["DarkLordDialog"])
     turnActorLeft(Entities["DarkLord"])
+    setActorDeathSound(Entities["DarkLord"], Sounds["ActorDeath"])
 
     Entities["Car"] = addEntity(76, 55, 68, 20, Textures["BrownTrashCarWithWheels"])
     setEntityRenderMode(Entities["Car"], RENDER_MODE_BACKGROUND)

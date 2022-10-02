@@ -153,6 +153,7 @@ void ScriptModule::DefineFunctions(lua_State* L)
     lua_register(L, "sendActorCmd", _sendActorCmd);
     lua_register(L, "checkActorTask", _checkActorTask);
     lua_register(L, "getActorCurrentTask", _getActorCurrentTask);
+    lua_register(L, "setActorDeathSound", _setActorDeathSound);
     lua_register(L, "setActorWeapon", _setActorWeapon);
     lua_register(L, "getActorAttackRate", _getActorAttackRate);
     lua_register(L, "setActorAttackRate", _setActorAttackRate);
@@ -1493,6 +1494,25 @@ s32 ScriptModule::_getActorCurrentTask(lua_State* L)
     }
 
     return 1;
+}
+
+s32 ScriptModule::_setActorDeathSound(lua_State* L)
+{
+    if (!LuaExpect(L, "setActorDeathSound", 2))
+        return -1;
+
+    Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
+    if (pActor)
+    {
+        pActor->m_pDeathSound = (GT_Sound*)lua_touserdata(L, 2);
+    }
+    else
+    {
+        LuaNote(PR_WARNING, "setActorDeathSound() called with null actor");
+        return -1;
+    }
+
+    return 0;
 }
 
 s32 ScriptModule::_setActorWeapon(lua_State* L)
