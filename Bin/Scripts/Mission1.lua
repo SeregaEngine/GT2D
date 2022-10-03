@@ -157,20 +157,13 @@ function onEnterL3()
     setEntityZIndex(Entities["Car"], 3)
 
     -- Dialogs
-    Dialogs["DarkLordDialog1"] = addDialog(GW_DIALOG, GH_DIALOG, "Hmm?",
-                                           1, Entities["DarkLord"], Textures["DialogSquare"])
-    Dialogs["DarkLordDialog2"] = addDialog(GW_DIALOG, GH_DIALOG, "What the hell? Who are you?!",
-                                           1, Entities["DarkLord"], Textures["DialogSquare"])
-    Dialogs["DarkLordDialog3"] = addDialog(GW_DIALOG, GH_DIALOG, "Pamella!!!",
-                                           1, Entities["DarkLord"], Textures["DialogSquare"])
-    Dialogs["DarkLordDialog4"] = addDialog(GW_DIALOG, GH_DIALOG, "Call the police! There's a bum in our garage",
-                                           1, Entities["DarkLord"], Textures["DialogSquare"])
-    Dialogs["DarkLordDialog5"] = addDialog(GW_DIALOG, GH_DIALOG, "I'm not gonna give you my wheels, asshole!",
-                                           1, Entities["DarkLord"], Textures["DialogSquare"])
-    Dialogs["PlayerDialog1"] = addDialog(GW_DIALOG, GH_DIALOG, "I came for your wheels, dawg",
-                                         1, Player, Textures["DialogSquare"])
-    Dialogs["PlayerDialogAfterFight"] = addDialog(GW_DIALOG, GH_DIALOG, "I should take these wheels and run away from here",
-                                         1, Player, Textures["DialogSquare"])
+    Dialogs["DarkLordDialog1"] = addDialog(GW_DIALOG, GH_DIALOG, "Hmm?", 1, Entities["DarkLord"], Textures["DialogSquare"])
+    Dialogs["DarkLordDialog2"] = addDialog(GW_DIALOG, GH_DIALOG, "What the hell? Who are you?!", 1, Entities["DarkLord"], Textures["DialogSquare"])
+    Dialogs["DarkLordDialog3"] = addDialog(GW_DIALOG, GH_DIALOG, "Pamella!!!", 1, Entities["DarkLord"], Textures["DialogSquare"])
+    Dialogs["DarkLordDialog4"] = addDialog(GW_DIALOG, GH_DIALOG, "Call the police! There's a bum in our garage", 1, Entities["DarkLord"], Textures["DialogSquare"])
+    Dialogs["DarkLordDialog5"] = addDialog(GW_DIALOG, GH_DIALOG, "I'm not gonna give you my wheels, asshole!", 1, Entities["DarkLord"], Textures["DialogSquare"])
+    Dialogs["PlayerDialog1"] = addDialog(GW_DIALOG, GH_DIALOG, "I came for your wheels, dawg", 1, Player, Textures["DialogSquare"])
+    Dialogs["PlayerDialogAfterFight"] = addDialog(GW_DIALOG, GH_DIALOG, "I should take these wheels and run away from here", 1, Player, Textures["DialogSquare"])
 
     DialogL3_1 = {
         Dialogs["DarkLordDialog1"],
@@ -183,6 +176,7 @@ function onEnterL3()
     DialogStateL3_1 = 0
 
     -- States
+    TriggerToWheel = {}
 	DarkLordDialogTicks = 0
 	FadeTicks = 0
 
@@ -251,7 +245,9 @@ end
 ---- >>>> Render
 function onRenderL1()
     -- Background
-    drawFrame(RENDER_MODE_BACKGROUND, 0, false, 0,0,SCREEN_WIDTH*2,SCREEN_HEIGHT, Textures["Parallax"], 0, 0)
+    X,Y = getCameraPosition()
+    drawFrame(RENDER_MODE_BACKGROUND, 0, true, -X/2,-Y/2,GW_PARALLAX,GH_PARALLAX, Textures["Parallax"], 0, 0)
+
     drawFrame(RENDER_MODE_BACKGROUND, 1, false, 0,0,SCREEN_WIDTH,SCREEN_HEIGHT, Textures["Background1"], 0, 0)
     drawFrame(RENDER_MODE_BACKGROUND, 1, false, SCREEN_WIDTH,0,SCREEN_WIDTH,SCREEN_HEIGHT, Textures["Background1"], 0, 1)
 end
@@ -267,7 +263,6 @@ function triggerPlayerComing(Trigger, Entity)
     setActorState(Entity, States["PlayerComing"])
 end
 
-local TriggerToWheel = {}
 function triggerTakeWheel(Trigger, Entity)
     removeEntity(TriggerToWheel[Trigger])
 end
@@ -368,7 +363,6 @@ function stateKillPlayer(Actor)
     end
 end
 
-local Wheels = {}
 function statePlayerFightingForWheels(Actor)
     -- Waiting for Dark Lord's death
     if hasWorldEntity(Entities["DarkLord"]) then
@@ -401,14 +395,14 @@ function statePlayerFightingForWheels(Actor)
 	for i = 1,4 do
 		local X = 20 + GW_PROP * (i - 1)
 		local Y = 60
-		Wheels[i] = addEntity(X, Y, GW_PROP, GH_PROP, Textures["Wheels"])
-		setEntityRenderMode(Wheels[i], RENDER_MODE_BACKGROUND)
-		setEntityZIndex(Wheels[i], 10+i)
+		local Wheel = addEntity(X, Y, GW_PROP, GH_PROP, Textures["Wheels"])
+		setEntityRenderMode(Wheel, RENDER_MODE_BACKGROUND)
+		setEntityZIndex(Wheel, 10+i)
 
-		TriggerToWheel[addTrigger(X, Y, GW_PROP/4, GH_PROP/4, Actor, "triggerTakeWheel")] = Wheels[i]
+		TriggerToWheel[addTrigger(X, Y, GW_PROP/4, GH_PROP/4, Actor, "triggerTakeWheel")] = Wheel
 
 		if i % 2 == 0 then
-			setEntityAnimFrame(Wheels[i], 1)
+			setEntityAnimFrame(Wheel, 1)
 		end
 	end
 

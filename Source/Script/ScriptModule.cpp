@@ -608,11 +608,9 @@ s32 ScriptModule::_getCameraPosition(lua_State* L)
 
     s32 x, y;
     g_graphicsModule.GetCamera().GetPosition(x, y);
-    x = (s32)GTU::ScreenToUnitX((f32)x);
-    y = (s32)GTU::ScreenToUnitY((f32)y);
 
-    lua_pushinteger(L, x);
-    lua_pushinteger(L, y);
+    lua_pushnumber(L, GTU::ScreenToUnitX((f32)x));
+    lua_pushnumber(L, GTU::ScreenToUnitY((f32)y));
 
     return 2;
 }
