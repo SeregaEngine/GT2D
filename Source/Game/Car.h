@@ -24,7 +24,7 @@ public:
     void PutActor(Actor* pActor, s32 place);
     void EjectActor(s32 place);
 private:
-    void HandleActorPosition(s32 place);
+    void HandleActor(s32 place);
 };
 
 #endif // CAR_H_

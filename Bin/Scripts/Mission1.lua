@@ -99,12 +99,12 @@ function onEnterL1()
     setGroundBounds(GROUND_X, GROUND_Y, GROUND_WIDTH, GROUND_HEIGHT)
 
     -- Entities
-    Entities["Player"] = addActor(62, 60, GW_ACTOR, GH_ACTOR, Textures["Player"])
+    Entities["Player"] = addActor(45, 50, GW_ACTOR, GH_ACTOR, Textures["Player"])
     toggleActorGodMode(Entities["Player"], true)
     setActorWeapon(Entities["Player"], Weapons["Fist"])
     Player = Entities["Player"]
 
-    Entities["Zhenek"] = addActor(18, 40, GW_ACTOR, GH_ACTOR, Textures["Zhenek"])
+    Entities["Zhenek"] = addActor(0, 0, GW_ACTOR, GH_ACTOR, Textures["Zhenek"])
     toggleActorGodMode(Entities["Player"], true)
     -- DEBUG(sean) Make setActorAnim(Entities["Zhenek"], ACTOR_ANIMATION_INCAR, define...)
     setEntityAnim(Entities["Zhenek"], defineAnimation(4, 2, 1000.0 / 0.5))
@@ -113,9 +113,9 @@ function onEnterL1()
     setEntityZIndex(Dialog, 1)
     runDialog(Dialog)
 
-    Entities["Car"] = addCar(15, 70, 90, 30, Textures["TrashCar"])
-    setCarPlacePosition(Entities["Car"], 1, 0, 0)
-    putActorInCar(Entities["Zhenek"], Entities["Car"], 1)
+    Entities["Car"] = addCar(15, 66, 90, 30, Textures["TrashCar"])
+    setCarPlacePosition(Entities["Car"], 0, 0, -6)
+    putActorInCar(Entities["Zhenek"], Entities["Car"], 0)
 
     Triggers["SwitchLocation"] = addTrigger(GROUND_WIDTH - 80, GROUND_Y + 30, 20, 100, Player, "triggerPlayerComing")
 

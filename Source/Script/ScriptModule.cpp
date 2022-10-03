@@ -1644,16 +1644,38 @@ s32 ScriptModule::_addCar(lua_State* L)
 
 s32 ScriptModule::_setCarMaxSpeed(lua_State* L)
 {
-    if (!LuaExpect(L, "setCarMaxSpeed", 2))
+    if (!LuaExpect(L, "setCarMaxSpeed", 3))
         return -1;
+
+    Car* pCar = (Car*)lua_touserdata(L, 1);
+    if (!pCar)
+    {
+        LuaNote(PR_WARNING, "setCarMaxSpeed() called with null car");
+        return -1;
+    }
+    pCar->m_vMaxSpeed = {
+        GTU::UnitToScreenX((f32)lua_tonumber(L, 2)),
+        GTU::UnitToScreenY((f32)lua_tonumber(L, 3))
+    };
 
     return 0;
 }
 
 s32 ScriptModule::_setCarAcceleration(lua_State* L)
 {
-    if (!LuaExpect(L, "setCaAcceleration", 2))
+    if (!LuaExpect(L, "setCarAcceleration", 3))
         return -1;
+
+    Car* pCar = (Car*)lua_touserdata(L, 1);
+    if (!pCar)
+    {
+        LuaNote(PR_WARNING, "setCarAcceleration() called with null car");
+        return -1;
+    }
+    pCar->m_vAcceleration = {
+        GTU::UnitToScreenX((f32)lua_tonumber(L, 2)),
+        GTU::UnitToScreenY((f32)lua_tonumber(L, 3))
+    };
 
     return 0;
 }
@@ -1662,6 +1684,17 @@ s32 ScriptModule::_setCarPlacePosition(lua_State* L)
 {
     if (!LuaExpect(L, "setCarPlacePosition", 4))
         return -1;
+
+    Car* pCar = (Car*)lua_touserdata(L, 1);
+    if (!pCar)
+    {
+        LuaNote(PR_WARNING, "setCarPlacePosition() called with null car");
+        return -1;
+    }
+    pCar->m_aPlacePositions[lua_tointeger(L, 2)] = {
+        GTU::UnitToScreenX((f32)lua_tonumber(L, 3)),
+        GTU::UnitToScreenY((f32)lua_tonumber(L, 4))
+    };
 
     return 0;
 }
@@ -1686,6 +1719,14 @@ s32 ScriptModule::_ejectActorFromCar(lua_State* L)
 {
     if (!LuaExpect(L, "ejectActorFromCar", 2))
         return -1;
+
+    Car* pCar = (Car*)lua_touserdata(L, 1);
+    if (!pCar)
+    {
+        LuaNote(PR_WARNING, "ejectActorInCar() called with null car");
+        return -1;
+    }
+    pCar->EjectActor((s32)lua_tointeger(L, 2));
 
     return 0;
 }

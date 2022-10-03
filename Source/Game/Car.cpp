@@ -23,24 +23,25 @@ void Car::Init(const Vector2& vPosition, s32 width, s32 height, const GT_Texture
 
 void Car::Update(f32 dtTime)
 {
-    // Handle velocity
-    m_vVelocity += m_vAcceleration;
+    // Handle velocity and position
+    m_vVelocity += m_vAcceleration * dtTime;
     if (fabsf(m_vVelocity.x) > fabsf(m_vMaxSpeed.x) ||
         fabsf(m_vVelocity.y) > fabsf(m_vMaxSpeed.y))
+    {
         m_vVelocity = m_vMaxSpeed;
+    }
+    m_vPosition += m_vVelocity;
 
     // Handle actors
     for (i32f i = 0; i < MAX_CAR_PLACES; ++i)
     {
-        if (m_aPlaces[i] && g_game.GetWorld().HasEntity(m_aPlaces[i]))
-        {
-            // TODO(sean) Handle zIndex
-            HandleActorPosition(i);
-        }
+        if (!m_aPlaces[i])
+            continue;
+
+        if (g_game.GetWorld().HasEntity(m_aPlaces[i]))
+            HandleActor(i);
         else
-        {
             m_aPlaces[i] = nullptr;
-        }
     }
 }
 
@@ -56,10 +57,7 @@ void Car::PutActor(Actor* pActor, s32 place)
     m_aPlaces[place] = pActor;
     pActor->m_actorState = ACTOR_STATE_INCAR;
     pActor->m_renderMode = RENDER_MODE_FOREGROUND;
-    pActor->m_zIndex = m_zIndex - (place+1); // TODO(sean) But what if we flipped?
-
-    // Handle their position
-    HandleActorPosition(place);
+    HandleActor(place);
 }
 
 void Car::EjectActor(s32 place)
@@ -75,7 +73,17 @@ void Car::EjectActor(s32 place)
     m_aPlaces[place] = nullptr;
 }
 
-void Car::HandleActorPosition(s32 place)
+void Car::HandleActor(s32 place)
 {
-    m_aPlaces[place]->m_vPosition = m_vPosition += m_aPlacePositions[place];
+    // Position
+    m_aPlaces[place]->m_vPosition = m_vPosition + m_aPlacePositions[place];
+
+    // zIndex
+    if (m_flip == SDL_FLIP_NONE)
+        m_aPlaces[place]->m_zIndex = m_zIndex-1 - (place % 2 == 0 ? 1 : 0);
+    else
+        m_aPlaces[place]->m_zIndex = m_zIndex-1 - (place % 2 == 0 ? 0 : 1);
+
+    // Flip
+    m_aPlaces[place]->m_flip = m_flip;
 }
