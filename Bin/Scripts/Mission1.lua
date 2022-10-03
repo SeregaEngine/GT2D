@@ -33,11 +33,13 @@ function onEnter()
     GT_LOG(PR_NOTE, "Mission1 entered")
 
     defineResources()
-    onEnterL1()
+    onEnterL4()
 end
 
 function defineResources()
     -- Textures
+    Textures["Blank"] = defineTexture("Textures/Special/Blank.png", 1, 1)
+
     Textures["Background1"] = defineTexture("Textures/Locations/Mission1-1.png", TW_LOCATION, TH_LOCATION)
     Textures["Background2"] = defineTexture("Textures/Locations/Mission1-2.png", TW_LOCATION, TH_LOCATION)
     Textures["Background3"] = defineTexture("Textures/Locations/Mission1-3.png", TW_LOCATION, TH_LOCATION)
@@ -116,8 +118,6 @@ function onEnterL1()
     runDialog(Dialog)
 
     Entities["Car"] = addCar(15, 66, 90, 30, Textures["TrashCar"])
-    setCarMaxSpeed(Entities["Car"], 0.1, 0.1)
-    setCarAcceleration(Entities["Car"], 1, 0)
     setCarPlacePosition(Entities["Car"], 0, 0, -6)
     putActorInCar(Entities["Zhenek"], Entities["Car"], 0)
 
@@ -172,6 +172,9 @@ function onEnterL3()
     setActorState(Entities["DarkLord"], States["DarkLordDialog"])
     turnActorLeft(Entities["DarkLord"])
 
+    Entities["Pamella"] = addActor(28, 55, GW_ACTOR, GH_ACTOR, Textures["Blank"])
+    setActorAnim(Entities["Pamella"], ACTOR_ANIMATION_IDLE, nil) -- No anims
+
     Entities["Car"] = addEntity(76, 55, 68, 20, Textures["BrownTrashCarWithWheels"])
     setEntityRenderMode(Entities["Car"], RENDER_MODE_BACKGROUND)
     setEntityZIndex(Entities["Car"], 3)
@@ -182,8 +185,10 @@ function onEnterL3()
     Dialogs["DarkLordDialog3"] = addDialog(GW_DIALOG, GH_DIALOG, "Pamella!!!", 1, Entities["DarkLord"], Textures["DialogSquare"])
     Dialogs["DarkLordDialog4"] = addDialog(GW_DIALOG, GH_DIALOG, "Call the police! There's a bum in our garage", 1, Entities["DarkLord"], Textures["DialogSquare"])
     Dialogs["DarkLordDialog5"] = addDialog(GW_DIALOG, GH_DIALOG, "I'm not gonna give you my wheels, asshole!", 1, Entities["DarkLord"], Textures["DialogSquare"])
+    Dialogs["DarkLordKilledPlayer"] = addDialog(GW_DIALOG, GH_DIALOG, "You shouldn't have come", 1, Entities["DarkLord"], Textures["DialogSquare"])
     Dialogs["PlayerDialog1"] = addDialog(GW_DIALOG, GH_DIALOG, "I came for your wheels, dawg", 1, Player, Textures["DialogSquare"])
     Dialogs["PlayerDialogAfterFight"] = addDialog(GW_DIALOG, GH_DIALOG, "I should take these wheels and run away from here", 1, Player, Textures["DialogSquare"])
+    Dialogs["PamellaAsking"] = addDialog(GW_DIALOG, GH_DIALOG, "Honey?", 1, Entities["Pamella"], Textures["DialogSquare"])
 
     DialogL3_1 = {
         Dialogs["DarkLordDialog1"],
@@ -227,6 +232,15 @@ function onEnterL4()
     toggleActorGodMode(Entities["Player"], true)
     setActorWeapon(Entities["Player"], Weapons["Fist"])
     Player = Entities["Player"]
+
+    Entities["Zhenek"] = addActor(0, 0, GW_ACTOR, GH_ACTOR, Textures["Zhenek"])
+    toggleActorGodMode(Entities["Zhenek"], true)
+    setActorAnim(Entities["Zhenek"], ACTOR_ANIMATION_INCAR, Anims["ZhenekDriving"])
+
+    Entities["Car"] = addCar(SCREEN_WIDTH + 75, 66, 90, 30, Textures["TrashCar"])
+    setCarPlacePosition(Entities["Car"], 0, 0, -6)
+    putActorInCar(Entities["Zhenek"], Entities["Car"], 0)
+    turnCarLeft(Entities["Car"])
 
     -- States
     FadeTicks = 0
@@ -420,6 +434,7 @@ function stateKillPlayer(Actor)
         if Task == GTT_GOTO_ENTITY then
             setActorTask(Actor, GTT_KILL, Player)
         elseif Task == GTT_KILL then
+            runDialog(Dialogs["DarkLordKilledPlayer"])
             setActorTask(Actor, GTT_NONE)
             setActorState(Actor, nil)
         end
@@ -439,7 +454,12 @@ function statePlayerFightingForWheels(Actor)
         return
     end
 
-    -- Run and wait for dialog
+    -- Run and wait for dialogs
+    if hasWorldEntity(Dialogs["PamellaAsking"]) then
+        runDialog(Dialogs["PamellaAsking"])
+        return
+    end
+
     if hasWorldEntity(Dialogs["PlayerDialogAfterFight"]) then
         runDialog(Dialogs["PlayerDialogAfterFight"])
         return

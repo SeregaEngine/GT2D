@@ -166,6 +166,8 @@ void ScriptModule::DefineFunctions(lua_State* L)
 
     // Car
     lua_register(L, "addCar", _addCar);
+    lua_register(L, "turnCarLeft", _turnCarLeft);
+    lua_register(L, "turnCarRight", _turnCarRight);
     lua_register(L, "setCarMaxSpeed", _setCarMaxSpeed);
     lua_register(L, "setCarAcceleration", _setCarAcceleration);
     lua_register(L, "setCarPlacePosition", _setCarPlacePosition);
@@ -1694,6 +1696,38 @@ s32 ScriptModule::_addCar(lua_State* L)
     lua_pushlightuserdata(L, pCar);
 
     return 1;
+}
+
+s32 ScriptModule::_turnCarLeft(lua_State* L)
+{
+    if (!LuaExpect(L, "turnCarLeft", 1))
+        return -1;
+
+    Car* pCar = (Car*)lua_touserdata(L, 1);
+    if (!pCar)
+    {
+        LuaNote(PR_WARNING, "turnCarLeft() called with null car");
+        return -1;
+    }
+    pCar->m_flip = SDL_FLIP_HORIZONTAL;
+
+    return 0;
+}
+
+s32 ScriptModule::_turnCarRight(lua_State* L)
+{
+    if (!LuaExpect(L, "turnCarRight", 1))
+        return -1;
+
+    Car* pCar = (Car*)lua_touserdata(L, 1);
+    if (!pCar)
+    {
+        LuaNote(PR_WARNING, "turnCarRight() called with null car");
+        return -1;
+    }
+    pCar->m_flip = SDL_FLIP_NONE;
+
+    return 0;
 }
 
 s32 ScriptModule::_setCarMaxSpeed(lua_State* L)

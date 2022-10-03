@@ -176,6 +176,9 @@ private:
     // Car
     static s32 _addCar(lua_State* L);
 
+    static s32 _turnCarLeft(lua_State* L);
+    static s32 _turnCarRight(lua_State* L);
+
     static s32 _setCarMaxSpeed(lua_State* L);
     static s32 _setCarAcceleration(lua_State* L);
 
