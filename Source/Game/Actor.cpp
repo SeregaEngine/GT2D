@@ -290,8 +290,4 @@ void Actor::AnimateAttack()
 void Actor::AnimateInCar()
 {
     // TODO(sean) m_pAnim = m_aActorAnims[ACTOR_ANIMATION_INCAR];
-    if (m_bLookRight)
-        m_flip = SDL_FLIP_NONE;
-    else
-        m_flip = SDL_FLIP_HORIZONTAL;
 }

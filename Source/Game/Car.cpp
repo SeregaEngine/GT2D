@@ -23,14 +23,26 @@ void Car::Init(const Vector2& vPosition, s32 width, s32 height, const GT_Texture
 
 void Car::Update(f32 dtTime)
 {
-    // Handle velocity and position
+    // Velocity
     m_vVelocity += m_vAcceleration * dtTime;
-    if (fabsf(m_vVelocity.x) > fabsf(m_vMaxSpeed.x) ||
-        fabsf(m_vVelocity.y) > fabsf(m_vMaxSpeed.y))
+    if (fabsf(m_vVelocity.x) > fabsf(m_vMaxSpeed.x))
     {
-        m_vVelocity = m_vMaxSpeed;
+        m_vVelocity.x = m_vMaxSpeed.x;
+        if (m_vAcceleration.x < 0)
+            m_vVelocity.x = -m_vVelocity.x;
     }
+    if (fabsf(m_vVelocity.y) > fabsf(m_vMaxSpeed.y))
+    {
+        m_vVelocity.y = m_vMaxSpeed.y;
+        if (m_vAcceleration.y < 0)
+            m_vVelocity.y = -m_vVelocity.y;
+    }
+
+    // Position
     m_vPosition += m_vVelocity;
+
+    // Flip
+    m_flip = m_vVelocity.x >= 0 ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL;
 
     // Handle actors
     for (i32f i = 0; i < MAX_CAR_PLACES; ++i)
@@ -76,7 +88,10 @@ void Car::EjectActor(s32 place)
 void Car::HandleActor(s32 place)
 {
     // Position
-    m_aPlaces[place]->m_vPosition = m_vPosition + m_aPlacePositions[place];
+    m_aPlaces[place]->m_vPosition = {
+        m_vPosition.x + (m_aPlacePositions[place].x * (m_flip == SDL_FLIP_NONE ? 1 : -1)),
+        m_vPosition.y + m_aPlacePositions[place].y
+    };
 
     // zIndex
     if (m_flip == SDL_FLIP_NONE)

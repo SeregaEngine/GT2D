@@ -105,15 +105,17 @@ function onEnterL1()
     Player = Entities["Player"]
 
     Entities["Zhenek"] = addActor(0, 0, GW_ACTOR, GH_ACTOR, Textures["Zhenek"])
-    toggleActorGodMode(Entities["Player"], true)
-    -- DEBUG(sean) Make setActorAnim(Entities["Zhenek"], ACTOR_ANIMATION_INCAR, define...)
-    setEntityAnim(Entities["Zhenek"], defineAnimation(4, 2, 1000.0 / 0.5))
+    toggleActorGodMode(Entities["Zhenek"], true)
+    -- DEBUG(sean) Make setActorAnim(Entities["Zhenek"], ACTOR_ANIMATION_INCAR, Anims[...])
+    setEntityAnim(Entities["Zhenek"], defineAnimation(4, 2, 1000.0 / 0.5)) -- DEBUG(sean) put defineAnimation() in defineResources()
 
     local Dialog = addDialog(GW_DIALOG, GH_DIALOG, "I'll wait you", 1, Entities["Zhenek"], Textures["DialogSquare"])
     setEntityZIndex(Dialog, 1)
     runDialog(Dialog)
 
     Entities["Car"] = addCar(15, 66, 90, 30, Textures["TrashCar"])
+    setCarMaxSpeed(Entities["Car"], 0.1, 0.1)
+    setCarAcceleration(Entities["Car"], 1, 0)
     setCarPlacePosition(Entities["Car"], 0, 0, -6)
     putActorInCar(Entities["Zhenek"], Entities["Car"], 0)
 
