@@ -43,6 +43,7 @@ function defineResources()
     Textures["Background3"] = defineTexture("Textures/Locations/Mission1-3.png", TW_LOCATION, TH_LOCATION)
     Textures["Parallax"] = defineTexture("Textures/Locations/Mission1-1_Parallax.png", TW_PARALLAX, TH_PARALLAX)
 
+    Textures["TrashCar"] = defineTexture("Textures/Cars/TrashCar.png", TW_CAR, TH_CAR)
     Textures["BrownTrashCar"] = defineTexture("Textures/Cars/BrownTrashCar.png", TW_CAR, TH_CAR)
     Textures["BrownTrashCarWithWheels"] = defineTexture("Textures/Cars/BrownTrashCarWithWheels.png", TW_CAR, TH_CAR)
 
@@ -98,10 +99,18 @@ function onEnterL1()
     setGroundBounds(GROUND_X, GROUND_Y, GROUND_WIDTH, GROUND_HEIGHT)
 
     -- Entities
-    Entities["Player"] = addActor(16, 60, GW_ACTOR, GH_ACTOR, Textures["Player"])
+    Entities["Player"] = addActor(72, 60, GW_ACTOR, GH_ACTOR, Textures["Player"])
     toggleActorGodMode(Entities["Player"], true)
     setActorWeapon(Entities["Player"], Weapons["Fist"])
     Player = Entities["Player"]
+
+    Entities["Zhenek"] = addActor(16, 66, GW_ACTOR, GH_ACTOR, Textures["Zhenek"])
+    toggleActorGodMode(Entities["Player"], true)
+    runDialog(addDialog(GW_DIALOG, GH_DIALOG, "I'll wait you", 1, Entities["Zhenek"], Textures["DialogSquare"]))
+
+    Entities["Car"] = addCar(15, 70, 76, 24, Textures["TrashCar"])
+    setCarPlacePosition(Entities["Car"], 1, 0, 0)
+    putActorInCar(Entities["Zhenek"], Entities["Car"], 1)
 
     Triggers["SwitchLocation"] = addTrigger(GROUND_WIDTH - 80, GROUND_Y + 30, 20, 100, Player, "triggerPlayerComing")
 
@@ -187,6 +196,37 @@ function onEnterL3()
     -- Music
     playMusic(Music["Ambient3"])
 end
+
+function onEnterL4()
+    -- Functions
+    onUpdate = onUpdateL4
+    onRender = onRenderL4
+
+    -- Local defines
+    GROUND_WIDTH = SCREEN_WIDTH * 2
+    GROUND_HEIGHT = 19
+    GROUND_X = 0
+    GROUND_Y = SCREEN_HEIGHT - GROUND_HEIGHT
+
+    -- Level
+    setGroundBounds(GROUND_X, GROUND_Y, GROUND_WIDTH, GROUND_HEIGHT)
+
+    -- Entities
+    Entities["Player"] = addActor(185, 50, GW_ACTOR, GH_ACTOR, Textures["Player"])
+    toggleActorGodMode(Entities["Player"], true)
+    setActorWeapon(Entities["Player"], Weapons["Fist"])
+    Player = Entities["Player"]
+
+    -- States
+	FadeTicks = 0
+
+    -- Camera
+    setCameraBounds(0, 0, GROUND_WIDTH, SCREEN_HEIGHT)
+    attachCamera(Player)
+
+    -- Music
+    playMusic(Music["Ambient1"])
+end
 ---- <<<< Enter
 
 ---- >>>> Update
@@ -195,6 +235,10 @@ function onUpdateL1(dt)
 end
 
 function onUpdateL3(dt)
+    handleInput()
+end
+
+function onUpdateL4(dt)
     handleInput()
 end
 
@@ -244,10 +288,11 @@ end
 
 ---- >>>> Render
 function onRenderL1()
-    -- Background
+    -- Parallax
     X,Y = getCameraPosition()
     drawFrame(RENDER_MODE_BACKGROUND, 0, true, -X/2,-Y/2,GW_PARALLAX,GH_PARALLAX, Textures["Parallax"], 0, 0)
 
+    -- Background
     drawFrame(RENDER_MODE_BACKGROUND, 1, false, 0,0,SCREEN_WIDTH,SCREEN_HEIGHT, Textures["Background1"], 0, 0)
     drawFrame(RENDER_MODE_BACKGROUND, 1, false, SCREEN_WIDTH,0,SCREEN_WIDTH,SCREEN_HEIGHT, Textures["Background1"], 0, 1)
 end
@@ -255,6 +300,20 @@ end
 function onRenderL3()
     -- Background
     drawFrame(RENDER_MODE_BACKGROUND, 0, false, 0,0,SCREEN_WIDTH,SCREEN_HEIGHT, Textures["Background3"], 0, 0)
+end
+
+function onRenderL4()
+    -- Parallax
+    X,Y = getCameraPosition()
+    drawFrame(RENDER_MODE_BACKGROUND, 0, true, -X/2,-Y/2,GW_PARALLAX,GH_PARALLAX, Textures["Parallax"], 0, 0)
+
+    -- Background
+    drawFrame(RENDER_MODE_BACKGROUND, 1, false, 0,0,SCREEN_WIDTH,SCREEN_HEIGHT, Textures["Background1"], 0, 0)
+    drawFrame(RENDER_MODE_BACKGROUND, 1, false, SCREEN_WIDTH,0,SCREEN_WIDTH,SCREEN_HEIGHT, Textures["Background1"], 0, 1)
+
+    -- Fade
+    setDrawColor(0, 0, 0, 20)
+    fillRect(RENDER_MODE_BACKGROUND, 2, true, 0,0,SCREEN_WIDTH,SCREEN_HEIGHT)
 end
 ---- <<<< Render
 
@@ -435,7 +494,7 @@ function statePlayerLeavingGarage(Actor)
     local Alpha = Elapsed * 0.2
     if Alpha > 255 or Elapsed > 3000 then
         Alpha = 255
-        switchLocation("onEnterL3") -- DEBUG(sean)
+        switchLocation("onEnterL4")
     end
 
     setDrawColor(0, 0, 0, math.floor(Alpha))

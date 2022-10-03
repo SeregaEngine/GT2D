@@ -169,6 +169,16 @@ private:
     // Weapon
     static s32 _defineWeapon(lua_State* L);
 
+    // Car
+    static s32 _addCar(lua_State* L);
+
+    static s32 _setCarMaxSpeed(lua_State* L);
+    static s32 _setCarAcceleration(lua_State* L);
+
+    static s32 _setCarPlacePosition(lua_State* L);
+    static s32 _putActorInCar(lua_State* L);
+    static s32 _ejectActorFromCar(lua_State* L);
+
     // Trigger
     static s32 _addTrigger(lua_State* L);
 

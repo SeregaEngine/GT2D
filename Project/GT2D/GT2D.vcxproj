@@ -185,6 +185,7 @@
     <ClCompile Include="..\..\Source\Engine\EngineModule.cpp" />
     <ClCompile Include="..\..\Source\Engine\GT2D.cpp" />
     <ClCompile Include="..\..\Source\Game\Actor.cpp" />
+    <ClCompile Include="..\..\Source\Game\Car.cpp" />
     <ClCompile Include="..\..\Source\Game\DamageManager.cpp" />
     <ClCompile Include="..\..\Source\Game\Dialog.cpp" />
     <ClCompile Include="..\..\Source\Game\Entity.cpp" />
@@ -223,6 +224,7 @@
     <ClInclude Include="..\..\Source\Engine\GT2D.h" />
     <ClInclude Include="..\..\Source\Engine\Types.h" />
     <ClInclude Include="..\..\Source\Game\Actor.h" />
+    <ClInclude Include="..\..\Source\Game\Car.h" />
     <ClInclude Include="..\..\Source\Game\DamageManager.h" />
     <ClInclude Include="..\..\Source\Game\Dialog.h" />
     <ClInclude Include="..\..\Source\Game\Entity.h" />

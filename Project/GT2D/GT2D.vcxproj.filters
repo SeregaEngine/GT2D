@@ -128,6 +128,9 @@
     <ClCompile Include="..\..\Source\Game\Dialog.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Game\Car.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Bin\Scripts\Loader.lua">
@@ -247,6 +250,9 @@
       <Filter>Graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Game\Dialog.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Game\Car.h">
       <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>

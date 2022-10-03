@@ -16,6 +16,7 @@ extern "C"
 #include "GotoEntityTask.h"
 #include "KillTask.h"
 #include "Weapon.h"
+#include "Car.h"
 #include "Trigger.h"
 #include "Dialog.h"
 
@@ -160,6 +161,14 @@ void ScriptModule::DefineFunctions(lua_State* L)
 
     // Weapon
     lua_register(L, "defineWeapon", _defineWeapon);
+
+    // Car
+    lua_register(L, "addCar", _addCar);
+    lua_register(L, "setCarMaxSpeed", _setCarMaxSpeed);
+    lua_register(L, "setCarAcceleration", _setCarAcceleration);
+    lua_register(L, "setCarPlacePosition", _setCarPlacePosition);
+    lua_register(L, "putActorInCar", _putActorInCar);
+    lua_register(L, "ejectActorFromCar", _ejectActorFromCar);
 
     // Trigger
     lua_register(L, "addTrigger", _addTrigger);
@@ -1610,6 +1619,67 @@ s32 ScriptModule::_defineWeapon(lua_State* L)
     lua_pushlightuserdata(L, (void*)pWeapon);
 
     return 1;
+}
+
+s32 ScriptModule::_addCar(lua_State* L)
+{
+    if (!LuaExpect(L, "addCar", 5))
+        return -1;
+
+    // Init car
+    Vector2 vPosition = { GTU::UnitToScreenX((f32)lua_tonumber(L, 1)), GTU::UnitToScreenY((f32)lua_tonumber(L, 2)) };
+    s32 width = (s32)GTU::UnitToScreenX((f32)lua_tonumber(L, 3));
+    s32 height = (s32)GTU::UnitToScreenY((f32)lua_tonumber(L, 4));
+    const GT_Texture* pTexture = (const GT_Texture*)lua_touserdata(L, 5);
+
+    Car* pCar = new Car();
+    pCar->Init(vPosition, width, height, pTexture);
+
+    // Push to the world and lua
+    g_game.GetWorld().PushEntity(pCar);
+    lua_pushlightuserdata(L, pCar);
+
+    return 1;
+}
+
+s32 ScriptModule::_setCarMaxSpeed(lua_State* L)
+{
+    if (!LuaExpect(L, "setCarMaxSpeed", 2))
+        return -1;
+
+    return 0;
+}
+
+s32 ScriptModule::_setCarAcceleration(lua_State* L)
+{
+    if (!LuaExpect(L, "setCaAcceleration", 2))
+        return -1;
+
+    return 0;
+}
+
+s32 ScriptModule::_setCarPlacePosition(lua_State* L)
+{
+    if (!LuaExpect(L, "setCarPlacePosition", 4))
+        return -1;
+
+    return 0;
+}
+
+s32 ScriptModule::_putActorInCar(lua_State* L)
+{
+    if (!LuaExpect(L, "putActorInCar", 3))
+        return -1;
+
+    return 0;
+}
+
+s32 ScriptModule::_ejectActorFromCar(lua_State* L)
+{
+    if (!LuaExpect(L, "ejectActorFromCar", 2))
+        return -1;
+
+    return 0;
 }
 
 s32 ScriptModule::_addTrigger(lua_State* L)
