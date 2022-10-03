@@ -99,29 +99,34 @@ function onEnterL1()
     setGroundBounds(GROUND_X, GROUND_Y, GROUND_WIDTH, GROUND_HEIGHT)
 
     -- Entities
-    Entities["Player"] = addActor(72, 60, GW_ACTOR, GH_ACTOR, Textures["Player"])
+    Entities["Player"] = addActor(62, 60, GW_ACTOR, GH_ACTOR, Textures["Player"])
     toggleActorGodMode(Entities["Player"], true)
     setActorWeapon(Entities["Player"], Weapons["Fist"])
     Player = Entities["Player"]
 
-    Entities["Zhenek"] = addActor(16, 66, GW_ACTOR, GH_ACTOR, Textures["Zhenek"])
+    Entities["Zhenek"] = addActor(18, 40, GW_ACTOR, GH_ACTOR, Textures["Zhenek"])
     toggleActorGodMode(Entities["Player"], true)
-    runDialog(addDialog(GW_DIALOG, GH_DIALOG, "I'll wait you", 1, Entities["Zhenek"], Textures["DialogSquare"]))
+    -- DEBUG(sean) Make setActorAnim(Entities["Zhenek"], ACTOR_ANIMATION_INCAR, define...)
+    setEntityAnim(Entities["Zhenek"], defineAnimation(4, 2, 1000.0 / 0.5))
 
-    Entities["Car"] = addCar(15, 70, 76, 24, Textures["TrashCar"])
+    local Dialog = addDialog(GW_DIALOG, GH_DIALOG, "I'll wait you", 1, Entities["Zhenek"], Textures["DialogSquare"])
+    setEntityZIndex(Dialog, 1)
+    runDialog(Dialog)
+
+    Entities["Car"] = addCar(15, 70, 90, 30, Textures["TrashCar"])
     setCarPlacePosition(Entities["Car"], 1, 0, 0)
     putActorInCar(Entities["Zhenek"], Entities["Car"], 1)
 
     Triggers["SwitchLocation"] = addTrigger(GROUND_WIDTH - 80, GROUND_Y + 30, 20, 100, Player, "triggerPlayerComing")
 
     -- States
-	PlayerComing = {
-		{ ["Task"] = GTT_GOTO, ["X"] = 185, ["Y"] = 50 },
-		{ ["Task"] = GTT_GOTO, ["X"] = 185, ["Y"] = 35 },
-		{ ["Task"] = GTT_NONE }
-	}
-	PlayerComingState = 0
-	FadeTicks = 0
+    PlayerComing = {
+        { ["Task"] = GTT_GOTO, ["X"] = 185, ["Y"] = 50 },
+        { ["Task"] = GTT_GOTO, ["X"] = 185, ["Y"] = 35 },
+        { ["Task"] = GTT_NONE }
+    }
+    PlayerComingState = 0
+    FadeTicks = 0
 
     -- Camera
     setCameraBounds(0, 0, GROUND_WIDTH, SCREEN_HEIGHT)
@@ -186,8 +191,8 @@ function onEnterL3()
 
     -- States
     TriggerToWheel = {}
-	DarkLordDialogTicks = 0
-	FadeTicks = 0
+    DarkLordDialogTicks = 0
+    FadeTicks = 0
 
     -- Camera
     setCameraBounds(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
@@ -218,7 +223,7 @@ function onEnterL4()
     Player = Entities["Player"]
 
     -- States
-	FadeTicks = 0
+    FadeTicks = 0
 
     -- Camera
     setCameraBounds(0, 0, GROUND_WIDTH, SCREEN_HEIGHT)
@@ -428,9 +433,9 @@ function statePlayerFightingForWheels(Actor)
         return
     end
 
-	-- Run and wait for dialog
+    -- Run and wait for dialog
     if hasWorldEntity(Dialogs["PlayerDialogAfterFight"]) then
-		runDialog(Dialogs["PlayerDialogAfterFight"])
+        runDialog(Dialogs["PlayerDialogAfterFight"])
         return
     end
 
@@ -442,31 +447,31 @@ function statePlayerFightingForWheels(Actor)
     local Elapsed = getTicks() - FadeTicks
     local Alpha = Elapsed * 0.5
     if Alpha <= 255 then
-		setDrawColor(0, 0, 0, math.floor(Alpha))
-		fillRect(RENDER_MODE_FOREGROUND, 999, true, 0,0,SCREEN_WIDTH,SCREEN_HEIGHT)
+        setDrawColor(0, 0, 0, math.floor(Alpha))
+        fillRect(RENDER_MODE_FOREGROUND, 999, true, 0,0,SCREEN_WIDTH,SCREEN_HEIGHT)
         return
     end
 
-	-- Remove wheels from the car
-	setEntityTexture(Entities["Car"], Textures["BrownTrashCar"])
+    -- Remove wheels from the car
+    setEntityTexture(Entities["Car"], Textures["BrownTrashCar"])
 
-	-- Add wheels and triggers
-	for i = 1,4 do
-		local X = 20 + GW_PROP * (i - 1)
-		local Y = 60
-		local Wheel = addEntity(X, Y, GW_PROP, GH_PROP, Textures["Wheels"])
-		setEntityRenderMode(Wheel, RENDER_MODE_BACKGROUND)
-		setEntityZIndex(Wheel, 10+i)
+    -- Add wheels and triggers
+    for i = 1,4 do
+        local X = 20 + GW_PROP * (i - 1)
+        local Y = 60
+        local Wheel = addEntity(X, Y, GW_PROP, GH_PROP, Textures["Wheels"])
+        setEntityRenderMode(Wheel, RENDER_MODE_BACKGROUND)
+        setEntityZIndex(Wheel, 10+i)
 
-		TriggerToWheel[addTrigger(X, Y, GW_PROP/4, GH_PROP/4, Actor, "triggerTakeWheel")] = Wheel
+        TriggerToWheel[addTrigger(X, Y, GW_PROP/4, GH_PROP/4, Actor, "triggerTakeWheel")] = Wheel
 
-		if i % 2 == 0 then
-			setEntityAnimFrame(Wheel, 1)
-		end
-	end
+        if i % 2 == 0 then
+            setEntityAnimFrame(Wheel, 1)
+        end
+    end
 
-	-- Leave this state and restore FadeTicks
-	setActorState(Actor, States["PlayerTakeWheels"])
+    -- Leave this state and restore FadeTicks
+    setActorState(Actor, States["PlayerTakeWheels"])
     FadeTicks = 0
 end
 

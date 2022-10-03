@@ -8,7 +8,7 @@ enum eGTCommand
     GTC_MOVE_LEFT,
     GTC_MOVE_DOWN,
     GTC_MOVE_RIGHT,
-    GTC_ATTACK
+    GTC_ATTACK,
 };
 
 /* ====== STRUCTURES ====== */

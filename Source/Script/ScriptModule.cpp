@@ -1671,6 +1671,14 @@ s32 ScriptModule::_putActorInCar(lua_State* L)
     if (!LuaExpect(L, "putActorInCar", 3))
         return -1;
 
+    Car* pCar = (Car*)lua_touserdata(L, 2);
+    if (!pCar)
+    {
+        LuaNote(PR_WARNING, "putActorInCar() called with null car");
+        return -1;
+    }
+    pCar->PutActor((Actor*)lua_touserdata(L, 1), (s32)lua_tointeger(L, 3));
+
     return 0;
 }
 

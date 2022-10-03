@@ -106,7 +106,7 @@ void Actor::HandleCommand(f32 dtTime)
     }
 
     // Check if we should idle
-    if (m_actorState != ACTOR_STATE_ATTACK &&
+    if (m_actorState == ACTOR_STATE_MOVE &&
         !m_vVelocity.x && !m_vVelocity.y)
     {
         m_actorState = ACTOR_STATE_IDLE;
@@ -148,7 +148,7 @@ void Actor::CommandMove(s32 cmd, f32 dtTime)
     default: break;
     }
 
-    if (m_actorState != ACTOR_STATE_ATTACK)
+    if (m_actorState == ACTOR_STATE_IDLE)
         m_actorState = ACTOR_STATE_MOVE;
 }
 
@@ -214,6 +214,7 @@ void Actor::HandleAnimation(f32 dtTime)
     case ACTOR_STATE_IDLE: AnimateIdle(); break;
     case ACTOR_STATE_MOVE: AnimateMove(); break;
     case ACTOR_STATE_ATTACK: AnimateAttack(); return;
+    case ACTOR_STATE_INCAR: AnimateInCar(); break;
 
     default: g_debugLogMgr.AddNote(CHANNEL_GAME, PR_WARNING, "ACTOR", "HandleAnimation(): Unknown actor state: %d", m_actorState); break;
     }
@@ -284,4 +285,13 @@ void Actor::AnimateAttack()
     {
         m_flip = m_bLookRight ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL;
     }
+}
+
+void Actor::AnimateInCar()
+{
+    // TODO(sean) m_pAnim = m_aActorAnims[ACTOR_ANIMATION_INCAR];
+    if (m_bLookRight)
+        m_flip = SDL_FLIP_NONE;
+    else
+        m_flip = SDL_FLIP_HORIZONTAL;
 }
