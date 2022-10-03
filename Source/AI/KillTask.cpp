@@ -28,7 +28,7 @@ void KillTask::Handle()
 
 b32f KillTask::IsDone()
 {
-    if (!g_game.GetWorld().HasEntity(m_pTarget) || m_pTarget->GetHealth() <= 0)
+    if (!g_game.GetWorld().HasEntity(m_pTarget) || m_pTarget->m_actorState == ACTOR_STATE_DEAD)
         return true;
     return false;
 }

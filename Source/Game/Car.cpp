@@ -25,12 +25,16 @@ void Car::Update(f32 dtTime)
 {
     // Velocity
     m_vVelocity += m_vAcceleration * dtTime;
+
+    // X
     if (fabsf(m_vVelocity.x) > fabsf(m_vMaxSpeed.x))
     {
         m_vVelocity.x = m_vMaxSpeed.x;
         if (m_vAcceleration.x < 0)
             m_vVelocity.x = -m_vVelocity.x;
     }
+
+    // Y
     if (fabsf(m_vVelocity.y) > fabsf(m_vMaxSpeed.y))
     {
         m_vVelocity.y = m_vMaxSpeed.y;

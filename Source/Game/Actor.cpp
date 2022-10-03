@@ -23,6 +23,8 @@ static const GT_Animation s_aActorAnims[] =
     { 1, 5, 1000.0f / 15.0f },
     { 2, 3, 1000.0f / 5.0f },
     { 3, 3, 1000.0f / 5.0f },
+    { 0, 2, 1000.0f / 1.0f },
+    { 0, 2, 1000.0f / 1.0f },
 };
 
 /* ====== METHODS ====== */
@@ -57,8 +59,12 @@ void Actor::Init(const Vector2& vPosition, s32 width, s32 height, const GT_Textu
 
 void Actor::Update(f32 dtTime)
 {
+    // Handle only animation if actor is dead
     if (HandleDeath())
+    {
+        HandleAnimation(dtTime);
         return;
+    }
 
     HandleState();
     HandleTask();
@@ -70,9 +76,19 @@ b32f Actor::HandleDeath()
 {
     if (m_health <= 0)
     {
+        // If we already handled our death
+        if (m_actorState == ACTOR_STATE_DEAD)
+            return true;
+
+        // Play sound, init animation
         if (m_pDeathSound)
             g_soundModule.PlaySound(m_pDeathSound);
-        g_game.GetWorld().RemoveEntity(this);
+        m_animFrame = 0;
+        m_animElapsed = 0.0f;
+
+        // Set state
+        m_actorState = ACTOR_STATE_DEAD;
+
         return true;
     }
     return false;
@@ -214,6 +230,7 @@ void Actor::HandleAnimation(f32 dtTime)
     case ACTOR_STATE_IDLE: AnimateIdle(); break;
     case ACTOR_STATE_MOVE: AnimateMove(); break;
     case ACTOR_STATE_ATTACK: AnimateAttack(); return;
+    case ACTOR_STATE_DEAD: if (AnimateDead()) return; else break;
     case ACTOR_STATE_INCAR: AnimateInCar(); break;
 
     default: g_debugLogMgr.AddNote(CHANNEL_GAME, PR_WARNING, "ACTOR", "HandleAnimation(): Unknown actor state: %d", m_actorState); break;
@@ -287,7 +304,17 @@ void Actor::AnimateAttack()
     }
 }
 
+b32 Actor::AnimateDead()
+{
+    m_pAnim = m_aActorAnims[ACTOR_ANIMATION_DEAD];
+
+    // Check if we done
+    if (m_animFrame == m_pAnim->count - 1)
+        return true;
+    return false;
+}
+
 void Actor::AnimateInCar()
 {
-    // TODO(sean) m_pAnim = m_aActorAnims[ACTOR_ANIMATION_INCAR];
+    m_pAnim = m_aActorAnims[ACTOR_ANIMATION_INCAR];
 }

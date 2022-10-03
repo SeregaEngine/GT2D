@@ -145,6 +145,7 @@ void ScriptModule::DefineFunctions(lua_State* L)
     lua_register(L, "addActor", _addActor);
     lua_register(L, "setActorHealth", _setActorHealth);
     lua_register(L, "getActorHealth", _getActorHealth);
+    lua_register(L, "isActorAlive", _isActorAlive);
     lua_register(L, "toggleActorGodMode", _toggleActorGodMode);
     lua_register(L, "isActorLookRight", _isActorLookRight);
     lua_register(L, "turnActorLeft", _turnActorLeft);
@@ -158,6 +159,7 @@ void ScriptModule::DefineFunctions(lua_State* L)
     lua_register(L, "setActorWeapon", _setActorWeapon);
     lua_register(L, "getActorAttackRate", _getActorAttackRate);
     lua_register(L, "setActorAttackRate", _setActorAttackRate);
+    lua_register(L, "setActorAnim", _setActorAnim);
 
     // Weapon
     lua_register(L, "defineWeapon", _defineWeapon);
@@ -241,6 +243,22 @@ void ScriptModule::DefineSymbols(lua_State* L)
     lua_setglobal(L, "GTM_RIGHT");
     lua_pushinteger(L, GTM_MIDDLE);
     lua_setglobal(L, "GTM_MIDDLE");
+
+    /* Actor */
+    lua_pushinteger(L, ACTOR_ANIMATION_IDLE);
+    lua_setglobal(L, "ACTOR_ANIMATION_IDLE");
+    lua_pushinteger(L, ACTOR_ANIMATION_MOVE_HORIZONTAL);
+    lua_setglobal(L, "ACTOR_ANIMATION_MOVE_HORIZONTAL");
+    lua_pushinteger(L, ACTOR_ANIMATION_TOP);
+    lua_setglobal(L, "ACTOR_ANIMATION_TOP");
+    lua_pushinteger(L, ACTOR_ANIMATION_BOTTOM);
+    lua_setglobal(L, "ACTOR_ANIMATION_BOTTOM");
+    lua_pushinteger(L, ACTOR_ANIMATION_DEAD);
+    lua_setglobal(L, "ACTOR_ANIMATION_DEAD");
+    lua_pushinteger(L, ACTOR_ANIMATION_INCAR);
+    lua_setglobal(L, "ACTOR_ANIMATION_INCAR");
+    lua_pushinteger(L, ACTOR_TEAM_DEFAULT);
+    lua_setglobal(L, "ACTOR_TEAM_DEFAULT");
 
     /* AI */
     lua_pushinteger(L, GTC_MOVE_UP);
@@ -1270,10 +1288,27 @@ s32 ScriptModule::_getActorHealth(lua_State* L)
     {
         health = 0;
         LuaNote(PR_WARNING, "getActorHealth() called with null actor");
-        return -1;
     }
-
     lua_pushnumber(L, health);
+
+    return 1;
+}
+
+s32 ScriptModule::_isActorAlive(lua_State* L)
+{
+    if (!LuaExpect(L, "isActorAlive", 1))
+        return -1;
+
+    Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
+    if (pActor)
+    {
+        lua_pushboolean(L, pActor->m_actorState != ACTOR_STATE_DEAD);
+    }
+    else
+    {
+        LuaNote(PR_WARNING, "isActorAlive() called with null actor");
+        lua_pushboolean(L, false);
+    }
 
     return 1;
 }
@@ -1577,6 +1612,25 @@ s32 ScriptModule::_getActorAttackRate(lua_State* L)
     }
 
     return 1;
+}
+
+s32 ScriptModule::_setActorAnim(lua_State* L)
+{
+    if (!LuaExpect(L, "setActorAnim", 3))
+        return -1;
+
+    Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
+    if (pActor)
+    {
+        pActor->m_aActorAnims[lua_tointeger(L, 2)] = (const GT_Animation*)lua_touserdata(L, 3);
+    }
+    else
+    {
+        LuaNote(PR_WARNING, "setActorAnim() called with null actor");
+        return -1;
+    }
+
+    return 0;
 }
 
 s32 ScriptModule::_defineWeapon(lua_State* L)

@@ -141,6 +141,8 @@ private:
     static s32 _setActorHealth(lua_State* L);
     static s32 _getActorHealth(lua_State* L);
 
+    static s32 _isActorAlive(lua_State* L);
+
     static s32 _toggleActorGodMode(lua_State* L);
     static s32 _isActorInGodMode(lua_State* L);
     static s32 _isActorLookRight(lua_State* L);
@@ -165,6 +167,8 @@ private:
 
     static s32 _setActorAttackRate(lua_State* L);
     static s32 _getActorAttackRate(lua_State* L);
+
+    static s32 _setActorAnim(lua_State* L);
 
     // Weapon
     static s32 _defineWeapon(lua_State* L);

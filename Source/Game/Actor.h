@@ -11,6 +11,7 @@ enum eActorState
     ACTOR_STATE_IDLE = 0,
     ACTOR_STATE_MOVE,
     ACTOR_STATE_ATTACK,
+    ACTOR_STATE_DEAD,
     ACTOR_STATE_INCAR,
 
     MAX_ACTOR_STATES
@@ -22,6 +23,8 @@ enum eActorAnimation
     ACTOR_ANIMATION_MOVE_HORIZONTAL,
     ACTOR_ANIMATION_TOP,
     ACTOR_ANIMATION_BOTTOM,
+    ACTOR_ANIMATION_DEAD,
+    ACTOR_ANIMATION_INCAR,
 
     MAX_ACTOR_ANIMATIONS
 };
@@ -129,6 +132,7 @@ private:
     void AnimateIdle();
     void AnimateMove();
     void AnimateAttack();
+    b32 AnimateDead();
     void AnimateInCar();
 };
 

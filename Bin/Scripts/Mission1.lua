@@ -70,6 +70,9 @@ function defineResources()
 
     -- Animations
     Anims["Attack"] = defineAnimation(4, 3, 1000.0 / 2.0)
+    Anims["ZhenekDriving"] = defineAnimation(4, 2, 1000.0 / 0.5)
+    Anims["DarkLordDead"] = defineAnimation(5, 3, 1000.0 / 2)
+    Anims["PlayerDead"] = defineAnimation(5, 3, 1000.0 / 2)
 
     -- Weapons
     Weapons["Fist"] = defineWeapon(Anims["Attack"], 4, 8, 8, 1.0, Sounds["Punch1"], Sounds["Punch2"], Sounds["Punch3"], Sounds["Punch4"])
@@ -106,8 +109,7 @@ function onEnterL1()
 
     Entities["Zhenek"] = addActor(0, 0, GW_ACTOR, GH_ACTOR, Textures["Zhenek"])
     toggleActorGodMode(Entities["Zhenek"], true)
-    -- DEBUG(sean) Make setActorAnim(Entities["Zhenek"], ACTOR_ANIMATION_INCAR, Anims[...])
-    setEntityAnim(Entities["Zhenek"], defineAnimation(4, 2, 1000.0 / 0.5)) -- DEBUG(sean) put defineAnimation() in defineResources()
+    setActorAnim(Entities["Zhenek"], ACTOR_ANIMATION_INCAR, Anims["ZhenekDriving"])
 
     local Dialog = addDialog(GW_DIALOG, GH_DIALOG, "I'll wait you", 1, Entities["Zhenek"], Textures["DialogSquare"])
     setEntityZIndex(Dialog, 1)
@@ -156,17 +158,19 @@ function onEnterL3()
     Entities["Player"] = addActor(SCREEN_WIDTH - 20, 64, TW_ACTOR, TH_ACTOR, Textures["Player"])
     Player = Entities["Player"]
     PlayerControllable = false
+    setActorDeathSound(Player, Sounds["ActorDeath"])
+    setActorAnim(Player, ACTOR_ANIMATION_DEAD, Anims["PlayerDead"])
     setActorWeapon(Player, Weapons["Fist"])
     setActorState(Player, States["PlayerDialog"])
     toggleActorGodMode(Player, true)
     turnActorLeft(Player)
-    setActorDeathSound(Player, Sounds["ActorDeath"])
 
     Entities["DarkLord"] = addActor(20, 60, GW_ACTOR, GH_ACTOR, Textures["DarkLord"])
+    setActorAnim(Entities["DarkLord"], ACTOR_ANIMATION_DEAD, Anims["DarkLordDead"])
+    setActorDeathSound(Entities["DarkLord"], Sounds["ActorDeath"])
     setActorWeapon(Entities["DarkLord"], Weapons["Fist"])
     setActorState(Entities["DarkLord"], States["DarkLordDialog"])
     turnActorLeft(Entities["DarkLord"])
-    setActorDeathSound(Entities["DarkLord"], Sounds["ActorDeath"])
 
     Entities["Car"] = addEntity(76, 55, 68, 20, Textures["BrownTrashCarWithWheels"])
     setEntityRenderMode(Entities["Car"], RENDER_MODE_BACKGROUND)
@@ -431,7 +435,7 @@ end
 
 function statePlayerFightingForWheels(Actor)
     -- Waiting for Dark Lord's death
-    if hasWorldEntity(Entities["DarkLord"]) then
+    if isActorAlive(Entities["DarkLord"]) then
         return
     end
 
