@@ -66,7 +66,7 @@ function defineResources()
     Sounds["Punch3"] = defineSound("Sounds/Punch3.wav")
     Sounds["Punch4"] = defineSound("Sounds/Punch4.wav")
     Sounds["ActorDeath"] = defineSound("Sounds/ActorDyingSound.wav")
-    Sounds["OpenMetalGate"] = defineSound("Sounds/MetalGateOpening.wav")
+    Sounds["OpenGate"] = defineSound("Sounds/MetalGateOpening.wav")
     Sounds["CarDoor"] = defineSound("Sounds/CarDoorOpening.wav")
     Sounds["StartEngine"] = defineSound("Sounds/DodgeEngineStart.wav")
     Sounds["PickupThrottling"] = defineSound("Sounds/PickupThrottling.wav")
@@ -137,6 +137,7 @@ function onEnterL1()
     PlayerComing = {
         { ["Task"] = GTT_GOTO, ["X"] = 185, ["Y"] = 50 },
         { ["Task"] = GTT_GOTO, ["X"] = 185, ["Y"] = 35 },
+        { ["Task"] = GTT_WAIT, ["Duration"] = 1000 },
         { ["Task"] = GTT_NONE }
     }
     PlayerComingState = 0
@@ -439,6 +440,9 @@ function triggerTakeWheel(Trigger, Entity)
 end
 
 function triggerPlayerLeavingGarage(Trigger, Entity)
+    PlayerControllable = false
+    local X,Y = getEntityPosition(Entity)
+    setActorTask(Entity, GTT_GOTO, 300.0, Y)
     setActorState(Entity, States["PlayerLeavingGarage"])
 end
 
@@ -459,20 +463,36 @@ function statePlayerComing(Actor)
         toggleEntityCollidable(Player, false)
     end
 
-    if Status == GTT_DONE or PlayerComingState == 0 then
-        PlayerComingState = PlayerComingState + 1
-        setActorTask(Actor, PlayerComing[PlayerComingState].Task, PlayerComing[PlayerComingState].X, PlayerComing[PlayerComingState].Y)
-    end
-
-    local Elapsed = getTicks() - FadeTicks
-    local Alpha = Elapsed * 0.2
-    if Alpha > 255 or Elapsed > 3000 then
+    local Alpha = (getTicks() - FadeTicks) * 0.2
+    if Alpha > 255 then
         Alpha = 255
-        switchLocation("onEnterL3")
     end
-
     setDrawColor(0, 0, 0, math.floor(Alpha))
     fillRect(RENDER_MODE_FOREGROUND, 999, true, 0,0,SCREEN_WIDTH,SCREEN_HEIGHT)
+
+    if Status == GTT_DONE or PlayerComingState == 0 then
+        PlayerComingState = PlayerComingState + 1
+
+        if PlayerComing[PlayerComingState].Task == GTT_NONE then
+            if Alpha < 255 then
+                PlayerComingState = PlayerComingState - 1
+                return
+            end
+
+			switchLocation("onEnterL3")
+            return
+        end
+
+        if PlayerComing[PlayerComingState].Task == GTT_WAIT then
+            playSound(Sounds["OpenGate"])
+        end
+
+        if PlayerComing[PlayerComingState].Task == GTT_GOTO then
+			setActorTask(Actor, PlayerComing[PlayerComingState].Task, PlayerComing[PlayerComingState].X, PlayerComing[PlayerComingState].Y)
+        elseif PlayerComing[PlayerComingState].Task == GTT_WAIT then
+			setActorTask(Actor, PlayerComing[PlayerComingState].Task, PlayerComing[PlayerComingState].Duration)
+		end
+    end
 end
 
 function statePlayerDialog(Actor)
@@ -680,7 +700,7 @@ function stateSeregaDriving(Actor)
 
     -- Handle velocity
     local X,Y = getEntityVelocity(Entities["PoliceCar"])
-    if X > -0.03 then
+    if X > -0.04 then
         -- Stop car, start dialog
         setCarMaxSpeed(Entities["PoliceCar"], 0, 0)
         setActorTask(Actor, GTT_WAIT, 500)
