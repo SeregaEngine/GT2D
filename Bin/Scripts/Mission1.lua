@@ -63,8 +63,12 @@ function defineResources()
     Sounds["Punch2"] = defineSound("Sounds/Punch2.wav")
     Sounds["Punch3"] = defineSound("Sounds/Punch3.wav")
     Sounds["Punch4"] = defineSound("Sounds/Punch4.wav")
-
     Sounds["ActorDeath"] = defineSound("Sounds/ActorDyingSound.wav")
+    Sounds["OpenMetalGate"] = defineSound("Sounds/MetalGateOpening.wav")
+    Sounds["CarDoor"] = defineSound("Sounds/CarDoorOpening.wav")
+    Sounds["StartEngine"] = defineSound("Sounds/DodgeEngineStart.wav")
+    Sounds["PickupThrottling"] = defineSound("Sounds/PickupThrottling.wav")
+    Sounds["Police"] = defineSound("Sounds/PoliceScenario.wav")
 
     -- Music
     Music["Ambient1"] = defineMusic("Music/VnatureBgSound.wav")
@@ -87,6 +91,7 @@ function defineResources()
     States["PlayerFightingForWheels"] = defineState("statePlayerFightingForWheels")
     States["PlayerTakeWheels"] = defineState("statePlayerTakeWheels")
     States["PlayerLeavingGarage"] = defineState("statePlayerLeavingGarage")
+    States["PlayerLeaving"] = defineState("statePlayerLeaving")
 end
 
 function onEnterL1()
@@ -228,29 +233,47 @@ function onEnterL4()
     setGroundBounds(GROUND_X, GROUND_Y, GROUND_WIDTH, GROUND_HEIGHT)
 
     -- Entities
-    Entities["Player"] = addActor(185, 50, GW_ACTOR, GH_ACTOR, Textures["Player"])
+    Entities["Player"] = addActor(185, 35, GW_ACTOR, GH_ACTOR, Textures["Player"])
     toggleActorGodMode(Entities["Player"], true)
+    toggleEntityCollidable(Entities["Player"], false)
     setActorWeapon(Entities["Player"], Weapons["Fist"])
+    setActorState(Entities["Player"], States["PlayerLeaving"])
     Player = Entities["Player"]
+    PlayerControllable = false
 
     Entities["Zhenek"] = addActor(0, 0, GW_ACTOR, GH_ACTOR, Textures["Zhenek"])
     toggleActorGodMode(Entities["Zhenek"], true)
     setActorAnim(Entities["Zhenek"], ACTOR_ANIMATION_INCAR, Anims["ZhenekDriving"])
 
     Entities["Car"] = addCar(SCREEN_WIDTH + 75, 66, 90, 30, Textures["TrashCar"])
+    setCarMaxSpeed(Entities["Car"], 2, 0)
     setCarPlacePosition(Entities["Car"], 0, 0, -6)
-    putActorInCar(Entities["Zhenek"], Entities["Car"], 0)
+    setCarPlacePosition(Entities["Car"], 1, 7, -6)
     turnCarLeft(Entities["Car"])
+    putActorInCar(Entities["Zhenek"], Entities["Car"], 0)
+
+    Dialogs["ZhenekJump"] = addDialog(GW_DIALOG, GH_DIALOG, "Petrol! Jump in", 1, Entities["Zhenek"], Textures["DialogSquare"])
 
     -- States
     FadeTicks = 0
 
+    PlayerLeaving = {
+        { ["Task"] = GTT_GOTO, ["X"] = 185, ["Y"] = 60 },
+        { ["Task"] = GTT_WAIT, ["Duration"] = 1000 },
+        { ["Task"] = GTT_GOTO, ["X"] = 195, ["Y"] = 60 },
+        { ["Task"] = GTT_WAIT, ["Duration"] = 350 },
+        { ["Task"] = GTT_NONE }
+    }
+    PlayerLeavingState = 0
+
     -- Camera
     setCameraBounds(0, 0, GROUND_WIDTH, SCREEN_HEIGHT)
     attachCamera(Player)
+    detachCamera() -- Leave camera near player
 
     -- Music
     playMusic(Music["Ambient1"])
+    playSound(Sounds["Police"])
 end
 ---- <<<< Enter
 
@@ -530,6 +553,54 @@ function statePlayerLeavingGarage(Actor)
 
     setDrawColor(0, 0, 0, math.floor(Alpha))
     fillRect(RENDER_MODE_FOREGROUND, 999, true, 0,0,SCREEN_WIDTH,SCREEN_HEIGHT)
+end
+
+function statePlayerLeaving(Actor)
+    -- Init
+    if PlayerLeavingState == 0 then
+        FadeTicks = getTicks()
+    end
+
+    -- Fade
+    local Elapsed = getTicks() - FadeTicks
+    local Alpha = 255 - (Elapsed * 0.2)
+    if Alpha > 0 then
+        setDrawColor(0, 0, 0, math.floor(Alpha))
+        fillRect(RENDER_MODE_FOREGROUND, 999, true, 0,0,SCREEN_WIDTH,SCREEN_HEIGHT)
+    end
+
+    if checkActorTask(Actor) == GTT_DONE or PlayerLeavingState == 0 then
+        PlayerLeavingState = PlayerLeavingState + 1
+
+        if PlayerLeavingState == 1 then
+            playSound(Sounds["StartEngine"])
+        elseif PlayerLeavingState == 2 then
+            runDialog(Dialogs["ZhenekJump"])
+        elseif PlayerLeavingState == 4 then
+            playSound(Sounds["CarDoor"])
+        end
+
+        if PlayerLeaving[PlayerLeavingState].Task == GTT_NONE then
+            -- Wait for fade in
+            if Alpha > 0.0 then
+                PlayerLeavingState = PlayerLeavingState - 1
+                return
+            end
+
+            putActorInCar(Player, Entities["Car"], 1)
+            setCarAcceleration(Entities["Car"], -0.001, 0)
+            playSound(Sounds["PickupThrottling"])
+
+			FadeTicks = 0
+            setActorTask(Actor, nil)
+            setActorState(Actor, nil)
+            return
+        elseif PlayerLeaving[PlayerLeavingState].Task == GTT_GOTO then
+			setActorTask(Actor, PlayerLeaving[PlayerLeavingState].Task, PlayerLeaving[PlayerLeavingState].X, PlayerLeaving[PlayerLeavingState].Y)
+        elseif PlayerLeaving[PlayerLeavingState].Task == GTT_WAIT then
+			setActorTask(Actor, PlayerLeaving[PlayerLeavingState].Task, PlayerLeaving[PlayerLeavingState].Duration)
+        end
+    end
 end
 ---- <<<< AI States
 

@@ -12,6 +12,7 @@ extern "C"
 #include "Console.h"
 #include "Game.h"
 #include "Actor.h"
+#include "WaitTask.h"
 #include "GotoTask.h"
 #include "GotoEntityTask.h"
 #include "KillTask.h"
@@ -283,6 +284,8 @@ void ScriptModule::DefineSymbols(lua_State* L)
     lua_pushinteger(L, GTT_DONE);
     lua_setglobal(L, "GTT_DONE");
 
+    lua_pushinteger(L, GTT_WAIT);
+    lua_setglobal(L, "GTT_WAIT");
     lua_pushinteger(L, GTT_GOTO);
     lua_setglobal(L, "GTT_GOTO");
     lua_pushinteger(L, GTT_GOTO_ENTITY);
@@ -1464,6 +1467,11 @@ s32 ScriptModule::_setActorTask(lua_State* L)
     case GTT_NONE:
     {
         pActor->SetTask(nullptr);
+    } break;
+
+    case GTT_WAIT:
+    {
+        pActor->SetTask(new WaitTask(pActor, (u32)lua_tointeger(L, 3)));
     } break;
 
     case GTT_GOTO:
