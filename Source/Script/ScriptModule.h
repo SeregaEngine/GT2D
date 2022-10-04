@@ -104,6 +104,9 @@ private:
     static s32 _setEntityPosition(lua_State* L);
     static s32 _getEntityPosition(lua_State* L);
 
+    static s32 _setEntityVelocity(lua_State* L);
+    static s32 _getEntityVelocity(lua_State* L);
+
     static s32 _setEntityHitBox(lua_State* L);
     static s32 _getEntityHitBox(lua_State* L);
 

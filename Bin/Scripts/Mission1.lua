@@ -2,6 +2,8 @@
 dofile "Scripts/GraphicsDefines.lua"
 
 -- Defines
+DEBUG = false
+
 local GROUND_WIDTH
 local GROUND_HEIGHT
 local GROUND_X
@@ -33,7 +35,7 @@ function onEnter()
     GT_LOG(PR_NOTE, "Mission1 entered")
 
     defineResources()
-    onEnterL4()
+    onEnterL1()
 end
 
 function defineResources()
@@ -92,6 +94,9 @@ function defineResources()
     States["PlayerTakeWheels"] = defineState("statePlayerTakeWheels")
     States["PlayerLeavingGarage"] = defineState("statePlayerLeavingGarage")
     States["PlayerLeaving"] = defineState("statePlayerLeaving")
+    States["SeregaDriving"] = defineState("stateSeregaDriving")
+    States["PoliceDialog"] = defineState("statePoliceDialog")
+    States["PoliceGoToHouse"] = defineState("statePoliceGoToHouse")
 end
 
 function onEnterL1()
@@ -234,7 +239,6 @@ function onEnterL4()
 
     -- Entities
     Entities["Player"] = addActor(185, 35, GW_ACTOR, GH_ACTOR, Textures["Player"])
-    toggleActorGodMode(Entities["Player"], true)
     toggleEntityCollidable(Entities["Player"], false)
     setActorWeapon(Entities["Player"], Weapons["Fist"])
     setActorState(Entities["Player"], States["PlayerLeaving"])
@@ -242,17 +246,60 @@ function onEnterL4()
     PlayerControllable = false
 
     Entities["Zhenek"] = addActor(0, 0, GW_ACTOR, GH_ACTOR, Textures["Zhenek"])
-    toggleActorGodMode(Entities["Zhenek"], true)
     setActorAnim(Entities["Zhenek"], ACTOR_ANIMATION_INCAR, Anims["ZhenekDriving"])
 
+    -- WORKAROUND(sean)
+    Entities["Serega"] = addActor(0, 0, GW_ACTOR, GH_ACTOR, Textures["Player"])
+    --setActorAnim(Entities["Serega"], ACTOR_ANIMATION_INCAR, Anims["PoliceDriving"])
+    toggleEntityCollidable(Entities["Serega"], false)
+    local X, Y = getActorSpeed(Entities["Serega"])
+    setActorSpeed(Entities["Serega"], X/2, Y/2)
+    setActorState(Entities["Serega"], States["SeregaDriving"])
+    setActorTask(Entities["Serega"], GTT_WAIT, 5000) -- Don't check car velocity 5 seconds
+
+    Entities["John"] = addActor(0, 0, GW_ACTOR, GH_ACTOR, Textures["DarkLord"])
+    --setActorAnim(Entities["John"], ACTOR_ANIMATION_INCAR, Anims["PoliceDriving"])
+    toggleEntityCollidable(Entities["John"], false)
+    setActorSpeed(Entities["John"], X/2, Y/2)
+
     Entities["Car"] = addCar(SCREEN_WIDTH + 75, 66, 90, 30, Textures["TrashCar"])
-    setCarMaxSpeed(Entities["Car"], 2, 0)
+    setCarMaxSpeed(Entities["Car"], 0.075, 0)
     setCarPlacePosition(Entities["Car"], 0, 0, -6)
     setCarPlacePosition(Entities["Car"], 1, 7, -6)
     turnCarLeft(Entities["Car"])
     putActorInCar(Entities["Zhenek"], Entities["Car"], 0)
 
+    Entities["PoliceCar"] = addCar(SCREEN_WIDTH*12, 66, 90, 30, Textures["TrashCar"])
+    setCarMaxSpeed(Entities["PoliceCar"], 0.125, 0)
+    setCarAcceleration(Entities["PoliceCar"], -1, 0)
+    setCarPlacePosition(Entities["PoliceCar"], 0, 0, -6)
+    setCarPlacePosition(Entities["PoliceCar"], 1, 7, -6)
+    turnCarLeft(Entities["PoliceCar"])
+    putActorInCar(Entities["Serega"], Entities["PoliceCar"], 0)
+    putActorInCar(Entities["John"], Entities["PoliceCar"], 1)
+
+    -- Triggers
+    Triggers["PoliceStop"] = addTrigger(SCREEN_WIDTH*2.1, SCREEN_HEIGHT/2, 1, SCREEN_HEIGHT, Entities["PoliceCar"], "triggerPoliceStop")
+
+    -- Dialogs
     Dialogs["ZhenekJump"] = addDialog(GW_DIALOG, GH_DIALOG, "Petrol! Jump in", 1, Entities["Zhenek"], Textures["DialogSquare"])
+
+    Dialogs["Police1"] = addDialog(GW_DIALOG, GH_DIALOG, "I don't like it.", 1, Entities["John"], Textures["DialogSquare"])
+    Dialogs["Police2"] = addDialog(GW_DIALOG, GH_DIALOG, "C'mon, John! Are you a little girl?", 1, Entities["Serega"], Textures["DialogSquare"])
+    Dialogs["Police3"] = addDialog(GW_DIALOG, GH_DIALOG, "I am a grown forty-year-old divorced man with two children and...", 1, Entities["John"], Textures["DialogSquare"])
+    Dialogs["Police4"] = addDialog(GW_DIALOG, GH_DIALOG, "a loan for a house that I have been giving for 10 years", 1, Entities["John"], Textures["DialogSquare"])
+    Dialogs["Police5"] = addDialog(GW_DIALOG, GH_DIALOG, "I wish i had peace...", 1, Entities["John"], Textures["DialogSquare"])
+    Dialogs["Police6"] = addDialog(GW_DIALOG, GH_DIALOG, "Just shut up and let's go", 1, Entities["Serega"], Textures["DialogSquare"])
+
+    DialogL4_1 = {
+        Dialogs["Police1"],
+        Dialogs["Police2"],
+        Dialogs["Police3"],
+        Dialogs["Police4"],
+        Dialogs["Police5"],
+        Dialogs["Police6"],
+    }
+    DialogStateL4_1 = 1
 
     -- States
     FadeTicks = 0
@@ -265,6 +312,14 @@ function onEnterL4()
         { ["Task"] = GTT_NONE }
     }
     PlayerLeavingState = 0
+
+    PoliceGoToHouse = {
+        { ["Task"] = GTT_GOTO, ["X"] = 185, ["Y"] = 55 },
+        { ["Task"] = GTT_GOTO, ["X"] = 180, ["Y"] = 40 },
+        { ["Task"] = GTT_GOTO, ["X"] = 165, ["Y"] = 25 },
+        { ["Task"] = GTT_NONE }
+    }
+    PoliceGoToHouseState = 0
 
     -- Camera
     setCameraBounds(0, 0, GROUND_WIDTH, SCREEN_HEIGHT)
@@ -288,6 +343,15 @@ end
 
 function onUpdateL4(dt)
     handleInput()
+
+    if DEBUG then
+		setDrawColor(255, 255, 255, 255)
+		local X,Y = getEntityPosition(Entities["PoliceCar"])
+		drawText(RENDER_MODE_DEBUG, 999, true, 0,0,10,2, string.format("%.1f", X))
+
+		X,Y = getEntityVelocity(Entities["PoliceCar"])
+		drawText(RENDER_MODE_DEBUG, 999, true, 0,2,10,2, string.format("%.1f", X))
+    end
 end
 
 local CanAttack = true
@@ -376,6 +440,11 @@ end
 
 function triggerPlayerLeavingGarage(Trigger, Entity)
     setActorState(Entity, States["PlayerLeavingGarage"])
+end
+
+function triggerPoliceStop(Trigger, Entity)
+    GT_LOG(PR_NOTE, "Stop!")
+    setCarAcceleration(Entity, 0.00006, 0)
 end
 ---- <<<< Triggers
 
@@ -588,18 +657,83 @@ function statePlayerLeaving(Actor)
             end
 
             putActorInCar(Player, Entities["Car"], 1)
-            setCarAcceleration(Entities["Car"], -0.001, 0)
+            setCarAcceleration(Entities["Car"], -0.0001, 0)
             playSound(Sounds["PickupThrottling"])
 
-			FadeTicks = 0
+            FadeTicks = 0
             setActorTask(Actor, nil)
             setActorState(Actor, nil)
             return
         elseif PlayerLeaving[PlayerLeavingState].Task == GTT_GOTO then
-			setActorTask(Actor, PlayerLeaving[PlayerLeavingState].Task, PlayerLeaving[PlayerLeavingState].X, PlayerLeaving[PlayerLeavingState].Y)
+            setActorTask(Actor, PlayerLeaving[PlayerLeavingState].Task, PlayerLeaving[PlayerLeavingState].X, PlayerLeaving[PlayerLeavingState].Y)
         elseif PlayerLeaving[PlayerLeavingState].Task == GTT_WAIT then
-			setActorTask(Actor, PlayerLeaving[PlayerLeavingState].Task, PlayerLeaving[PlayerLeavingState].Duration)
+            setActorTask(Actor, PlayerLeaving[PlayerLeavingState].Task, PlayerLeaving[PlayerLeavingState].Duration)
         end
+    end
+end
+
+function stateSeregaDriving(Actor)
+    -- Wait
+    if checkActorTask(Actor) ~= GTT_DONE then
+        return
+    end
+
+    -- Handle velocity
+    local X,Y = getEntityVelocity(Entities["PoliceCar"])
+    if X > -0.03 then
+        -- Stop car, start dialog
+        setCarMaxSpeed(Entities["PoliceCar"], 0, 0)
+        setActorTask(Actor, GTT_WAIT, 500)
+        setActorState(Actor, States["PoliceDialog"])
+    end
+end
+
+function statePoliceDialog(Actor)
+    -- Wait task
+    if checkActorTask(Actor) ~= GTT_DONE then
+        return
+    end
+
+    -- Play dialog and eject from the car
+    if hasWorldEntity(DialogL4_1[DialogStateL4_1]) then
+        runDialog(DialogL4_1[DialogStateL4_1])
+    else
+        DialogStateL4_1 = DialogStateL4_1 + 1
+
+        if DialogStateL4_1 > #DialogL4_1 then
+            ejectActorFromCar(Entities["PoliceCar"], 0)
+            ejectActorFromCar(Entities["PoliceCar"], 1)
+            playSound(Sounds["CarDoor"])
+            playSound(Sounds["CarDoor"])
+
+            local X, Y = getEntityPosition(Entities["Serega"])
+            setEntityPosition(Entities["Serega"], X, Y-5)
+            setEntityPosition(Entities["John"], X+16, Y-5)
+            setActorState(Actor, States["PoliceGoToHouse"])
+        end
+    end
+end
+
+function statePoliceGoToHouse(Actor)
+    if PoliceGoToHouseState == 0 then
+        FadeTicks = getTicks()
+    end
+
+    local Alpha = (getTicks() - FadeTicks) * 0.125
+    if Alpha > 255 then
+        GT_LOG(PR_NOTE, "Mission ended")
+        setActorState(Actor, nil)
+        return
+    else
+        setDrawColor(0, 0, 0, math.floor(Alpha))
+        fillRect(RENDER_MODE_FOREGROUND, 999, true, 0,0,SCREEN_WIDTH,SCREEN_HEIGHT)
+    end
+
+    local Status = checkActorTask(Actor)
+    if Status == GTT_DONE or PoliceGoToHouseState == 0 then
+        PoliceGoToHouseState = PoliceGoToHouseState + 1
+        setActorTask(Entities["Serega"], PoliceGoToHouse[PoliceGoToHouseState].Task, PoliceGoToHouse[PoliceGoToHouseState].X, PoliceGoToHouse[PoliceGoToHouseState].Y)
+        setActorTask(Entities["John"], PoliceGoToHouse[PoliceGoToHouseState].Task, PoliceGoToHouse[PoliceGoToHouseState].X, PoliceGoToHouse[PoliceGoToHouseState].Y)
     end
 end
 ---- <<<< AI States

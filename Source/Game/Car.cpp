@@ -43,13 +43,7 @@ void Car::Update(f32 dtTime)
     }
 
     // Position
-    m_vPosition += m_vVelocity;
-
-    // Flip
-    if (m_vVelocity.x > 0)
-        m_flip = SDL_FLIP_NONE;
-    else if (m_vVelocity.y < 0)
-        m_flip = SDL_FLIP_HORIZONTAL;
+    m_vPosition += m_vVelocity * dtTime;
 
     // Handle actors
     for (i32f i = 0; i < MAX_CAR_PLACES; ++i)

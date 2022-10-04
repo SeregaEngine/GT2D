@@ -123,6 +123,8 @@ void ScriptModule::DefineFunctions(lua_State* L)
     lua_register(L, "updateEntity", _updateEntity);
     lua_register(L, "setEntityPosition", _setEntityPosition);
     lua_register(L, "getEntityPosition", _getEntityPosition);
+    lua_register(L, "setEntityVelocity", _setEntityVelocity);
+    lua_register(L, "getEntityVelocity", _getEntityVelocity);
     lua_register(L, "setEntityHitBox", _setEntityHitBox);
     lua_register(L, "getEntityHitBox", _getEntityHitBox);
     lua_register(L, "toggleEntityCollidable", _toggleEntityCollidable);
@@ -151,6 +153,8 @@ void ScriptModule::DefineFunctions(lua_State* L)
     lua_register(L, "isActorLookRight", _isActorLookRight);
     lua_register(L, "turnActorLeft", _turnActorLeft);
     lua_register(L, "turnActorRight", _turnActorRight);
+    lua_register(L, "setActorSpeed", _setActorSpeed);
+    lua_register(L, "getActorSpeed", _getActorSpeed);
     lua_register(L, "setActorState", _setActorState);
     lua_register(L, "setActorTask", _setActorTask);
     lua_register(L, "sendActorCmd", _sendActorCmd);
@@ -914,6 +918,46 @@ s32 ScriptModule::_getEntityPosition(lua_State* L)
     return 2;
 }
 
+s32 ScriptModule::_setEntityVelocity(lua_State* L)
+{
+    if (!LuaExpect(L, "setEntityVelocity", 3))
+        return -1;
+
+    Entity* pEntity = (Entity*)lua_touserdata(L, 1);
+    if (!pEntity)
+    {
+        LuaNote(PR_WARNING, "setEntityVelocity() called with null entity");
+        return -1;
+    }
+    pEntity->m_vVelocity = {
+        GTU::UnitToScreenX((f32)lua_tonumber(L, 2)),
+        GTU::UnitToScreenY((f32)lua_tonumber(L, 3))
+    };
+
+    return 0;
+}
+
+s32 ScriptModule::_getEntityVelocity(lua_State* L)
+{
+    if (!LuaExpect(L, "getEntityVelocity", 1))
+        return -1;
+
+    Entity* pEntity = (Entity*)lua_touserdata(L, 1);
+    if (pEntity)
+    {
+        lua_pushnumber(L, GTU::ScreenToUnitX(pEntity->m_vVelocity.x));
+        lua_pushnumber(L, GTU::ScreenToUnitY(pEntity->m_vVelocity.y));
+    }
+    else
+    {
+        LuaNote(PR_WARNING, "getEntityVelocity(): function called with null entity");
+        lua_pushnumber(L, 0.0f);
+        lua_pushnumber(L, 0.0f);
+    }
+
+    return 2;
+}
+
 s32 ScriptModule::_setEntityHitBox(lua_State* L)
 {
     if (!LuaExpect(L, "setEntityHitBox", 5))
@@ -1393,6 +1437,50 @@ s32 ScriptModule::_turnActorRight(lua_State* L)
 
     return 0;
 }
+
+s32 ScriptModule::_setActorSpeed(lua_State* L)
+{
+    if (!LuaExpect(L, "setActorSpeed", 3))
+        return -1;
+
+    Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
+    if (pActor)
+    {
+        pActor->m_vSpeed = {
+            GTU::UnitToScreenX((f32)lua_tonumber(L, 2)),
+            GTU::UnitToScreenY((f32)lua_tonumber(L, 3)),
+        };
+    }
+    else
+    {
+        LuaNote(PR_WARNING, "setActorSpeed() called with null actor");
+        return -1;
+    }
+
+    return 0;
+}
+
+s32 ScriptModule::_getActorSpeed(lua_State* L)
+{
+    if (!LuaExpect(L, "getActorSpeed", 1))
+        return -1;
+
+    Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
+    if (pActor)
+    {
+        lua_pushnumber(L, GTU::ScreenToUnitX(pActor->m_vSpeed.x));
+        lua_pushnumber(L, GTU::ScreenToUnitY(pActor->m_vSpeed.y));
+    }
+    else
+    {
+        LuaNote(PR_WARNING, "getActorSpeed() called with null actor");
+        lua_pushnumber(L, 0.0f);
+        lua_pushnumber(L, 0.0f);
+    }
+
+    return 2;
+}
+
 
 s32 ScriptModule::_sendActorCmd(lua_State* L)
 {
