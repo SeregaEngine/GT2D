@@ -35,7 +35,7 @@ function onEnter()
     GT_LOG(PR_NOTE, "Mission1 entered")
 
     defineResources()
-    onEnterL1()
+    onEnterL4()
 end
 
 function defineResources()
@@ -271,7 +271,7 @@ function onEnterL4()
     putActorInCar(Entities["Zhenek"], Entities["Car"], 0)
 
     Entities["PoliceCar"] = addCar(SCREEN_WIDTH*12, 66, 90, 30, Textures["TrashCar"])
-    setCarMaxSpeed(Entities["PoliceCar"], 0.125, 0)
+    setCarMaxSpeed(Entities["PoliceCar"], 0.135, 0)
     setCarAcceleration(Entities["PoliceCar"], -1, 0)
     setCarPlacePosition(Entities["PoliceCar"], 0, 0, -6)
     setCarPlacePosition(Entities["PoliceCar"], 1, 7, -6)
@@ -280,7 +280,7 @@ function onEnterL4()
     putActorInCar(Entities["John"], Entities["PoliceCar"], 1)
 
     -- Triggers
-    Triggers["PoliceStop"] = addTrigger(SCREEN_WIDTH*2.1, SCREEN_HEIGHT/2, 1, SCREEN_HEIGHT, Entities["PoliceCar"], "triggerPoliceStop")
+    Triggers["PoliceStop"] = addTrigger(SCREEN_WIDTH*2.3, SCREEN_HEIGHT/2, 1, SCREEN_HEIGHT, Entities["PoliceCar"], "triggerPoliceStop")
 
     -- Dialogs
     Dialogs["ZhenekJump"] = addDialog(GW_DIALOG, GH_DIALOG, "Petrol! Jump in", 1, Entities["Zhenek"], Textures["DialogSquare"])
