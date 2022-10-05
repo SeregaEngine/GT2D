@@ -27,6 +27,7 @@ public:
     virtual void Render() override;
 
     World& GetWorld() { return m_world; }
+    const char* GetScriptPath() const { return m_scriptPath; }
 };
 
 #endif // PLAYSTATE_H_

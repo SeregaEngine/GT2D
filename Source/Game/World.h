@@ -29,7 +29,7 @@ public:
     void Update(f32 dtTime);
     void Render();
 
-    void SwitchLocation(const char* funName) { memcpy(m_switchLocation, funName, WORLD_SWITCH_STRSIZE); }
+    void SwitchLocation(const char* funName) { strncpy(m_switchLocation, funName, WORLD_SWITCH_STRSIZE); }
     void SetGroundBounds(SRect& rect) { m_groundBounds = rect; }
 
     void PushEntity(Entity* pEntity) { if (pEntity) m_lstEntity.Push(pEntity); }

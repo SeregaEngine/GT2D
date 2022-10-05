@@ -106,6 +106,7 @@ void ScriptModule::DefineFunctions(lua_State* L)
     lua_register(L, "getTicks", _getTicks);
     lua_register(L, "stopGame", _stopGame);
     lua_register(L, "switchMission", _switchMission);
+    lua_register(L, "restartMission", _restartMission);
 
     /* World */
     lua_register(L, "hostSwitchLocation", _hostSwitchLocation);
@@ -803,6 +804,17 @@ s32 ScriptModule::_switchMission(lua_State* L)
         return -1;
 
     g_game.ChangeState(new PlayState(lua_tostring(L, 1), (s32)lua_tointeger(L, 2)));
+
+    return 0;
+}
+
+s32 ScriptModule::_restartMission(lua_State* L)
+{
+    if (!LuaExpect(L, "restartMission", 1))
+        return -1;
+
+    g_game.ChangeState(new PlayState(static_cast<PlayState*>(
+        g_game.GetCurrentState())->GetScriptPath(), (s32)lua_tointeger(L, 1)));
 
     return 0;
 }

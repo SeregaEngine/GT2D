@@ -90,6 +90,7 @@ private:
     static s32 _getTicks(lua_State* L);
     static s32 _stopGame(lua_State* L);
     static s32 _switchMission(lua_State* L);
+    static s32 _restartMission(lua_State* L);
 
     /* World */
     static s32 _hostSwitchLocation(lua_State* L);
