@@ -133,17 +133,17 @@ void Dialog::SetText(const char* text)
 
 void Dialog::HandlePosition()
 {
-    if (m_pAttached->IsLookRight())
+    if (m_pAttached->m_bLookRight)
     {
-        m_vPosition.x = m_pAttached->GetPosition().x + m_pAttached->GetHitBox().x2;
+        m_vPosition.x = m_pAttached->m_vPosition.x + m_pAttached->m_hitBox.x2;
         m_flip = SDL_FLIP_NONE;
     }
     else
     {
-        m_vPosition.x = m_pAttached->GetPosition().x + m_pAttached->GetHitBox().x1 - m_width;
+        m_vPosition.x = m_pAttached->m_vPosition.x + m_pAttached->m_hitBox.x1 - m_width;
         m_flip = SDL_FLIP_HORIZONTAL;
     }
-    m_vPosition.y = m_pAttached->GetPosition().y + m_pAttached->GetHitBox().y1 - m_height;
+    m_vPosition.y = m_pAttached->m_vPosition.y + m_pAttached->m_hitBox.y1 - m_height;
 }
 
 i32f Dialog::WordLength(const char* text)

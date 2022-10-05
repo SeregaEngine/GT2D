@@ -32,10 +32,10 @@ void GotoEntityTask::Handle()
     HandleActor();
 }
 
-b32f GotoEntityTask::IsDone()
+b32 GotoEntityTask::IsDone()
 {
     TList<Entity*> lstEntity;
-    g_collisionMgr.CheckCollision(m_pActor->GetPosition(), m_pActor->GetHitBox(), [](auto pEntity, auto userdata) -> b32f {
+    g_collisionMgr.CheckCollision(m_pActor->m_vPosition, m_pActor->m_hitBox, [](auto pEntity, auto userdata) -> b32 {
         if (pEntity == (Entity*)userdata)
             return true;
         return false;
@@ -49,10 +49,10 @@ b32f GotoEntityTask::IsDone()
 void GotoEntityTask::HandleActor()
 {
     // Get positions and compute error
-    const Vector2& vActor = m_pActor->GetPosition();
-    const Vector2& vEntity = m_pEntity->GetPosition();
-    Vector2 vError = { m_pActor->GetSpeed().x * ERROR_MULTIPLIER,
-                       m_pActor->GetSpeed().y * ERROR_MULTIPLIER };
+    const Vector2& vActor = m_pActor->m_vPosition;
+    const Vector2& vEntity = m_pEntity->m_vPosition;
+    Vector2 vError = { m_pActor->m_vSpeed.x * ERROR_MULTIPLIER,
+                       m_pActor->m_vSpeed.y * ERROR_MULTIPLIER };
 
     // Move Actor according to x/y ratio
     f32 ratio = fabsf((vEntity.x - vActor.x) / (vEntity.y - vActor.y));

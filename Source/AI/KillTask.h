@@ -14,8 +14,8 @@ public:
 
     virtual void Handle() override;
 private:
-    b32f IsDone();
-    b32f IsPossible();
+    b32 IsDone();
+    b32 IsPossible();
     void HandleActor();
 };
 

@@ -231,7 +231,7 @@ void GraphicsModule::CleanQueue(TList<RenderElement*>& queue)
     queue.Clean();
 }
 
-b32f GraphicsModule::CheckAndCorrectDest(SDL_Rect& dest, b32 bHUD)
+b32 GraphicsModule::CheckAndCorrectDest(SDL_Rect& dest, b32 bHUD)
 {
     // Make screen coords from world coords
     if (!bHUD)

@@ -59,7 +59,7 @@ private:
     /* AI */
     const GT_State* m_pState;
     GT_Task* m_pTask;
-    TList<GT_Command> m_lstCommand;
+    TList<s32> m_lstCommand;
 public:
     /* Animations */
     const GT_Animation* m_aActorAnims[MAX_ACTOR_ANIMATIONS];
@@ -70,28 +70,7 @@ public:
     virtual void Update(f32 dtTime) override;
 
     /* Actor */
-    void SetTeam(s32 team) { m_actorTeam = team; }
-    s32 GetTeam() const { return m_actorTeam; }
-
-    void TurnRight() { m_bLookRight = true; }
-    void TurnLeft() { m_bLookRight = false; }
-    b32 IsLookRight() const { return m_bLookRight; }
-
-    void SetSpeed(const Vector2& vSpeed) { m_vSpeed = vSpeed; }
-    const Vector2& GetSpeed() const { return m_vSpeed; }
-
     void AddHealth(f32 diff) { if (!m_bGodMode) m_health += diff; }
-    void SetHealth(f32 health) { m_health = health; }
-    f32 GetHealth() const { return m_health; }
-
-    void ToggleGodMode(b32 bToggle) { m_bGodMode = bToggle; }
-    b32 IsInGodMode() const { return m_bGodMode; }
-
-    void SetAttackRate(f32 attackRate) { m_attackRate = attackRate; }
-    f32 GetAttackRate() const { return m_attackRate; }
-
-    void SetWeapon(const Weapon* pWeapon) { m_pWeapon = pWeapon; }
-    const Weapon* GetWeapon() const { return m_pWeapon; }
 
     /* AI */
     void SetState(const GT_State* pState) { m_pState = pState; }
@@ -101,22 +80,12 @@ public:
     void RemoveTask() { if (m_pTask) delete m_pTask; m_pTask = nullptr; }
     GT_Task* GetTask() const { return m_pTask; }
 
-    void SendCommand(GT_Command& cmd) { m_lstCommand.Push(cmd); }
-    void SendCommand(s32 enumCmd) {
-        GT_Command cmd(enumCmd);
-        m_lstCommand.Push(cmd);
-    }
-
-    /* Animations */
-    void SetActorAnims(const GT_Animation* aActorAnims[])
-        { memcpy(m_aActorAnims, aActorAnims, sizeof(m_aActorAnims[0]) * MAX_ACTOR_ANIMATIONS); }
-
+    void SendCommand(s32 enumCmd) { m_lstCommand.Push(enumCmd); }
 private:
     /* Actor */
-    b32f HandleDeath();
+    b32 HandleDeath();
 
     /* AI */
-    // Handle AI stuff
     void HandleState() { g_AIModule.HandleState(this); }
     void HandleTask() { if (m_pTask) m_pTask->Handle(); }
     void HandleCommand(f32 dtTime);

@@ -991,7 +991,7 @@ s32 ScriptModule::_getEntityHitBox(lua_State* L)
         return -1;
     }
 
-    const FRect& hitBox = pEntity->GetHitBox();
+    const FRect& hitBox = pEntity->m_hitBox;
     lua_pushnumber(L, GTU::ScreenToUnitX(hitBox.x1));
     lua_pushnumber(L, GTU::ScreenToUnitY(hitBox.y1));
     lua_pushnumber(L, GTU::ScreenToUnitX(hitBox.x2));
@@ -1310,7 +1310,7 @@ s32 ScriptModule::_setActorHealth(lua_State* L)
     Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
     if (pActor)
     {
-        pActor->SetHealth((f32)lua_tointeger(L, 2));
+        pActor->m_health = (f32)lua_tonumber(L, 2);
     }
     else
     {
@@ -1331,7 +1331,7 @@ s32 ScriptModule::_getActorHealth(lua_State* L)
 
     if (pActor)
     {
-        health = pActor->GetHealth();
+        health = pActor->m_health;
     }
     else
     {
@@ -1370,7 +1370,7 @@ s32 ScriptModule::_toggleActorGodMode(lua_State* L)
     Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
     if (pActor)
     {
-        pActor->ToggleGodMode((b32)lua_toboolean(L, 2));
+        pActor->m_bGodMode = (b32)lua_toboolean(L, 2);
     }
     else
     {
@@ -1408,7 +1408,7 @@ s32 ScriptModule::_turnActorLeft(lua_State* L)
     Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
     if (pActor)
     {
-        pActor->TurnLeft();
+        pActor->m_bLookRight = false;
     }
     else
     {
@@ -1427,7 +1427,7 @@ s32 ScriptModule::_turnActorRight(lua_State* L)
     Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
     if (pActor)
     {
-        pActor->TurnRight();
+        pActor->m_bLookRight = true;
     }
     else
     {
@@ -1484,11 +1484,8 @@ s32 ScriptModule::_getActorSpeed(lua_State* L)
 
 s32 ScriptModule::_sendActorCmd(lua_State* L)
 {
-    if (lua_gettop(L) < 2)
-    {
-        LuaNote(PR_ERROR, "sendActorCmd(): expected at least 2 arguments but %d given", lua_gettop(L));
+    if (!LuaExpect(L, "sendActorCmd", 2))
         return -1;
-    }
 
     // Check for errors
     Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
@@ -1498,17 +1495,8 @@ s32 ScriptModule::_sendActorCmd(lua_State* L)
         return -1;
     }
 
-    // Init command
-    GT_Command cmd;
-    cmd.cmd = (s32)lua_tointeger(L, 2);
-    for (i32f i = 3; i <= lua_gettop(L); i++)
-    {
-        f32 arg = (f32)lua_tonumber(L, i);
-        cmd.lstArgument.PushBack(arg);
-    }
-
     // Send command
-    pActor->SendCommand(cmd);
+    pActor->SendCommand((s32)lua_tointeger(L, 2));
 
     return 0;
 }
@@ -1663,7 +1651,7 @@ s32 ScriptModule::_setActorWeapon(lua_State* L)
     Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
     if (pActor)
     {
-        pActor->SetWeapon((const Weapon*)lua_touserdata(L, 2));
+        pActor->m_pWeapon = (const Weapon*)lua_touserdata(L, 2);
     }
     else
     {

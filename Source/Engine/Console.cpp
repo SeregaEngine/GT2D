@@ -21,7 +21,7 @@ static const char s_consolePrompt[] = "> ";
 Console g_console;
 
 /* ====== METHODS ====== */
-b32f Console::StartUp()
+b32 Console::StartUp()
 {
     // Allocate and init buffer
     m_buffer = new u8[CONSOLE_BUFSIZE];

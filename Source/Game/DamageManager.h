@@ -12,7 +12,7 @@ class DamageManager final : public EngineModule
 public:
     DamageManager() : EngineModule("DamageManager", CHANNEL_GAME) {}
 
-    b32f StartUp();
+    b32 StartUp();
     void ShutDown(); 
 
     void HandleAttack(const Actor* pAttacker);

@@ -21,6 +21,5 @@ typedef double f64, r64;
 // Bool
 typedef s8   b8;
 typedef s32  b32;
-typedef s32f b32f;
 
 #endif // TYPES_H_

@@ -7,7 +7,7 @@
 CollisionManager g_collisionMgr;
 
 /* ====== METHODS ====== */
-b32f CollisionManager::StartUp()
+b32 CollisionManager::StartUp()
 {
     AddNote(PR_NOTE, "Module started");
 
@@ -19,7 +19,7 @@ void CollisionManager::ShutDown()
     AddNote(PR_NOTE, "Module shut down");
 }
 
-b32f CollisionManager::IsOnGround(const Vector2& vPoint, const FRect& hitBox) const
+b32 CollisionManager::IsOnGround(const Vector2& vPoint, const FRect& hitBox) const
 {
     const SRect& ground = g_game.GetWorld().GetGroundBounds();
 
@@ -43,12 +43,12 @@ void CollisionManager::CheckCollision(const Vector2& vPoint, const FRect& hitBox
 
     for (auto it = lstWorldEntity.Begin(); it != end; ++it)
     {
-        if (it->data == pExcept || !it->data->IsCollidable())
+        if (it->data == pExcept || !it->data->m_bCollidable)
             continue;
 
         // Get entity hitbox in world coords
-        const Vector2& vEntity = it->data->GetPosition();
-        const FRect& entityBox = it->data->GetHitBox();
+        const Vector2& vEntity = it->data->m_vPosition;
+        const FRect& entityBox = it->data->m_hitBox;
         FRect entityRect = {
             vEntity.x + entityBox.x1, vEntity.y + entityBox.y1,
             vEntity.x + entityBox.x2, vEntity.y + entityBox.y2
@@ -65,7 +65,7 @@ void CollisionManager::CheckCollision(const Vector2& vPoint, const FRect& hitBox
     }
 }
 
-void CollisionManager::CheckCollision(const Vector2& vPoint, const FRect& hitBox, b32f (*predicate)(Entity*, void*), void* userdata, TList<Entity*>& lstEntity, const Entity* pExcept) const
+void CollisionManager::CheckCollision(const Vector2& vPoint, const FRect& hitBox, b32 (*predicate)(Entity*, void*), void* userdata, TList<Entity*>& lstEntity, const Entity* pExcept) const
 {
     // Get check hitbox in world coords
     FRect checkRect = {
@@ -79,12 +79,12 @@ void CollisionManager::CheckCollision(const Vector2& vPoint, const FRect& hitBox
 
     for (auto it = lstWorldEntity.Begin(); it != end; ++it)
     {
-        if (it->data == pExcept || !it->data->IsCollidable() || !predicate(it->data, userdata))
+        if (it->data == pExcept || !it->data->m_bCollidable || !predicate(it->data, userdata))
             continue;
 
         // Get entity hitbox in world coords
-        const Vector2& vEntity = it->data->GetPosition();
-        const FRect& entityBox = it->data->GetHitBox();
+        const Vector2& vEntity = it->data->m_vPosition;
+        const FRect& entityBox = it->data->m_hitBox;
         FRect entityRect = {
             vEntity.x + entityBox.x1, vEntity.y + entityBox.y1,
             vEntity.x + entityBox.x2, vEntity.y + entityBox.y2

@@ -79,7 +79,7 @@ private:
     void CleanQueues();
     void CleanQueue(TList<RenderElement*>& queue);
 
-    b32f CheckAndCorrectDest(SDL_Rect& dest, b32 bHUD);
+    b32 CheckAndCorrectDest(SDL_Rect& dest, b32 bHUD);
     void PushRenderElement(s32 renderMode, RenderElement* pElement);
     void PushStaticElement(TList<RenderElement*>& queue, RenderElement* pElement);
     void PushDynamicElement(TList<RenderElement*>& queue, RenderElement* pElement);

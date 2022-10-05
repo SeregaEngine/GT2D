@@ -26,18 +26,18 @@ void KillTask::Handle()
     HandleActor();
 }
 
-b32f KillTask::IsDone()
+b32 KillTask::IsDone()
 {
     if (!g_game.GetWorld().HasEntity(m_pTarget) || m_pTarget->m_actorState == ACTOR_STATE_DEAD)
         return true;
     return false;
 }
 
-b32f KillTask::IsPossible()
+b32 KillTask::IsPossible()
 {
     // Check if we are near the target
     TList<Entity*> lstEntity;
-    g_collisionMgr.CheckCollision(m_pActor->GetPosition(), m_pActor->GetHitBox(), [](auto pEntity, auto userdata) -> b32f {
+    g_collisionMgr.CheckCollision(m_pActor->m_vPosition, m_pActor->m_hitBox, [](auto pEntity, auto userdata) -> b32 {
         if (pEntity == (Entity*)userdata)
             return true;
         return false;
@@ -52,10 +52,10 @@ b32f KillTask::IsPossible()
 
 void KillTask::HandleActor()
 {
-    if (m_pTarget->GetPosition().x < m_pActor->GetPosition().x)
-        m_pActor->TurnLeft();
+    if (m_pTarget->m_vPosition.x < m_pActor->m_vPosition.x)
+        m_pActor->m_bLookRight = false;
     else
-        m_pActor->TurnRight();
+        m_pActor->m_bLookRight = true;
 
     m_pActor->SendCommand(GTC_ATTACK);
 }

@@ -16,7 +16,7 @@ public:
 
     virtual void Handle() override;
 private:
-    b32f IsDone();
+    b32 IsDone();
     void HandleActor();
 
     void MoveX(const Vector2& vActor, const Vector2& vEntity, const Vector2& vError);

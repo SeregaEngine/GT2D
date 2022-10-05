@@ -11,16 +11,4 @@ enum eGTCommand
     GTC_ATTACK,
 };
 
-/* ====== STRUCTURES ====== */
-// Actors handle commands by themselves
-struct GT_Command
-{
-    s32 cmd;
-    TList<f32> lstArgument;
-
-    GT_Command() = default;
-    GT_Command(s32 _cmd) : cmd(_cmd), lstArgument() {}
-    GT_Command(s32 _cmd, TList<f32>& _lstArgument) : cmd(_cmd), lstArgument(_lstArgument) {}
-};
-
 #endif // GTCOMMAND_H_

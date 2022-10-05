@@ -80,8 +80,8 @@ public:
 
     T& Front() { return m_pFirst->data; }
     T& Back() { return m_pLast->data; }
-    b32f IsEmpty() const { return m_pFirst ? false : true; }
-    b32f IsMember(const T& check) const;
+    b32 IsEmpty() const { return m_pFirst ? false : true; }
+    b32 IsMember(const T& check) const;
 
     void Mapcar(void (*fun)(T, void*), void* userdata); // It's just iterator, not mapcar at all...
     void Mapcar(void (*fun)(T));
@@ -221,7 +221,7 @@ inline void TList<T>::Mapcar(void (*fun)(T)) {
 }
 
 template<class T>
-inline b32f TList<T>::IsMember(const T& check) const
+inline b32 TList<T>::IsMember(const T& check) const
 {
     for (Item* pTemp = m_pFirst; pTemp; pTemp = pTemp->pNext)
         if (pTemp->data == check)

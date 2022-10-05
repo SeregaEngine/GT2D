@@ -87,7 +87,7 @@ void InputModule::OnKeyDown(SDL_Event& e)
     else if (g_console.IsShown())
     {
         // Check shift
-        b32f bShift = IsKeyDown(SDLK_LSHIFT);
+        b32 bShift = IsKeyDown(SDLK_LSHIFT);
 
         // Latin characters
         if (e.key.keysym.sym >= 'a' && e.key.keysym.sym <= 'z')

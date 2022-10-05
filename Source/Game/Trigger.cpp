@@ -25,7 +25,7 @@ void Trigger::Update(f32 dtTime)
 
     // Get collided with trigger entities
     TList<Entity*> lstEntity;
-    g_collisionMgr.CheckCollision(m_vPosition, m_hitBox, [](auto pEntity, auto pAttached) -> b32f {
+    g_collisionMgr.CheckCollision(m_vPosition, m_hitBox, [](auto pEntity, auto pAttached) -> b32 {
         if (pEntity == pAttached)
             return true;
         return false;

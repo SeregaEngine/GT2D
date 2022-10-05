@@ -35,7 +35,7 @@ function onEnter()
     GT_LOG(PR_NOTE, "Mission1 entered")
 
     defineResources()
-    onEnterL4()
+    onEnterL1()
 end
 
 function defineResources()

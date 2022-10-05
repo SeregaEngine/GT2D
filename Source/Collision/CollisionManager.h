@@ -15,14 +15,14 @@ class CollisionManager final : public EngineModule
 public:
     CollisionManager() : EngineModule("CollisionManager", CHANNEL_GAME) {}
 
-    b32f StartUp();
+    b32 StartUp();
     void ShutDown();
 
-    b32f IsOnGround(const Vector2& vPoint, const FRect& hitBox) const;
+    b32 IsOnGround(const Vector2& vPoint, const FRect& hitBox) const;
     void CheckCollision(const Vector2& vPoint, const FRect& hitBox,
                         TList<Entity*>& lstEntity, const Entity* pExcept = nullptr) const;
     void CheckCollision(const Vector2& vPoint, const FRect& hitBox,
-                        b32f (*predicate)(Entity*, void*), void* userdata,
+                        b32 (*predicate)(Entity*, void*), void* userdata,
                         TList<Entity*>& lstEntity, const Entity* pExcept = nullptr) const;
 };
 

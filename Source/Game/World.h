@@ -39,7 +39,7 @@ public:
     const SRect& GetGroundBounds() const { return m_groundBounds; }
     TList<Entity*>& GetEntityList() { return m_lstEntity; }
 
-    b32f HasEntity(Entity* pEntity) { return m_lstEntity.IsMember(pEntity); }
+    b32 HasEntity(Entity* pEntity) { return m_lstEntity.IsMember(pEntity); }
 private:
     void HandleSwitchLocation();
     void UpdateEntities(f32 dtTime);

@@ -72,7 +72,7 @@ void Actor::Update(f32 dtTime)
     HandleAnimation(dtTime);
 }
 
-b32f Actor::HandleDeath()
+b32 Actor::HandleDeath()
 {
     if (m_health <= 0)
     {
@@ -106,13 +106,13 @@ void Actor::HandleCommand(f32 dtTime)
     // Handle command list
     while (!m_lstCommand.IsEmpty())
     {
-        GT_Command& cmd = m_lstCommand.Front();
-        switch (cmd.cmd)
+        s32 cmd = m_lstCommand.Front();
+        switch (cmd)
         {
         case GTC_MOVE_UP:
         case GTC_MOVE_LEFT:
         case GTC_MOVE_DOWN:
-        case GTC_MOVE_RIGHT: CommandMove(cmd.cmd, dtTime); break;
+        case GTC_MOVE_RIGHT: CommandMove(cmd, dtTime); break;
 
         case GTC_ATTACK: CommandAttack(); break;
 
@@ -172,7 +172,7 @@ void Actor::CommandAttack()
 {
     /* We use animations to detect on which state of attack we are */
 
-    b32f bHit = false;
+    b32 bHit = false;
 
     // If we already attacking
     if (m_actorState == ACTOR_STATE_ATTACK)

@@ -15,9 +15,9 @@ void GotoTask::Handle()
         return;
 
     // Get position and compute error
-    const Vector2& vPosition = m_pActor->GetPosition();
-    Vector2 vError = { m_pActor->GetSpeed().x * ERROR_MULTIPLIER,
-                       m_pActor->GetSpeed().y * ERROR_MULTIPLIER };
+    const Vector2& vPosition = m_pActor->m_vPosition;
+    Vector2 vError = { m_pActor->m_vSpeed.x * ERROR_MULTIPLIER,
+                       m_pActor->m_vSpeed.y * ERROR_MULTIPLIER };
 
     // X
     if (!m_bCompletedX)

@@ -18,7 +18,7 @@ class Console : public EngineModule
 public:
     Console() : EngineModule("Console", CHANNEL_LOGMGR) {}
 
-    b32f StartUp();
+    b32 StartUp();
     void ShutDown();
 
     void Render() const;
