@@ -1,9 +1,12 @@
 /* ====== INCLUDES ====== */
+#include "ClockManager.h"
+
 #include "WaitTask.h"
 
 /* ====== METHODS ====== */
 void WaitTask::Handle()
 {
-    if (SDL_GetTicks() >= m_wait)
+    m_wait -= g_clockMgr.GetDelta();
+    if (m_wait <= 0.0f)
         m_status = GTT_DONE;
 }

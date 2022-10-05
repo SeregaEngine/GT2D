@@ -160,7 +160,7 @@ s32 GT2D::Run()
         if (!g_inputModule.HandleEvents())
             break;
 
-        g_game.Update(g_clockMgr.GetDelta());
+        g_game.Update(g_clockMgr.ComputeDelta());
         g_game.Render();
 
         g_clockMgr.Sync();

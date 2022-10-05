@@ -9,10 +9,10 @@
 /* ====== STRUCTURES ====== */
 class WaitTask final : public GT_Task
 {
-    u32 m_wait;
+    f32 m_wait;
 public:
-    WaitTask(Actor* pActor, u32 wait)
-        : GT_Task(pActor, GTT_WAIT), m_wait(SDL_GetTicks() + wait) {}
+    WaitTask(Actor* pActor, f32 wait)
+        : GT_Task(pActor, GTT_WAIT), m_wait(wait) {}
 
     virtual void Handle() override;
 };
