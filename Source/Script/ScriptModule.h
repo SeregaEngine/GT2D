@@ -16,25 +16,24 @@ class Trigger;
 
 class ScriptModule final : public EngineModule
 {
-    lua_State* m_pLoader;
-    lua_State* m_pMission;
+    lua_State* m_pSaver;
 public:
     ScriptModule() : EngineModule("ScriptModule", CHANNEL_SCRIPT) {}
 
     b32 StartUp();
     void ShutDown();
 
-    b32 LoadMission();
-    void UnloadMission();
+    lua_State* LoadMission(const char* path, s32 location);
+    void UnloadMission(lua_State* pScript);
 
-    void UpdateMission(f32 dtTime);
-    void RenderMission();
+    void UpdateMission(lua_State* pScript, f32 dtTime);
+    void RenderMission(lua_State* pScript);
 
-    void CallFunction(const char* functionName, void* userdata);
-    void CallFunction(const char* functionName);
-    void CallTrigger(const char* functionName, Trigger* pTrigger, Entity* pEntity);
+    void CallFunction(lua_State* pScript, const char* functionName, void* userdata);
+    void CallFunction(lua_State* pScript, const char* functionName);
+    void CallTrigger(lua_State* pScript, const char* functionName, Trigger* pTrigger, Entity* pEntity);
 
-    void Interpret(const char* text);
+    void Interpret(lua_State* pScript, const char* text);
 private:
     void DefineFunctions(lua_State* L);
     void DefineSymbols(lua_State* L);
@@ -90,6 +89,7 @@ private:
     /* Game */
     static s32 _getTicks(lua_State* L);
     static s32 _stopGame(lua_State* L);
+    static s32 _switchMission(lua_State* L);
 
     /* World */
     static s32 _hostSwitchLocation(lua_State* L);

@@ -3,6 +3,7 @@
 
 #include "GraphicsModule.h"
 #include "ScriptModule.h"
+#include "Game.h"
 
 #include "Console.h"
 
@@ -209,7 +210,7 @@ void Console::Interpret()
         m_buffer[m_currentInput] = 0;
 
     // Interpret it
-    g_scriptModule.Interpret((const char*)&m_buffer[CONSOLE_INPUT_INDEX + strlen(s_consolePrompt)]);
+    g_scriptModule.Interpret(g_game.GetScript(), (const char*)&m_buffer[CONSOLE_INPUT_INDEX + strlen(s_consolePrompt)]);
 
     // Reset console's input
     Reset();

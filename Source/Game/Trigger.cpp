@@ -34,7 +34,7 @@ void Trigger::Update(f32 dtTime)
     if (!lstEntity.IsEmpty())
     {
         // Call trigger's function and remove
-        g_scriptModule.CallTrigger(m_functionName, this, m_pAttached);
+        g_scriptModule.CallTrigger(g_game.GetScript(), m_functionName, this, m_pAttached);
         g_game.GetWorld().RemoveEntity(this);
     }
 }

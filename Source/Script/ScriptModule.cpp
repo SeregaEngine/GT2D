@@ -30,14 +30,14 @@ ScriptModule g_scriptModule;
 b32 ScriptModule::StartUp()
 {
     // Init lua
-    m_pLoader = luaL_newstate();
-    luaL_openlibs(m_pLoader);
+    m_pSaver = luaL_newstate();
+    luaL_openlibs(m_pSaver);
 
-    DefineFunctions(m_pLoader);
-    DefineSymbols(m_pLoader);
+    DefineFunctions(m_pSaver);
+    DefineSymbols(m_pSaver);
 
     // Init loader script
-    if (!CheckLua(m_pLoader, luaL_dofile(m_pLoader, "Scripts/Loader.lua")))
+    if (!CheckLua(m_pSaver, luaL_dofile(m_pSaver, "Scripts/Saver.lua")))
         return false;
 
     AddNote(PR_NOTE, "Module started");
@@ -47,16 +47,10 @@ b32 ScriptModule::StartUp()
 
 void ScriptModule::ShutDown()
 {
-    if (m_pMission)
+    if (m_pSaver)
     {
-        lua_close(m_pMission);
-        m_pMission = nullptr;
-    }
-
-    if (m_pLoader)
-    {
-        lua_close(m_pLoader);
-        m_pLoader = nullptr;
+        lua_close(m_pSaver);
+        m_pSaver = nullptr;
     }
 
     AddNote(PR_NOTE, "Module shut down");
@@ -111,6 +105,7 @@ void ScriptModule::DefineFunctions(lua_State* L)
     /* Game */
     lua_register(L, "getTicks", _getTicks);
     lua_register(L, "stopGame", _stopGame);
+    lua_register(L, "switchMission", _switchMission);
 
     /* World */
     lua_register(L, "hostSwitchLocation", _hostSwitchLocation);
@@ -298,107 +293,71 @@ void ScriptModule::DefineSymbols(lua_State* L)
     lua_setglobal(L, "GTT_KILL");
 }
 
-b32 ScriptModule::LoadMission()
+lua_State* ScriptModule::LoadMission(const char* path, s32 location)
 {
-    // Get getMission()
-    lua_getglobal(m_pLoader, "getMission");
-    if (!lua_isfunction(m_pLoader, -1))
-    {
-        lua_pop(m_pLoader, 1); // Pop "getMission"
-        return false;
-    }
-
-    // Call getMission()
-    if (!CheckLua(m_pLoader, lua_pcall(m_pLoader, 0, 1, 0)))
-        return false;
-
-    // Check returned variable
-    if (!lua_isstring(m_pLoader, -1))
-    {
-        lua_pop(m_pLoader, 1); // Pop "getMission"
-        return false;
-    }
-
     // Create mission lua state
-    m_pMission = luaL_newstate();
-    luaL_openlibs(m_pMission);
+    lua_State* pScript = luaL_newstate();
+    luaL_openlibs(pScript);
 
     // Define all engine stuff
-    DefineFunctions(m_pMission);
-    DefineSymbols(m_pMission);
+    DefineFunctions(pScript);
+    DefineSymbols(pScript);
 
     // Try to open script
-    if (!CheckLua(m_pMission, luaL_dofile(m_pMission, lua_tostring(m_pLoader, -1))))
+    if (!CheckLua(pScript, luaL_dofile(pScript, path)))
     {
-        lua_pop(m_pLoader, 1); // Pop "getMission"
-        return false;
+        lua_pop(pScript, 1); // Pop "getMission"
+        lua_close(pScript);
+        return nullptr;
     }
 
     // Pop "getMission"
-    lua_pop(m_pLoader, 1);
+    lua_pop(pScript, 1);
 
     // Get onEnter()
-    lua_getglobal(m_pMission, "onEnter");
-    if (!lua_isfunction(m_pMission, -1))
+    lua_getglobal(pScript, "onEnter");
+    if (!lua_isfunction(pScript, -1))
     {
-        lua_pop(m_pMission, 1); // Pop "onEnter"
-        return false;
+        lua_pop(pScript, 1); // Pop "onEnter"
+        lua_close(pScript);
+        return nullptr;
     }
 
     // Call onEnter()
-    if (!CheckLua(m_pMission, lua_pcall(m_pMission, 0, 0, 0)))
-        return false;
+    lua_pushinteger(pScript, location);
+    if (!CheckLua(pScript, lua_pcall(pScript, 1, 0, 0)))
+    {
+        lua_close(pScript);
+        return nullptr;
+    }
 
-    return true;
+    return pScript;
 }
 
-void ScriptModule::UnloadMission()
+void ScriptModule::UnloadMission(lua_State* pScript)
 {
-    if (m_pMission)
+    if (pScript)
+        lua_close(pScript);
+}
+
+void ScriptModule::UpdateMission(lua_State* pScript, f32 dtTime)
+{
+    lua_getglobal(pScript, "onUpdate");
+    lua_pushnumber(pScript, dtTime);
+
+    if (lua_pcall(pScript, 1, 0, 0) != 0)
     {
-        lua_close(m_pMission);
-        m_pMission = nullptr;
+        LuaNote(PR_ERROR, "UpdateMission(): %s", lua_tostring(pScript, 1));
+        lua_pop(pScript, 1);
     }
 }
 
-void ScriptModule::UpdateMission(f32 dtTime)
+void ScriptModule::RenderMission(lua_State* pScript)
 {
-    lua_getglobal(m_pMission, "onUpdate");
-    lua_pushnumber(m_pMission, dtTime);
-
-    if (lua_pcall(m_pMission, 1, 0, 0) != 0)
-    {
-        LuaNote(PR_ERROR, "UpdateMission(): %s", lua_tostring(m_pMission, 1));
-        lua_pop(m_pMission, 1);
-    }
+    CallFunction(pScript, "onRender");
 }
 
-void ScriptModule::RenderMission()
-{
-    CallFunction("onRender");
-}
-
-void ScriptModule::CallFunction(const char* functionName, void* userdata)
-{
-    // Check for null
-    if (!functionName)
-    {
-        AddNote(PR_WARNING, "CallFunction() called with null functionName");
-        return;
-    }
-
-    // Call function
-    lua_getglobal(m_pMission, functionName);
-    lua_pushlightuserdata(m_pMission, userdata);
-
-    if (lua_pcall(m_pMission, 1, 0, 0) != 0)
-    {
-        LuaNote(PR_ERROR, "CallFunction(): Error when function %s called: %s", functionName, lua_tostring(m_pMission, 1));
-        lua_pop(m_pMission, 1);
-    }
-}
-
-void ScriptModule::CallFunction(const char* functionName)
+void ScriptModule::CallFunction(lua_State* pScript, const char* functionName, void* userdata)
 {
     // Check for null
     if (!functionName)
@@ -408,15 +367,17 @@ void ScriptModule::CallFunction(const char* functionName)
     }
 
     // Call function
-    lua_getglobal(m_pMission, functionName);
-    if (lua_pcall(m_pMission, 0, 0, 0) != 0)
+    lua_getglobal(pScript, functionName);
+    lua_pushlightuserdata(pScript, userdata);
+
+    if (lua_pcall(pScript, 1, 0, 0) != 0)
     {
-        LuaNote(PR_ERROR, "CallFunction(): Error when function %s called: %s", functionName, lua_tostring(m_pMission, 1));
-        lua_pop(m_pMission, 1);
+        LuaNote(PR_ERROR, "CallFunction(): Error when function %s called: %s", functionName, lua_tostring(pScript, 1));
+        lua_pop(pScript, 1);
     }
 }
 
-void ScriptModule::CallTrigger(const char* functionName, Trigger* pTrigger, Entity* pEntity)
+void ScriptModule::CallFunction(lua_State* pScript, const char* functionName)
 {
     // Check for null
     if (!functionName)
@@ -426,22 +387,40 @@ void ScriptModule::CallTrigger(const char* functionName, Trigger* pTrigger, Enti
     }
 
     // Call function
-    lua_getglobal(m_pMission, functionName);
-    lua_pushlightuserdata(m_pMission, (void*)pTrigger);
-    lua_pushlightuserdata(m_pMission, (void*)pEntity);
-    if (lua_pcall(m_pMission, 2, 0, 0) != 0)
+    lua_getglobal(pScript, functionName);
+    if (lua_pcall(pScript, 0, 0, 0) != 0)
     {
-        LuaNote(PR_ERROR, "CallFunction(): Error when function %s called: %s", functionName, lua_tostring(m_pMission, 1));
-        lua_pop(m_pMission, 1);
+        LuaNote(PR_ERROR, "CallFunction(): Error when function %s called: %s", functionName, lua_tostring(pScript, 1));
+        lua_pop(pScript, 1);
     }
 }
 
-void ScriptModule::Interpret(const char* text)
+void ScriptModule::CallTrigger(lua_State* pScript, const char* functionName, Trigger* pTrigger, Entity* pEntity)
 {
-    if (0 != luaL_dostring(m_pMission, text))
+    // Check for null
+    if (!functionName)
     {
-        LuaNote(PR_WARNING, lua_tostring(m_pMission, -1));
-        lua_pop(m_pMission, 1);
+        AddNote(PR_WARNING, "CallFunction() called with null functionName");
+        return;
+    }
+
+    // Call function
+    lua_getglobal(pScript, functionName);
+    lua_pushlightuserdata(pScript, (void*)pTrigger);
+    lua_pushlightuserdata(pScript, (void*)pEntity);
+    if (lua_pcall(pScript, 2, 0, 0) != 0)
+    {
+        LuaNote(PR_ERROR, "CallFunction(): Error when function %s called: %s", functionName, lua_tostring(pScript, 1));
+        lua_pop(pScript, 1);
+    }
+}
+
+void ScriptModule::Interpret(lua_State* pScript, const char* text)
+{
+    if (0 != luaL_dostring(pScript, text))
+    {
+        LuaNote(PR_WARNING, lua_tostring(pScript, -1));
+        lua_pop(pScript, 1);
     }
 }
 
@@ -814,6 +793,16 @@ s32 ScriptModule::_stopGame(lua_State* L)
         return -1;
 
     g_game.Stop();
+
+    return 0;
+}
+
+s32 ScriptModule::_switchMission(lua_State* L)
+{
+    if (!LuaExpect(L, "switchMission", 2))
+        return -1;
+
+    g_game.ChangeState(new PlayState(lua_tostring(L, 1), (s32)lua_tointeger(L, 2)));
 
     return 0;
 }

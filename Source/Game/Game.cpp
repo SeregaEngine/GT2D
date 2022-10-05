@@ -14,7 +14,7 @@ b32 Game::StartUp()
     m_bRunning = true;
 
     m_pCurrentState = nullptr;
-    m_lstState.Push(new PlayState());
+    m_lstState.Push(new PlayState("Scripts/Loader.lua", 0));
 
     AddNote(PR_NOTE, "Module started");
 
@@ -52,8 +52,11 @@ void Game::HandleNewState()
     if (m_lstState.Front() != m_pCurrentState)
     {
         m_pCurrentState = m_lstState.Front();
-        if (m_pCurrentState)
-            m_pCurrentState->OnEnter();
+        if (m_pCurrentState && !m_pCurrentState->OnEnter())
+        {
+            m_bRunning = false;
+            AddNote(PR_ERROR, "False returned on current state's <OnEnter()>");
+        }
     }
 }
 

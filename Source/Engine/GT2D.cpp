@@ -1,3 +1,7 @@
+/* TODO
+ * - Make asserts
+ */
+
 /* ====== INCLUDES ====== */
 #include "SDL.h"
 #include "SDL_image.h"

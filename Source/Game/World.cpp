@@ -4,6 +4,7 @@
 #include "DamageManager.h"
 #include "Actor.h"
 #include "Weapon.h"
+#include "Game.h"
 
 #include "World.h"
 
@@ -69,7 +70,7 @@ void World::HandleSwitchLocation()
     CleanEntities();
 
     // Call switch location function
-    g_scriptModule.CallFunction(m_switchLocation);
+    g_scriptModule.CallFunction(g_game.GetScript(), m_switchLocation);
     m_switchLocation[0] = 0;
 }
 

@@ -2,6 +2,7 @@
 #include "DebugLogManager.h"
 #include "ScriptModule.h"
 #include "Actor.h"
+#include "Game.h"
 
 #include "AIModule.h"
 
@@ -59,7 +60,7 @@ const GT_State* AIModule::DefineState(const char* functionName)
 void AIModule::HandleState(Actor* pActor)
 {
     if (pActor->GetState())
-        g_scriptModule.CallFunction(pActor->GetState()->functionName, pActor);
+        g_scriptModule.CallFunction(g_game.GetScript(), pActor->GetState()->functionName, pActor);
 }
 
 void AIModule::AddNote(s32 priority, const char* fmt, ...)

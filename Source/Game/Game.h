@@ -9,6 +9,8 @@
 #include "World.h"
 
 /* ====== STRUCTURES ====== */
+struct lua_State;
+
 class Game final : public EngineModule
 {
     b32 m_bRunning;
@@ -33,6 +35,7 @@ public:
 
     b32 Running() const { return m_bRunning; }
     World& GetWorld() { return static_cast<PlayState*>(m_pCurrentState)->GetWorld(); }
+    lua_State* GetScript() { return m_pCurrentState ? m_pCurrentState->GetScript() : nullptr; };
 private:
     void HandleNewState();
     void RemoveStates();

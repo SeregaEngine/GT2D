@@ -31,11 +31,19 @@ onUpdate = nil
 onRender = nil
 
 ---- >>>> Enter
-function onEnter()
-    GT_LOG(PR_NOTE, "Mission1 entered")
+function onEnter(Location)
+    GT_LOG(PR_NOTE, string.format("Mission1 entered with %d location", Location))
 
     defineResources()
-    onEnterL1()
+    if Location == 1 or Location <= 0 or Location > 4 then
+		onEnterL1()
+    elseif Location == 2 then
+        --onEnterL2()
+    elseif Location == 3 then
+        onEnterL3()
+    elseif Location == 4 then
+        onEnterL4()
+    end
 end
 
 function defineResources()

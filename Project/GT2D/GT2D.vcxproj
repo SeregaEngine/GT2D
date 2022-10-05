@@ -208,6 +208,7 @@
     <None Include="..\..\Bin\Scripts\GraphicsDefines.lua" />
     <None Include="..\..\Bin\Scripts\Loader.lua" />
     <None Include="..\..\Bin\Scripts\Mission1.lua" />
+    <None Include="..\..\Bin\Scripts\Saver.lua" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\AI\AIModule.h" />
