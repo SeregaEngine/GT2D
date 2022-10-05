@@ -23,9 +23,10 @@ b32 Game::StartUp()
 
 void Game::ShutDown()
 {
-    RemoveStates();
+    m_pCurrentState = nullptr;
     m_lstState.Mapcar([](auto pState) { pState->OnExit(); delete pState; });
     m_lstState.Clean();
+    m_lstRemove.Clean();
 
     AddNote(PR_NOTE, "Module shut down");
 }
