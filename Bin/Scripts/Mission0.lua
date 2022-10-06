@@ -113,7 +113,7 @@ function stateUpCar(Actor)
     local X,Y = getEntityPosition(Car)
 
     if Y >= 44 and Y <= 45 then
-        setCarAcceleration(Car, 0, 0.000001)
+        setCarAcceleration(Car, 0, 0.0000003)
     elseif Y <= 40 then
         setEntityPosition(Car, 25, 40)
         setCarMaxSpeed(Car, 0, 0)
@@ -157,7 +157,7 @@ function stateRepairCar(Actor)
         if RepairCarStage == 2 then
             --playActorAnimation() ?
         elseif RepairCarStage > #RepairCar then
-			setActorState(Actor, States["TakeInstruments"])
+            setActorState(Actor, States["TakeInstruments"])
             RepairCarStage = 0
             return
         end
