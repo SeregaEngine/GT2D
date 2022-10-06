@@ -60,13 +60,13 @@ function onEnter(Location)
     -- States
     TakeInstruments = {
         { GTT_GOTO, 63, 47.5 },
-        { GTT_WAIT, math.random(2000, 5000) },
+        { GTT_ANIMATE_FOR, Anims["TakeInstruments"], math.random(2000, 5000) },
     }
     TakeInstrumentsStage = 0
 
     RepairCar = {
         { GTT_GOTO, 25, 53 },
-        { GTT_WAIT, math.random(5000, 15000) }
+        { GTT_ANIMATE_FOR, Anims["RepairCar"], math.random(5000, 15000) }
     }
     RepairCarStage = 0
 
@@ -130,17 +130,14 @@ function stateTakeInstruments(Actor)
     if checkActorTask(Actor) == GTT_DONE or TakeInstrumentsStage == 0 then
         TakeInstrumentsStage = TakeInstrumentsStage + 1
 
-        if TakeInstrumentsStage == 2 then
-            playActorAnimLooped(Actor, Anims["TakeInstruments"])
-        elseif TakeInstrumentsStage > #TakeInstruments then
+        if TakeInstrumentsStage > #TakeInstruments then
             if not IsZhenekBusy and math.random(0, 1) == 1 then
                 setActorState(Actor, States["RandomTalk"])
             else
                 setActorState(Actor, States["RepairCar"])
             end
 
-            stopActorAnim(Actor)
-            TakeInstruments[2][2] = math.random(2000, 5000)
+            TakeInstruments[2][3] = math.random(2000, 5000)
             TakeInstrumentsStage = 0
             return
         end
@@ -157,12 +154,9 @@ function stateRepairCar(Actor)
     if checkActorTask(Actor) == GTT_DONE or RepairCarStage == 0 then
         RepairCarStage = RepairCarStage + 1
 
-        if RepairCarStage == 2 then
-            playActorAnimLooped(Actor, Anims["RepairCar"])
-        elseif RepairCarStage > #RepairCar then
-            stopActorAnim(Actor)
+        if RepairCarStage > #RepairCar then
             setActorState(Actor, States["TakeInstruments"])
-            RepairCar[2][2] = math.random(5000, 15000) -- Wait time
+            RepairCar[2][3] = math.random(5000, 15000) -- Wait time
             RepairCarStage = 0
             return
         end

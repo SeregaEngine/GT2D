@@ -134,6 +134,9 @@
     <ClCompile Include="..\..\Source\AI\WaitTask.cpp">
       <Filter>AI</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\AI\WaitAnimation.cpp">
+      <Filter>AI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Bin\Scripts\Loader.lua">
@@ -268,6 +271,12 @@
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\AI\WaitTask.h">
+      <Filter>AI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\AI\AnimateForTask.h">
+      <Filter>AI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\AI\WaitAnimation.h">
       <Filter>AI</Filter>
     </ClInclude>
   </ItemGroup>

@@ -16,6 +16,7 @@ extern "C"
 #include "GotoTask.h"
 #include "GotoEntityTask.h"
 #include "KillTask.h"
+#include "AnimateForTask.h"
 #include "Weapon.h"
 #include "Car.h"
 #include "Trigger.h"
@@ -297,6 +298,10 @@ void ScriptModule::DefineSymbols(lua_State* L)
     lua_setglobal(L, "GTT_GOTO_ENTITY");
     lua_pushinteger(L, GTT_KILL);
     lua_setglobal(L, "GTT_KILL");
+    lua_pushinteger(L, GTT_ANIMATE_FOR);
+    lua_setglobal(L, "GTT_ANIMATE_FOR");
+    lua_pushinteger(L, GTT_WAIT_ANIMATION);
+    lua_setglobal(L, "GTT_WAIT_ANIMATION");
 }
 
 lua_State* ScriptModule::LoadMission(const char* path, s32 location)
@@ -1609,6 +1614,16 @@ s32 ScriptModule::_setActorTask(lua_State* L)
     case GTT_KILL:
     {
         pActor->SetTask(new KillTask(pActor, (Actor*)lua_touserdata(L, 3)));
+    } break;
+
+    case GTT_ANIMATE_FOR:
+    {
+        pActor->SetTask(new AnimateForTask(pActor, (const GT_Animation*)lua_touserdata(L, 3), (f32)lua_tonumber(L, 4)));
+    } break;
+
+    case GTT_WAIT_ANIMATION:
+    {
+        //pActor->SetTask(new WaitAnimation(pActor, (const GT_Animation*)lua_touserdata(L, 3)));
     } break;
 
     default:

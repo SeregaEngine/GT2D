@@ -177,6 +177,7 @@
     <ClCompile Include="..\..\Source\AI\GotoEntityTask.cpp" />
     <ClCompile Include="..\..\Source\AI\GotoTask.cpp" />
     <ClCompile Include="..\..\Source\AI\KillTask.cpp" />
+    <ClCompile Include="..\..\Source\AI\WaitAnimation.cpp" />
     <ClCompile Include="..\..\Source\AI\WaitTask.cpp" />
     <ClCompile Include="..\..\Source\Animation\AnimationModule.cpp" />
     <ClCompile Include="..\..\Source\Collision\CollisionManager.cpp" />
@@ -214,11 +215,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\AI\AIModule.h" />
+    <ClInclude Include="..\..\Source\AI\AnimateForTask.h" />
     <ClInclude Include="..\..\Source\AI\GotoEntityTask.h" />
     <ClInclude Include="..\..\Source\AI\GotoTask.h" />
     <ClInclude Include="..\..\Source\AI\GTCommand.h" />
     <ClInclude Include="..\..\Source\AI\GTTask.h" />
     <ClInclude Include="..\..\Source\AI\KillTask.h" />
+    <ClInclude Include="..\..\Source\AI\WaitAnimation.h" />
     <ClInclude Include="..\..\Source\AI\WaitTask.h" />
     <ClInclude Include="..\..\Source\Animation\AnimationModule.h" />
     <ClInclude Include="..\..\Source\Collision\CollisionManager.h" />

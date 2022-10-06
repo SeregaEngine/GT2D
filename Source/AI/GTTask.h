@@ -23,6 +23,8 @@ enum eGT_TaskID
     GTT_GOTO,
     GTT_GOTO_ENTITY,
     GTT_KILL,
+    GTT_ANIMATE_FOR,
+    GTT_WAIT_ANIMATION,
 };
 
 /* ====== STRUCTURES ====== */
