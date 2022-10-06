@@ -17,6 +17,7 @@ extern "C"
 #include "GotoEntityTask.h"
 #include "KillTask.h"
 #include "AnimateForTask.h"
+#include "WaitAnimationTask.h"
 #include "Weapon.h"
 #include "Car.h"
 #include "Trigger.h"
@@ -1623,7 +1624,7 @@ s32 ScriptModule::_setActorTask(lua_State* L)
 
     case GTT_WAIT_ANIMATION:
     {
-        //pActor->SetTask(new WaitAnimation(pActor, (const GT_Animation*)lua_touserdata(L, 3)));
+        pActor->SetTask(new WaitAnimationTask(pActor, (const GT_Animation*)lua_touserdata(L, 3)));
     } break;
 
     default:
