@@ -12,8 +12,6 @@
 #include "GTTexture.h"
 
 /* ====== STRUCTURES ====== */
-struct GT_Texture;
-
 struct RenderElement
 {
     s32 zIndex;

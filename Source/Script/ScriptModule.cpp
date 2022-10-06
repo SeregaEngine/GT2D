@@ -1548,7 +1548,7 @@ s32 ScriptModule::_setActorTask(lua_State* L)
 
     case GTT_WAIT:
     {
-        pActor->SetTask(new WaitTask(pActor, (u32)lua_tointeger(L, 3)));
+        pActor->SetTask(new WaitTask(pActor, (f32)lua_tointeger(L, 3)));
     } break;
 
     case GTT_GOTO:

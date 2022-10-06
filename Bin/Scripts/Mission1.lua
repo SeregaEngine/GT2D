@@ -204,14 +204,14 @@ function onEnterL3()
 
     -- Dialogs
     Dialogs["DarkLordDialog1"] = addDialog(GW_DIALOG, GH_DIALOG, "Hmm?", 1, Entities["DarkLord"], Textures["DialogSquare"])
-    Dialogs["DarkLordDialog2"] = addDialog(GW_DIALOG, GH_DIALOG, "What the hell? Who are you?!", 1, Entities["DarkLord"], Textures["DialogSquare"])
-    Dialogs["DarkLordDialog3"] = addDialog(GW_DIALOG, GH_DIALOG, "Pamella!!!", 1, Entities["DarkLord"], Textures["DialogSquare"])
-    Dialogs["DarkLordDialog4"] = addDialog(GW_DIALOG, GH_DIALOG, "Call the police! There's a bum in our garage", 1, Entities["DarkLord"], Textures["DialogSquare"])
-    Dialogs["DarkLordDialog5"] = addDialog(GW_DIALOG, GH_DIALOG, "I'm not gonna give you my wheels, asshole!", 1, Entities["DarkLord"], Textures["DialogSquare"])
-    Dialogs["DarkLordKilledPlayer"] = addDialog(GW_DIALOG, GH_DIALOG, "You shouldn't have come", 1, Entities["DarkLord"], Textures["DialogSquare"])
-    Dialogs["PlayerDialog1"] = addDialog(GW_DIALOG, GH_DIALOG, "I came for your wheels, dawg", 1, Player, Textures["DialogSquare"])
-    Dialogs["PlayerDialogAfterFight"] = addDialog(GW_DIALOG, GH_DIALOG, "I should take these wheels and run away from here", 1, Player, Textures["DialogSquare"])
-    Dialogs["PamellaAsking"] = addDialog(GW_DIALOG, GH_DIALOG, "Honey?", 1, Entities["Pamella"], Textures["DialogSquare"])
+    Dialogs["DarkLordDialog2"] = addDialog(GW_DIALOG, GH_DIALOG, "What the hell? Who are you?!", 3, Entities["DarkLord"], Textures["DialogSquare"])
+    Dialogs["DarkLordDialog3"] = addDialog(GW_DIALOG, GH_DIALOG, "Pamella!!!", 2, Entities["DarkLord"], Textures["DialogSquare"])
+    Dialogs["DarkLordDialog4"] = addDialog(GW_DIALOG, GH_DIALOG, "Call the police! There's a bum in our garage", 3, Entities["DarkLord"], Textures["DialogSquare"])
+    Dialogs["DarkLordDialog5"] = addDialog(GW_DIALOG, GH_DIALOG, "I'm not gonna give you my wheels, asshole!", 2.5, Entities["DarkLord"], Textures["DialogSquare"])
+    Dialogs["DarkLordKilledPlayer"] = addDialog(GW_DIALOG, GH_DIALOG, "You shouldn't have come", 3, Entities["DarkLord"], Textures["DialogSquare"])
+    Dialogs["PlayerDialog1"] = addDialog(GW_DIALOG, GH_DIALOG, "I came for your wheels, dawg", 2, Player, Textures["DialogSquare"])
+    Dialogs["PlayerDialogAfterFight"] = addDialog(GW_DIALOG, GH_DIALOG, "I should take these wheels and run away from here", 3, Player, Textures["DialogSquare"])
+    Dialogs["PamellaAsking"] = addDialog(GW_DIALOG, GH_DIALOG, "Honey?", 1.4, Entities["Pamella"], Textures["DialogSquare"])
 
     DialogL3_1 = {
         Dialogs["DarkLordDialog1"],
@@ -292,14 +292,14 @@ function onEnterL4()
     Triggers["PoliceStop"] = addTrigger(SCREEN_WIDTH*2.3, SCREEN_HEIGHT/2, 1, SCREEN_HEIGHT, Entities["PoliceCar"], "triggerPoliceStop")
 
     -- Dialogs
-    Dialogs["ZhenekJump"] = addDialog(GW_DIALOG, GH_DIALOG, "Petrol! Jump in", 1, Entities["Zhenek"], Textures["DialogSquare"])
+    Dialogs["ZhenekJump"] = addDialog(GW_DIALOG, GH_DIALOG, "Petrol! Jump in", 1.4, Entities["Zhenek"], Textures["DialogSquare"])
 
-    Dialogs["Police1"] = addDialog(GW_DIALOG, GH_DIALOG, "I don't like it.", 1, Entities["John"], Textures["DialogSquare"])
-    Dialogs["Police2"] = addDialog(GW_DIALOG, GH_DIALOG, "C'mon, John! Are you a little girl?", 1, Entities["Serega"], Textures["DialogSquare"])
-    Dialogs["Police3"] = addDialog(GW_DIALOG, GH_DIALOG, "I am a grown forty-year-old divorced man with two children and...", 1, Entities["John"], Textures["DialogSquare"])
-    Dialogs["Police4"] = addDialog(GW_DIALOG, GH_DIALOG, "a loan for a house that I have been giving for 10 years", 1, Entities["John"], Textures["DialogSquare"])
-    Dialogs["Police5"] = addDialog(GW_DIALOG, GH_DIALOG, "I wish i had peace...", 1, Entities["John"], Textures["DialogSquare"])
-    Dialogs["Police6"] = addDialog(GW_DIALOG, GH_DIALOG, "Just shut up and let's go", 1, Entities["Serega"], Textures["DialogSquare"])
+    Dialogs["Police1"] = addDialog(GW_DIALOG, GH_DIALOG, "I don't like it.", 2, Entities["John"], Textures["DialogSquare"])
+    Dialogs["Police2"] = addDialog(GW_DIALOG, GH_DIALOG, "C'mon, John! Are you a little girl?", 3, Entities["Serega"], Textures["DialogSquare"])
+    Dialogs["Police3"] = addDialog(GW_DIALOG, GH_DIALOG, "I am a grown forty-year-old divorced man with two children and...", 4, Entities["John"], Textures["DialogSquare"])
+    Dialogs["Police4"] = addDialog(GW_DIALOG, GH_DIALOG, "a loan for a house that I have been giving for 10 years", 4, Entities["John"], Textures["DialogSquare"])
+    Dialogs["Police5"] = addDialog(GW_DIALOG, GH_DIALOG, "I wish i had peace...", 2, Entities["John"], Textures["DialogSquare"])
+    Dialogs["Police6"] = addDialog(GW_DIALOG, GH_DIALOG, "Just shut up and let's go", 1.4, Entities["Serega"], Textures["DialogSquare"])
 
     DialogL4_1 = {
         Dialogs["Police1"],
