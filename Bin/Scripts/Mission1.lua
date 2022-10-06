@@ -1,7 +1,44 @@
--- Includes
-dofile "Scripts/GraphicsDefines.lua"
+---- Defines
 
--- Defines
+-- Location
+TW_LOCATION = SCREEN_WIDTH
+TH_LOCATION = SCREEN_HEIGHT
+TW_PARALLAX = SCREEN_WIDTH * 2
+TH_PARALLAX = SCREEN_HEIGHT
+
+GW_LOCATION = TW_LOCATION
+GH_LOCATION = TH_LOCATION
+GW_PARALLAX = TW_PARALLAX
+GH_PARALLAX = TH_PARALLAX
+
+-- Actor
+TW_ACTOR = 16
+TH_ACTOR = 16
+
+GW_ACTOR = TW_ACTOR
+GH_ACTOR = TH_ACTOR
+
+-- Car
+TW_CAR = 72
+TH_CAR = 21
+
+GW_CAR = TW_CAR
+GH_CAR = TH_CAR
+
+-- Dialog
+TW_DIALOG = 320
+TH_DIALOG = 200
+
+GW_DIALOG = 32
+GH_DIALOG = 20
+
+-- Prop
+TW_PROP = 16
+TH_PROP = 16
+
+GW_PROP = 8
+GH_PROP = 8
+
 DEBUG = false
 
 local GROUND_WIDTH
@@ -9,7 +46,7 @@ local GROUND_HEIGHT
 local GROUND_X
 local GROUND_Y
 
--- Resources
+---- Resources
 Textures = {}
 Sounds = {}
 Music = {}
@@ -26,7 +63,7 @@ Dialogs = {}
 Player = nil
 PlayerControllable = true
 
--- Functions
+---- Functions
 onUpdate = nil
 onRender = nil
 
