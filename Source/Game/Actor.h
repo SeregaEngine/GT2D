@@ -86,7 +86,7 @@ public:
 private:
     /* Actor */
     b32 HandleDeath();
-    void HandleActorState();
+    void HandleActorState(f32 dtTime);
 
     /* AI */
     void HandleAIState() { g_AIModule.HandleState(this); }

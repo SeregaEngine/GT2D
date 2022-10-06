@@ -65,7 +65,7 @@ function onEnter(Location)
     TakeInstrumentsStage = 0
 
     RepairCar = {
-        { GTT_GOTO, 25, 50 },
+        { GTT_GOTO, 25, 53 },
         { GTT_WAIT, math.random(5000, 15000) }
     }
     RepairCarStage = 0
@@ -94,7 +94,7 @@ function defineResources()
 
     Anims["SlowMoving"] = defineAnimation(1, 5, 1000.0 / 13.5)
     Anims["RepairCar"] = defineAnimation(5, 4, 1000.0 / 0.5)
-    Anims["TakeInstruments"] = defineAnimation(6, 2, 1000.0 / 0.5)
+    Anims["TakeInstruments"] = defineAnimation(6, 2, 1000.0 / 1)
 
     States["UpCar"] = defineState("stateUpCar")
     States["TakeInstruments"] = defineState("stateTakeInstruments")
@@ -131,7 +131,7 @@ function stateTakeInstruments(Actor)
         TakeInstrumentsStage = TakeInstrumentsStage + 1
 
         if TakeInstrumentsStage == 2 then
-            --playActorAnim()
+            playActorAnimLooped(Actor, Anims["TakeInstruments"])
         elseif TakeInstrumentsStage > #TakeInstruments then
             if not IsZhenekBusy and math.random(0, 1) == 1 then
                 setActorState(Actor, States["RandomTalk"])
@@ -139,6 +139,7 @@ function stateTakeInstruments(Actor)
                 setActorState(Actor, States["RepairCar"])
             end
 
+            stopActorAnim(Actor)
             TakeInstruments[2][2] = math.random(2000, 5000)
             TakeInstrumentsStage = 0
             return
@@ -157,8 +158,9 @@ function stateRepairCar(Actor)
         RepairCarStage = RepairCarStage + 1
 
         if RepairCarStage == 2 then
-            --playActorAnimation() ?
+            playActorAnimLooped(Actor, Anims["RepairCar"])
         elseif RepairCarStage > #RepairCar then
+            stopActorAnim(Actor)
             setActorState(Actor, States["TakeInstruments"])
             RepairCar[2][2] = math.random(5000, 15000) -- Wait time
             RepairCarStage = 0

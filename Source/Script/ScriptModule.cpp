@@ -165,6 +165,7 @@ void ScriptModule::DefineFunctions(lua_State* L)
     lua_register(L, "setActorAnim", _setActorAnim);
     lua_register(L, "playActorAnimOnce", _playActorAnimOnce);
     lua_register(L, "playActorAnimLooped", _playActorAnimLooped);
+    lua_register(L, "stopActorAnim", _stopActorAnim);
 
     // Weapon
     lua_register(L, "defineWeapon", _defineWeapon);
@@ -1805,6 +1806,26 @@ s32 ScriptModule::_playActorAnimLooped(lua_State* L)
 
     return 0;
 }
+
+s32 ScriptModule::_stopActorAnim(lua_State* L)
+{
+    if (!LuaExpect(L, "stopActorAnim", 1))
+        return -1;
+
+    Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
+    if (pActor)
+    {
+        pActor->m_actorState = ACTOR_STATE_IDLE;
+    }
+    else
+    {
+        LuaNote(PR_WARNING, "stopActorAnim() called with null actor");
+        return -1;
+    }
+
+    return 0;
+}
+
 
 s32 ScriptModule::_defineWeapon(lua_State* L)
 {

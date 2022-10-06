@@ -76,7 +76,7 @@ void Actor::Update(f32 dtTime)
     HandleAICommand(dtTime);
 
     // React via changing state and it's animation
-    HandleActorState();
+    HandleActorState(dtTime);
     HandleAnimation(dtTime);
 }
 
@@ -102,7 +102,7 @@ b32 Actor::HandleDeath()
     return false;
 }
 
-void Actor::HandleActorState()
+void Actor::HandleActorState(f32 dtTime)
 {
     switch (m_actorState)
     {
@@ -118,6 +118,14 @@ void Actor::HandleActorState()
     {
         // Idle if we don't attack too long
         if (m_animElapsed >= m_pAnim->frameDuration)
+            m_actorState = ACTOR_STATE_IDLE;
+    } break;
+
+    case ACTOR_STATE_ANIMATE_ONCE:
+    {
+        // If we ended
+        if (!m_pAnim || (m_animFrame >= m_pAnim->count - 1 &&
+                         m_animElapsed + dtTime >= m_pAnim->frameDuration))
             m_actorState = ACTOR_STATE_IDLE;
     } break;
 
@@ -251,7 +259,7 @@ void Actor::HandleAnimation(f32 dtTime)
     case ACTOR_STATE_DEAD: if (AnimateDead()) return; else break;
     case ACTOR_STATE_INCAR: AnimateInCar(); break;
 
-    default: g_debugLogMgr.AddNote(CHANNEL_GAME, PR_WARNING, "ACTOR", "HandleAnimation(): Unknown actor state: %d", m_actorState); break;
+    default: m_flip = m_bLookRight ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL; break;
     }
 
     // Update frame
