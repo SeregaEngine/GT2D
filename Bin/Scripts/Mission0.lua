@@ -64,13 +64,13 @@ function onEnter(Location)
     -- States
     TakeInstruments = {
         { GTT_GOTO, 63, 47.5 },
-        { GTT_WAIT, 1000 },
+        { GTT_WAIT, math.random(2000, 5000) },
     }
     TakeInstrumentsStage = 0
 
     RepairCar = {
         { GTT_GOTO, 25, 50 },
-        { GTT_WAIT, 1000 }
+        { GTT_WAIT, math.random(5000, 15000) }
     }
     RepairCarStage = 0
 
@@ -135,15 +135,13 @@ function stateTakeInstruments(Actor)
         if TakeInstrumentsStage == 2 then
             --playActorAnimation() ?
         elseif TakeInstrumentsStage > #TakeInstruments then
-            --[[
             if not IsZhenekBusy and math.random(0, 1) == 1 then
                 setActorState(Actor, States["RandomTalk"])
             else
                 setActorState(Actor, States["RepairCar"])
             end
-            ]]--
-			setActorState(Actor, States["RandomTalk"]) -- DEBUG(sean)
 
+            TakeInstruments[2][2] = math.random(2000, 5000)
             TakeInstrumentsStage = 0
             return
         end
@@ -164,6 +162,7 @@ function stateRepairCar(Actor)
             --playActorAnimation() ?
         elseif RepairCarStage > #RepairCar then
             setActorState(Actor, States["TakeInstruments"])
+            RepairCar[2][2] = math.random(5000, 15000) -- Wait time
             RepairCarStage = 0
             return
         end
@@ -189,9 +188,18 @@ function stateRandomTalk(Actor)
             }
         end
         RandomTalkStage = 1
+
+        setActorTask(Actor, GTT_NONE) -- We will wait a bit after dialog
     elseif RandomTalkStage > #RandomTalk then
-        RandomTalkStage = 0
-        setActorState(Actor, States["RepairCar"])
+        if RandomTalkStage == 999 then -- Just magic number
+            if checkActorTask(Actor) == GTT_DONE then
+				RandomTalkStage = 0
+				setActorState(Actor, States["RepairCar"])
+            end
+        else
+            RandomTalkStage = 999
+			setActorTask(Actor, GTT_WAIT, 1000)
+        end
         return
     end
 
