@@ -173,6 +173,8 @@ private:
     static s32 _getActorAttackRate(lua_State* L);
 
     static s32 _setActorAnim(lua_State* L);
+    static s32 _playActorAnimOnce(lua_State* L);
+    static s32 _playActorAnimLooped(lua_State* L);
 
     // Weapon
     static s32 _defineWeapon(lua_State* L);

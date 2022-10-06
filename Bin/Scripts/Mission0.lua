@@ -5,10 +5,6 @@
 --| his garage after Petrol's car accident
 ----------------------------------------------------------------------
 
---[[ TODO
-    -- Maybe make something like helper for states that do something?
-]]--
-
 ---- Includes
 dofile "Scripts/MissionDefines.lua"
 
@@ -93,10 +89,12 @@ function defineResources()
     Textures["Background"] = defineTexture("Textures/Locations/Mission0-1.png", TW_LOCATION, TH_LOCATION)
     Textures["Player"] = defineTexture("Textures/Actors/Player.png", TW_ACTOR, TH_ACTOR)
     Textures["Zhenek"] = defineTexture("Textures/Actors/Zhenek.png", TW_ACTOR, TH_ACTOR)
-    Textures["Anthony"] = defineTexture("Textures/Actors/John.png", TW_ACTOR, TH_ACTOR) -- Workaround
+    Textures["Anthony"] = defineTexture("Textures/Actors/Anthony.png", TW_ACTOR, TH_ACTOR)
     Textures["Car"] = defineTexture("Textures/Cars/TrashCar.png", TW_CAR, TH_CAR)
 
     Anims["SlowMoving"] = defineAnimation(1, 5, 1000.0 / 13.5)
+    Anims["RepairCar"] = defineAnimation(5, 4, 1000.0 / 0.5)
+    Anims["TakeInstruments"] = defineAnimation(6, 2, 1000.0 / 0.5)
 
     States["UpCar"] = defineState("stateUpCar")
     States["TakeInstruments"] = defineState("stateTakeInstruments")
@@ -133,7 +131,7 @@ function stateTakeInstruments(Actor)
         TakeInstrumentsStage = TakeInstrumentsStage + 1
 
         if TakeInstrumentsStage == 2 then
-            --playActorAnimation() ?
+            --playActorAnim()
         elseif TakeInstrumentsStage > #TakeInstruments then
             if not IsZhenekBusy and math.random(0, 1) == 1 then
                 setActorState(Actor, States["RandomTalk"])
@@ -193,12 +191,12 @@ function stateRandomTalk(Actor)
     elseif RandomTalkStage > #RandomTalk then
         if RandomTalkStage == 999 then -- Just magic number
             if checkActorTask(Actor) == GTT_DONE then
-				RandomTalkStage = 0
-				setActorState(Actor, States["RepairCar"])
+                RandomTalkStage = 0
+                setActorState(Actor, States["RepairCar"])
             end
         else
             RandomTalkStage = 999
-			setActorTask(Actor, GTT_WAIT, 1000)
+            setActorTask(Actor, GTT_WAIT, 1000)
         end
         return
     end

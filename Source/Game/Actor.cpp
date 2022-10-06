@@ -1,3 +1,7 @@
+/* TODO
+ * - We have HandleState() for AI but we don't for actorState...
+ */
+
 /* ====== INCLUDES ====== */
 #include "Game.h"
 #include "InputModule.h"
@@ -66,9 +70,13 @@ void Actor::Update(f32 dtTime)
         return;
     }
 
-    HandleState();
-    HandleTask();
-    HandleCommand(dtTime);
+    // Handle AI stuff
+    HandleAIState();
+    HandleAITask();
+    HandleAICommand(dtTime);
+
+    // React via changing state and it's animation
+    HandleActorState();
     HandleAnimation(dtTime);
 }
 
@@ -94,14 +102,34 @@ b32 Actor::HandleDeath()
     return false;
 }
 
-void Actor::HandleCommand(f32 dtTime)
+void Actor::HandleActorState()
+{
+    switch (m_actorState)
+    {
+
+    case ACTOR_STATE_MOVE:
+    {
+        // Idle if we don't move
+        if (!m_vVelocity.x && !m_vVelocity.y)
+            m_actorState = ACTOR_STATE_IDLE;
+    } break;
+
+    case ACTOR_STATE_ATTACK:
+    {
+        // Idle if we don't attack too long
+        if (m_animElapsed >= m_pAnim->frameDuration)
+            m_actorState = ACTOR_STATE_IDLE;
+    } break;
+
+    default: {} break;
+
+    }
+}
+
+void Actor::HandleAICommand(f32 dtTime)
 {
     // Zero velocity
     m_vVelocity.Zero();
-
-    // If attack state is completed
-    if (m_actorState == ACTOR_STATE_ATTACK && m_animElapsed >= m_pAnim->frameDuration)
-        m_actorState = ACTOR_STATE_IDLE;
 
     // Handle command list
     while (!m_lstCommand.IsEmpty())
@@ -121,15 +149,7 @@ void Actor::HandleCommand(f32 dtTime)
         m_lstCommand.Pop();
     }
 
-    // Check if we should idle
-    if (m_actorState == ACTOR_STATE_MOVE &&
-        !m_vVelocity.x && !m_vVelocity.y)
-    {
-        m_actorState = ACTOR_STATE_IDLE;
-        return;
-    }
-
-    // Compute new position
+    // Update position
     Vector2 vNewPosition = m_vPosition + m_vVelocity;
     if (m_bCollidable && !g_collisionMgr.IsOnGround(vNewPosition, m_hitBox))
     {
@@ -147,8 +167,6 @@ void Actor::HandleCommand(f32 dtTime)
             }
         }
     }
-
-    // Update position
     m_vPosition = vNewPosition;
 }
 

@@ -13,6 +13,8 @@ enum eActorState
     ACTOR_STATE_ATTACK,
     ACTOR_STATE_DEAD,
     ACTOR_STATE_INCAR,
+    ACTOR_STATE_ANIMATE_ONCE,
+    ACTOR_STATE_ANIMATE_LOOPED,
 
     MAX_ACTOR_STATES
 };
@@ -84,11 +86,12 @@ public:
 private:
     /* Actor */
     b32 HandleDeath();
+    void HandleActorState();
 
     /* AI */
-    void HandleState() { g_AIModule.HandleState(this); }
-    void HandleTask() { if (m_pTask) m_pTask->Handle(); }
-    void HandleCommand(f32 dtTime);
+    void HandleAIState() { g_AIModule.HandleState(this); }
+    void HandleAITask() { if (m_pTask) m_pTask->Handle(); }
+    void HandleAICommand(f32 dtTime);
 
     // Commands
     void CommandMove(s32 cmd, f32 dtTime);

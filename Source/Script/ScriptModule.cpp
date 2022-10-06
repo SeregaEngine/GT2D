@@ -163,6 +163,8 @@ void ScriptModule::DefineFunctions(lua_State* L)
     lua_register(L, "getActorAttackRate", _getActorAttackRate);
     lua_register(L, "setActorAttackRate", _setActorAttackRate);
     lua_register(L, "setActorAnim", _setActorAnim);
+    lua_register(L, "playActorAnimOnce", _playActorAnimOnce);
+    lua_register(L, "playActorAnimLooped", _playActorAnimLooped);
 
     // Weapon
     lua_register(L, "defineWeapon", _defineWeapon);
@@ -1754,6 +1756,50 @@ s32 ScriptModule::_setActorAnim(lua_State* L)
     else
     {
         LuaNote(PR_WARNING, "setActorAnim() called with null actor");
+        return -1;
+    }
+
+    return 0;
+}
+
+s32 ScriptModule::_playActorAnimOnce(lua_State* L)
+{
+    if (!LuaExpect(L, "playActorAnimOnce", 2))
+        return -1;
+
+    Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
+    if (pActor)
+    {
+        pActor->m_pAnim = (const GT_Animation*)lua_touserdata(L, 2);
+        pActor->m_animFrame = 0;
+        pActor->m_animElapsed = 0.0f;
+        pActor->m_actorState = ACTOR_STATE_ANIMATE_ONCE;
+    }
+    else
+    {
+        LuaNote(PR_WARNING, "playActorAnimOnce() called with null actor");
+        return -1;
+    }
+
+    return 0;
+}
+
+s32 ScriptModule::_playActorAnimLooped(lua_State* L)
+{
+    if (!LuaExpect(L, "playActorAnimLooped", 2))
+        return -1;
+
+    Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
+    if (pActor)
+    {
+        pActor->m_pAnim = (const GT_Animation*)lua_touserdata(L, 2);
+        pActor->m_animFrame = 0;
+        pActor->m_animElapsed = 0.0f;
+        pActor->m_actorState = ACTOR_STATE_ANIMATE_LOOPED;
+    }
+    else
+    {
+        LuaNote(PR_WARNING, "playActorAnimLooped() called with null actor");
         return -1;
     }
 
