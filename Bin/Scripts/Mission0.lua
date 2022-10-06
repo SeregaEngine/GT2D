@@ -74,6 +74,9 @@ function onEnter(Location)
     }
     RepairCarStage = 0
 
+    RandomTalk = {}
+    RandomTalkStage = 0
+
     -- Ground
     GROUND_WIDTH = GW_LOCATION
     GROUND_HEIGHT = 18
@@ -132,11 +135,14 @@ function stateTakeInstruments(Actor)
         if TakeInstrumentsStage == 2 then
             --playActorAnimation() ?
         elseif TakeInstrumentsStage > #TakeInstruments then
+            --[[
             if not IsZhenekBusy and math.random(0, 1) == 1 then
                 setActorState(Actor, States["RandomTalk"])
             else
                 setActorState(Actor, States["RepairCar"])
             end
+            ]]--
+			setActorState(Actor, States["RandomTalk"]) -- DEBUG(sean)
 
             TakeInstrumentsStage = 0
             return
@@ -167,5 +173,31 @@ function stateRepairCar(Actor)
 end
 
 function stateRandomTalk(Actor)
-    setActorState(Actor, States["RepairCar"])
+    if RandomTalkStage == 0 then
+        local Res = math.random(1, 2)
+        if Res == 1 then
+            RandomTalk = {
+                addDialog(GW_DIALOG, GH_DIALOG, "Sometimes i want to change my job", 4, Anthony, Textures["DialogSquare"]),
+                addDialog(GW_DIALOG, GH_DIALOG, "Your problems.", 1.5, Zhenek, Textures["DialogSquare"])
+            }
+        elseif Res == 2 then
+            RandomTalk = {
+                addDialog(GW_DIALOG, GH_DIALOG, "How you doing, bruh?", 3, Anthony, Textures["DialogSquare"]),
+                addDialog(GW_DIALOG, GH_DIALOG, "Can..", 0.5, Zhenek, Textures["DialogSquare"]),
+                addDialog(GW_DIALOG, GH_DIALOG, "You..", 0.5, Zhenek, Textures["DialogSquare"]),
+                addDialog(GW_DIALOG, GH_DIALOG, "PhIl MaHaAar", 2.5, Zhenek, Textures["DialogSquare"])
+            }
+        end
+        RandomTalkStage = 1
+    elseif RandomTalkStage > #RandomTalk then
+        RandomTalkStage = 0
+        setActorState(Actor, States["RepairCar"])
+        return
+    end
+
+    if hasWorldEntity(RandomTalk[RandomTalkStage]) then
+        runDialog(RandomTalk[RandomTalkStage])
+    else
+        RandomTalkStage = RandomTalkStage + 1
+    end
 end

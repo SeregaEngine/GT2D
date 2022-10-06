@@ -350,7 +350,7 @@ void ScriptModule::UpdateMission(lua_State* pScript, f32 dtTime)
 
     if (lua_pcall(pScript, 1, 0, 0) != 0)
     {
-        LuaNote(PR_ERROR, "UpdateMission(): %s", lua_tostring(pScript, 1));
+        LuaNote(PR_ERROR, "UpdateMission(): %s", lua_tostring(pScript, -1));
         lua_pop(pScript, 1);
     }
 }
@@ -375,7 +375,7 @@ void ScriptModule::CallFunction(lua_State* pScript, const char* functionName, vo
 
     if (lua_pcall(pScript, 1, 0, 0) != 0)
     {
-        LuaNote(PR_ERROR, "CallFunction(): Error when function %s called: %s", functionName, lua_tostring(pScript, 1));
+        LuaNote(PR_ERROR, "CallFunction(): Error when function %s called: %s", functionName, lua_tostring(pScript, -1));
         lua_pop(pScript, 1);
     }
 }
