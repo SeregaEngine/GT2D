@@ -5,6 +5,10 @@
 --| his garage after Petrol's car accident
 ----------------------------------------------------------------------
 
+--[[ TODO
+    -- Maybe make something like helper for states that do something?
+]]--
+
 ---- Includes
 dofile "Scripts/MissionDefines.lua"
 
@@ -64,6 +68,12 @@ function onEnter(Location)
     }
     TakeInstrumentsStage = 0
 
+    RepairCar = {
+        { GTT_GOTO, 25, 50 },
+        { GTT_WAIT, 1000 }
+    }
+    RepairCarStage = 0
+
     -- Ground
     GROUND_WIDTH = GW_LOCATION
     GROUND_HEIGHT = 18
@@ -102,10 +112,10 @@ end
 function stateUpCar(Actor)
     local X,Y = getEntityPosition(Car)
 
-    if Y >= 39 and Y <= 40 then
+    if Y >= 44 and Y <= 45 then
         setCarAcceleration(Car, 0, 0.000001)
-    elseif Y <= 35 then
-        setEntityPosition(Car, 25, 35)
+    elseif Y <= 40 then
+        setEntityPosition(Car, 25, 40)
         setCarMaxSpeed(Car, 0, 0)
         setActorState(Actor, States["TakeInstruments"])
     end
@@ -123,9 +133,9 @@ function stateTakeInstruments(Actor)
             --playActorAnimation() ?
         elseif TakeInstrumentsStage > #TakeInstruments then
             if not IsZhenekBusy and math.random(0, 1) == 1 then
-				setActorState(Actor, States["RandomTalk"])
+                setActorState(Actor, States["RandomTalk"])
             else
-				setActorState(Actor, States["RepairCar"])
+                setActorState(Actor, States["RepairCar"])
             end
 
             TakeInstrumentsStage = 0
@@ -137,9 +147,25 @@ function stateTakeInstruments(Actor)
 end
 
 function stateRepairCar(Actor)
-    setActorState(Actor, States["TakeInstruments"])
+    if RepairCarStage == 0 then
+
+    end
+
+    if checkActorTask(Actor) == GTT_DONE or RepairCarStage == 0 then
+        RepairCarStage = RepairCarStage + 1
+
+        if RepairCarStage == 2 then
+            --playActorAnimation() ?
+        elseif RepairCarStage > #RepairCar then
+			setActorState(Actor, States["TakeInstruments"])
+            RepairCarStage = 0
+            return
+        end
+
+        setActorTask(Actor, RepairCar[RepairCarStage][1], RepairCar[RepairCarStage][2], RepairCar[RepairCarStage][3])
+    end
 end
 
 function stateRandomTalk(Actor)
-    setActorState(Actor, States["stateRepairCar"])
+    setActorState(Actor, States["RepairCar"])
 end
