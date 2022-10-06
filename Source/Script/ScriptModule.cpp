@@ -142,6 +142,8 @@ void ScriptModule::DefineFunctions(lua_State* L)
 
     // Actor
     lua_register(L, "addActor", _addActor);
+    lua_register(L, "setActorTeam", _setActorTeam);
+    lua_register(L, "getActorTeam", _getActorTeam);
     lua_register(L, "setActorHealth", _setActorHealth);
     lua_register(L, "getActorHealth", _getActorHealth);
     lua_register(L, "isActorAlive", _isActorAlive);
@@ -1299,6 +1301,44 @@ s32 ScriptModule::_addActor(lua_State* L)
 
     // Return pointer to lua
     lua_pushlightuserdata(L, pActor);
+
+    return 1;
+}
+
+s32 ScriptModule::_setActorTeam(lua_State* L)
+{
+    if (!LuaExpect(L, "setActorTeam", 2))
+        return -1;
+
+    Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
+    if (pActor)
+    {
+        pActor->m_actorTeam = (s32)lua_tointeger(L, 2);
+    }
+    else
+    {
+        LuaNote(PR_WARNING, "setActorTeam() called with null actor");
+        return -1;
+    }
+
+    return 0;
+}
+
+s32 ScriptModule::_getActorTeam(lua_State* L)
+{
+    if (!LuaExpect(L, "getActorTeam", 1))
+        return -1;
+
+    Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
+    if (pActor)
+    {
+        lua_pushinteger(L, pActor->m_actorTeam);
+    }
+    else
+    {
+        lua_pushinteger(L, ACTOR_TEAM_DEFAULT);
+        LuaNote(PR_WARNING, "getActorTeam() called with null actor");
+    }
 
     return 1;
 }
