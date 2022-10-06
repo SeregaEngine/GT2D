@@ -2,7 +2,7 @@
 
 function onEnter(Location)
 	GT_LOG(PR_NOTE, "Loader entered")
-	switchMission("Scripts/Mission1.lua", 1)
+	switchMission("Scripts/Mission0.lua", 1)
 end
 
 -- Empty functions...

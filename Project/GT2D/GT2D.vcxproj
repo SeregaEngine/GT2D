@@ -205,9 +205,11 @@
     <ClCompile Include="..\..\Source\Sound\SoundModule.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\Bin\Scripts\GraphicsDefines.lua" />
     <None Include="..\..\Bin\Scripts\Loader.lua" />
+    <None Include="..\..\Bin\Scripts\Mission0.lua" />
     <None Include="..\..\Bin\Scripts\Mission1.lua" />
+    <None Include="..\..\Bin\Scripts\MissionDefines.lua" />
+    <None Include="..\..\Bin\Scripts\MissionIntro.lua" />
     <None Include="..\..\Bin\Scripts\Saver.lua" />
   </ItemGroup>
   <ItemGroup>

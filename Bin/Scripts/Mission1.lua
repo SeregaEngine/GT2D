@@ -1,3 +1,12 @@
+----------------------------------------------------------------------
+--| * Mission1.lua *
+--|
+--| Mission, where Petrol steal Dark Lord's wheels.
+--|
+--| It was written first, so it contains different
+--| ways to implement one thing.
+----------------------------------------------------------------------
+
 ---- Defines
 
 -- Location
@@ -21,9 +30,6 @@ GH_ACTOR = TH_ACTOR
 -- Car
 TW_CAR = 72
 TH_CAR = 21
-
-GW_CAR = TW_CAR
-GH_CAR = TH_CAR
 
 -- Dialog
 TW_DIALOG = 320
@@ -73,7 +79,7 @@ function onEnter(Location)
 
     defineResources()
     if Location == 1 or Location <= 0 or Location > 4 then
-		onEnterL1()
+        onEnterL1()
     elseif Location == 2 then
         --onEnterL2()
     elseif Location == 3 then
@@ -105,7 +111,6 @@ function defineResources()
     Textures["John"] = defineTexture("Textures/Actors/John.png", TW_ACTOR, TH_ACTOR)
 
     Textures["DialogSquare"] = defineTexture("Textures/DialogBox/Square.png", TW_DIALOG, TH_DIALOG)
-    Textures["DialogCloud"] = defineTexture("Textures/DialogBox/Cloud.png", TW_DIALOG, TH_DIALOG)
 
     Textures["Wheels"] = defineTexture("Textures/Props/Wheels.png", TW_PROP, TH_PROP)
 
@@ -392,12 +397,12 @@ function onUpdateL4(dt)
     handleInput()
 
     if DEBUG then
-		setDrawColor(255, 255, 255, 255)
-		local X,Y = getEntityPosition(Entities["PoliceCar"])
-		drawText(RENDER_MODE_DEBUG, 999, true, 0,0,10,2, string.format("%.1f", X))
+        setDrawColor(255, 255, 255, 255)
+        local X,Y = getEntityPosition(Entities["PoliceCar"])
+        drawText(RENDER_MODE_DEBUG, 999, true, 0,0,10,2, string.format("%.1f", X))
 
-		X,Y = getEntityVelocity(Entities["PoliceCar"])
-		drawText(RENDER_MODE_DEBUG, 999, true, 0,2,10,2, string.format("%.1f", X))
+        X,Y = getEntityVelocity(Entities["PoliceCar"])
+        drawText(RENDER_MODE_DEBUG, 999, true, 0,2,10,2, string.format("%.1f", X))
     end
 end
 
@@ -525,7 +530,7 @@ function statePlayerComing(Actor)
                 return
             end
 
-			switchLocation("onEnterL3")
+            switchLocation("onEnterL3")
             return
         end
 
@@ -534,10 +539,10 @@ function statePlayerComing(Actor)
         end
 
         if PlayerComing[PlayerComingState].Task == GTT_GOTO then
-			setActorTask(Actor, PlayerComing[PlayerComingState].Task, PlayerComing[PlayerComingState].X, PlayerComing[PlayerComingState].Y)
+            setActorTask(Actor, PlayerComing[PlayerComingState].Task, PlayerComing[PlayerComingState].X, PlayerComing[PlayerComingState].Y)
         elseif PlayerComing[PlayerComingState].Task == GTT_WAIT then
-			setActorTask(Actor, PlayerComing[PlayerComingState].Task, PlayerComing[PlayerComingState].Duration)
-		end
+            setActorTask(Actor, PlayerComing[PlayerComingState].Task, PlayerComing[PlayerComingState].Duration)
+        end
     end
 end
 

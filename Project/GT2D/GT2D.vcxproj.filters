@@ -142,10 +142,16 @@
     <None Include="..\..\Bin\Scripts\Mission1.lua">
       <Filter>Lua Scripts</Filter>
     </None>
-    <None Include="..\..\Bin\Scripts\GraphicsDefines.lua">
+    <None Include="..\..\Bin\Scripts\Saver.lua">
       <Filter>Lua Scripts</Filter>
     </None>
-    <None Include="..\..\Bin\Scripts\Saver.lua">
+    <None Include="..\..\Bin\Scripts\Mission0.lua">
+      <Filter>Lua Scripts</Filter>
+    </None>
+    <None Include="..\..\Bin\Scripts\MissionDefines.lua">
+      <Filter>Lua Scripts</Filter>
+    </None>
+    <None Include="..\..\Bin\Scripts\MissionIntro.lua">
       <Filter>Lua Scripts</Filter>
     </None>
   </ItemGroup>
