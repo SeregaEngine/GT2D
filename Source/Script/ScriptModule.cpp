@@ -18,6 +18,8 @@ extern "C"
 #include "KillTask.h"
 #include "AnimateForTask.h"
 #include "WaitAnimationTask.h"
+#include "WaitDialogTask.h"
+#include "RunDialogTask.h"
 #include "Weapon.h"
 #include "Car.h"
 #include "Trigger.h"
@@ -303,6 +305,10 @@ void ScriptModule::DefineSymbols(lua_State* L)
     lua_setglobal(L, "GTT_ANIMATE_FOR");
     lua_pushinteger(L, GTT_WAIT_ANIMATION);
     lua_setglobal(L, "GTT_WAIT_ANIMATION");
+    lua_pushinteger(L, GTT_WAIT_DIALOG);
+    lua_setglobal(L, "GTT_WAIT_DIALOG");
+    lua_pushinteger(L, GTT_RUN_DIALOG);
+    lua_setglobal(L, "GTT_RUN_DIALOG");
 }
 
 lua_State* ScriptModule::LoadMission(const char* path, s32 location)
@@ -1625,6 +1631,16 @@ s32 ScriptModule::_setActorTask(lua_State* L)
     case GTT_WAIT_ANIMATION:
     {
         pActor->SetTask(new WaitAnimationTask(pActor, (const GT_Animation*)lua_touserdata(L, 3)));
+    } break;
+
+    case GTT_WAIT_DIALOG:
+    {
+        pActor->SetTask(new WaitDialogTask(pActor, (Dialog*)lua_touserdata(L, 3)));
+    } break;
+
+    case GTT_RUN_DIALOG:
+    {
+        //pActor->SetTask(new RunDialogTask(pActor, (Dialog*)lua_touserdata(L, 3)));
     } break;
 
     default:

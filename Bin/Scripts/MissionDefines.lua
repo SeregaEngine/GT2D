@@ -91,3 +91,24 @@ function handleInput()
         end
     end
 end
+
+function createActionState(FunGetActions, FunChangeAndGetActionStage, FunInit, FunEnd)
+    return function(Actor)
+        if FunChangeAndGetActionStage(0) == 0 then
+            FunInit(Actor)
+        end
+
+        if checkActorTask(Actor) == GTT_DONE or FunChangeAndGetActionStage(0) == 0 then
+            local Stage = FunChangeAndGetActionStage(1)
+            local Actions = FunGetActions()
+
+            if Stage > #Actions then
+                FunEnd(Actor)
+                return
+            end
+
+            setActorTask(Actor, Actions[Stage][1], Actions[Stage][2], Actions[Stage][3])
+        end
+    end
+end
+

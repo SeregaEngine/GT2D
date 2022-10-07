@@ -1,10 +1,10 @@
 ----------------------------------------------------------------------
 --| * Mission1.lua *
 --|
---| Mission, where Petrol steal Dark Lord's wheels.
+--| Mission, where Petrol steals Dark Lord's wheels.
 --|
 --| It was written first, so it contains different
---| ways to implement one thing.
+--| implementations of one thing.
 ----------------------------------------------------------------------
 
 ---- Defines

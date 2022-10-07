@@ -122,84 +122,73 @@ function stateUpCar(Actor)
     end
 end
 
-function stateTakeInstruments(Actor)
-    if TakeInstrumentsStage == 0 then
-
-    end
-
-    if checkActorTask(Actor) == GTT_DONE or TakeInstrumentsStage == 0 then
-        TakeInstrumentsStage = TakeInstrumentsStage + 1
-
-        if TakeInstrumentsStage > #TakeInstruments then
-            if not IsZhenekBusy and math.random(0, 1) == 1 then
-                setActorState(Actor, States["RandomTalk"])
-            else
-                setActorState(Actor, States["RepairCar"])
-            end
-
-            TakeInstruments[2][3] = math.random(2000, 5000)
-            TakeInstrumentsStage = 0
-            return
+stateTakeInstruments = createActionState(
+    function()
+        return TakeInstruments
+    end,
+    function(Change)
+        TakeInstrumentsStage = TakeInstrumentsStage + Change
+        return TakeInstrumentsStage
+    end,
+    function(Actor)
+    end,
+    function(Actor)
+        if not IsZhenekBusy and math.random(0, 1) == 1 then
+            setActorState(Actor, States["RandomTalk"])
+        else
+            setActorState(Actor, States["RepairCar"])
         end
 
-        setActorTask(Actor, TakeInstruments[TakeInstrumentsStage][1], TakeInstruments[TakeInstrumentsStage][2], TakeInstruments[TakeInstrumentsStage][3])
+        TakeInstruments[2][3] = math.random(2000, 5000)
+        TakeInstrumentsStage = 0
     end
-end
+)
 
-function stateRepairCar(Actor)
-    if RepairCarStage == 0 then
-
+stateRepairCar = createActionState(
+    function()
+        return RepairCar
+    end,
+    function(Change)
+        RepairCarStage = RepairCarStage + Change
+        return RepairCarStage
+    end,
+    function(Actor)
+    end,
+    function(Actor)
+        setActorState(Actor, States["TakeInstruments"])
+        RepairCar[2][3] = math.random(5000, 15000) -- Wait time
+        RepairCarStage = 0
     end
+)
 
-    if checkActorTask(Actor) == GTT_DONE or RepairCarStage == 0 then
-        RepairCarStage = RepairCarStage + 1
-
-        if RepairCarStage > #RepairCar then
-            setActorState(Actor, States["TakeInstruments"])
-            RepairCar[2][3] = math.random(5000, 15000) -- Wait time
-            RepairCarStage = 0
-            return
-        end
-
-        setActorTask(Actor, RepairCar[RepairCarStage][1], RepairCar[RepairCarStage][2], RepairCar[RepairCarStage][3])
-    end
-end
-
-function stateRandomTalk(Actor)
-    if RandomTalkStage == 0 then
+stateRandomTalk = createActionState(
+    function()
+        return RandomTalk
+    end,
+    function(Change)
+        RandomTalkStage = RandomTalkStage + Change
+        return RandomTalkStage
+    end,
+    function(Actor)
         local Res = math.random(1, 2)
         if Res == 1 then
             RandomTalk = {
-                addDialog(GW_DIALOG, GH_DIALOG, "Sometimes i want to change my job", 4, Anthony, Textures["DialogSquare"]),
-                addDialog(GW_DIALOG, GH_DIALOG, "Your problems.", 1.5, Zhenek, Textures["DialogSquare"])
+                { GTT_WAIT_DIALOG, addDialog(GW_DIALOG, GH_DIALOG, "Sometimes i want to change my job", 4, Anthony, Textures["DialogSquare"]) },
+                { GTT_WAIT_DIALOG, addDialog(GW_DIALOG, GH_DIALOG, "Your problems.", 1.5, Zhenek, Textures["DialogSquare"]) },
+                { GTT_WAIT, 1000 }
             }
         elseif Res == 2 then
             RandomTalk = {
-                addDialog(GW_DIALOG, GH_DIALOG, "How you doing, bruh?", 3, Anthony, Textures["DialogSquare"]),
-                addDialog(GW_DIALOG, GH_DIALOG, "Can..", 0.5, Zhenek, Textures["DialogSquare"]),
-                addDialog(GW_DIALOG, GH_DIALOG, "You..", 0.5, Zhenek, Textures["DialogSquare"]),
-                addDialog(GW_DIALOG, GH_DIALOG, "PhIl MaHaAar", 2.5, Zhenek, Textures["DialogSquare"])
+                { GTT_WAIT_DIALOG, addDialog(GW_DIALOG, GH_DIALOG, "How you doing, bruh?", 3, Anthony, Textures["DialogSquare"]) },
+                { GTT_WAIT_DIALOG, addDialog(GW_DIALOG, GH_DIALOG, "Can..", 0.5, Zhenek, Textures["DialogSquare"]) },
+                { GTT_WAIT_DIALOG, addDialog(GW_DIALOG, GH_DIALOG, "You..", 0.5, Zhenek, Textures["DialogSquare"]) },
+                { GTT_WAIT_DIALOG, addDialog(GW_DIALOG, GH_DIALOG, "PhIl MaHaAar", 2.5, Zhenek, Textures["DialogSquare"]) },
+                { GTT_WAIT, 1000 }
             }
         end
-        RandomTalkStage = 1
-
-        setActorTask(Actor, GTT_NONE) -- We will wait a bit after dialog
-    elseif RandomTalkStage > #RandomTalk then
-        if RandomTalkStage == 999 then -- Just magic number
-            if checkActorTask(Actor) == GTT_DONE then
-                RandomTalkStage = 0
-                setActorState(Actor, States["RepairCar"])
-            end
-        else
-            RandomTalkStage = 999
-            setActorTask(Actor, GTT_WAIT, 1000)
-        end
-        return
+    end,
+    function(Actor)
+		RandomTalkStage = 0
+		setActorState(Actor, States["RepairCar"])
     end
-
-    if hasWorldEntity(RandomTalk[RandomTalkStage]) then
-        runDialog(RandomTalk[RandomTalkStage])
-    else
-        RandomTalkStage = RandomTalkStage + 1
-    end
-end
+)

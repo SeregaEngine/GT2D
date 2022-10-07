@@ -25,6 +25,8 @@ enum eGT_TaskID
     GTT_KILL,
     GTT_ANIMATE_FOR,
     GTT_WAIT_ANIMATION,
+    GTT_WAIT_DIALOG,
+    GTT_RUN_DIALOG,
 };
 
 /* ====== STRUCTURES ====== */
