@@ -43,7 +43,10 @@ b32 Console::StartUp()
 
 void Console::ShutDown()
 {
-    delete[] m_buffer;
+    if (m_buffer)
+        delete[] m_buffer;
+    if (m_lastInput)
+        delete[] m_lastInput;
 }
 
 void Console::Render() const

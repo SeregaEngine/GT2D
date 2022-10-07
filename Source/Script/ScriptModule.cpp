@@ -158,9 +158,9 @@ void ScriptModule::DefineFunctions(lua_State* L)
     lua_register(L, "setActorSpeed", _setActorSpeed);
     lua_register(L, "getActorSpeed", _getActorSpeed);
     lua_register(L, "setActorState", _setActorState);
-    lua_register(L, "setActorTask", _setActorTask);
-    lua_register(L, "sendActorCmd", _sendActorCmd);
-    lua_register(L, "checkActorTask", _checkActorTask);
+    lua_register(L, "pushActorTask", _pushActorTask);
+    lua_register(L, "pushActorCommand", _pushActorCommand);
+    lua_register(L, "checkActorCurrentTask", _checkActorCurrentTask);
     lua_register(L, "getActorCurrentTask", _getActorCurrentTask);
     lua_register(L, "setActorDeathSound", _setActorDeathSound);
     lua_register(L, "setActorWeapon", _setActorWeapon);
@@ -1537,26 +1537,6 @@ s32 ScriptModule::_getActorSpeed(lua_State* L)
     return 2;
 }
 
-
-s32 ScriptModule::_sendActorCmd(lua_State* L)
-{
-    if (!LuaExpect(L, "sendActorCmd", 2))
-        return -1;
-
-    // Check for errors
-    Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
-    if (!pActor)
-    {
-        LuaNote(PR_WARNING, "sendActorCmd() called with null actor");
-        return -1;
-    }
-
-    // Send command
-    pActor->SendCommand((s32)lua_tointeger(L, 2));
-
-    return 0;
-}
-
 s32 ScriptModule::_setActorState(lua_State* L)
 {
     if (!LuaExpect(L, "setActorState", 2))
@@ -1576,11 +1556,11 @@ s32 ScriptModule::_setActorState(lua_State* L)
     return 0;
 }
 
-s32 ScriptModule::_setActorTask(lua_State* L)
+s32 ScriptModule::_pushActorTask(lua_State* L)
 {
     if (lua_gettop(L) < 2)
     {
-        LuaNote(PR_WARNING, "setActorTask(): expected at least 2 arguments but %d given", lua_gettop(L));
+        LuaNote(PR_WARNING, "pushActorTask(): expected at least 2 arguments but %d given", lua_gettop(L));
         return -1;
     }
 
@@ -1588,7 +1568,7 @@ s32 ScriptModule::_setActorTask(lua_State* L)
     Actor* pActor = (Actor*)lua_touserdata(L, 1);
     if (!pActor)
     {
-        LuaNote(PR_WARNING, "setActorTask() called with null actor");
+        LuaNote(PR_WARNING, "pushActorTask() called with null actor");
         return -1;
     }
 
@@ -1598,49 +1578,49 @@ s32 ScriptModule::_setActorTask(lua_State* L)
 
     case GTT_NONE:
     {
-        pActor->SetTask(nullptr);
+        pActor->RemoveTasks();
     } break;
 
     case GTT_WAIT:
     {
-        pActor->SetTask(new WaitTask(pActor, (f32)lua_tointeger(L, 3)));
+        pActor->PushTask(new WaitTask(pActor, (f32)lua_tointeger(L, 3)));
     } break;
 
     case GTT_GOTO:
     {
         Vector2 vDestination = { GTU::UnitToScreenX((f32)lua_tonumber(L, 3)),
                                  GTU::UnitToScreenY((f32)lua_tonumber(L, 4))};
-        pActor->SetTask(new GotoTask(pActor, vDestination));
+        pActor->PushTask(new GotoTask(pActor, vDestination));
     } break;
 
     case GTT_GOTO_ENTITY:
     {
-        pActor->SetTask(new GotoEntityTask(pActor, (Entity*)lua_touserdata(L, 3)));
+        pActor->PushTask(new GotoEntityTask(pActor, (Entity*)lua_touserdata(L, 3)));
     } break;
 
     case GTT_KILL:
     {
-        pActor->SetTask(new KillTask(pActor, (Actor*)lua_touserdata(L, 3)));
+        pActor->PushTask(new KillTask(pActor, (Actor*)lua_touserdata(L, 3)));
     } break;
 
     case GTT_ANIMATE_FOR:
     {
-        pActor->SetTask(new AnimateForTask(pActor, (const GT_Animation*)lua_touserdata(L, 3), (f32)lua_tonumber(L, 4)));
+        pActor->PushTask(new AnimateForTask(pActor, (const GT_Animation*)lua_touserdata(L, 3), (f32)lua_tonumber(L, 4)));
     } break;
 
     case GTT_WAIT_ANIMATION:
     {
-        pActor->SetTask(new WaitAnimationTask(pActor, (const GT_Animation*)lua_touserdata(L, 3)));
+        pActor->PushTask(new WaitAnimationTask(pActor, (const GT_Animation*)lua_touserdata(L, 3)));
     } break;
 
     case GTT_WAIT_DIALOG:
     {
-        pActor->SetTask(new WaitDialogTask(pActor, (Dialog*)lua_touserdata(L, 3)));
+        pActor->PushTask(new WaitDialogTask(pActor, (Dialog*)lua_touserdata(L, 3)));
     } break;
 
     case GTT_RUN_DIALOG:
     {
-        pActor->SetTask(new RunDialogTask(pActor, (Dialog*)lua_touserdata(L, 3)));
+        pActor->PushTask(new RunDialogTask(pActor, (Dialog*)lua_touserdata(L, 3)));
     } break;
 
     default:
@@ -1654,15 +1634,34 @@ s32 ScriptModule::_setActorTask(lua_State* L)
     return 0;
 }
 
-s32 ScriptModule::_checkActorTask(lua_State* L)
+s32 ScriptModule::_pushActorCommand(lua_State* L)
 {
-    if (!LuaExpect(L, "checkActorState", 1))
+    if (!LuaExpect(L, "pushActorCommand", 2))
+        return -1;
+
+    // Check for errors
+    Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
+    if (!pActor)
+    {
+        LuaNote(PR_WARNING, "pushActorCommand() called with null actor");
+        return -1;
+    }
+
+    // Push command
+    pActor->PushCommand((s32)lua_tointeger(L, 2));
+
+    return 0;
+}
+
+s32 ScriptModule::_checkActorCurrentTask(lua_State* L)
+{
+    if (!LuaExpect(L, "checkActorCurrentTask", 1))
         return -1;
 
     Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
     if (pActor)
     {
-        GT_Task* pTask = pActor->GetTask();
+        const GT_Task* pTask = pActor->GetCurrentTask();
         if (pTask)
             lua_pushinteger(L, pTask->GetStatus());
         else
@@ -1670,7 +1669,7 @@ s32 ScriptModule::_checkActorTask(lua_State* L)
     }
     else
     {
-        LuaNote(PR_WARNING, "checkActorTask() called with null actor");
+        LuaNote(PR_WARNING, "checkActorCurrentTask() called with null actor");
         return -1;
     }
 
@@ -1685,7 +1684,7 @@ s32 ScriptModule::_getActorCurrentTask(lua_State* L)
     Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
     if (pActor)
     {
-        GT_Task* pTask = pActor->GetTask();
+        const GT_Task* pTask = pActor->GetCurrentTask();
         if (pTask)
             lua_pushinteger(L, pTask->GetID());
         else

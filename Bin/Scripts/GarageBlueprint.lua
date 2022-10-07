@@ -123,14 +123,14 @@ stateTakeInstruments = createCutscene(
     function(Actor)
     end,
     function(Actor)
+        TakeInstruments[2][5] = math.random(2000, 5000)
+        TakeInstrumentsStage = 0
+
         if not IsZhenekBusy and math.random(0, 1) == 1 then
             setActorState(Actor, States["RandomTalk"])
         else
             setActorState(Actor, States["RepairCar"])
         end
-
-        TakeInstruments[2][3] = math.random(2000, 5000)
-        TakeInstrumentsStage = 0
     end
 )
 
@@ -145,9 +145,9 @@ stateRepairCar = createCutscene(
     function(Actor)
     end,
     function(Actor)
-        setActorState(Actor, States["TakeInstruments"])
-        RepairCar[2][3] = math.random(5000, 15000) -- Wait time
+        RepairCar[2][5] = math.random(5000, 15000) -- Wait time
         RepairCarStage = 0
+        setActorState(Actor, States["TakeInstruments"])
     end
 )
 

@@ -60,7 +60,7 @@ public:
 private:
     /* AI */
     const GT_State* m_pState;
-    GT_Task* m_pTask;
+    TList<GT_Task*> m_lstTask;
     TList<s32> m_lstCommand;
 public:
     /* Animations */
@@ -68,7 +68,7 @@ public:
 
 public:
     virtual void Init(const Vector2& vPosition, s32 width, s32 height, const GT_Texture* pTexture) override;
-    virtual void Clean() override { Entity::Clean(); RemoveTask(); }
+    virtual void Clean() override { Entity::Clean(); RemoveTasks(); }
     virtual void Update(f32 dtTime) override;
 
     /* Actor */
@@ -78,11 +78,11 @@ public:
     void SetState(const GT_State* pState) { m_pState = pState; }
     const GT_State* GetState() const { return m_pState; }
 
-    void SetTask(GT_Task* pTask) { RemoveTask(); m_pTask = pTask; }
-    void RemoveTask() { if (m_pTask) delete m_pTask; m_pTask = nullptr; }
-    GT_Task* GetTask() const { return m_pTask; }
+    void PushTask(GT_Task* pTask) { if (pTask) m_lstTask.Push(pTask); }
+    void RemoveTasks() { m_lstTask.Mapcar([](auto pTask) { delete pTask; }); m_lstTask.Clean(); }
+    const GT_Task* GetCurrentTask() { return m_lstTask.IsEmpty() ? nullptr : m_lstTask.Front(); }
 
-    void SendCommand(s32 enumCmd) { m_lstCommand.Push(enumCmd); }
+    void PushCommand(s32 enumCmd) { m_lstCommand.Push(enumCmd); }
 private:
     /* Actor */
     b32 HandleDeath();
@@ -90,7 +90,7 @@ private:
 
     /* AI */
     void HandleAIState() { g_AIModule.HandleState(this); }
-    void HandleAITask() { if (m_pTask) m_pTask->Handle(); }
+    void HandleAITasks();
     void HandleAICommand(f32 dtTime);
 
     // Commands

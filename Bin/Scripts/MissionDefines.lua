@@ -75,16 +75,16 @@ function handleInput()
 
     -- Handle Player's behaviour
     if Player and PlayerControllable then
-        if isKeyDown(GTK_W) then sendActorCmd(Player, GTC_MOVE_UP) end
-        if isKeyDown(GTK_A) then sendActorCmd(Player, GTC_MOVE_LEFT) end
-        if isKeyDown(GTK_S) then sendActorCmd(Player, GTC_MOVE_DOWN) end
-        if isKeyDown(GTK_D) then sendActorCmd(Player, GTC_MOVE_RIGHT) end
+        if isKeyDown(GTK_W) then pushActorCommand(Player, GTC_MOVE_UP) end
+        if isKeyDown(GTK_A) then pushActorCommand(Player, GTC_MOVE_LEFT) end
+        if isKeyDown(GTK_S) then pushActorCommand(Player, GTC_MOVE_DOWN) end
+        if isKeyDown(GTK_D) then pushActorCommand(Player, GTC_MOVE_RIGHT) end
 
         -- Handle attack
         -- Player have to press space many times
         local IsSpaceDown = isKeyDown(GTK_SPACE)
         if IsSpaceDown and CanAttack then
-            sendActorCmd(Player, GTC_ATTACK)
+            pushActorCommand(Player, GTC_ATTACK)
             CanAttack = false
         elseif not IsSpaceDown then
             CanAttack = true
@@ -108,7 +108,7 @@ function createCutscene(FunGetActions, FunChangeAndGetActionStage, FunInit, FunE
             IsWaitingForDone = false
         end
 
-        if not IsWaitingForDone or checkActorTask(Actions[Stage][1]) == GTT_DONE then
+        if not IsWaitingForDone or checkActorCurrentTask(Actions[Stage][1]) == GTT_DONE then
             Stage = FunChangeAndGetActionStage(1)
 
             if Stage > #Actions then
@@ -116,7 +116,7 @@ function createCutscene(FunGetActions, FunChangeAndGetActionStage, FunInit, FunE
                 return
             end
 
-			setActorTask(Actions[Stage][1], Actions[Stage][3], Actions[Stage][4], Actions[Stage][5])
+			pushActorTask(Actions[Stage][1], Actions[Stage][3], Actions[Stage][4], Actions[Stage][5])
         end
     end
 end

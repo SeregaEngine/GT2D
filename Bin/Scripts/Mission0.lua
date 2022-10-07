@@ -18,8 +18,11 @@ function onEnter(Location)
     setActorState(Player, States["MainCutscene"])
 
     MainCutscene = {
+        { Player, false, GTT_ANIMATE_FOR, defineAnimation(0, 2, 1000/20), 2000 },
         { Zhenek, false, GTT_WAIT_DIALOG, addDialog(GW_DIALOG, GH_DIALOG, "", 1, Zhenek, Textures["DialogSquare"]) },
         { Player, false, GTT_WAIT_DIALOG, addDialog(GW_DIALOG, GH_DIALOG, "", 1, Player, Textures["DialogSquare"]) },
+        { Player, false, GTT_GOTO_ENTITY, Anthony },
+        { Player, true, GTT_WAIT, 5000 }
     }
     MainCutsceneStage = 0
 end

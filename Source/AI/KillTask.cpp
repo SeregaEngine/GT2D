@@ -57,5 +57,5 @@ void KillTask::HandleActor()
     else
         m_pActor->m_bLookRight = true;
 
-    m_pActor->SendCommand(GTC_ATTACK);
+    m_pActor->PushCommand(GTC_ATTACK);
 }

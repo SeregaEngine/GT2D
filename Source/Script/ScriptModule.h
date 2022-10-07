@@ -158,10 +158,10 @@ private:
     static s32 _getActorSpeed(lua_State* L);
 
     static s32 _setActorState(lua_State* L);
-    static s32 _setActorTask(lua_State* L);
-    static s32 _sendActorCmd(lua_State* L);
+    static s32 _pushActorTask(lua_State* L);
+    static s32 _pushActorCommand(lua_State* L);
 
-    static s32 _checkActorTask(lua_State* L);
+    static s32 _checkActorCurrentTask(lua_State* L);
     static s32 _getActorCurrentTask(lua_State* L);
 
     static s32 _setActorDeathSound(lua_State* L);

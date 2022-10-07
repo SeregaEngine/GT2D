@@ -74,15 +74,15 @@ void GotoEntityTask::HandleActor()
 void GotoEntityTask::MoveX(const Vector2& vActor, const Vector2& vEntity, const Vector2& vError)
 {
     if (vEntity.x < vActor.x - vError.x)
-        m_pActor->SendCommand(GTC_MOVE_LEFT);
+        m_pActor->PushCommand(GTC_MOVE_LEFT);
     else if (vEntity.x > vActor.x + vError.x)
-        m_pActor->SendCommand(GTC_MOVE_RIGHT);
+        m_pActor->PushCommand(GTC_MOVE_RIGHT);
 }
 
 void GotoEntityTask::MoveY(const Vector2& vActor, const Vector2& vEntity, const Vector2& vError)
 {
     if (vEntity.y < vActor.y - vError.y)
-        m_pActor->SendCommand(GTC_MOVE_UP);
+        m_pActor->PushCommand(GTC_MOVE_UP);
     else if (vEntity.y > vActor.y + vError.y)
-        m_pActor->SendCommand(GTC_MOVE_DOWN);
+        m_pActor->PushCommand(GTC_MOVE_DOWN);
 }

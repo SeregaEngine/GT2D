@@ -308,7 +308,7 @@ function onEnterL4()
     local X, Y = getActorSpeed(Entities["Serega"])
     setActorSpeed(Entities["Serega"], X/1.75, Y/1.75)
     setActorState(Entities["Serega"], States["SeregaDriving"])
-    setActorTask(Entities["Serega"], GTT_WAIT, 5000) -- Don't check car velocity 5 seconds
+    pushActorTask(Entities["Serega"], GTT_WAIT, 5000) -- Don't check car velocity 5 seconds
 
     Entities["John"] = addActor(0, 0, GW_ACTOR, GH_ACTOR, Textures["John"])
     toggleEntityCollidable(Entities["John"], false)
@@ -420,16 +420,16 @@ function handleInput()
 
     -- Handle Player's behaviour
     if Player and PlayerControllable then
-        if isKeyDown(GTK_W) then sendActorCmd(Player, GTC_MOVE_UP) end
-        if isKeyDown(GTK_A) then sendActorCmd(Player, GTC_MOVE_LEFT) end
-        if isKeyDown(GTK_S) then sendActorCmd(Player, GTC_MOVE_DOWN) end
-        if isKeyDown(GTK_D) then sendActorCmd(Player, GTC_MOVE_RIGHT) end
+        if isKeyDown(GTK_W) then pushActorCommand(Player, GTC_MOVE_UP) end
+        if isKeyDown(GTK_A) then pushActorCommand(Player, GTC_MOVE_LEFT) end
+        if isKeyDown(GTK_S) then pushActorCommand(Player, GTC_MOVE_DOWN) end
+        if isKeyDown(GTK_D) then pushActorCommand(Player, GTC_MOVE_RIGHT) end
 
         -- Handle attack
         -- Player have to press space many times
         local IsSpaceDown = isKeyDown(GTK_SPACE)
         if IsSpaceDown and CanAttack then
-            sendActorCmd(Player, GTC_ATTACK)
+            pushActorCommand(Player, GTC_ATTACK)
             CanAttack = false
         elseif not IsSpaceDown then
             CanAttack = true
@@ -493,7 +493,7 @@ end
 function triggerPlayerLeavingGarage(Trigger, Entity)
     PlayerControllable = false
     local X,Y = getEntityPosition(Entity)
-    setActorTask(Entity, GTT_GOTO, 300.0, Y)
+    pushActorTask(Entity, GTT_GOTO, 300.0, Y)
     setActorState(Entity, States["PlayerLeavingGarage"])
 end
 
@@ -506,7 +506,7 @@ end
 ---- >>>> AI States
 function statePlayerComing(Actor)
     Task = getActorCurrentTask(Actor)
-    Status = checkActorTask(Actor)
+    Status = checkActorCurrentTask(Actor)
 
     if PlayerComingState == 0 then
         FadeTicks = getTicks()
@@ -539,9 +539,9 @@ function statePlayerComing(Actor)
         end
 
         if PlayerComing[PlayerComingState].Task == GTT_GOTO then
-            setActorTask(Actor, PlayerComing[PlayerComingState].Task, PlayerComing[PlayerComingState].X, PlayerComing[PlayerComingState].Y)
+            pushActorTask(Actor, PlayerComing[PlayerComingState].Task, PlayerComing[PlayerComingState].X, PlayerComing[PlayerComingState].Y)
         elseif PlayerComing[PlayerComingState].Task == GTT_WAIT then
-            setActorTask(Actor, PlayerComing[PlayerComingState].Task, PlayerComing[PlayerComingState].Duration)
+            pushActorTask(Actor, PlayerComing[PlayerComingState].Task, PlayerComing[PlayerComingState].Duration)
         end
     end
 end
@@ -587,25 +587,25 @@ end
 
 function stateKillPlayer(Actor)
     local Task = getActorCurrentTask(Actor)
-    local Status = checkActorTask(Actor)
+    local Status = checkActorCurrentTask(Actor)
 
     if Task == GTT_NONE then
-        setActorTask(Actor, GTT_GOTO_ENTITY, Player)
+        pushActorTask(Actor, GTT_GOTO_ENTITY, Player)
     elseif Status == GTT_INPROCESS then
         return
     elseif Status == GTT_DONE then
         if Task == GTT_GOTO_ENTITY then
-            setActorTask(Actor, GTT_KILL, Player)
+            pushActorTask(Actor, GTT_KILL, Player)
         elseif Task == GTT_KILL then
             runDialog(Dialogs["DarkLordKilledPlayer"])
-            setActorTask(Actor, GTT_NONE)
+            pushActorTask(Actor, GTT_NONE)
             setActorState(Actor, nil)
         end
     elseif Status == GTT_IMPOSSIBLE then
         if Task == GTT_KILL then
-            setActorTask(Actor, GTT_GOTO_ENTITY, Player)
+            pushActorTask(Actor, GTT_GOTO_ENTITY, Player)
         else
-            setActorTask(Actor, GTT_NONE)
+            pushActorTask(Actor, GTT_NONE)
             setActorState(Actor, nil)
         end
     end
@@ -709,7 +709,7 @@ function statePlayerLeaving(Actor)
         fillRect(RENDER_MODE_FOREGROUND, 999, true, 0,0,SCREEN_WIDTH,SCREEN_HEIGHT)
     end
 
-    if checkActorTask(Actor) == GTT_DONE or PlayerLeavingState == 0 then
+    if checkActorCurrentTask(Actor) == GTT_DONE or PlayerLeavingState == 0 then
         PlayerLeavingState = PlayerLeavingState + 1
 
         if PlayerLeavingState == 1 then
@@ -732,20 +732,20 @@ function statePlayerLeaving(Actor)
             playSound(Sounds["PickupThrottling"])
 
             FadeTicks = 0
-            setActorTask(Actor, nil)
+            pushActorTask(Actor, nil)
             setActorState(Actor, nil)
             return
         elseif PlayerLeaving[PlayerLeavingState].Task == GTT_GOTO then
-            setActorTask(Actor, PlayerLeaving[PlayerLeavingState].Task, PlayerLeaving[PlayerLeavingState].X, PlayerLeaving[PlayerLeavingState].Y)
+            pushActorTask(Actor, PlayerLeaving[PlayerLeavingState].Task, PlayerLeaving[PlayerLeavingState].X, PlayerLeaving[PlayerLeavingState].Y)
         elseif PlayerLeaving[PlayerLeavingState].Task == GTT_WAIT then
-            setActorTask(Actor, PlayerLeaving[PlayerLeavingState].Task, PlayerLeaving[PlayerLeavingState].Duration)
+            pushActorTask(Actor, PlayerLeaving[PlayerLeavingState].Task, PlayerLeaving[PlayerLeavingState].Duration)
         end
     end
 end
 
 function stateSeregaDriving(Actor)
     -- Wait
-    if checkActorTask(Actor) ~= GTT_DONE then
+    if checkActorCurrentTask(Actor) ~= GTT_DONE then
         return
     end
 
@@ -754,14 +754,14 @@ function stateSeregaDriving(Actor)
     if X > -0.04 then
         -- Stop car, start dialog
         setCarMaxSpeed(Entities["PoliceCar"], 0, 0)
-        setActorTask(Actor, GTT_WAIT, 500)
+        pushActorTask(Actor, GTT_WAIT, 500)
         setActorState(Actor, States["PoliceDialog"])
     end
 end
 
 function statePoliceDialog(Actor)
     -- Wait task
-    if checkActorTask(Actor) ~= GTT_DONE then
+    if checkActorCurrentTask(Actor) ~= GTT_DONE then
         return
     end
 
@@ -800,11 +800,11 @@ function statePoliceGoToHouse(Actor)
         fillRect(RENDER_MODE_FOREGROUND, 999, true, 0,0,SCREEN_WIDTH,SCREEN_HEIGHT)
     end
 
-    local Status = checkActorTask(Actor)
+    local Status = checkActorCurrentTask(Actor)
     if Status == GTT_DONE or PoliceGoToHouseState == 0 then
         PoliceGoToHouseState = PoliceGoToHouseState + 1
-        setActorTask(Entities["Serega"], PoliceGoToHouse[PoliceGoToHouseState].Task, PoliceGoToHouse[PoliceGoToHouseState].X, PoliceGoToHouse[PoliceGoToHouseState].Y)
-        setActorTask(Entities["John"], PoliceGoToHouse[PoliceGoToHouseState].Task, PoliceGoToHouse[PoliceGoToHouseState].X, PoliceGoToHouse[PoliceGoToHouseState].Y)
+        pushActorTask(Entities["Serega"], PoliceGoToHouse[PoliceGoToHouseState].Task, PoliceGoToHouse[PoliceGoToHouseState].X, PoliceGoToHouse[PoliceGoToHouseState].Y)
+        pushActorTask(Entities["John"], PoliceGoToHouse[PoliceGoToHouseState].Task, PoliceGoToHouse[PoliceGoToHouseState].X, PoliceGoToHouse[PoliceGoToHouseState].Y)
     end
 end
 ---- <<<< AI States

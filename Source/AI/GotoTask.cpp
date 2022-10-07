@@ -23,9 +23,9 @@ void GotoTask::Handle()
     if (!m_bCompletedX)
     {
         if (m_vDestination.x < vPosition.x - vError.x)
-            m_pActor->SendCommand(GTC_MOVE_LEFT);
+            m_pActor->PushCommand(GTC_MOVE_LEFT);
         else if (m_vDestination.x > vPosition.x + vError.x)
-            m_pActor->SendCommand(GTC_MOVE_RIGHT);
+            m_pActor->PushCommand(GTC_MOVE_RIGHT);
         else
             m_bCompletedX = true;
     }
@@ -34,9 +34,9 @@ void GotoTask::Handle()
     if (!m_bCompletedY)
     {
         if (m_vDestination.y < vPosition.y - vError.y)
-            m_pActor->SendCommand(GTC_MOVE_UP);
+            m_pActor->PushCommand(GTC_MOVE_UP);
         else if (m_vDestination.y > vPosition.y + vError.y)
-            m_pActor->SendCommand(GTC_MOVE_DOWN);
+            m_pActor->PushCommand(GTC_MOVE_DOWN);
         else
             m_bCompletedY = true;
     }

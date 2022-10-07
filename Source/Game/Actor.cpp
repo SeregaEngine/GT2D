@@ -52,9 +52,8 @@ void Actor::Init(const Vector2& vPosition, s32 width, s32 height, const GT_Textu
     m_attackRate = ACTOR_DEFAULT_ATTACK_RATE;
     m_pWeapon = nullptr;
 
-    // Init AI stuff
+    // Init AI
     m_pState = nullptr;
-    m_pTask = nullptr;
 
     // Init default actor animations
     for (i32f i = 0; i < MAX_ACTOR_ANIMATIONS; ++i)
@@ -72,7 +71,7 @@ void Actor::Update(f32 dtTime)
 
     // Handle AI stuff
     HandleAIState();
-    HandleAITask();
+    HandleAITasks();
     HandleAICommand(dtTime);
 
     // React via changing state and it's animation
@@ -131,6 +130,34 @@ void Actor::HandleActorState(f32 dtTime)
 
     default: {} break;
 
+    }
+}
+
+void Actor::HandleAITasks()
+{
+    auto it = m_lstTask.Begin();
+    auto end = m_lstTask.End();
+    if (it == end)
+        return;
+
+    // Handle first task, don't delete it
+    it->data->Handle();
+
+    // Handle other tasks and if they're done - delete them
+    for (++it; it != end; )
+    {
+        it->data->Handle();
+        if (it->data->GetStatus() != GTT_INPROCESS)
+        {
+            GT_Task* pRemove = it->data;
+            ++it;
+            m_lstTask.Remove(pRemove);
+            delete pRemove;
+        }
+        else
+        {
+            ++it;
+        }
     }
 }
 
