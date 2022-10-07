@@ -36,7 +36,6 @@ public:
             m_status = waitStatus;
         }
     }
-private:
 };
 
 #endif // ANIMATEFORTASK_H_

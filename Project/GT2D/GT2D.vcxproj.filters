@@ -285,5 +285,11 @@
     <ClInclude Include="..\..\Source\AI\WaitDialogTask.h">
       <Filter>AI</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\AI\FadeInTask.h">
+      <Filter>AI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\AI\FadeOffTask.h">
+      <Filter>AI</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

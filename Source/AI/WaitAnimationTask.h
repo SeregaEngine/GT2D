@@ -27,7 +27,6 @@ public:
         if (m_pActor->m_actorState != ACTOR_STATE_ANIMATE_ONCE)
             m_status = GTT_DONE;
     }
-private:
 };
 
 #endif // WAITANIMATIONTASK_H_

@@ -27,6 +27,8 @@ enum eGT_TaskID
     GTT_WAIT_ANIMATION,
     GTT_WAIT_DIALOG,
     GTT_RUN_DIALOG,
+    GTT_FADE_IN,
+    GTT_FADE_OFF,
 };
 
 /* ====== STRUCTURES ====== */

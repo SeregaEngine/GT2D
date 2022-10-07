@@ -216,6 +216,8 @@
   <ItemGroup>
     <ClInclude Include="..\..\Source\AI\AIModule.h" />
     <ClInclude Include="..\..\Source\AI\AnimateForTask.h" />
+    <ClInclude Include="..\..\Source\AI\FadeInTask.h" />
+    <ClInclude Include="..\..\Source\AI\FadeOffTask.h" />
     <ClInclude Include="..\..\Source\AI\GotoEntityTask.h" />
     <ClInclude Include="..\..\Source\AI\GotoTask.h" />
     <ClInclude Include="..\..\Source\AI\GTCommand.h" />
