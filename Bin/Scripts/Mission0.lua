@@ -19,12 +19,7 @@ function onEnter(Location)
 
     MainCutscene = {
         { Player, false, GTT_PUSH_COMMAND, GTC_MOVE_UP },
-        { Player, false, GTT_PUSH_COMMAND, GTC_MOVE_UP },
-        { Player, false, GTT_PUSH_COMMAND, GTC_MOVE_UP },
-        { Player, false, GTT_PUSH_COMMAND, GTC_MOVE_UP },
-        { Player, false, GTT_PUSH_COMMAND, GTC_MOVE_UP },
-        { Player, false, GTT_PUSH_COMMAND, GTC_MOVE_UP },
-        { Player, true, GTT_FADE_IN, 1000 },
+        { Player, false, GTT_FADE_IN, 1000 },
         { Player, true, GTT_PUSH_COMMAND, GTC_MOVE_RIGHT },
         { Player, true, GTT_WAIT, 1000 },
     }
