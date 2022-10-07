@@ -111,12 +111,6 @@ function onEnter(Location)
     }
     MainCutsceneStage = 0
 
-    LeaveGarage = {
-        { Player, false, GTT_GOTO, GROUND_WIDTH * 3, GROUND_Y + GROUND_HEIGHT/2 },
-        { Player, true, GTT_FADE_OFF, 2000.0 },
-    }
-    LeaveGarageStage = 0
-
     -- Location
 	setGroundBounds(GROUND_X, GROUND_Y, GROUND_WIDTH * 2, GROUND_HEIGHT)
 end
@@ -125,7 +119,6 @@ function defineResources()
     Anims["PlayerSleep"] = defineAnimation(6, 1, 1000.0)
     Anims["PlayerWakeUp"] = defineAnimation(6, 3, 1000.0 / 1.5)
     States["MainCutscene"] = defineState("stateMainCutscene")
-    States["LeaveGarage"] = defineState("cutsceneLeaveGarage")
 end
 
 function onUpdate(dt)
@@ -151,36 +144,15 @@ stateMainCutscene = createCutscene(
         return MainCutsceneStage
     end,
     function(Actor)
-        ZhenekIsBusy = true
+        IsZhenekBusy = true
         PlayerControllable = false
     end,
     function(Actor)
-        ZhenekIsBusy = false
+        IsZhenekBusy = false
         PlayerControllable = true
 		addTrigger(GROUND_WIDTH, GROUND_Y-5, 2, GROUND_HEIGHT*2, Player, "triggerLeaveGarage")
 
-
         MainCutsceneStage = 0
-        setActorState(Actor, nil)
-    end
-)
-
-cutsceneLeaveGarage = createCutscene(
-    function()
-        return LeaveGarage
-    end,
-    function(Change)
-        LeaveGarageStage = LeaveGarageStage + 1
-        return LeaveGarageStage
-    end,
-    function(Actor)
-        PlayerControllable = false
-    end,
-    function(Actor)
-        -- TODO(sean) Save
-        switchMission("Scripts/Mission1.lua", 1)
-
-        LeaveGarageStage = 0
         setActorState(Actor, nil)
     end
 )

@@ -101,7 +101,7 @@ function createCutscene(FunGetActions, FunChangeAndGetActionStage, FunInit, FunE
         local Actions = FunGetActions()
         local Stage = FunChangeAndGetActionStage(0)
 
-        while Stage == 0 or not Actions[Stage][2] or checkActorCurrentTask(Actions[Stage][1]) == GTT_DONE do
+        while Stage == 0 or Stage > #Actions or not Actions[Stage][2] or checkActorCurrentTask(Actions[Stage][1]) == GTT_DONE do
 			Stage = FunChangeAndGetActionStage(1)
 
 			if Stage > #Actions then
