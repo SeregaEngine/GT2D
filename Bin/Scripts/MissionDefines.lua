@@ -92,22 +92,31 @@ function handleInput()
     end
 end
 
-function createActionState(FunGetActions, FunChangeAndGetActionStage, FunInit, FunEnd)
+function createCutscene(FunGetActions, FunChangeAndGetActionStage, FunInit, FunEnd)
     return function(Actor)
         if FunChangeAndGetActionStage(0) == 0 then
             FunInit(Actor)
         end
 
-        if checkActorTask(Actor) == GTT_DONE or FunChangeAndGetActionStage(0) == 0 then
-            local Stage = FunChangeAndGetActionStage(1)
-            local Actions = FunGetActions()
+        local Actions = FunGetActions()
+        local Stage = FunChangeAndGetActionStage(0)
+
+        local IsWaitingForDone
+        if Stage > 0 and Actions[Stage][2] then
+            IsWaitingForDone = true
+        else
+            IsWaitingForDone = false
+        end
+
+        if not IsWaitingForDone or checkActorTask(Actions[Stage][1]) == GTT_DONE then
+            Stage = FunChangeAndGetActionStage(1)
 
             if Stage > #Actions then
                 FunEnd(Actor)
                 return
             end
 
-            setActorTask(Actor, Actions[Stage][1], Actions[Stage][2], Actions[Stage][3])
+			setActorTask(Actions[Stage][1], Actions[Stage][3], Actions[Stage][4], Actions[Stage][5])
         end
     end
 end

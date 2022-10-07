@@ -14,10 +14,20 @@ function onEnter(Location)
 
     defineResources()
     onGarageEnter()
+
+    setActorState(Player, States["MainCutscene"])
+
+    MainCutscene = {
+        { Zhenek, false, GTT_WAIT_DIALOG, addDialog(GW_DIALOG, GH_DIALOG, "", 1, Zhenek, Textures["DialogSquare"]) },
+        { Player, false, GTT_WAIT_DIALOG, addDialog(GW_DIALOG, GH_DIALOG, "", 1, Player, Textures["DialogSquare"]) },
+    }
+    MainCutsceneStage = 0
 end
 
 function defineResources()
-
+    Anims["PlayerDead"] = defineAnimation(5, 1, 1)
+    Anims["PlayerWakeUp"] = defineAnimation(6, 3, 1000.0 / 0.1)
+    States["MainCutscene"] = defineState("stateMainCutscene")
 end
 
 function onUpdate(dt)
@@ -27,3 +37,24 @@ end
 function onRender()
     onGarageRender()
 end
+
+stateMainCutscene = createCutscene(
+    function()
+        return MainCutscene
+    end,
+    function(Change)
+        MainCutsceneStage = MainCutsceneStage + Change
+        return MainCutsceneStage
+    end,
+    function(Actor)
+		ZhenekIsBusy = true
+        PlayerControllable = false
+        turnActorLeft(Actor)
+    end,
+    function(Actor)
+        ZhenekIsBusy = false
+        PlayerControllable = true
+        MainCutsceneStage = 0
+        setActorState(Actor, nil)
+    end
+)

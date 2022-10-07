@@ -15,7 +15,7 @@ Textures["Background"] = defineTexture("Textures/Locations/Mission0-1.png", TW_L
 Textures["Player"] = defineTexture("Textures/Actors/Player.png", TW_ACTOR, TH_ACTOR)
 Textures["Zhenek"] = defineTexture("Textures/Actors/Zhenek.png", TW_ACTOR, TH_ACTOR)
 Textures["Anthony"] = defineTexture("Textures/Actors/Anthony.png", TW_ACTOR, TH_ACTOR)
-Textures["Car"] = defineTexture("Textures/Cars/TrashCar.png", TW_CAR, TH_CAR)
+Textures["PlaceholderCar"] = defineTexture("Textures/Cars/TrashCar.png", TW_CAR, TH_CAR)
 
 Anims["SlowMoving"] = defineAnimation(1, 5, 1000.0 / 13.5)
 Anims["RepairCar"] = defineAnimation(5, 4, 1000.0 / 0.5)
@@ -61,22 +61,22 @@ function onGarageEnter()
     setActorState(Anthony, States["UpCar"])
     turnActorLeft(Anthony)
 
-    Car = addCar(25, 50, 65, 20, Textures["Car"])
+    Car = addCar(25, 50, 65, 20, Textures["PlaceholderCar"])
     setEntityRenderMode(Car, RENDER_MODE_FOREGROUND)
     setEntityZIndex(Car, -1)
     setCarMaxSpeed(Car, 0, 0.005)
     setCarAcceleration(Car, 0, -0.000001)
 
-    -- States
+    -- Cutscenes
     TakeInstruments = {
-        { GTT_GOTO, 63, 47.5 },
-        { GTT_ANIMATE_FOR, Anims["TakeInstruments"], math.random(2000, 5000) },
+        { Anthony, true, GTT_GOTO, 63, 47.5 },
+        { Anthony, true, GTT_ANIMATE_FOR, Anims["TakeInstruments"], math.random(2000, 5000) },
     }
     TakeInstrumentsStage = 0
 
     RepairCar = {
-        { GTT_GOTO, 25, 53 },
-        { GTT_ANIMATE_FOR, Anims["RepairCar"], math.random(5000, 15000) }
+        { Anthony, true, GTT_GOTO, 25, 53 },
+        { Anthony, true, GTT_ANIMATE_FOR, Anims["RepairCar"], math.random(5000, 15000) }
     }
     RepairCarStage = 0
 
@@ -112,7 +112,7 @@ function stateUpCar(Actor)
     end
 end
 
-stateTakeInstruments = createActionState(
+stateTakeInstruments = createCutscene(
     function()
         return TakeInstruments
     end,
@@ -134,7 +134,7 @@ stateTakeInstruments = createActionState(
     end
 )
 
-stateRepairCar = createActionState(
+stateRepairCar = createCutscene(
     function()
         return RepairCar
     end,
@@ -151,7 +151,7 @@ stateRepairCar = createActionState(
     end
 )
 
-stateRandomTalk = createActionState(
+stateRandomTalk = createCutscene(
     function()
         return RandomTalk
     end,
@@ -163,17 +163,17 @@ stateRandomTalk = createActionState(
         local Res = math.random(1, 2)
         if Res == 1 then
             RandomTalk = {
-                { GTT_WAIT_DIALOG, addDialog(GW_DIALOG, GH_DIALOG, "Sometimes i want to change my job", 4, Anthony, Textures["DialogSquare"]) },
-                { GTT_WAIT_DIALOG, addDialog(GW_DIALOG, GH_DIALOG, "Your problems.", 1.5, Zhenek, Textures["DialogSquare"]) },
-                { GTT_WAIT, 1000 }
+                { Anthony, true, GTT_WAIT_DIALOG, addDialog(GW_DIALOG, GH_DIALOG, "Sometimes i want to change my job", 4, Anthony, Textures["DialogSquare"]) },
+                { Zhenek, true, GTT_WAIT_DIALOG, addDialog(GW_DIALOG, GH_DIALOG, "Your problems.", 1.5, Zhenek, Textures["DialogSquare"]) },
+                { Anthony, true, GTT_WAIT, 1000 }
             }
         elseif Res == 2 then
             RandomTalk = {
-                { GTT_WAIT_DIALOG, addDialog(GW_DIALOG, GH_DIALOG, "How you doing, bruh?", 3, Anthony, Textures["DialogSquare"]) },
-                { GTT_WAIT_DIALOG, addDialog(GW_DIALOG, GH_DIALOG, "Can..", 0.5, Zhenek, Textures["DialogSquare"]) },
-                { GTT_WAIT_DIALOG, addDialog(GW_DIALOG, GH_DIALOG, "You..", 0.5, Zhenek, Textures["DialogSquare"]) },
-                { GTT_WAIT_DIALOG, addDialog(GW_DIALOG, GH_DIALOG, "PhIl MaHaAar", 2.5, Zhenek, Textures["DialogSquare"]) },
-                { GTT_WAIT, 1000 }
+                { Anthony, true, GTT_WAIT_DIALOG, addDialog(GW_DIALOG, GH_DIALOG, "How you doing, bruh?", 3, Anthony, Textures["DialogSquare"]) },
+                { Zhenek, true, GTT_WAIT_DIALOG, addDialog(GW_DIALOG, GH_DIALOG, "Can..", 0.5, Zhenek, Textures["DialogSquare"]) },
+                { Zhenek, true, GTT_WAIT_DIALOG, addDialog(GW_DIALOG, GH_DIALOG, "You..", 0.5, Zhenek, Textures["DialogSquare"]) },
+                { Zhenek, true, GTT_WAIT_DIALOG, addDialog(GW_DIALOG, GH_DIALOG, "PhIl MaHaAar", 2.5, Zhenek, Textures["DialogSquare"]) },
+                { Anthony, true, GTT_WAIT, 1000 }
             }
         end
     end,
