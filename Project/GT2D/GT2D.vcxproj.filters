@@ -154,6 +154,9 @@
     <None Include="..\..\Bin\Scripts\MissionIntro.lua">
       <Filter>Lua Scripts</Filter>
     </None>
+    <None Include="..\..\Bin\Scripts\GarageBlueprint.lua">
+      <Filter>Lua Scripts</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\AI\AIModule.h">

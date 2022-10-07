@@ -15,13 +15,10 @@ public:
     AnimateForTask(Actor* pActor, const GT_Animation* pAnim, f32 wait)
         : GT_Task(pActor, GTT_ANIMATE_FOR), m_pWaitTask(new WaitTask(pActor, wait))
     {
-        if (pActor)
-        {
-            pActor->m_pAnim = pAnim;
-            pActor->m_animFrame = 0;
-            pActor->m_animElapsed = 0.0f;
-            pActor->m_actorState = ACTOR_STATE_ANIMATE_LOOPED;
-        }
+        pActor->m_pAnim = pAnim ? pAnim : pActor->m_aActorAnims[ACTOR_ANIMATION_IDLE];
+        pActor->m_animFrame = 0;
+        pActor->m_animElapsed = 0.0f;
+        pActor->m_actorState = ACTOR_STATE_ANIMATE_LOOPED;
     }
     ~AnimateForTask() { if (m_pWaitTask) delete m_pWaitTask; }
 
