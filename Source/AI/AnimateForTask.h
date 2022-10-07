@@ -32,7 +32,7 @@ public:
         s32 waitStatus = m_pWaitTask->GetStatus();
         if (waitStatus == GTT_DONE || waitStatus == GTT_IMPOSSIBLE)
         {
-            m_pActor->m_actorState = ACTOR_STATE_IDLE;
+            m_pActor->m_actorState = ACTOR_STATE_AFTER_ANIMATION;
             m_status = waitStatus;
         }
     }

@@ -276,6 +276,12 @@ void ScriptModule::DefineSymbols(lua_State* L)
     lua_setglobal(L, "ACTOR_TEAM_DEFAULT");
 
     /* AI */
+    lua_pushinteger(L, GTC_IDLE);
+    lua_setglobal(L, "GTC_IDLE");
+    lua_pushinteger(L, GTC_TURN_LEFT);
+    lua_setglobal(L, "GTC_TURN_LEFT");
+    lua_pushinteger(L, GTC_TURN_RIGHT);
+    lua_setglobal(L, "GTC_TURN_RIGHT");
     lua_pushinteger(L, GTC_MOVE_UP);
     lua_setglobal(L, "GTC_MOVE_UP");
     lua_pushinteger(L, GTC_MOVE_LEFT);

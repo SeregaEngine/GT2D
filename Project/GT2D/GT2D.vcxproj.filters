@@ -279,9 +279,6 @@
     <ClInclude Include="..\..\Source\AI\WaitAnimationTask.h">
       <Filter>AI</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\AI\RunDialogTask.h">
-      <Filter>AI</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\AI\WaitDialogTask.h">
       <Filter>AI</Filter>
     </ClInclude>
@@ -292,6 +289,9 @@
       <Filter>AI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\AI\PushCommandTask.h">
+      <Filter>AI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\AI\RunDialogTask.h">
       <Filter>AI</Filter>
     </ClInclude>
   </ItemGroup>

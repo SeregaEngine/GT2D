@@ -9,6 +9,7 @@
 enum eActorState
 {
     ACTOR_STATE_IDLE = 0,
+    ACTOR_STATE_AFTER_ANIMATION,
     ACTOR_STATE_MOVE,
     ACTOR_STATE_ATTACK,
     ACTOR_STATE_DEAD,
@@ -94,6 +95,9 @@ private:
     void HandleAICommand(f32 dtTime);
 
     // Commands
+    void CommandIdle() { m_actorState = ACTOR_STATE_IDLE; }
+    void CommandTurnLeft() { m_bLookRight = false; }
+    void CommandTurnRight() { m_bLookRight = true; }
     void CommandMove(s32 cmd, f32 dtTime);
     void CommandAttack();
 
@@ -102,6 +106,7 @@ private:
 
     // Animate actor states
     void AnimateIdle();
+    void AnimateAfterAnimation();
     void AnimateMove();
     void AnimateAttack();
     b32 AnimateDead();

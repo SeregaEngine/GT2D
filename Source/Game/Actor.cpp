@@ -1,7 +1,3 @@
-/* TODO
- * - We have HandleState() for AI but we don't for actorState...
- */
-
 /* ====== INCLUDES ====== */
 #include "Game.h"
 #include "InputModule.h"
@@ -125,7 +121,7 @@ void Actor::HandleActorState(f32 dtTime)
         // If we ended
         if (!m_pAnim || (m_animFrame >= m_pAnim->count - 1 &&
                          m_animElapsed + dtTime >= m_pAnim->frameDuration))
-            m_actorState = ACTOR_STATE_IDLE;
+            m_actorState = ACTOR_STATE_AFTER_ANIMATION;
     } break;
 
     default: {} break;
@@ -172,6 +168,11 @@ void Actor::HandleAICommand(f32 dtTime)
         s32 cmd = m_lstCommand.Front();
         switch (cmd)
         {
+        case GTC_IDLE: CommandIdle(); break;
+
+        case GTC_TURN_LEFT: CommandTurnLeft(); break;
+        case GTC_TURN_RIGHT: CommandTurnRight(); break;
+
         case GTC_MOVE_UP:
         case GTC_MOVE_LEFT:
         case GTC_MOVE_DOWN:
@@ -217,7 +218,7 @@ void Actor::CommandMove(s32 cmd, f32 dtTime)
     default: break;
     }
 
-    if (m_actorState == ACTOR_STATE_IDLE)
+    if (m_actorState == ACTOR_STATE_IDLE || m_actorState == ACTOR_STATE_AFTER_ANIMATION)
         m_actorState = ACTOR_STATE_MOVE;
 }
 
@@ -281,6 +282,7 @@ void Actor::HandleAnimation(f32 dtTime)
     switch (m_actorState)
     {
     case ACTOR_STATE_IDLE: AnimateIdle(); break;
+    case ACTOR_STATE_AFTER_ANIMATION: AnimateAfterAnimation(); return;
     case ACTOR_STATE_MOVE: AnimateMove(); break;
     case ACTOR_STATE_ATTACK: AnimateAttack(); return;
     case ACTOR_STATE_DEAD: if (AnimateDead()) return; else break;
@@ -305,6 +307,11 @@ void Actor::AnimateIdle()
 {
     m_pAnim = m_aActorAnims[ACTOR_ANIMATION_IDLE];
 
+    m_flip = m_bLookRight ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL;
+}
+
+void Actor::AnimateAfterAnimation()
+{
     m_flip = m_bLookRight ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL;
 }
 

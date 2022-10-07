@@ -27,10 +27,10 @@ States["RandomTalk"] = defineState("stateRandomTalk")
 States["RepairCar"] = defineState("stateRepairCar")
 
 ---- Globals
-local GROUND_X
-local GROUND_Y
-local GROUND_WIDTH
-local GROUND_HEIGHT
+GROUND_WIDTH = GW_LOCATION
+GROUND_HEIGHT = 18
+GROUND_X = 0
+GROUND_Y = GH_LOCATION - GROUND_HEIGHT
 
 Zhenek = nil
 Anthony = nil
@@ -71,12 +71,17 @@ function onGarageEnter()
     TakeInstruments = {
         { Anthony, true, GTT_GOTO, 63, 47.5 },
         { Anthony, true, GTT_ANIMATE_FOR, Anims["TakeInstruments"], math.random(2000, 5000) },
+        { Anthony, true, GTT_PUSH_COMMAND, GTC_MOVE_IDLE },
+        { Anthony, true, GTT_WAIT, 500.0 },
     }
     TakeInstrumentsStage = 0
 
     RepairCar = {
         { Anthony, true, GTT_GOTO, 25, 53 },
-        { Anthony, true, GTT_ANIMATE_FOR, Anims["RepairCar"], math.random(5000, 15000) }
+        { Anthony, true, GTT_PUSH_COMMAND, GTC_TURN_RIGHT },
+        { Anthony, true, GTT_ANIMATE_FOR, Anims["RepairCar"], math.random(5000, 15000) },
+        { Anthony, true, GTT_PUSH_COMMAND, GTC_MOVE_IDLE },
+        { Anthony, true, GTT_WAIT, 500.0 },
     }
     RepairCarStage = 0
 
@@ -84,10 +89,6 @@ function onGarageEnter()
     RandomTalkStage = 0
 
     -- Ground
-    GROUND_WIDTH = GW_LOCATION
-    GROUND_HEIGHT = 18
-    GROUND_X = 0
-    GROUND_Y = GH_LOCATION - GROUND_HEIGHT
     setGroundBounds(GROUND_X, GROUND_Y, GROUND_WIDTH, GROUND_HEIGHT)
 
     -- Camera
