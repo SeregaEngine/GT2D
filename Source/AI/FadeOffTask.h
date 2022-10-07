@@ -14,7 +14,7 @@ class FadeOffTask final : public GT_Task
     SDL_Rect m_destRect;
 public:
     FadeOffTask(Actor* pActor, f32 duration) :
-        GT_Task(pActor, GTT_FADE_IN), m_alpha(0.0f), m_alphaPerMs(255.0f/duration),
+        GT_Task(pActor, GTT_FADE_OFF), m_alpha(0.0f), m_alphaPerMs(255.0f/duration),
         m_destRect({ 0, 0, g_graphicsModule.GetScreenWidth(), g_graphicsModule.GetScreenHeight() }) {}
 
     virtual void Handle() override

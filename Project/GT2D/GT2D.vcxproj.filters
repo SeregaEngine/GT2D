@@ -291,5 +291,8 @@
     <ClInclude Include="..\..\Source\AI\FadeOffTask.h">
       <Filter>AI</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\AI\PushCommandTask.h">
+      <Filter>AI</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

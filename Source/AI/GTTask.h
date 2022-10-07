@@ -29,6 +29,7 @@ enum eGT_TaskID
     GTT_RUN_DIALOG,
     GTT_FADE_IN,
     GTT_FADE_OFF,
+    GTT_PUSH_COMMAND,
 };
 
 /* ====== STRUCTURES ====== */

@@ -22,6 +22,7 @@ extern "C"
 #include "RunDialogTask.h"
 #include "FadeInTask.h"
 #include "FadeOffTask.h"
+#include "PushCommandTask.h"
 #include "Weapon.h"
 #include "Car.h"
 #include "Trigger.h"
@@ -315,6 +316,8 @@ void ScriptModule::DefineSymbols(lua_State* L)
     lua_setglobal(L, "GTT_FADE_IN");
     lua_pushinteger(L, GTT_FADE_OFF);
     lua_setglobal(L, "GTT_FADE_OFF");
+    lua_pushinteger(L, GTT_PUSH_COMMAND);
+    lua_setglobal(L, "GTT_PUSH_COMMAND");
 }
 
 lua_State* ScriptModule::LoadMission(const char* path, s32 location)
@@ -1637,6 +1640,11 @@ s32 ScriptModule::_pushActorTask(lua_State* L)
     case GTT_FADE_OFF:
     {
         pActor->PushTask(new FadeOffTask(pActor, (f32)lua_tonumber(L, 3)));
+    } break;
+
+    case GTT_PUSH_COMMAND:
+    {
+        pActor->PushTask(new PushCommandTask(pActor, (s32)lua_tointeger(L, 3)));
     } break;
 
     default:
