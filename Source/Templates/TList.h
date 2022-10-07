@@ -1,6 +1,5 @@
 /* TODO
  * - Remake with doubly linked list
- * - Remove() that delete everything
  * - RemoveIf() that delete everything with given function
  */
 
@@ -50,7 +49,8 @@ public:
 
 public:
     TList() : m_pFirst(nullptr), m_pLast(nullptr) {}
-    TList(TList<T>& lst) {
+    TList(TList<T>& lst)
+    {
         m_pFirst = lst.m_pFirst;
         m_pLast = lst.m_pLast;
         lst.m_pFirst = nullptr;
@@ -58,7 +58,8 @@ public:
     }
     ~TList() { Clean(); }
 
-    void operator=(TList<T>& lst) {
+    void operator=(TList<T>& lst)
+    {
         // Clean what we had before this assign
         Clean();
 
@@ -72,7 +73,6 @@ public:
     void PushBack(T data);
     void PushBefore(Iterator& beforeIterator, T data);
 
-    // Pop only if you checked list with IsEmpty()
     void Pop();
     void PopBack();
     void Remove(const T& data);
@@ -94,7 +94,8 @@ public:
 
 /* ====== METHODS ====== */
 template<class T>
-inline void TList<T>::Push(T data) {
+inline void TList<T>::Push(T data)
+{
     Item* pTemp = new Item(data, m_pFirst);
     m_pFirst = pTemp;
     if (!m_pLast)
@@ -102,7 +103,8 @@ inline void TList<T>::Push(T data) {
 }
 
 template<class T>
-inline void TList<T>::PushBack(T data) {
+inline void TList<T>::PushBack(T data)
+{
     Item* pTemp = new Item(data, nullptr);
     if (m_pLast)
         m_pLast->pNext = pTemp;
@@ -113,7 +115,8 @@ inline void TList<T>::PushBack(T data) {
 }
 
 template<class T>
-inline void TList<T>::PushBefore(Iterator& beforeIterator, T data) {
+inline void TList<T>::PushBefore(Iterator& beforeIterator, T data)
+{
     // Push front if beforeIterator item is our first item
     if (beforeIterator.pItem == m_pFirst)
     {
@@ -139,7 +142,11 @@ inline void TList<T>::PushBefore(Iterator& beforeIterator, T data) {
 }
 
 template<class T>
-inline void TList<T>::Pop() {
+inline void TList<T>::Pop()
+{
+    if (!m_pFirst)
+        return;
+
     if (m_pLast == m_pFirst)
     {
         delete m_pFirst;
@@ -154,7 +161,11 @@ inline void TList<T>::Pop() {
 }
 
 template<class T>
-inline void TList<T>::PopBack() {
+inline void TList<T>::PopBack()
+{
+    if (!m_pFirst)
+        return;
+
     if (m_pFirst == m_pLast)
     {
         delete m_pLast;
@@ -173,7 +184,8 @@ inline void TList<T>::PopBack() {
 }
 
 template<class T>
-inline void TList<T>::Remove(const T& data) {
+inline void TList<T>::Remove(const T& data)
+{
     // If it's our back
     if (m_pLast->data == data)
     {
@@ -196,7 +208,8 @@ inline void TList<T>::Remove(const T& data) {
 }
 
 template<class T>
-inline void TList<T>::Clean() {
+inline void TList<T>::Clean()
+{
     while (m_pFirst)
     {
         Item* pTemp = m_pFirst;
@@ -209,13 +222,15 @@ inline void TList<T>::Clean() {
 }
 
 template<class T>
-inline void TList<T>::Mapcar(void (*fun)(T, void*), void* userdata) {
+inline void TList<T>::Mapcar(void (*fun)(T, void*), void* userdata)
+{
     for (Item* pTemp = m_pFirst; pTemp; pTemp = pTemp->pNext)
         fun(pTemp->data, userdata);
 }
 
 template<class T>
-inline void TList<T>::Mapcar(void (*fun)(T)) {
+inline void TList<T>::Mapcar(void (*fun)(T))
+{
     for (Item* pTemp = m_pFirst; pTemp; pTemp = pTemp->pNext)
         fun(pTemp->data);
 }

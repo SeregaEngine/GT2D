@@ -1,5 +1,6 @@
 /* ====== INCLUDES ====== */
 #include "Game.h"
+#include "Actor.h"
 #include "GTUnit.h"
 
 #include "Dialog.h"

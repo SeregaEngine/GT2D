@@ -49,13 +49,20 @@ void Game::Render() const
 
 void Game::HandleNewState()
 {
-    if (m_lstState.Front() != m_pCurrentState)
+    if (m_lstState.IsEmpty())
     {
-        m_pCurrentState = m_lstState.Front();
-        if (m_pCurrentState && !m_pCurrentState->OnEnter())
+        m_pCurrentState = nullptr;
+    }
+    else
+    {
+        if (m_lstState.Front() != m_pCurrentState)
         {
-            m_bRunning = false;
-            AddNote(PR_ERROR, "False returned on current state's <OnEnter()>");
+            m_pCurrentState = m_lstState.Front();
+            if (m_pCurrentState && !m_pCurrentState->OnEnter())
+            {
+                m_bRunning = false;
+                AddNote(PR_ERROR, "False returned on current state's <OnEnter()>");
+            }
         }
     }
 }
