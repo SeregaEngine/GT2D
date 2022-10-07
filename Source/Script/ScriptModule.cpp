@@ -257,8 +257,8 @@ void ScriptModule::DefineSymbols(lua_State* L)
     /* Actor */
     lua_pushinteger(L, ACTOR_ANIMATION_IDLE);
     lua_setglobal(L, "ACTOR_ANIMATION_IDLE");
-    lua_pushinteger(L, ACTOR_ANIMATION_MOVE_HORIZONTAL);
-    lua_setglobal(L, "ACTOR_ANIMATION_MOVE_HORIZONTAL");
+    lua_pushinteger(L, ACTOR_ANIMATION_HORIZONTAL);
+    lua_setglobal(L, "ACTOR_ANIMATION_HORIZONTAL");
     lua_pushinteger(L, ACTOR_ANIMATION_TOP);
     lua_setglobal(L, "ACTOR_ANIMATION_TOP");
     lua_pushinteger(L, ACTOR_ANIMATION_BOTTOM);

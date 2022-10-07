@@ -285,14 +285,14 @@ void Actor::AnimateMove()
 {
     if (m_vVelocity.x > 0)
     {
-        m_pAnim = m_aActorAnims[ACTOR_ANIMATION_MOVE_HORIZONTAL];
+        m_pAnim = m_aActorAnims[ACTOR_ANIMATION_HORIZONTAL];
 
         m_bLookRight = true;
         m_flip = SDL_FLIP_NONE;
     }
     else if (m_vVelocity.x < 0)
     {
-        m_pAnim = m_aActorAnims[ACTOR_ANIMATION_MOVE_HORIZONTAL];
+        m_pAnim = m_aActorAnims[ACTOR_ANIMATION_HORIZONTAL];
 
         m_bLookRight = false;
         m_flip = SDL_FLIP_HORIZONTAL;
