@@ -100,24 +100,28 @@ function createCutscene(FunGetActions, FunChangeAndGetActionStage, FunInit, FunE
 
         local Actions = FunGetActions()
         local Stage = FunChangeAndGetActionStage(0)
-
         local IsWaitingForDone
-        if Stage > 0 and Actions[Stage][2] then
-            IsWaitingForDone = true
-        else
-            IsWaitingForDone = false
-        end
 
-        if not IsWaitingForDone or checkActorCurrentTask(Actions[Stage][1]) == GTT_DONE then
-            Stage = FunChangeAndGetActionStage(1)
-
-            if Stage > #Actions then
-                FunEnd(Actor)
-                return
+        -- TODO(sean) Simplify it
+        -- Push tasks in one frame until we have to wait for end of the task
+        repeat
+            if Stage > 0 and Actions[Stage][2] then
+                IsWaitingForDone = true
+            else
+                IsWaitingForDone = false
             end
 
-			pushActorTask(Actions[Stage][1], Actions[Stage][3], Actions[Stage][4], Actions[Stage][5])
-        end
+            if not IsWaitingForDone or checkActorCurrentTask(Actions[Stage][1]) == GTT_DONE then
+                Stage = FunChangeAndGetActionStage(1)
+
+                if Stage > #Actions then
+                    FunEnd(Actor)
+                    return
+                end
+
+                pushActorTask(Actions[Stage][1], Actions[Stage][3], Actions[Stage][4], Actions[Stage][5])
+            end
+        until(IsWaitingForDone)
     end
 end
 
