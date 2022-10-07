@@ -1640,7 +1640,7 @@ s32 ScriptModule::_setActorTask(lua_State* L)
 
     case GTT_RUN_DIALOG:
     {
-        //pActor->SetTask(new RunDialogTask(pActor, (Dialog*)lua_touserdata(L, 3)));
+        pActor->SetTask(new RunDialogTask(pActor, (Dialog*)lua_touserdata(L, 3)));
     } break;
 
     default:
