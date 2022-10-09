@@ -9,7 +9,7 @@
 dofile "Scripts/GarageBlueprint.lua"
 
 ---- Resources
-Textures["Car"] = defineTexture("Textures/Cars/Dodge.png", TW_CAR, TH_CAR)
+Textures["Car"] = Graphics.defineTexture("Textures/Cars/Dodge.png", TW_CAR, TH_CAR)
 Anims["PlayerSleep"] = defineAnimation(6, 1, 1000.0)
 Anims["PlayerWakeUp"] = defineAnimation(6, 3, 1000.0 / 1.5)
 States["MainCutscene"] = defineState("stateMainCutscene")
@@ -41,7 +41,7 @@ function onEnter(Location)
         ["Zhenek5"] = Dialog:new(GW_DIALOG, GH_DIALOG, "Your car, man... It's dead.", 0.5, Zhenek, Textures["DialogSquare"]),
         ["Zhenek6"] = Dialog:new(GW_DIALOG, GH_DIALOG, "Of course we can.", 0.5, Zhenek, Textures["DialogSquare"]),
         ["Zhenek7"] = Dialog:new(GW_DIALOG, GH_DIALOG, "We have to find some parts for car and it'll be a long journey", 0.5, Zhenek, Textures["DialogSquare"]),
-        --["Zhenek8"] = Dialog:new(GW_DIALOG, GH_DIALOG, "Cool, bro. Go outside when you'll ready", 0.5, Zhenek, Textures["DialogSquare"]),
+        ["Zhenek8"] = Dialog:new(GW_DIALOG, GH_DIALOG, "Cool, bro. Go outside when you'll ready", 0.5, Zhenek, Textures["DialogSquare"]),
 
         ["Anthony1"] = Dialog:new(GW_DIALOG, GH_DIALOG, "Man, i don't care.", 0.5, Anthony, Textures["DialogSquare"]),
         ["Anthony2"] = Dialog:new(GW_DIALOG, GH_DIALOG, "I was a gangster in early 90's, now i'm businnesman who love riding a taxi..", 0.5, Anthony, Textures["DialogSquare"]),

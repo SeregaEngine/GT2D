@@ -60,7 +60,37 @@ Entities = {}
 Player = nil
 PlayerControllable = true
 
+---- Singletons
+-- Graphics
+Graphics = {}
+
+function Graphics.defineTexture(Path, SpriteWidth, SpriteHeight)
+    return defineTexture(Path, SpriteWidth, SpriteHeight)
+end
+
+function Graphics.setDrawColor(R, G, B, A)
+    setDrawColor(R, G, B, A)
+end
+
+--- *** Rect[1] = X, Rect[2] = Y, Rect[3] = W, Rect[4] = H *** ---
+function Graphics.drawFrame(RenderMode, ZIndex, IsHUD, Rect, Texture, Row, Frame)
+    drawFrame(RenderMode, ZIndex, IsHUD, Rect[1], Rect[2], Rect[3], Rect[4], Texture, Row, Frame)
+end
+
+function Graphics.drawText(RenderMode, ZIndex, IsHUD, Rect, Text)
+    drawText(RenderMode, ZIndex, IsHUD, Rect[1], Rect[2], Rect[3], Rect[4], Text)
+end
+
+function Graphics.fillRect(RenderMode, ZIndex, IsHUD, Rect)
+    fillRect(RenderMode, ZIndex, IsHUD, Rect[1], Rect[2], Rect[3], Rect[4])
+end
+
+function Graphics.drawRect(RenderMode, ZIndex, IsHUD, Rect)
+    drawRect(RenderMode, ZIndex, IsHUD, Rect[1], Rect[2], Rect[3], Rect[4])
+end
+
 ---- Classes
+-- Entity
 Entity = { Pointer = nil }
 
 function Entity:inherit(Object)

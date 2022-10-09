@@ -11,11 +11,11 @@ dofile "Scripts/MissionDefines.lua"
 ACTOR_TEAM_FRIENDS = ACTOR_TEAM_DEFAULT + 1
 
 ---- Resources
-Textures["Background"] = defineTexture("Textures/Locations/Mission0-1.png", TW_LOCATION, TH_LOCATION)
-Textures["Player"] = defineTexture("Textures/Actors/Player.png", TW_ACTOR, TH_ACTOR)
-Textures["Zhenek"] = defineTexture("Textures/Actors/Zhenek.png", TW_ACTOR, TH_ACTOR)
-Textures["Anthony"] = defineTexture("Textures/Actors/Anthony.png", TW_ACTOR, TH_ACTOR)
-Textures["PlaceholderCar"] = defineTexture("Textures/Cars/TrashCar.png", TW_CAR, TH_CAR)
+Textures["Background"] = Graphics.defineTexture("Textures/Locations/Mission0-1.png", TW_LOCATION, TH_LOCATION)
+Textures["Player"] = Graphics.defineTexture("Textures/Actors/Player.png", TW_ACTOR, TH_ACTOR)
+Textures["Zhenek"] = Graphics.defineTexture("Textures/Actors/Zhenek.png", TW_ACTOR, TH_ACTOR)
+Textures["Anthony"] = Graphics.defineTexture("Textures/Actors/Anthony.png", TW_ACTOR, TH_ACTOR)
+Textures["PlaceholderCar"] = Graphics.defineTexture("Textures/Cars/TrashCar.png", TW_CAR, TH_CAR)
 
 Anims["SlowMoving"] = defineAnimation(1, 5, 1000.0 / 13.5)
 Anims["RepairCar"] = defineAnimation(4, 2, 1000.0 / 1)
@@ -91,7 +91,7 @@ function onGarageEnter()
 end
 
 function onGarageRender()
-    drawFrame(RENDER_MODE_BACKGROUND, 0, false, 0,0,SCREEN_WIDTH,SCREEN_HEIGHT, Textures["Background"], 0, 0)
+    Graphics.drawFrame(RENDER_MODE_BACKGROUND, 0, false, { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }, Textures["Background"], 0, 0)
 end
 
 ---- Internal functions
