@@ -47,7 +47,7 @@ function onGarageEnter()
     Anthony:setSpeed(XDefault/2, YDefault/2)
     Anthony:setActorAnim(ACTOR_ANIMATION_HORIZONTAL, Anims["SlowMoving"])
     Anthony:setTeam(ACTOR_TEAM_FRIENDS)
-    -- DEBUG(sean) Anthony:setState(States["UpCar"])
+    Anthony:setState(States["UpCar"])
     Anthony:turnLeft()
 
     Dodge = Car:new(25, 50, 65, 20, Textures["PlaceholderCar"])

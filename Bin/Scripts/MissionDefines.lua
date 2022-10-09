@@ -190,7 +190,6 @@ function Mission.switch(Path, Location)
 end
 
 function Mission.restart(Location)
-    GT_LOG(PR_NOTE, "Here")
     restartMission(Location)
 end
 
@@ -379,8 +378,8 @@ function Actor:setState(State)
     setActorState(self.Pointer, State)
 end
 
-function Actor:pushTask(Task, Arg1, Arg2)
-    pushActorTask(self.Pointer, Task, Arg1, Arg2)
+function Actor:pushTask(...)
+    pushActorTask(self.Pointer, ...)
 end
 
 function Actor:pushCommand(Command)

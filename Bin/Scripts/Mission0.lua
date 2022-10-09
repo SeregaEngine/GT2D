@@ -24,7 +24,7 @@ function onEnter(Location)
     Dodge:setTexture(Textures["Car"])
 
     -- Init mission
-    --Player:setState(States["MainCutscene"])
+    Player:setState(States["MainCutscene"])
 
     local Dialogs = {
         ["Player1"] = Dialog:new(GW_DIALOG, GH_DIALOG, "Uh...", 0.5, Player, Textures["DialogSquare"]),
@@ -51,7 +51,7 @@ function onEnter(Location)
     }
 
     MainCutscene = {
-        { Player, false, GTT_FADE_IN, 500.0 },
+        { Player, false, GTT_FADE_IN, 2000.0 },
         { Player, false, GTT_PUSH_COMMAND, GTC_TURN_LEFT },
         { Player, true, GTT_ANIMATE_FOR, Anims["PlayerSleep"], 1000.0 },
         { Player, true, GTT_WAIT_ANIMATION, Anims["PlayerWakeUp"] },
@@ -122,7 +122,8 @@ function onEnter(Location)
 
     LeaveCutscene = {
         { Player, false, GTT_GOTO, GROUND_WIDTH*2, GROUND_Y + GROUND_HEIGHT/2 },
-        { Player, true, GTT_FADE_OFF, 250 },
+        { Player, true, GTT_FADE_OFF, 2500 },
+        { Player, false, GTT_FADE_IN, 0.0 },
     }
 	LeaveCutsceneStage = 0
 
