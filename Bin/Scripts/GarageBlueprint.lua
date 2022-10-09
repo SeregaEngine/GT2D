@@ -86,8 +86,8 @@ function onGarageEnter()
     setGroundBounds(GROUND_X, GROUND_Y, GROUND_WIDTH, GROUND_HEIGHT)
 
     -- Camera
-    setCameraBounds(0, 0, GW_LOCATION, GH_LOCATION)
-    setCameraPosition(0, 0)
+    Camera.setBounds({ 0, 0, GW_LOCATION, GH_LOCATION })
+    Camera.setPosition(0, 0)
 end
 
 function onGarageRender()
