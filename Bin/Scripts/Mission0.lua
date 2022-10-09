@@ -10,9 +10,10 @@ dofile "Scripts/GarageBlueprint.lua"
 
 ---- Resources
 Textures["Car"] = Graphics.defineTexture("Textures/Cars/Dodge.png", TW_CAR, TH_CAR)
-Anims["PlayerSleep"] = defineAnimation(6, 1, 1000.0)
-Anims["PlayerWakeUp"] = defineAnimation(6, 3, 1000.0 / 1.5)
-States["MainCutscene"] = defineState("stateMainCutscene")
+Anims["PlayerSleep"] = Animation.define(6, 1, 1000.0)
+Anims["PlayerWakeUp"] = Animation.define(6, 3, 1000.0 / 1.5)
+States["MainCutscene"] = AI.defineState("stateMainCutscene")
+States["LeaveCutscene"] = AI.defineState("stateLeaveCutscene")
 
 ---- Functions
 function onEnter(Location)
@@ -23,7 +24,7 @@ function onEnter(Location)
     Dodge:setTexture(Textures["Car"])
 
     -- Init mission
-    Player:setState(States["MainCutscene"])
+    --Player:setState(States["MainCutscene"])
 
     local Dialogs = {
         ["Player1"] = Dialog:new(GW_DIALOG, GH_DIALOG, "Uh...", 0.5, Player, Textures["DialogSquare"]),
@@ -119,6 +120,15 @@ function onEnter(Location)
     }
     MainCutsceneStage = 0
 
+    LeaveCutscene = {
+        { Player, false, GTT_GOTO, GROUND_WIDTH*2, GROUND_Y + GROUND_HEIGHT/2 },
+        { Player, true, GTT_FADE_OFF, 250 },
+    }
+	LeaveCutsceneStage = 0
+
+    -- Triggers
+	Trigger:new({ GROUND_WIDTH, GROUND_Y-5, 2, GROUND_HEIGHT*2 }, Player, "triggerLeaveCutscene")
+
     -- Location
 	setGroundBounds(GROUND_X, GROUND_Y, GROUND_WIDTH * 2, GROUND_HEIGHT)
 end
@@ -132,11 +142,10 @@ function onRender()
 end
 
 ---- Triggers
---[[ TODO(sean)
-function triggerLeaveGarage(Trigger, Entity)
-    Entity:setState(States["LeaveGarage"])
+function triggerLeaveCutscene(TTrigger, TEntity)
+    setmetatable(TEntity, Actor)
+    TEntity:setState(States["LeaveCutscene"])
 end
-]]--
 
 ---- Cutscenes
 stateMainCutscene = createCutscene(
@@ -154,9 +163,25 @@ stateMainCutscene = createCutscene(
     function(TActor)
         IsZhenekBusy = false
         PlayerControllable = true
-		--addTrigger(GROUND_WIDTH, GROUND_Y-5, 2, GROUND_HEIGHT*2, Player, "triggerLeaveGarage")
 
         MainCutsceneStage = 0
+        TActor:setState(nil)
+    end
+)
+
+stateLeaveCutscene = createCutscene(
+    function()
+        return LeaveCutscene
+    end,
+    function(Change)
+        LeaveCutsceneStage = LeaveCutsceneStage + Change
+        return LeaveCutsceneStage
+    end,
+    function(TActor)
+        PlayerControllable = false
+    end,
+    function(TActor)
+        Mission.restart(1)
         TActor:setState(nil)
     end
 )

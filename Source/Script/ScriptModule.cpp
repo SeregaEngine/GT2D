@@ -462,17 +462,35 @@ void ScriptModule::CallTrigger(lua_State* pScript, const char* functionName, Tri
     // Check for null
     if (!functionName)
     {
-        AddNote(PR_WARNING, "CallFunction() called with null functionName");
+        AddNote(PR_WARNING, "CallTrigger() called with null functionName");
         return;
     }
 
-    // Call function
+    // Get function
     lua_getglobal(pScript, functionName);
+
+    // Push trigger table
+    lua_newtable(pScript);
+    lua_getglobal(pScript, "Trigger");
+    lua_setmetatable(pScript, -2);
+
     lua_pushlightuserdata(pScript, (void*)pTrigger);
+    lua_setfield(pScript, -2, "Pointer");
+
+
+    // Push entity table
+    lua_newtable(pScript);
+    lua_getglobal(pScript, "Entity");
+    lua_setmetatable(pScript, -2);
+
     lua_pushlightuserdata(pScript, (void*)pEntity);
+    lua_setfield(pScript, -2, "Pointer");
+
+
+    // Call function
     if (lua_pcall(pScript, 2, 0, 0) != 0)
     {
-        LuaNote(PR_ERROR, "CallFunction(): Error when function %s called: %s", functionName, lua_tostring(pScript, 1));
+        LuaNote(PR_ERROR, "CallTrigger(): Error when function %s called: %s", functionName, lua_tostring(pScript, 1));
         lua_pop(pScript, 1);
     }
 }
@@ -2156,10 +2174,25 @@ s32 ScriptModule::_addTrigger(lua_State* L)
                           GTU::UnitToScreenY((f32)lua_tonumber(L, 2)) };
     s32 width  = (s32)( GTU::UnitToScreenX((f32)lua_tonumber(L, 3)) );
     s32 height = (s32)( GTU::UnitToScreenY((f32)lua_tonumber(L, 4)) );
+    
+    Actor* pActor;
+    if (lua_istable(L, 5))
+    {
+        lua_getfield(L, 5, "Pointer");
+        pActor = (Actor*)lua_touserdata(L, -1);
+        lua_pop(L, 1);
+    }
+    else
+    {
+        pActor = nullptr;
+        LuaNote(PR_NOTE, "addTrigger() called with null actor");
+    }
+
+    const char* functionName = lua_tostring(L, 6);
 
     pTrigger->Init(vPosition, width, height, nullptr);
-    pTrigger->Attach((Entity*)lua_touserdata(L, 5));
-    pTrigger->SetFunctionName(lua_tostring(L, 6));
+    pTrigger->Attach(pActor);
+    pTrigger->SetFunctionName(functionName);
 
     // Push entity to the world and lua
     g_game.GetWorld().PushEntity(pTrigger);

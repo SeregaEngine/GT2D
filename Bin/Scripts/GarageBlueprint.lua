@@ -17,14 +17,14 @@ Textures["Zhenek"] = Graphics.defineTexture("Textures/Actors/Zhenek.png", TW_ACT
 Textures["Anthony"] = Graphics.defineTexture("Textures/Actors/Anthony.png", TW_ACTOR, TH_ACTOR)
 Textures["PlaceholderCar"] = Graphics.defineTexture("Textures/Cars/TrashCar.png", TW_CAR, TH_CAR)
 
-Anims["SlowMoving"] = defineAnimation(1, 5, 1000.0 / 13.5)
-Anims["RepairCar"] = defineAnimation(4, 2, 1000.0 / 1)
-Anims["TakeInstruments"] = defineAnimation(5, 2, 1000.0 / 1)
+Anims["SlowMoving"] = Animation.define(1, 5, 1000.0 / 13.5)
+Anims["RepairCar"] = Animation.define(4, 2, 1000.0 / 1)
+Anims["TakeInstruments"] = Animation.define(5, 2, 1000.0 / 1)
 
-States["UpCar"] = defineState("stateUpCar")
-States["TakeInstruments"] = defineState("stateTakeInstruments")
-States["RandomTalk"] = defineState("stateRandomTalk")
-States["RepairCar"] = defineState("stateRepairCar")
+States["UpCar"] = AI.defineState("stateUpCar")
+States["TakeInstruments"] = AI.defineState("stateTakeInstruments")
+States["RandomTalk"] = AI.defineState("stateRandomTalk")
+States["RepairCar"] = AI.defineState("stateRepairCar")
 
 ---- Required functions
 function onGarageEnter()
@@ -47,7 +47,7 @@ function onGarageEnter()
     Anthony:setSpeed(XDefault/2, YDefault/2)
     Anthony:setActorAnim(ACTOR_ANIMATION_HORIZONTAL, Anims["SlowMoving"])
     Anthony:setTeam(ACTOR_TEAM_FRIENDS)
-    Anthony:setState(States["UpCar"])
+    -- DEBUG(sean) Anthony:setState(States["UpCar"])
     Anthony:turnLeft()
 
     Dodge = Car:new(25, 50, 65, 20, Textures["PlaceholderCar"])
@@ -83,7 +83,7 @@ function onGarageEnter()
     GROUND_X = 0
     GROUND_Y = GH_LOCATION - GROUND_HEIGHT
 
-    setGroundBounds(GROUND_X, GROUND_Y, GROUND_WIDTH, GROUND_HEIGHT)
+    Mission.setGroundBounds({ GROUND_X, GROUND_Y, GROUND_WIDTH, GROUND_HEIGHT })
 
     -- Camera
     Camera.setBounds({ 0, 0, GW_LOCATION, GH_LOCATION })

@@ -112,6 +112,92 @@ function Camera.setBounds(Rect)
     setCameraBounds(Rect[1], Rect[2], Rect[3], Rect[4])
 end
 
+-- Sound
+Sound = {}
+
+function Sound.defineSound(Path)
+    return defineSound(Path)
+end
+
+function Sound.defineMusic(Path)
+    return defineMusic(Path)
+end
+
+function Sound.playSound(SoundObject)
+    playSound(SoundObject)
+end
+
+function Sound.playMusic(MusicObject)
+    playMusic(MusicObject)
+end
+
+-- Input
+Input = {}
+
+function Input.isKeyDown(Key)
+    return isKeyDown(Key)
+end
+
+function Input.isMouseDown(Button)
+    return isMouseDown(Button)
+end
+
+function Input.getMousePosition()
+    return getMousePosition()
+end
+
+-- Console
+Console = {}
+
+function Console.isShown()
+    return isConsoleShown()
+end
+
+function Console.cls()
+    cls()
+end
+
+-- AI
+AI = {}
+
+function AI.defineState(FunctionName)
+    return defineState(FunctionName)
+end
+
+-- Animation
+Animation = {}
+
+function Animation.define(Row, Count, FrameTime)
+    return defineAnimation(Row, Count, FrameTime)
+end
+
+-- Clock
+Clock = {}
+
+function Clock.getTicks()
+    return getTicks()
+end
+
+-- Mission
+Mission = {}
+
+function Mission.stop()
+    stopGame()
+end
+
+function Mission.switch(Path, Location)
+    switchMission(Path, Location)
+end
+
+function Mission.restart(Location)
+    GT_LOG(PR_NOTE, "Here")
+    restartMission(Location)
+end
+
+function Mission.setGroundBounds(Rect)
+    setGroundBounds(Rect[1], Rect[2], Rect[3], Rect[4])
+end
+
 ---- Classes
 -- Entity
 Entity = { Pointer = nil }
@@ -134,6 +220,10 @@ end
 function Entity:delete()
     removeEntity(self.Pointer)
     self.Pointer = nil
+end
+
+function Entity:isAvailable()
+    return hasWorldEntity(Entity.Pointer)
 end
 
 function Entity:setPosition(X, Y)
@@ -289,8 +379,8 @@ function Actor:setState(State)
     setActorState(self.Pointer, State)
 end
 
-function Actor:pushTask(...)
-    pushActorTask(self.Pointer, ...)
+function Actor:pushTask(Task, Arg1, Arg2)
+    pushActorTask(self.Pointer, Task, Arg1, Arg2)
 end
 
 function Actor:pushCommand(Command)
@@ -387,28 +477,37 @@ function Dialog:run()
     runDialog(self.Pointer)
 end
 
+-- Trigger
+Trigger = Entity:inherit()
+
+function Trigger:new(Rect, Actor, FunctionName)
+    local Object = self:inherit()
+    Object.Pointer = addTrigger(Rect[1], Rect[2], Rect[3], Rect[4], Actor, FunctionName)
+    return Object
+end
+
 ---- Functions
 function handleInput()
     -- Leave if console is shown
-    if isConsoleShown() then
+    if Console.isShown() then
         return
     end
 
     -- Stop game on escape
-    if isKeyDown(GTK_ESCAPE) then
+    if Input.isKeyDown(GTK_ESCAPE) then
         stopGame()
     end
 
     -- Handle Player's behaviour
     if Player and PlayerControllable then
-        if isKeyDown(GTK_W) then Player:pushCommand(GTC_MOVE_UP) end
-        if isKeyDown(GTK_A) then Player:pushCommand(GTC_MOVE_LEFT) end
-        if isKeyDown(GTK_S) then Player:pushCommand(GTC_MOVE_DOWN) end
-        if isKeyDown(GTK_D) then Player:pushCommand(GTC_MOVE_RIGHT) end
+        if Input.isKeyDown(GTK_W) then Player:pushCommand(GTC_MOVE_UP) end
+        if Input.isKeyDown(GTK_A) then Player:pushCommand(GTC_MOVE_LEFT) end
+        if Input.isKeyDown(GTK_S) then Player:pushCommand(GTC_MOVE_DOWN) end
+        if Input.isKeyDown(GTK_D) then Player:pushCommand(GTC_MOVE_RIGHT) end
 
         -- Handle attack
         -- Player have to press space many times
-        local IsSpaceDown = isKeyDown(GTK_SPACE)
+        local IsSpaceDown = Input.isKeyDown(GTK_SPACE)
         if IsSpaceDown and CanAttack then
             Player:pushCommand(GTC_ATTACK)
             CanAttack = false
