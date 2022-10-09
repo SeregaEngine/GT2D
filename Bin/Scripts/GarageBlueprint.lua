@@ -18,8 +18,8 @@ Textures["Anthony"] = defineTexture("Textures/Actors/Anthony.png", TW_ACTOR, TH_
 Textures["PlaceholderCar"] = defineTexture("Textures/Cars/TrashCar.png", TW_CAR, TH_CAR)
 
 Anims["SlowMoving"] = defineAnimation(1, 5, 1000.0 / 13.5)
-Anims["RepairCar"] = defineAnimation(5, 4, 1000.0 / 0.5)
-Anims["TakeInstruments"] = defineAnimation(6, 2, 1000.0 / 1)
+Anims["RepairCar"] = defineAnimation(4, 2, 1000.0 / 1)
+Anims["TakeInstruments"] = defineAnimation(5, 2, 1000.0 / 1)
 
 States["UpCar"] = defineState("stateUpCar")
 States["TakeInstruments"] = defineState("stateTakeInstruments")

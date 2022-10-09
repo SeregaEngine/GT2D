@@ -14,6 +14,7 @@ function onEnter(Location)
 
     defineResources()
     onGarageEnter()
+    setEntityTexture(Car, Textures["Car"])
 
     setActorState(Player, States["MainCutscene"])
 
@@ -116,6 +117,7 @@ function onEnter(Location)
 end
 
 function defineResources()
+    Textures["Car"] = defineTexture("Textures/Cars/Dodge.png", TW_CAR, TH_CAR)
     Anims["PlayerSleep"] = defineAnimation(6, 1, 1000.0)
     Anims["PlayerWakeUp"] = defineAnimation(6, 3, 1000.0 / 1.5)
     States["MainCutscene"] = defineState("stateMainCutscene")
