@@ -60,8 +60,281 @@ Entities = {}
 Player = nil
 PlayerControllable = true
 
+---- Classes
+Entity = { Pointer = nil }
+
+function Entity:inherit(Object)
+    Object = Object or {} -- Optional argument
+
+    setmetatable(Object, self)
+    self.__index = self
+
+    return Object
+end
+
+function Entity:new(X, Y, W, H, Texture)
+    local Object = inherit()
+    Object.Pointer = addEntity(X, Y, W, H, Texture)
+    return Object
+end
+
+function Entity:delete()
+    removeEntity(self.Pointer)
+    self.Pointer = nil
+end
+
+function Entity:setPosition(X, Y)
+    setEntityPosition(self.Pointer, X, Y)
+end
+
+function Entity:getPosition()
+    return getEntityPosition(self.Pointer)
+end
+
+function Entity:setVelocity(X, Y)
+    setEntityVelocity(self.Pointer, X, Y)
+end
+
+function Entity:getVelocity()
+    return getEntityVelocity(self.Pointer)
+end
+
+function Entity:setHitBox(X1, Y1, X2, Y2)
+    setEntityHitBox(self.Pointer, X1, Y1, X2, Y2)
+end
+
+function Entity:getHitBox()
+    return getEntityHitBox(self.Pointer)
+end
+
+function Entity:toggleCollidable(Boolean)
+    toggleEntityCollidable(self.Pointer, Boolean)
+end
+
+function Entity:isCollidable()
+    return getEntityCollidable(self.Pointer)
+end
+
+function Entity:setAnimFrame(Frame)
+    setEntityAnimFrame(self.Pointer, Frame)
+end
+
+function Entity:getAnimFrame()
+    return getEntityAnimFrame(self.Pointer)
+end
+
+function Entity:setAnimElapsed(Elapsed)
+    setEntityAnimElapsed(self.Pointer, Elapsed)
+end
+
+function Entity:getAnimElapsed()
+    return getEntityAnimElapsed(self.Pointer)
+end
+
+function Entity:setAnim(Anim)
+    setEntityAnim(self.Pointer, Anim)
+end
+
+function Entity:getAnim()
+    return getEntityAnim(self.Pointer)
+end
+
+function Entity:setRenderMode(Mode)
+    setEntityRenderMode(self.Pointer, Mode)
+end
+
+function Entity:getRenderMode()
+    return getEntityRenderMode(self.Pointer)
+end
+
+function Entity:setZIndex(ZIndex)
+    setEntityZIndex(self.Pointer, ZIndex)
+end
+
+function Entity:getZIndex()
+    return getEntityZIndex(self.Pointer)
+end
+
+function Entity:toggleHUD(Boolean)
+    toggleEntityHUD(self.Pointer, Boolean)
+end
+
+function Entity:isHUD()
+    return getEntityHUD(self.Pointer)
+end
+
+function Entity:setTexture(Texture)
+    setEntityTexture(self.Pointer, Texture)
+end
+
+function Entity:getTexture()
+    return getEntityTexture(self.Pointer)
+end
+
+-- Actor
+Actor = Entity:inherit()
+
+function Actor:new(X, Y, W, H, Texture)
+    local Object = self:inherit()
+    Object.Pointer = addActor(X, Y, W, H, Texture)
+    return Object
+end
+
+function Actor:setTeam(Team)
+    setActorTeam(self.Pointer, Team)
+end
+
+function Actor:getTeam()
+    return getActorTeam(self.Pointer)
+end
+
+function Actor:setHealth(Health)
+    setActorHealth(self.Pointer, Health)
+end
+
+function Actor:getHealth()
+    return getActorHealth(self.Pointer)
+end
+
+function Actor:setHealth(Health)
+    setActorHealth(self.Pointer, Health)
+end
+
+function Actor:getHealth()
+    return getActorHealth(self.Pointer)
+end
+
+function Actor:isAlive()
+    return isActorAlive(self.Pointer)
+end
+
+function Actor:toggleGodMode(Boolean)
+    toggleActorGodMode(self.Pointer, Boolean)
+end
+
+function Actor:isLookRight()
+    return isActorLookRight(self.Pointer)
+end
+
+function Actor:turnLeft()
+    turnActorLeft(self.Pointer)
+end
+
+function Actor:turnRight()
+    turnActorLeft(self.Pointer)
+end
+
+function Actor:setSpeed(X, Y)
+    setActorSpeed(self.Pointer, X, Y)
+end
+
+function Actor:getSpeed()
+    return getActorSpeed(self.Pointer)
+end
+
+function Actor:setState(State)
+    setActorState(self.Pointer, State)
+end
+
+function Actor:pushTask(...)
+    pushActorTask(self.Pointer, ...)
+end
+
+function Actor:pushCommand(Command)
+    pushActorCommand(self.Pointer, Command)
+end
+
+function Actor:checkCurrentTask()
+    return checkActorCurrentTask(self.Pointer)
+end
+
+function Actor:getCurrentTask()
+    return getActorCurrentTask(self.Pointer)
+end
+
+function Actor:setDeathSound(Sound)
+    setActorDeathSound(self.Pointer, Sound)
+end
+
+function Actor:setWeapon(Weapon)
+    setActorWeapon(self.Pointer, Weapon)
+end
+
+function Actor:setAttackRate(Rate)
+    setActorAttackRate(self.Pointer, Rate)
+end
+
+function Actor:getAttackRate()
+    return getActorAttackRate(self.Pointer)
+end
+
+function Actor:setActorAnim(WhichAnim, Anim)
+    setActorAnim(self.Pointer, WhichAnim, Anim)
+end
+
+function Actor:stopAnim()
+    stopActorAnim(self.Pointer)
+end
+
+function Actor:playAnimOnce(Anim)
+    playActorAnimOnce(self.Pointer, Anim)
+end
+
+function Actor:playAnimLooped(Anim)
+    playActorAnimLooped(self.Pointer, Anim)
+end
+
+-- Car
+Car = Entity:inherit()
+
+function Car:new(X, Y, W, H, Texture)
+    local Object = self:inherit()
+    Object.Pointer = addCar(X, Y, W, H, Texture)
+    return Object
+end
+
+function Car:turnLeft()
+    turnCarLeft(self.Pointer)
+end
+
+function Car:turnRight()
+    turnCarRight(self.Pointer)
+end
+
+function Car:setMaxSpeed(X, Y)
+    setCarMaxSpeed(self.Pointer, X, Y)
+end
+
+function Car:setAcceleration(X, Y)
+    setCarAcceleration(self.Pointer, X, Y)
+end
+
+function Car:setPlacePosition(Place, X, Y)
+    setCarPlacePosition(self.Pointer, Place, X, Y)
+end
+
+function Car:putActor(TActor, Place)
+    putActorInCar(TActor.Pointer, self.Pointer, Place)
+end
+
+function Car:ejectActor(Place)
+    ejectActorFromCar(self.Pointer, Place)
+end
+
+-- Dialog
+Dialog = Entity:inherit()
+
+function Dialog:new(W, H, Text, DurationSeconds, Actor, Texture)
+    local Object = self:inherit()
+    Object.Pointer = addDialog(W, H, Text, DurationSeconds, Actor, Texture)
+    return Object
+end
+
+function Dialog:run()
+    runDialog(self.Pointer)
+end
+
 ---- Functions
-local CanAttack = true
 function handleInput()
     -- Leave if console is shown
     if isConsoleShown() then
@@ -75,16 +348,16 @@ function handleInput()
 
     -- Handle Player's behaviour
     if Player and PlayerControllable then
-        if isKeyDown(GTK_W) then pushActorCommand(Player, GTC_MOVE_UP) end
-        if isKeyDown(GTK_A) then pushActorCommand(Player, GTC_MOVE_LEFT) end
-        if isKeyDown(GTK_S) then pushActorCommand(Player, GTC_MOVE_DOWN) end
-        if isKeyDown(GTK_D) then pushActorCommand(Player, GTC_MOVE_RIGHT) end
+        if isKeyDown(GTK_W) then Player:pushCommand(GTC_MOVE_UP) end
+        if isKeyDown(GTK_A) then Player:pushCommand(GTC_MOVE_LEFT) end
+        if isKeyDown(GTK_S) then Player:pushCommand(GTC_MOVE_DOWN) end
+        if isKeyDown(GTK_D) then Player:pushCommand(GTC_MOVE_RIGHT) end
 
         -- Handle attack
         -- Player have to press space many times
         local IsSpaceDown = isKeyDown(GTK_SPACE)
         if IsSpaceDown and CanAttack then
-            pushActorCommand(Player, GTC_ATTACK)
+            Player:pushCommand(GTC_ATTACK)
             CanAttack = false
         elseif not IsSpaceDown then
             CanAttack = true
@@ -93,23 +366,23 @@ function handleInput()
 end
 
 function createCutscene(FunGetActions, FunChangeAndGetActionStage, FunInit, FunEnd)
-    return function(Actor)
+    return function(TActor)
         if FunChangeAndGetActionStage(0) == 0 then
-            FunInit(Actor)
+            FunInit(TActor)
         end
 
         local Actions = FunGetActions()
         local Stage = FunChangeAndGetActionStage(0)
 
-        while Stage == 0 or Stage > #Actions or not Actions[Stage][2] or checkActorCurrentTask(Actions[Stage][1]) == GTT_DONE do
-			Stage = FunChangeAndGetActionStage(1)
+        while Stage == 0 or Stage > #Actions or not Actions[Stage][2] or Actions[Stage][1]:checkCurrentTask() == GTT_DONE do
+            Stage = FunChangeAndGetActionStage(1)
 
-			if Stage > #Actions then
-				FunEnd(Actor)
-				return
-			end
+            if Stage > #Actions then
+                FunEnd(TActor)
+                return
+            end
 
-			pushActorTask(Actions[Stage][1], Actions[Stage][3], Actions[Stage][4], Actions[Stage][5])
+            Actions[Stage][1]:pushTask(Actions[Stage][3], Actions[Stage][4], Actions[Stage][5])
         end
     end
 end

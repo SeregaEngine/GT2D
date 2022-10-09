@@ -26,46 +26,35 @@ States["TakeInstruments"] = defineState("stateTakeInstruments")
 States["RandomTalk"] = defineState("stateRandomTalk")
 States["RepairCar"] = defineState("stateRepairCar")
 
----- Globals
-GROUND_WIDTH = GW_LOCATION
-GROUND_HEIGHT = 18
-GROUND_X = 0
-GROUND_Y = GH_LOCATION - GROUND_HEIGHT
-
-Zhenek = nil
-Anthony = nil
-Car = nil
-
-IsZhenekBusy = false -- Change this when you cut-scene require Zhenek
-
 ---- Required functions
 function onGarageEnter()
     -- Entities
-    Player = addActor(GW_LOCATION - GW_ACTOR, GH_LOCATION - GH_ACTOR, GW_ACTOR, GH_ACTOR, Textures["Player"])
-    local XDefault,YDefault = getActorSpeed(Player)
-    setActorSpeed(Player, XDefault/1.75, YDefault/2)
-    setActorAnim(Player, ACTOR_ANIMATION_HORIZONTAL, Anims["SlowMoving"])
-    setActorTeam(Player, ACTOR_TEAM_FRIENDS)
-    setActorWeapon(Player, Weapons["Fist"])
+    Player = Actor:new(GW_LOCATION - GW_ACTOR, GH_LOCATION - GH_ACTOR, GW_ACTOR, GH_ACTOR, Textures["Player"])
+    local XDefault,YDefault = Player:getSpeed()
+    Player:setSpeed(XDefault/1.75, YDefault/2)
+    Player:setActorAnim(ACTOR_ANIMATION_HORIZONTAL, Anims["SlowMoving"])
+    Player:setTeam(ACTOR_TEAM_FRIENDS)
+    Player:setWeapon(Weapons["Fist"])
 
-    Zhenek = addActor(85, 47, GW_ACTOR, GH_ACTOR, Textures["Zhenek"])
-    setActorSpeed(Zhenek, XDefault/2, YDefault/2)
-    setActorAnim(Zhenek, ACTOR_ANIMATION_HORIZONTAL, Anims["SlowMoving"])
-    setActorTeam(Zhenek, ACTOR_TEAM_FRIENDS)
-    turnActorLeft(Zhenek)
+    Zhenek = Actor:new(85, 47, GW_ACTOR, GH_ACTOR, Textures["Zhenek"])
+    Zhenek:setSpeed(XDefault/1.75, YDefault/2)
+    Zhenek:setActorAnim(ACTOR_ANIMATION_HORIZONTAL, Anims["SlowMoving"])
+    Zhenek:setTeam(ACTOR_TEAM_FRIENDS)
+    Zhenek:turnLeft()
+    IsZhenekBusy = false -- Change this when you cut-scene require Zhenek
 
-    Anthony = addActor(50, 50, GW_ACTOR, GH_ACTOR, Textures["Anthony"])
-    setActorSpeed(Anthony, XDefault/2, YDefault/2)
-    setActorAnim(Anthony, ACTOR_ANIMATION_HORIZONTAL, Anims["SlowMoving"])
-    setActorTeam(Anthony, ACTOR_TEAM_FRIENDS)
-    setActorState(Anthony, States["UpCar"])
-    turnActorLeft(Anthony)
+    Anthony = Actor:new(50, 50, GW_ACTOR, GH_ACTOR, Textures["Anthony"])
+    Anthony:setSpeed(XDefault/2, YDefault/2)
+    Anthony:setActorAnim(ACTOR_ANIMATION_HORIZONTAL, Anims["SlowMoving"])
+    Anthony:setTeam(ACTOR_TEAM_FRIENDS)
+    Anthony:setState(States["UpCar"])
+    Anthony:turnLeft()
 
-    Car = addCar(25, 50, 65, 20, Textures["PlaceholderCar"])
-    setEntityRenderMode(Car, RENDER_MODE_FOREGROUND)
-    setEntityZIndex(Car, -1)
-    setCarMaxSpeed(Car, 0, 0.005)
-    setCarAcceleration(Car, 0, -0.000001)
+    Dodge = Car:new(25, 50, 65, 20, Textures["PlaceholderCar"])
+    Dodge:setRenderMode(RENDER_MODE_FOREGROUND)
+    Dodge:setZIndex(-1)
+    Dodge:setMaxSpeed(0, 0.005)
+    Dodge:setAcceleration(0, -0.000001)
 
     -- Cutscenes
     TakeInstruments = {
@@ -89,6 +78,11 @@ function onGarageEnter()
     RandomTalkStage = 0
 
     -- Ground
+    GROUND_WIDTH = GW_LOCATION
+    GROUND_HEIGHT = 18
+    GROUND_X = 0
+    GROUND_Y = GH_LOCATION - GROUND_HEIGHT
+
     setGroundBounds(GROUND_X, GROUND_Y, GROUND_WIDTH, GROUND_HEIGHT)
 
     -- Camera
@@ -97,19 +91,19 @@ function onGarageEnter()
 end
 
 function onGarageRender()
-	drawFrame(RENDER_MODE_BACKGROUND, 0, false, 0,0,SCREEN_WIDTH,SCREEN_HEIGHT, Textures["Background"], 0, 0)
+    drawFrame(RENDER_MODE_BACKGROUND, 0, false, 0,0,SCREEN_WIDTH,SCREEN_HEIGHT, Textures["Background"], 0, 0)
 end
 
 ---- Internal functions
-function stateUpCar(Actor)
-    local X,Y = getEntityPosition(Car)
+function stateUpCar(TActor)
+    local X,Y = Dodge:getPosition()
 
     if Y >= 44 and Y <= 45 then
-        setCarAcceleration(Car, 0, 0.0000003)
+        Dodge:setAcceleration(0, 0.0000003)
     elseif Y <= 40 then
-        setEntityPosition(Car, 25, 40)
-        setCarMaxSpeed(Car, 0, 0)
-        setActorState(Actor, States["TakeInstruments"])
+        Dodge:setPosition(25, 40)
+        Dodge:setMaxSpeed(0, 0)
+        TActor:setState(States["TakeInstruments"])
     end
 end
 
@@ -121,16 +115,16 @@ stateTakeInstruments = createCutscene(
         TakeInstrumentsStage = TakeInstrumentsStage + Change
         return TakeInstrumentsStage
     end,
-    function(Actor)
+    function(TActor)
     end,
-    function(Actor)
+    function(TActor)
         TakeInstruments[2][5] = math.random(2000, 5000)
         TakeInstrumentsStage = 0
 
         if not IsZhenekBusy and math.random(0, 1) == 1 then
-            setActorState(Actor, States["RandomTalk"])
+            TActor:setState(States["RandomTalk"])
         else
-            setActorState(Actor, States["RepairCar"])
+            TActor:setState(States["RepairCar"])
         end
     end
 )
@@ -143,12 +137,12 @@ stateRepairCar = createCutscene(
         RepairCarStage = RepairCarStage + Change
         return RepairCarStage
     end,
-    function(Actor)
+    function(TActor)
     end,
-    function(Actor)
+    function(TActor)
         RepairCar[2][5] = math.random(5000, 15000) -- Wait time
         RepairCarStage = 0
-        setActorState(Actor, States["TakeInstruments"])
+        TActor:setState(States["TakeInstruments"])
     end
 )
 
@@ -160,26 +154,26 @@ stateRandomTalk = createCutscene(
         RandomTalkStage = RandomTalkStage + Change
         return RandomTalkStage
     end,
-    function(Actor)
+    function(TActor)
         local Res = math.random(1, 2)
         if Res == 1 then
             RandomTalk = {
-                { Anthony, true, GTT_WAIT_DIALOG, addDialog(GW_DIALOG, GH_DIALOG, "Sometimes i want to change my job", 4, Anthony, Textures["DialogSquare"]) },
-                { Zhenek, true, GTT_WAIT_DIALOG, addDialog(GW_DIALOG, GH_DIALOG, "Your problems.", 1.5, Zhenek, Textures["DialogSquare"]) },
+                { Anthony, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Sometimes i want to change my job", 4, Anthony, Textures["DialogSquare"]) },
+                { Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Your problems.", 1.5, Zhenek, Textures["DialogSquare"]) },
                 { Anthony, true, GTT_WAIT, 1000 }
             }
         elseif Res == 2 then
             RandomTalk = {
-                { Anthony, true, GTT_WAIT_DIALOG, addDialog(GW_DIALOG, GH_DIALOG, "How you doing, bruh?", 3, Anthony, Textures["DialogSquare"]) },
-                { Zhenek, true, GTT_WAIT_DIALOG, addDialog(GW_DIALOG, GH_DIALOG, "Can..", 0.5, Zhenek, Textures["DialogSquare"]) },
-                { Zhenek, true, GTT_WAIT_DIALOG, addDialog(GW_DIALOG, GH_DIALOG, "You..", 0.5, Zhenek, Textures["DialogSquare"]) },
-                { Zhenek, true, GTT_WAIT_DIALOG, addDialog(GW_DIALOG, GH_DIALOG, "PhIl MaHaAar", 2.5, Zhenek, Textures["DialogSquare"]) },
+                { Anthony, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "How you doing, bruh?", 3, Anthony, Textures["DialogSquare"]) },
+                { Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Can..", 0.5, Zhenek, Textures["DialogSquare"]) },
+                { Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "You..", 0.5, Zhenek, Textures["DialogSquare"]) },
+                { Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "PhIl MaHaAar", 2.5, Zhenek, Textures["DialogSquare"]) },
                 { Anthony, true, GTT_WAIT, 1000 }
             }
         end
     end,
-    function(Actor)
+    function(TActor)
         RandomTalkStage = 0
-        setActorState(Actor, States["RepairCar"])
+        TActor:setState(States["RepairCar"])
     end
 )

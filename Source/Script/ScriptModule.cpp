@@ -428,6 +428,35 @@ void ScriptModule::CallFunction(lua_State* pScript, const char* functionName)
     }
 }
 
+void ScriptModule::CallState(lua_State* pScript, const char* functionName, Actor* pActor)
+{
+    // Check for null
+    if (!functionName)
+    {
+        AddNote(PR_WARNING, "CallState() called with null functionName");
+        return;
+    }
+
+    // Get function
+    lua_getglobal(pScript, functionName);
+
+    // Create instance of class Actor
+    lua_newtable(pScript);
+    lua_getglobal(pScript, "Actor");
+    lua_setmetatable(pScript, -2);
+
+    // Set pointer
+    lua_pushlightuserdata(pScript, (void*)pActor);
+    lua_setfield(pScript, -2, "Pointer");
+
+    // Call
+    if (lua_pcall(pScript, 1, 0, 0) != 0)
+    {
+        LuaNote(PR_ERROR, "CallState(): Error when function %s called: %s", functionName, lua_tostring(pScript, -1));
+        lua_pop(pScript, 1);
+    }
+}
+
 void ScriptModule::CallTrigger(lua_State* pScript, const char* functionName, Trigger* pTrigger, Entity* pEntity)
 {
     // Check for null
@@ -1610,12 +1639,34 @@ s32 ScriptModule::_pushActorTask(lua_State* L)
 
     case GTT_GOTO_ENTITY:
     {
-        pActor->PushTask(new GotoEntityTask(pActor, (Entity*)lua_touserdata(L, 3)));
+        if (lua_istable(L, 3))
+        {
+            lua_getfield(L, 3, "Pointer");
+            pActor->PushTask(new GotoEntityTask(pActor, (Entity*)lua_touserdata(L, -1)));
+            lua_pop(L, 1);
+        }
+        else
+        {
+            GT_Task* pWait = new WaitTask(pActor, 0.0f);
+            pWait->Handle();
+            pActor->PushTask(pWait);
+            LuaNote(PR_WARNING, "pushActorTask(): GTT_GOTO_ENTITY called with null entity");
+        }
     } break;
 
     case GTT_KILL:
     {
-        pActor->PushTask(new KillTask(pActor, (Actor*)lua_touserdata(L, 3)));
+        if (lua_istable(L, 3))
+        {
+            lua_getfield(L, 3, "Pointer");
+            pActor->PushTask(new KillTask(pActor, (Actor*)lua_touserdata(L, -1)));
+            lua_pop(L, 1);
+        }
+        else
+        {
+            pActor->PushTask(new KillTask(pActor, nullptr));
+            LuaNote(PR_WARNING, "pushActorTask(): GTT_KILL called with null entity");
+        }
     } break;
 
     case GTT_ANIMATE_FOR:
@@ -1630,12 +1681,32 @@ s32 ScriptModule::_pushActorTask(lua_State* L)
 
     case GTT_WAIT_DIALOG:
     {
-        pActor->PushTask(new WaitDialogTask(pActor, (Dialog*)lua_touserdata(L, 3)));
+        if (lua_istable(L, 3))
+        {
+            lua_getfield(L, 3, "Pointer");
+            pActor->PushTask(new WaitDialogTask(pActor, (Dialog*)lua_touserdata(L, -1)));
+            lua_pop(L, 1);
+        }
+        else
+        {
+            pActor->PushTask(new WaitDialogTask(pActor, nullptr));
+            LuaNote(PR_WARNING, "pushActorTask(): GTT_WAIT_DIALOG called with null dialog");
+        }
     } break;
 
     case GTT_RUN_DIALOG:
     {
-        pActor->PushTask(new RunDialogTask(pActor, (Dialog*)lua_touserdata(L, 3)));
+        if (lua_istable(L, 3))
+        {
+            lua_getfield(L, 3, "Pointer");
+            pActor->PushTask(new RunDialogTask(pActor, (Dialog*)lua_touserdata(L, -1)));
+            lua_pop(L, 1);
+        }
+        else
+        {
+            pActor->PushTask(new RunDialogTask(pActor, nullptr));
+            LuaNote(PR_WARNING, "pushActorTask(): GTT_RUN_DIALOG called with null dialog");
+        }
     } break;
 
     case GTT_FADE_IN:
@@ -2107,7 +2178,11 @@ s32 ScriptModule::_addDialog(lua_State* L)
     s32 height = (s32)GTU::UnitToScreenX((f32)lua_tonumber(L, 2));
     const char* text = lua_tostring(L, 3);
     f32 time = (f32)lua_tonumber(L, 4) * 1000.0f;
-    Actor* pActor = (Actor*)lua_touserdata(L, 5);
+    
+    lua_getfield(L, 5, "Pointer");
+    Actor* pActor = (Actor*)lua_touserdata(L, -1);
+    lua_pop(L, 1);
+
     const GT_Texture* pTexture = (const GT_Texture*)lua_touserdata(L, 6);
 
     // Allocate and init dialog

@@ -31,6 +31,7 @@ public:
 
     void CallFunction(lua_State* pScript, const char* functionName, void* userdata);
     void CallFunction(lua_State* pScript, const char* functionName);
+    void CallState(lua_State* pScript, const char* functionName, Actor* pActor);
     void CallTrigger(lua_State* pScript, const char* functionName, Trigger* pTrigger, Entity* pEntity);
 
     void Interpret(lua_State* pScript, const char* text);
