@@ -1,3 +1,7 @@
+/* TODO
+ * - Colorful text on Print()
+ */
+
 /* ====== INCLUDES ====== */
 #include <string.h>
 

@@ -206,16 +206,23 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Bin\Scripts\GarageBlueprint.lua" />
+    <None Include="..\..\Bin\Scripts\Internal\Actor.lua" />
     <None Include="..\..\Bin\Scripts\Internal\Camera.lua" />
+    <None Include="..\..\Bin\Scripts\Internal\Car.lua" />
     <None Include="..\..\Bin\Scripts\Internal\Console.lua" />
     <None Include="..\..\Bin\Scripts\Internal\Cutscene.lua" />
-    <None Include="..\..\Bin\Scripts\Internal\Functions.lua" />
+    <None Include="..\..\Bin\Scripts\Internal\Clock.lua" />
+    <None Include="..\..\Bin\Scripts\Internal\Dialog.lua" />
+    <None Include="..\..\Bin\Scripts\Internal\Entity.lua" />
     <None Include="..\..\Bin\Scripts\Internal\Graphics.lua" />
     <None Include="..\..\Bin\Scripts\Internal\Input.lua" />
     <None Include="..\..\Bin\Scripts\Internal\Loader.lua" />
     <None Include="..\..\Bin\Scripts\Internal\Mission.lua" />
+    <None Include="..\..\Bin\Scripts\Internal\Music.lua" />
     <None Include="..\..\Bin\Scripts\Internal\Resource.lua" />
     <None Include="..\..\Bin\Scripts\Internal\Saver.lua" />
+    <None Include="..\..\Bin\Scripts\Internal\Sound.lua" />
+    <None Include="..\..\Bin\Scripts\Internal\Trigger.lua" />
     <None Include="..\..\Bin\Scripts\Mission0.lua" />
     <None Include="..\..\Bin\Scripts\Mission1.lua" />
     <None Include="..\..\Bin\Scripts\MissionIntro.lua" />

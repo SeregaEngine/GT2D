@@ -140,7 +140,7 @@ function Mission.onEnter(Location)
 end
 
 function Mission.onUpdate(dt)
-    handleInput()
+    Input.defaultHandle()
 end
 
 function Mission.onRender()

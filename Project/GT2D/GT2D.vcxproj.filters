@@ -169,7 +169,7 @@
     <None Include="..\..\Bin\Scripts\Internal\Cutscene.lua">
       <Filter>Lua Scripts\Internal</Filter>
     </None>
-    <None Include="..\..\Bin\Scripts\Internal\Functions.lua">
+    <None Include="..\..\Bin\Scripts\Internal\Clock.lua">
       <Filter>Lua Scripts\Internal</Filter>
     </None>
     <None Include="..\..\Bin\Scripts\Internal\Graphics.lua">
@@ -179,6 +179,27 @@
       <Filter>Lua Scripts\Internal</Filter>
     </None>
     <None Include="..\..\Bin\Scripts\Internal\Resource.lua">
+      <Filter>Lua Scripts\Internal</Filter>
+    </None>
+    <None Include="..\..\Bin\Scripts\Internal\Actor.lua">
+      <Filter>Lua Scripts\Internal</Filter>
+    </None>
+    <None Include="..\..\Bin\Scripts\Internal\Car.lua">
+      <Filter>Lua Scripts\Internal</Filter>
+    </None>
+    <None Include="..\..\Bin\Scripts\Internal\Dialog.lua">
+      <Filter>Lua Scripts\Internal</Filter>
+    </None>
+    <None Include="..\..\Bin\Scripts\Internal\Entity.lua">
+      <Filter>Lua Scripts\Internal</Filter>
+    </None>
+    <None Include="..\..\Bin\Scripts\Internal\Music.lua">
+      <Filter>Lua Scripts\Internal</Filter>
+    </None>
+    <None Include="..\..\Bin\Scripts\Internal\Sound.lua">
+      <Filter>Lua Scripts\Internal</Filter>
+    </None>
+    <None Include="..\..\Bin\Scripts\Internal\Trigger.lua">
       <Filter>Lua Scripts\Internal</Filter>
     </None>
   </ItemGroup>
