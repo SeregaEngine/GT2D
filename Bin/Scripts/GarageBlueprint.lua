@@ -107,7 +107,7 @@ function stateUpCar(TActor)
     end
 end
 
-stateTakeInstruments = createCutscene(
+stateTakeInstruments = Cutscene.new(
     function()
         return TakeInstruments
     end,
@@ -129,7 +129,7 @@ stateTakeInstruments = createCutscene(
     end
 )
 
-stateRepairCar = createCutscene(
+stateRepairCar = Cutscene.new(
     function()
         return RepairCar
     end,
@@ -146,7 +146,7 @@ stateRepairCar = createCutscene(
     end
 )
 
-stateRandomTalk = createCutscene(
+stateRandomTalk = Cutscene.new(
     function()
         return RandomTalk
     end,

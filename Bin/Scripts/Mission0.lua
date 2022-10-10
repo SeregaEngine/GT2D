@@ -122,8 +122,8 @@ function onEnter(Location)
 
     LeaveCutscene = {
         { Player, false, GTT_GOTO, GROUND_WIDTH*2, GROUND_Y + GROUND_HEIGHT/2 },
-        { Player, true, GTT_FADE_OFF, 2500 },
-        { Player, false, GTT_FADE_IN, 0.0 },
+        { Player, true, GTT_FADE_OFF, 2500.0 },
+        { Player, false, GTT_FADE_IN, 0.0 }, -- Black screen on last frame
     }
 	LeaveCutsceneStage = 0
 
@@ -149,7 +149,7 @@ function triggerLeaveCutscene(TTrigger, TEntity)
 end
 
 ---- Cutscenes
-stateMainCutscene = createCutscene(
+stateMainCutscene = Cutscene.new(
     function()
         return MainCutscene
     end,
@@ -170,7 +170,7 @@ stateMainCutscene = createCutscene(
     end
 )
 
-stateLeaveCutscene = createCutscene(
+stateLeaveCutscene = Cutscene.new(
     function()
         return LeaveCutscene
     end,
