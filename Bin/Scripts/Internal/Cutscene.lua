@@ -16,7 +16,7 @@ function Cutscene.new(CutsceneActions, funInit, funEnd)
 
     return function(TActor)
         local ID = NewID
-        local Actions = Cutscene.All[ID].Actions() -- TODO(sean) Remove function
+        local Actions = Cutscene.All[ID].Actions
         local Stage = Cutscene.All[ID].Stage
 
         if Stage == 0 then

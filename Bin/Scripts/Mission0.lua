@@ -28,10 +28,34 @@ function Mission.onEnter(Location)
     Dodge:setTexture(Textures["Car"])
 
     --- Init mission
+	defineCutscenes()
     Player:setState(States["MainCutscene"])
 
+    -- Triggers
+    Trigger:new({ GROUND_WIDTH, GROUND_Y-5, 2, GROUND_HEIGHT*2 }, Player, "triggerLeaveCutscene")
+
+    -- Location
+    Mission.setGroundBounds({ GROUND_X, GROUND_Y, GROUND_WIDTH * 2, GROUND_HEIGHT })
+end
+
+function Mission.onUpdate(dt)
+    Input.defaultHandle()
+end
+
+function Mission.onRender()
+    GarageBlueprint.onRender()
+end
+
+---- Triggers
+function triggerLeaveCutscene(TTrigger, TEntity)
+    setmetatable(TEntity, Actor)
+    TEntity:setState(States["LeaveCutscene"])
+end
+
+---- Cutscenes
+function defineCutscenes()
     -- Cutscenes
-	MainCutscene = {
+	local MainCutscene = {
 		{ Player, false, GTT_FADE_IN, 2000.0 },
 		{ Player, false, GTT_PUSH_COMMAND, GTC_TURN_LEFT },
 		{ Player, true, GTT_ANIMATE_FOR, Anims["PlayerSleep"], 1000.0 },
@@ -100,58 +124,33 @@ function Mission.onEnter(Location)
 		{ Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Cool, bro. Go outside when you'll ready", 0.5, Zhenek, Textures["DialogSquare"]) },
 	}
 
-	LeaveCutscene = {
+	stateMainCutscene = Cutscene.new(
+		MainCutscene,
+		function(TActor)
+			IsZhenekBusy = true
+			IsPlayerControllable = false
+		end,
+		function(TActor)
+			IsZhenekBusy = false
+			IsPlayerControllable = true
+			TActor:setState(nil)
+		end
+	)
+
+	local LeaveCutscene = {
         { Player, false, GTT_GOTO, GROUND_WIDTH*2, GROUND_Y + GROUND_HEIGHT/2 },
         { Player, true, GTT_FADE_OFF, 2500.0 },
         { Player, false, GTT_FADE_IN, 0.0 }, -- Black screen on last frame
-    },
+    }
 
-    -- Triggers
-    Trigger:new({ GROUND_WIDTH, GROUND_Y-5, 2, GROUND_HEIGHT*2 }, Player, "triggerLeaveCutscene")
-
-    -- Location
-    Mission.setGroundBounds({ GROUND_X, GROUND_Y, GROUND_WIDTH * 2, GROUND_HEIGHT })
+	stateLeaveCutscene = Cutscene.new(
+		LeaveCutscene,
+		function(TActor)
+			IsPlayerControllable = false
+		end,
+		function(TActor)
+			Mission.restart(1)
+			TActor:setState(nil)
+		end
+	)
 end
-
-function Mission.onUpdate(dt)
-    Input.defaultHandle()
-end
-
-function Mission.onRender()
-    GarageBlueprint.onRender()
-end
-
----- Triggers
-function triggerLeaveCutscene(TTrigger, TEntity)
-    setmetatable(TEntity, Actor)
-    TEntity:setState(States["LeaveCutscene"])
-end
-
----- Cutscenes
-stateMainCutscene = Cutscene.new(
-    function()
-		return MainCutscene
-	end,
-    function(TActor)
-        IsZhenekBusy = true
-        IsPlayerControllable = false
-    end,
-    function(TActor)
-        IsZhenekBusy = false
-        IsPlayerControllable = true
-        TActor:setState(nil)
-    end
-)
-
-stateLeaveCutscene = Cutscene.new(
-	function()
-		return LeaveCutscene
-	end,
-    function(TActor)
-        IsPlayerControllable = false
-    end,
-    function(TActor)
-        Mission.restart(1)
-        TActor:setState(nil)
-    end
-)
