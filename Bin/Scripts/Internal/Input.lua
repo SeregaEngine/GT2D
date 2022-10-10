@@ -1,5 +1,5 @@
 ----------------------------------------------------------------------
---| * Graphics.lua *
+--| * Input.lua *
 ----------------------------------------------------------------------
 
 Input = {}
@@ -28,7 +28,7 @@ function Input.defaultHandle()
     end
 
     -- Handle Player's behaviour
-    if Player and PlayerControllable then
+    if Player and IsPlayerControllable then
         if Input.isKeyDown(GTK_W) then Player:pushCommand(GTC_MOVE_UP) end
         if Input.isKeyDown(GTK_A) then Player:pushCommand(GTC_MOVE_LEFT) end
         if Input.isKeyDown(GTK_S) then Player:pushCommand(GTC_MOVE_DOWN) end

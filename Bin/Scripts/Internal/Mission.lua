@@ -30,7 +30,7 @@ DEBUG = true
 Entities = {}
 
 Player = nil
-PlayerControllable = true
+IsPlayerControllable = true
 ---
 
 ---- Singleton
