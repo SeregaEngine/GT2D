@@ -132,6 +132,10 @@ function Mission.onEnter(Location)
 
     -- Location
     Mission.setGroundBounds({ GROUND_X, GROUND_Y, GROUND_WIDTH * 2, GROUND_HEIGHT })
+
+    -- DEBUG(sean)
+    Resource.defineMusic("Music/MainGarageAmbient.wav"):play()
+    Resource.defineSound("Sounds/ColtShot1.wav"):play()
 end
 
 function Mission.onUpdate(dt)

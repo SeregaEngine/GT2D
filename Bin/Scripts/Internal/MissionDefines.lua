@@ -67,6 +67,36 @@ function Mission.setGroundBounds(Rect)
     setGroundBounds(Rect[1], Rect[2], Rect[3], Rect[4])
 end
 
+-- Sound
+Sound = { Pointer = nil }
+
+function Sound:new(Path)
+    local Object = {}
+    Object.Pointer = defineSound(Path)
+    setmetatable(Object, self)
+    self.__index = self
+    return Object
+end
+
+function Sound:play()
+    playSound(self.Pointer)
+end
+
+-- Music
+Music = { Pointer = nil }
+
+function Music:new(Path)
+    local Object = {}
+    Object.Pointer = defineMusic(Path)
+    setmetatable(Object, self)
+    self.__index = self
+    return Object
+end
+
+function Music:play()
+    playMusic(self.Pointer)
+end
+
 -- Resource Manager
 Resource = {}
 
@@ -75,11 +105,11 @@ function Resource.defineTexture(Path, SpriteWidth, SpriteHeight)
 end
 
 function Resource.defineSound(Path)
-    return defineSound(Path)
+    return Sound:new(Path)
 end
 
 function Resource.defineMusic(Path)
-    return defineMusic(Path)
+    return Music:new(Path)
 end
 
 function Resource.defineState(FunctionName)
@@ -139,17 +169,6 @@ end
 
 function Camera.setBounds(Rect)
     setCameraBounds(Rect[1], Rect[2], Rect[3], Rect[4])
-end
-
--- Sound
-Sound = {}
-
-function Sound.playSound(SoundObject)
-    playSound(SoundObject)
-end
-
-function Sound.playMusic(MusicObject)
-    playMusic(MusicObject)
 end
 
 -- Input
@@ -532,7 +551,7 @@ end
 ---- Resources
 Textures = {}
 Sounds = {}
-Music = {}
+Musics = {}
 Anims = {}
 Weapons = {}
 States = {}
