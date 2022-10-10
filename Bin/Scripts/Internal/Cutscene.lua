@@ -2,22 +2,33 @@
 --| * Cutscene.lua *
 ----------------------------------------------------------------------
 
-Cutscene = {}
+Cutscene = {
+    ToSkip = nil, -- TODO(sean) Implement skipping with setting this variable
+    All = {},
+}
 
-function Cutscene.new(FunGetActions, FunChangeAndGetActionStage, FunInit, FunEnd)
+function Cutscene.new(CutsceneActions, funInit, funEnd)
+    local NewID = #Cutscene.All + 1
+    Cutscene.All[NewID] = {
+        Actions = CutsceneActions,
+        Stage = 0,
+    }
+
     return function(TActor)
-        if FunChangeAndGetActionStage(0) == 0 then
-            FunInit(TActor)
+        local ID = NewID
+        local Actions = Cutscene.All[ID].Actions() -- TODO(sean) Remove function
+        local Stage = Cutscene.All[ID].Stage
+
+        if Stage == 0 then
+            funInit(TActor)
         end
 
-        local Actions = FunGetActions()
-        local Stage = FunChangeAndGetActionStage(0)
-
         while Stage == 0 or Stage > #Actions or not Actions[Stage][2] or Actions[Stage][1]:checkCurrentTask() == GTT_DONE do
-            Stage = FunChangeAndGetActionStage(1)
+            Cutscene.All[ID].Stage = Cutscene.All[ID].Stage + 1
+            Stage = Cutscene.All[ID].Stage
 
             if Stage > #Actions then
-                FunEnd(TActor)
+                funEnd(TActor)
                 return
             end
 

@@ -61,8 +61,10 @@ void Game::HandleNewState()
             m_pCurrentState = m_lstState.Front();
             if (m_pCurrentState && !m_pCurrentState->OnEnter())
             {
-                m_bRunning = false;
                 AddNote(PR_ERROR, "False returned on current state's <OnEnter()>");
+                PopState();
+                m_pCurrentState = nullptr;
+                m_bRunning = false;
             }
         }
     }

@@ -7,6 +7,12 @@
 ---- Includes
 require "Mission"
 
+---- Globals
+GROUND_WIDTH = GW_LOCATION
+GROUND_HEIGHT = 18
+GROUND_X = 0
+GROUND_Y = GH_LOCATION - GROUND_HEIGHT
+
 ---- Resources
 Textures["Background"] = Resource.defineTexture("Textures/Locations/Mission0-1.png", TW_LOCATION, TH_LOCATION)
 Textures["Player"] = Resource.defineTexture("Textures/Actors/Player.png", TW_ACTOR, TH_ACTOR)
@@ -47,7 +53,7 @@ function GarageBlueprint.onEnter()
     Anthony:setSpeed(XDefault/2, YDefault/2)
     Anthony:setActorAnim(ACTOR_ANIMATION_HORIZONTAL, Anims["SlowMoving"])
     Anthony:setTeam(ACTOR_TEAM_FRIENDS)
-    Anthony:setState(States["_UpCar"])
+    -- DEBUG(sean)Anthony:setState(States["_UpCar"])
     Anthony:turnLeft()
 
     Dodge = Car:new(25, 50, 65, 20, Textures["PlaceholderCar"])
@@ -78,11 +84,6 @@ function GarageBlueprint.onEnter()
     RandomTalkStage = 0
 
     -- Ground
-    GROUND_WIDTH = GW_LOCATION
-    GROUND_HEIGHT = 18
-    GROUND_X = 0
-    GROUND_Y = GH_LOCATION - GROUND_HEIGHT
-
     Mission.setGroundBounds({ GROUND_X, GROUND_Y, GROUND_WIDTH, GROUND_HEIGHT })
 
     -- Camera
@@ -95,6 +96,7 @@ function GarageBlueprint.onRender()
 end
 
 ---- Internal functions
+--[[
 function _stateUpCar(TActor)
     local X,Y = Dodge:getPosition()
 
@@ -177,3 +179,5 @@ _stateRandomTalk = Cutscene.new(
         TActor:setState(States["_RepairCar"])
     end
 )
+
+]]--

@@ -2275,9 +2275,18 @@ s32 ScriptModule::_addDialog(lua_State* L)
     const char* text = lua_tostring(L, 3);
     f32 time = (f32)lua_tonumber(L, 4) * 1000.0f;
     
-    lua_getfield(L, 5, "Pointer");
-    Actor* pActor = (Actor*)lua_touserdata(L, -1);
-    lua_pop(L, 1);
+    Actor* pActor;
+    if (lua_istable(L, 5))
+    {
+        lua_getfield(L, 5, "Pointer");
+        pActor = (Actor*)lua_touserdata(L, -1);
+        lua_pop(L, 1);
+    }
+    else
+    {
+        pActor = nullptr;
+        LuaNote(PR_ERROR, "addDialog() called with null actor");
+    }
 
     const GT_Texture* pTexture = (const GT_Texture*)lua_touserdata(L, 6);
 
