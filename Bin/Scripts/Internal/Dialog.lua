@@ -1,3 +1,7 @@
+----------------------------------------------------------------------
+--| * Dialog.lua *
+----------------------------------------------------------------------
+
 Dialog = Entity:inherit()
 
 function Dialog:new(W, H, Text, DurationSeconds, Actor, Texture)

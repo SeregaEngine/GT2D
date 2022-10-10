@@ -1,3 +1,7 @@
+----------------------------------------------------------------------
+--| * Cutscene.lua *
+----------------------------------------------------------------------
+
 Cutscene = {}
 
 function Cutscene.new(FunGetActions, FunChangeAndGetActionStage, FunInit, FunEnd)
