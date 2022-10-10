@@ -1,5 +1,8 @@
 -- TODO(sean) Read save file
+---- Includes
+require "Mission"
 
+---- Loader
 function Mission.onEnter(Location)
 	GT_LOG(PR_NOTE, "Loader entered")
 	switchMission("Scripts/Mission0.lua", 1)

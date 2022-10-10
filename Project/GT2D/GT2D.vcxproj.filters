@@ -151,13 +151,34 @@
     <None Include="..\..\Bin\Scripts\GarageBlueprint.lua">
       <Filter>Lua Scripts</Filter>
     </None>
-    <None Include="..\..\Bin\Scripts\Internal\MissionDefines.lua">
+    <None Include="..\..\Bin\Scripts\Internal\Mission.lua">
       <Filter>Lua Scripts\Internal</Filter>
     </None>
     <None Include="..\..\Bin\Scripts\Internal\Loader.lua">
       <Filter>Lua Scripts\Internal</Filter>
     </None>
     <None Include="..\..\Bin\Scripts\Internal\Saver.lua">
+      <Filter>Lua Scripts\Internal</Filter>
+    </None>
+    <None Include="..\..\Bin\Scripts\Internal\Camera.lua">
+      <Filter>Lua Scripts\Internal</Filter>
+    </None>
+    <None Include="..\..\Bin\Scripts\Internal\Console.lua">
+      <Filter>Lua Scripts\Internal</Filter>
+    </None>
+    <None Include="..\..\Bin\Scripts\Internal\Cutscene.lua">
+      <Filter>Lua Scripts\Internal</Filter>
+    </None>
+    <None Include="..\..\Bin\Scripts\Internal\Functions.lua">
+      <Filter>Lua Scripts\Internal</Filter>
+    </None>
+    <None Include="..\..\Bin\Scripts\Internal\Graphics.lua">
+      <Filter>Lua Scripts\Internal</Filter>
+    </None>
+    <None Include="..\..\Bin\Scripts\Internal\Input.lua">
+      <Filter>Lua Scripts\Internal</Filter>
+    </None>
+    <None Include="..\..\Bin\Scripts\Internal\Resource.lua">
       <Filter>Lua Scripts\Internal</Filter>
     </None>
   </ItemGroup>

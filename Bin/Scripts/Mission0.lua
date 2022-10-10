@@ -6,7 +6,7 @@
 ----------------------------------------------------------------------
 
 ---- Includes
-dofile "Scripts/GarageBlueprint.lua"
+require "GarageBlueprint"
 
 ---- Resources
 Textures["Car"] = Resource.defineTexture("Textures/Cars/Dodge.png", TW_CAR, TH_CAR)
@@ -136,6 +136,7 @@ function Mission.onEnter(Location)
     -- DEBUG(sean)
     Resource.defineMusic("Music/MainGarageAmbient.wav"):play()
     Resource.defineSound("Sounds/ColtShot1.wav"):play()
+    GT_LOG(PR_NOTE, package.path)
 end
 
 function Mission.onUpdate(dt)

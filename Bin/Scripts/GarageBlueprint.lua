@@ -4,6 +4,9 @@
 --| Contains all stuff for garage missions
 ----------------------------------------------------------------------
 
+---- Includes
+require "Mission"
+
 ---- Resources
 Textures["Background"] = Resource.defineTexture("Textures/Locations/Mission0-1.png", TW_LOCATION, TH_LOCATION)
 Textures["Player"] = Resource.defineTexture("Textures/Actors/Player.png", TW_ACTOR, TH_ACTOR)

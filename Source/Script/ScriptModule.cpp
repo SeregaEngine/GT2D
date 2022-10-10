@@ -31,8 +31,8 @@ extern "C"
 #include "ScriptModule.h"
 
 /* ====== DEFINES ====== */
-#define MISSION_DEFINES_PATH "Scripts/Internal/MissionDefines.lua"
 #define MISSION_SAVER_PATH "Scripts/Internal/Saver.lua"
+#define SCRIPT_SET_UP "package.path = package.path .. \";Scripts/?.lua;Scripts/Internal/?.lua\""
 
 /* ====== VARIABLES ====== */
 ScriptModule g_scriptModule;
@@ -339,7 +339,7 @@ lua_State* ScriptModule::LoadMission(const char* path, s32 location)
     // Define all engine stuff
     DefineFunctions(pScript);
     DefineSymbols(pScript);
-    if (!CheckLua(pScript, luaL_dofile(pScript, MISSION_DEFINES_PATH)))
+    if (!CheckLua(pScript, luaL_dostring(pScript, SCRIPT_SET_UP)))
     {
         lua_close(pScript);
         return nullptr;
