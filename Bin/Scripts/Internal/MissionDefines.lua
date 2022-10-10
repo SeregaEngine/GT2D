@@ -67,36 +67,6 @@ function Mission.setGroundBounds(Rect)
     setGroundBounds(Rect[1], Rect[2], Rect[3], Rect[4])
 end
 
--- Sound
-Sound = { Pointer = nil }
-
-function Sound:new(Path)
-    local Object = {}
-    Object.Pointer = defineSound(Path)
-    setmetatable(Object, self)
-    self.__index = self
-    return Object
-end
-
-function Sound:play()
-    playSound(self.Pointer)
-end
-
--- Music
-Music = { Pointer = nil }
-
-function Music:new(Path)
-    local Object = {}
-    Object.Pointer = defineMusic(Path)
-    setmetatable(Object, self)
-    self.__index = self
-    return Object
-end
-
-function Music:play()
-    playMusic(self.Pointer)
-end
-
 -- Resource Manager
 Resource = {}
 
@@ -120,8 +90,8 @@ function Resource.defineAnimation(Row, Count, FrameTime)
     return defineAnimation(Row, Count, FrameTime)
 end
 
-function Resource.defineWeapon(Anim, SoundCount, RangeX, RangeY, Damage, ...) -- <...> is sounds
-    return defineWeapon(Anim, SoundCount, RangeX, RangeY, Damage, ...)
+function Resource.defineWeapon(Anim, RangeX, RangeY, Damage, ...) -- <...> is sounds
+    return defineWeapon(Anim, RangeX, RangeY, Damage, ...)
 end
 
 -- Graphics
@@ -517,6 +487,36 @@ function Trigger:new(Rect, Actor, FunctionName)
     return Object
 end
 
+-- Sound
+Sound = { Pointer = nil }
+
+function Sound:new(Path)
+    local Object = {}
+    Object.Pointer = defineSound(Path)
+    setmetatable(Object, self)
+    self.__index = self
+    return Object
+end
+
+function Sound:play()
+    playSound(self.Pointer)
+end
+
+-- Music
+Music = { Pointer = nil }
+
+function Music:new(Path)
+    local Object = {}
+    Object.Pointer = defineMusic(Path)
+    setmetatable(Object, self)
+    self.__index = self
+    return Object
+end
+
+function Music:play()
+    playMusic(self.Pointer)
+end
+
 ---- Functions
 function handleInput()
     -- Leave if console is shown
@@ -567,4 +567,4 @@ Sounds["ActorDeath"] = Resource.defineSound("Sounds/ActorDyingSound.wav")
 Sounds["CarDoor"] = Resource.defineSound("Sounds/CarDoorOpening.wav")
 Sounds["StartEngine"] = Resource.defineSound("Sounds/DodgeEngineStart.wav")
 
-Weapons["Fist"] = Resource.defineWeapon(Resource.defineAnimation(4, 3, 1000.0 / 2.0), 4, 8, 8, 1.0, Sounds["Punch1"], Sounds["Punch2"], Sounds["Punch3"], Sounds["Punch4"])
+Weapons["Fist"] = Resource.defineWeapon(Resource.defineAnimation(4, 3, 1000.0 / 2.0), 8, 8, 1.0, Sounds["Punch1"], Sounds["Punch2"], Sounds["Punch3"], Sounds["Punch4"])
