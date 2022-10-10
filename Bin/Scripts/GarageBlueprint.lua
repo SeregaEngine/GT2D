@@ -21,13 +21,16 @@ Anims["SlowMoving"] = Animation.define(1, 5, 1000.0 / 13.5)
 Anims["RepairCar"] = Animation.define(4, 2, 1000.0 / 1)
 Anims["TakeInstruments"] = Animation.define(5, 2, 1000.0 / 1)
 
-States["UpCar"] = AI.defineState("stateUpCar")
-States["TakeInstruments"] = AI.defineState("stateTakeInstruments")
-States["RandomTalk"] = AI.defineState("stateRandomTalk")
-States["RepairCar"] = AI.defineState("stateRepairCar")
+---- Internal resources
+States["_UpCar"] = AI.defineState("_stateUpCar")
+States["_TakeInstruments"] = AI.defineState("_stateTakeInstruments")
+States["_RandomTalk"] = AI.defineState("_stateRandomTalk")
+States["_RepairCar"] = AI.defineState("_stateRepairCar")
 
----- Required functions
-function onGarageEnter()
+---- Garage Blueprint
+GarageBlueprint = {}
+
+function GarageBlueprint.onEnter()
     -- Entities
     Player = Actor:new(GW_LOCATION - GW_ACTOR, GH_LOCATION - GH_ACTOR, GW_ACTOR, GH_ACTOR, Textures["Player"])
     local XDefault,YDefault = Player:getSpeed()
@@ -47,7 +50,7 @@ function onGarageEnter()
     Anthony:setSpeed(XDefault/2, YDefault/2)
     Anthony:setActorAnim(ACTOR_ANIMATION_HORIZONTAL, Anims["SlowMoving"])
     Anthony:setTeam(ACTOR_TEAM_FRIENDS)
-    Anthony:setState(States["UpCar"])
+    Anthony:setState(States["_UpCar"])
     Anthony:turnLeft()
 
     Dodge = Car:new(25, 50, 65, 20, Textures["PlaceholderCar"])
@@ -90,12 +93,12 @@ function onGarageEnter()
     Camera.setPosition(0, 0)
 end
 
-function onGarageRender()
+function GarageBlueprint.onRender()
     Graphics.drawFrame(RENDER_MODE_BACKGROUND, 0, false, { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }, Textures["Background"], 0, 0)
 end
 
 ---- Internal functions
-function stateUpCar(TActor)
+function _stateUpCar(TActor)
     local X,Y = Dodge:getPosition()
 
     if Y >= 44 and Y <= 45 then
@@ -103,11 +106,11 @@ function stateUpCar(TActor)
     elseif Y <= 40 then
         Dodge:setPosition(25, 40)
         Dodge:setMaxSpeed(0, 0)
-        TActor:setState(States["TakeInstruments"])
+        TActor:setState(States["_TakeInstruments"])
     end
 end
 
-stateTakeInstruments = Cutscene.new(
+_stateTakeInstruments = Cutscene.new(
     function()
         return TakeInstruments
     end,
@@ -122,14 +125,14 @@ stateTakeInstruments = Cutscene.new(
         TakeInstrumentsStage = 0
 
         if not IsZhenekBusy and math.random(0, 1) == 1 then
-            TActor:setState(States["RandomTalk"])
+            TActor:setState(States["_RandomTalk"])
         else
-            TActor:setState(States["RepairCar"])
+            TActor:setState(States["_RepairCar"])
         end
     end
 )
 
-stateRepairCar = Cutscene.new(
+_stateRepairCar = Cutscene.new(
     function()
         return RepairCar
     end,
@@ -142,11 +145,11 @@ stateRepairCar = Cutscene.new(
     function(TActor)
         RepairCar[2][5] = math.random(5000, 15000) -- Wait time
         RepairCarStage = 0
-        TActor:setState(States["TakeInstruments"])
+        TActor:setState(States["_TakeInstruments"])
     end
 )
 
-stateRandomTalk = Cutscene.new(
+_stateRandomTalk = Cutscene.new(
     function()
         return RandomTalk
     end,
@@ -174,6 +177,6 @@ stateRandomTalk = Cutscene.new(
     end,
     function(TActor)
         RandomTalkStage = 0
-        TActor:setState(States["RepairCar"])
+        TActor:setState(States["_RepairCar"])
     end
 )

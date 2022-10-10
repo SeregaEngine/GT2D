@@ -20,7 +20,7 @@ function onEnter(Location)
     GT_LOG(PR_NOTE, "Mission 0 entered")
 
     -- Init garage blueprint
-    onGarageEnter()
+    GarageBlueprint.onEnter()
     Dodge:setTexture(Textures["Car"])
 
     -- Init mission
@@ -125,13 +125,13 @@ function onEnter(Location)
         { Player, true, GTT_FADE_OFF, 2500.0 },
         { Player, false, GTT_FADE_IN, 0.0 }, -- Black screen on last frame
     }
-	LeaveCutsceneStage = 0
+    LeaveCutsceneStage = 0
 
     -- Triggers
-	Trigger:new({ GROUND_WIDTH, GROUND_Y-5, 2, GROUND_HEIGHT*2 }, Player, "triggerLeaveCutscene")
+    Trigger:new({ GROUND_WIDTH, GROUND_Y-5, 2, GROUND_HEIGHT*2 }, Player, "triggerLeaveCutscene")
 
     -- Location
-	setGroundBounds(GROUND_X, GROUND_Y, GROUND_WIDTH * 2, GROUND_HEIGHT)
+    Mission.setGroundBounds({ GROUND_X, GROUND_Y, GROUND_WIDTH * 2, GROUND_HEIGHT })
 end
 
 function onUpdate(dt)
@@ -139,7 +139,7 @@ function onUpdate(dt)
 end
 
 function onRender()
-    onGarageRender()
+    GarageBlueprint.onRender()
 end
 
 ---- Triggers
