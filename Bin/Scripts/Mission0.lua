@@ -9,11 +9,11 @@
 dofile "Scripts/GarageBlueprint.lua"
 
 ---- Resources
-Textures["Car"] = Graphics.defineTexture("Textures/Cars/Dodge.png", TW_CAR, TH_CAR)
-Anims["PlayerSleep"] = Animation.define(6, 1, 1000.0)
-Anims["PlayerWakeUp"] = Animation.define(6, 3, 1000.0 / 1.5)
-States["MainCutscene"] = AI.defineState("stateMainCutscene")
-States["LeaveCutscene"] = AI.defineState("stateLeaveCutscene")
+Textures["Car"] = Resource.defineTexture("Textures/Cars/Dodge.png", TW_CAR, TH_CAR)
+Anims["PlayerSleep"] = Resource.defineAnimation(6, 1, 1000.0)
+Anims["PlayerWakeUp"] = Resource.defineAnimation(6, 3, 1000.0 / 1.5)
+States["MainCutscene"] = Resource.defineState("stateMainCutscene")
+States["LeaveCutscene"] = Resource.defineState("stateLeaveCutscene")
 
 ---- Mission functions
 function Mission.onEnter(Location)

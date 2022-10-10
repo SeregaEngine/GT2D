@@ -1,5 +1,6 @@
 /* ====== INCLUDES ====== */
 #include "GraphicsModule.h"
+#include "ScriptModule.h"
 #include "PlayState.h"
 
 #include "Game.h"
@@ -14,7 +15,7 @@ b32 Game::StartUp()
     m_bRunning = true;
 
     m_pCurrentState = nullptr;
-    m_lstState.Push(new PlayState("Scripts/Loader.lua", 0));
+    m_lstState.Push(new PlayState(MISSION_LOADER_PATH, 0));
 
     AddNote(PR_NOTE, "Module started");
 

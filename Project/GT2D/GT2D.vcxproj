@@ -206,12 +206,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Bin\Scripts\GarageBlueprint.lua" />
-    <None Include="..\..\Bin\Scripts\Loader.lua" />
+    <None Include="..\..\Bin\Scripts\Internal\Loader.lua" />
+    <None Include="..\..\Bin\Scripts\Internal\MissionDefines.lua" />
+    <None Include="..\..\Bin\Scripts\Internal\Saver.lua" />
     <None Include="..\..\Bin\Scripts\Mission0.lua" />
     <None Include="..\..\Bin\Scripts\Mission1.lua" />
-    <None Include="..\..\Bin\Scripts\MissionDefines.lua" />
     <None Include="..\..\Bin\Scripts\MissionIntro.lua" />
-    <None Include="..\..\Bin\Scripts\Saver.lua" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\AI\AIModule.h" />

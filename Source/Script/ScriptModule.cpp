@@ -31,7 +31,8 @@ extern "C"
 #include "ScriptModule.h"
 
 /* ====== DEFINES ====== */
-#define MISSION_DEFINES_PATH "Scripts/MissionDefines.lua"
+#define MISSION_DEFINES_PATH "Scripts/Internal/MissionDefines.lua"
+#define MISSION_SAVER_PATH "Scripts/Internal/Saver.lua"
 
 /* ====== VARIABLES ====== */
 ScriptModule g_scriptModule;
@@ -47,7 +48,7 @@ b32 ScriptModule::StartUp()
     DefineSymbols(m_pSaver);
 
     // Init loader script
-    if (!CheckLua(m_pSaver, luaL_dofile(m_pSaver, "Scripts/Saver.lua")))
+    if (!CheckLua(m_pSaver, luaL_dofile(m_pSaver, MISSION_SAVER_PATH)))
         return false;
 
     AddNote(PR_NOTE, "Module started");

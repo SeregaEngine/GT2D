@@ -9,6 +9,9 @@ extern "C"
 
 #include "EngineModule.h"
 
+/* ====== DEFINES ====== */
+#define MISSION_LOADER_PATH "Scripts/Internal/Loader.lua"
+
 /* ====== STRUCTURES ====== */
 class Entity;
 class Actor;

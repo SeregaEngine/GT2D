@@ -42,6 +42,9 @@
     <Filter Include="Collision">
       <UniqueIdentifier>{94605afb-2e90-4d46-a2ed-ad0b0af2d03a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Lua Scripts\Internal">
+      <UniqueIdentifier>{de0a1849-d55d-4ecc-9b5f-0f5db44bbb8a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\AI\AIModule.cpp">
@@ -136,19 +139,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\Bin\Scripts\Loader.lua">
-      <Filter>Lua Scripts</Filter>
-    </None>
     <None Include="..\..\Bin\Scripts\Mission1.lua">
       <Filter>Lua Scripts</Filter>
     </None>
-    <None Include="..\..\Bin\Scripts\Saver.lua">
-      <Filter>Lua Scripts</Filter>
-    </None>
     <None Include="..\..\Bin\Scripts\Mission0.lua">
-      <Filter>Lua Scripts</Filter>
-    </None>
-    <None Include="..\..\Bin\Scripts\MissionDefines.lua">
       <Filter>Lua Scripts</Filter>
     </None>
     <None Include="..\..\Bin\Scripts\MissionIntro.lua">
@@ -156,6 +150,15 @@
     </None>
     <None Include="..\..\Bin\Scripts\GarageBlueprint.lua">
       <Filter>Lua Scripts</Filter>
+    </None>
+    <None Include="..\..\Bin\Scripts\Internal\MissionDefines.lua">
+      <Filter>Lua Scripts\Internal</Filter>
+    </None>
+    <None Include="..\..\Bin\Scripts\Internal\Loader.lua">
+      <Filter>Lua Scripts\Internal</Filter>
+    </None>
+    <None Include="..\..\Bin\Scripts\Internal\Saver.lua">
+      <Filter>Lua Scripts\Internal</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

@@ -22,6 +22,8 @@ TH_ACTOR = 16
 GW_ACTOR = TW_ACTOR
 GH_ACTOR = TH_ACTOR
 
+ACTOR_TEAM_FRIENDS = ACTOR_TEAM_DEFAULT + 1
+
 -- Car
 TW_CAR = 72
 TH_CAR = 21
@@ -43,10 +45,11 @@ PlayerControllable = true
 -- Mission
 Mission = {}
 
---- *** Define this functions *** ---
+--- *** Define this functions
 Mission.onEnter = nil
 Mission.onUpdate = nil
 Mission.onRender = nil
+--- ***
 
 function Mission.stop()
     stopGame()
@@ -64,12 +67,35 @@ function Mission.setGroundBounds(Rect)
     setGroundBounds(Rect[1], Rect[2], Rect[3], Rect[4])
 end
 
--- Graphics
-Graphics = {}
+-- Resource Manager
+Resource = {}
 
-function Graphics.defineTexture(Path, SpriteWidth, SpriteHeight)
+function Resource.defineTexture(Path, SpriteWidth, SpriteHeight)
     return defineTexture(Path, SpriteWidth, SpriteHeight)
 end
+
+function Resource.defineSound(Path)
+    return defineSound(Path)
+end
+
+function Resource.defineMusic(Path)
+    return defineMusic(Path)
+end
+
+function Resource.defineState(FunctionName)
+    return defineState(FunctionName)
+end
+
+function Resource.defineAnimation(Row, Count, FrameTime)
+    return defineAnimation(Row, Count, FrameTime)
+end
+
+function Resource.defineWeapon(Anim, SoundCount, RangeX, RangeY, Damage, ...) -- <...> is sounds
+    return defineWeapon(Anim, SoundCount, RangeX, RangeY, Damage, ...)
+end
+
+-- Graphics
+Graphics = {}
 
 function Graphics.setDrawColor(R, G, B, A)
     setDrawColor(R, G, B, A)
@@ -118,14 +144,6 @@ end
 -- Sound
 Sound = {}
 
-function Sound.defineSound(Path)
-    return defineSound(Path)
-end
-
-function Sound.defineMusic(Path)
-    return defineMusic(Path)
-end
-
 function Sound.playSound(SoundObject)
     playSound(SoundObject)
 end
@@ -160,32 +178,11 @@ function Console.cls()
     cls()
 end
 
--- AI
-AI = {}
-
-function AI.defineState(FunctionName)
-    return defineState(FunctionName)
-end
-
--- Animation
-Animation = {}
-
-function Animation.define(Row, Count, FrameTime)
-    return defineAnimation(Row, Count, FrameTime)
-end
-
 -- Clock
 Clock = {}
 
 function Clock.getTicks()
     return getTicks()
-end
-
--- Weapon
-Weapon = {}
-
-function Weapon.new(Anim, SoundCount, RangeX, RangeY, Damage, ...) -- ... is sounds
-    return defineWeapon(Anim, SoundCount, RangeX, RangeY, Damage, ...)
 end
 
 -- Cutscene
@@ -540,15 +537,15 @@ Anims = {}
 Weapons = {}
 States = {}
 
-Textures["Blank"] = Graphics.defineTexture("Textures/Special/Blank.png", 1, 1)
-Textures["DialogSquare"] = Graphics.defineTexture("Textures/DialogBox/Square.png", TW_DIALOG, TH_DIALOG)
+Textures["Blank"] = Resource.defineTexture("Textures/Special/Blank.png", 1, 1)
+Textures["DialogSquare"] = Resource.defineTexture("Textures/DialogBox/Square.png", TW_DIALOG, TH_DIALOG)
 
-Sounds["Punch1"] = Sound.defineSound("Sounds/Punch1.wav")
-Sounds["Punch2"] = Sound.defineSound("Sounds/Punch2.wav")
-Sounds["Punch3"] = Sound.defineSound("Sounds/Punch3.wav")
-Sounds["Punch4"] = Sound.defineSound("Sounds/Punch4.wav")
-Sounds["ActorDeath"] = Sound.defineSound("Sounds/ActorDyingSound.wav")
-Sounds["CarDoor"] = Sound.defineSound("Sounds/CarDoorOpening.wav")
-Sounds["StartEngine"] = Sound.defineSound("Sounds/DodgeEngineStart.wav")
+Sounds["Punch1"] = Resource.defineSound("Sounds/Punch1.wav")
+Sounds["Punch2"] = Resource.defineSound("Sounds/Punch2.wav")
+Sounds["Punch3"] = Resource.defineSound("Sounds/Punch3.wav")
+Sounds["Punch4"] = Resource.defineSound("Sounds/Punch4.wav")
+Sounds["ActorDeath"] = Resource.defineSound("Sounds/ActorDyingSound.wav")
+Sounds["CarDoor"] = Resource.defineSound("Sounds/CarDoorOpening.wav")
+Sounds["StartEngine"] = Resource.defineSound("Sounds/DodgeEngineStart.wav")
 
-Weapons["Fist"] = Weapon.new(Animation.define(4, 3, 1000.0 / 2.0), 4, 8, 8, 1.0, Sounds["Punch1"], Sounds["Punch2"], Sounds["Punch3"], Sounds["Punch4"])
+Weapons["Fist"] = Resource.defineWeapon(Resource.defineAnimation(4, 3, 1000.0 / 2.0), 4, 8, 8, 1.0, Sounds["Punch1"], Sounds["Punch2"], Sounds["Punch3"], Sounds["Punch4"])

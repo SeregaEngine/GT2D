@@ -4,25 +4,22 @@
 --| Contains all stuff for garage missions
 ----------------------------------------------------------------------
 
----- Defines
-ACTOR_TEAM_FRIENDS = ACTOR_TEAM_DEFAULT + 1
-
 ---- Resources
-Textures["Background"] = Graphics.defineTexture("Textures/Locations/Mission0-1.png", TW_LOCATION, TH_LOCATION)
-Textures["Player"] = Graphics.defineTexture("Textures/Actors/Player.png", TW_ACTOR, TH_ACTOR)
-Textures["Zhenek"] = Graphics.defineTexture("Textures/Actors/Zhenek.png", TW_ACTOR, TH_ACTOR)
-Textures["Anthony"] = Graphics.defineTexture("Textures/Actors/Anthony.png", TW_ACTOR, TH_ACTOR)
-Textures["PlaceholderCar"] = Graphics.defineTexture("Textures/Cars/TrashCar.png", TW_CAR, TH_CAR)
+Textures["Background"] = Resource.defineTexture("Textures/Locations/Mission0-1.png", TW_LOCATION, TH_LOCATION)
+Textures["Player"] = Resource.defineTexture("Textures/Actors/Player.png", TW_ACTOR, TH_ACTOR)
+Textures["Zhenek"] = Resource.defineTexture("Textures/Actors/Zhenek.png", TW_ACTOR, TH_ACTOR)
+Textures["Anthony"] = Resource.defineTexture("Textures/Actors/Anthony.png", TW_ACTOR, TH_ACTOR)
+Textures["PlaceholderCar"] = Resource.defineTexture("Textures/Cars/TrashCar.png", TW_CAR, TH_CAR)
 
-Anims["SlowMoving"] = Animation.define(1, 5, 1000.0 / 13.5)
-Anims["RepairCar"] = Animation.define(4, 2, 1000.0 / 1)
-Anims["TakeInstruments"] = Animation.define(5, 2, 1000.0 / 1)
+Anims["SlowMoving"] = Resource.defineAnimation(1, 5, 1000.0 / 13.5)
+Anims["RepairCar"] = Resource.defineAnimation(4, 2, 1000.0 / 1)
+Anims["TakeInstruments"] = Resource.defineAnimation(5, 2, 1000.0 / 1)
 
 ---- Internal resources
-States["_UpCar"] = AI.defineState("_stateUpCar")
-States["_TakeInstruments"] = AI.defineState("_stateTakeInstruments")
-States["_RandomTalk"] = AI.defineState("_stateRandomTalk")
-States["_RepairCar"] = AI.defineState("_stateRepairCar")
+States["_UpCar"] = Resource.defineState("_stateUpCar")
+States["_TakeInstruments"] = Resource.defineState("_stateTakeInstruments")
+States["_RandomTalk"] = Resource.defineState("_stateRandomTalk")
+States["_RepairCar"] = Resource.defineState("_stateRepairCar")
 
 ---- Garage Blueprint
 GarageBlueprint = {}
