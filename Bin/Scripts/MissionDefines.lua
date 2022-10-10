@@ -33,27 +33,6 @@ TH_DIALOG = 200
 GW_DIALOG = 32
 GH_DIALOG = 20
 
----- Resources
-Textures = {}
-Sounds = {}
-Music = {}
-Anims = {}
-Weapons = {}
-States = {}
-
-Textures["Blank"] = defineTexture("Textures/Special/Blank.png", 1, 1)
-Textures["DialogSquare"] = defineTexture("Textures/DialogBox/Square.png", TW_DIALOG, TH_DIALOG)
-
-Sounds["Punch1"] = defineSound("Sounds/Punch1.wav")
-Sounds["Punch2"] = defineSound("Sounds/Punch2.wav")
-Sounds["Punch3"] = defineSound("Sounds/Punch3.wav")
-Sounds["Punch4"] = defineSound("Sounds/Punch4.wav")
-Sounds["ActorDeath"] = defineSound("Sounds/ActorDyingSound.wav")
-Sounds["CarDoor"] = defineSound("Sounds/CarDoorOpening.wav")
-Sounds["StartEngine"] = defineSound("Sounds/DodgeEngineStart.wav")
-
-Weapons["Fist"] = defineWeapon(defineAnimation(4, 3, 1000.0 / 2.0), 4, 8, 8, 1.0, Sounds["Punch1"], Sounds["Punch2"], Sounds["Punch3"], Sounds["Punch4"])
-
 ---- Globals
 Entities = {}
 
@@ -195,6 +174,14 @@ end
 
 function Mission.setGroundBounds(Rect)
     setGroundBounds(Rect[1], Rect[2], Rect[3], Rect[4])
+end
+
+-- Weapon
+Weapon = {}
+
+function Weapon.new(Anim, SoundCount, RangeX, RangeY, Damage, ...) -- ... is sounds
+    GT_LOG(PR_NOTE, tostring(Damage))
+    return defineWeapon(Anim, SoundCount, RangeX, RangeY, Damage, ...)
 end
 
 -- Cutscene
@@ -541,3 +528,23 @@ function handleInput()
     end
 end
 
+---- Resources
+Textures = {}
+Sounds = {}
+Music = {}
+Anims = {}
+Weapons = {}
+States = {}
+
+Textures["Blank"] = Graphics.defineTexture("Textures/Special/Blank.png", 1, 1)
+Textures["DialogSquare"] = Graphics.defineTexture("Textures/DialogBox/Square.png", TW_DIALOG, TH_DIALOG)
+
+Sounds["Punch1"] = Sound.defineSound("Sounds/Punch1.wav")
+Sounds["Punch2"] = Sound.defineSound("Sounds/Punch2.wav")
+Sounds["Punch3"] = Sound.defineSound("Sounds/Punch3.wav")
+Sounds["Punch4"] = Sound.defineSound("Sounds/Punch4.wav")
+Sounds["ActorDeath"] = Sound.defineSound("Sounds/ActorDyingSound.wav")
+Sounds["CarDoor"] = Sound.defineSound("Sounds/CarDoorOpening.wav")
+Sounds["StartEngine"] = Sound.defineSound("Sounds/DodgeEngineStart.wav")
+
+Weapons["Fist"] = Weapon.new(Animation.define(4, 3, 1000.0 / 2.0), 4, 8, 8, 1.0, Sounds["Punch1"], Sounds["Punch2"], Sounds["Punch3"], Sounds["Punch4"])

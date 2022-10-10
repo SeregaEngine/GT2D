@@ -1976,7 +1976,6 @@ s32 ScriptModule::_stopActorAnim(lua_State* L)
     return 0;
 }
 
-
 s32 ScriptModule::_defineWeapon(lua_State* L)
 {
     if (lua_gettop(L) < 5)
