@@ -4,9 +4,6 @@
 --| Contains all stuff for garage missions
 ----------------------------------------------------------------------
 
----- Includes
-dofile "Scripts/MissionDefines.lua"
-
 ---- Defines
 ACTOR_TEAM_FRIENDS = ACTOR_TEAM_DEFAULT + 1
 

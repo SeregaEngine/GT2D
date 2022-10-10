@@ -15,8 +15,8 @@ Anims["PlayerWakeUp"] = Animation.define(6, 3, 1000.0 / 1.5)
 States["MainCutscene"] = AI.defineState("stateMainCutscene")
 States["LeaveCutscene"] = AI.defineState("stateLeaveCutscene")
 
----- Functions
-function onEnter(Location)
+---- Mission functions
+function Mission.onEnter(Location)
     GT_LOG(PR_NOTE, "Mission 0 entered")
 
     -- Init garage blueprint
@@ -134,11 +134,11 @@ function onEnter(Location)
     Mission.setGroundBounds({ GROUND_X, GROUND_Y, GROUND_WIDTH * 2, GROUND_HEIGHT })
 end
 
-function onUpdate(dt)
+function Mission.onUpdate(dt)
     handleInput()
 end
 
-function onRender()
+function Mission.onRender()
     GarageBlueprint.onRender()
 end
 

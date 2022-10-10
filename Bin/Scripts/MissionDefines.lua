@@ -40,6 +40,30 @@ Player = nil
 PlayerControllable = true
 
 ---- Singletons
+-- Mission
+Mission = {}
+
+--- *** Define this functions *** ---
+Mission.onEnter = nil
+Mission.onUpdate = nil
+Mission.onRender = nil
+
+function Mission.stop()
+    stopGame()
+end
+
+function Mission.switch(Path, Location)
+    switchMission(Path, Location)
+end
+
+function Mission.restart(Location)
+    restartMission(Location)
+end
+
+function Mission.setGroundBounds(Rect)
+    setGroundBounds(Rect[1], Rect[2], Rect[3], Rect[4])
+end
+
 -- Graphics
 Graphics = {}
 
@@ -157,30 +181,10 @@ function Clock.getTicks()
     return getTicks()
 end
 
--- Mission
-Mission = {}
-
-function Mission.stop()
-    stopGame()
-end
-
-function Mission.switch(Path, Location)
-    switchMission(Path, Location)
-end
-
-function Mission.restart(Location)
-    restartMission(Location)
-end
-
-function Mission.setGroundBounds(Rect)
-    setGroundBounds(Rect[1], Rect[2], Rect[3], Rect[4])
-end
-
 -- Weapon
 Weapon = {}
 
 function Weapon.new(Anim, SoundCount, RangeX, RangeY, Damage, ...) -- ... is sounds
-    GT_LOG(PR_NOTE, tostring(Damage))
     return defineWeapon(Anim, SoundCount, RangeX, RangeY, Damage, ...)
 end
 

@@ -30,6 +30,9 @@ extern "C"
 
 #include "ScriptModule.h"
 
+/* ====== DEFINES ====== */
+#define MISSION_DEFINES_PATH "Scripts/MissionDefines.lua"
+
 /* ====== VARIABLES ====== */
 ScriptModule g_scriptModule;
 
@@ -335,23 +338,35 @@ lua_State* ScriptModule::LoadMission(const char* path, s32 location)
     // Define all engine stuff
     DefineFunctions(pScript);
     DefineSymbols(pScript);
-
-    // Try to open script
-    if (!CheckLua(pScript, luaL_dofile(pScript, path)))
+    if (!CheckLua(pScript, luaL_dofile(pScript, MISSION_DEFINES_PATH)))
     {
-        lua_pop(pScript, 1); // Pop "getMission"
         lua_close(pScript);
         return nullptr;
     }
 
-    // Pop "getMission"
-    lua_pop(pScript, 1);
+    // Try to open script
+    if (!CheckLua(pScript, luaL_dofile(pScript, path)))
+    {
+        lua_close(pScript);
+        return nullptr;
+    }
 
-    // Get onEnter()
-    lua_getglobal(pScript, "onEnter");
+    // Get Mission table
+    lua_getglobal(pScript, "Mission");
+    if (!lua_istable(pScript, -1))
+    {
+        LuaNote(PR_ERROR, "LoadMission(): global <Mission> is not table");
+        lua_pop(pScript, 1);
+        lua_close(pScript);
+        return nullptr;
+    }
+
+    // Get onEnter function
+    lua_getfield(pScript, -1, "onEnter");
     if (!lua_isfunction(pScript, -1))
     {
-        lua_pop(pScript, 1); // Pop "onEnter"
+        LuaNote(PR_ERROR, "LoadMission(): <Mission.onEnter> is not function");
+        lua_pop(pScript, 2);
         lua_close(pScript);
         return nullptr;
     }
@@ -360,9 +375,13 @@ lua_State* ScriptModule::LoadMission(const char* path, s32 location)
     lua_pushinteger(pScript, location);
     if (!CheckLua(pScript, lua_pcall(pScript, 1, 0, 0)))
     {
+        lua_pop(pScript, 1);
         lua_close(pScript);
         return nullptr;
     }
+
+    // Pop mission table
+    lua_pop(pScript, 1);
 
     return pScript;
 }
@@ -375,19 +394,67 @@ void ScriptModule::UnloadMission(lua_State* pScript)
 
 void ScriptModule::UpdateMission(lua_State* pScript, f32 dtTime)
 {
-    lua_getglobal(pScript, "onUpdate");
-    lua_pushnumber(pScript, dtTime);
+    // Get Mission table
+    lua_getglobal(pScript, "Mission");
+    if (!lua_istable(pScript, -1))
+    {
+        LuaNote(PR_ERROR, "UpdateMission(): global <Mission> is not table");
+        lua_pop(pScript, 1);
+        return;
+    }
 
+    // Get onUpdate function
+    lua_getfield(pScript, -1, "onUpdate");
+    if (!lua_isfunction(pScript, -1))
+    {
+        LuaNote(PR_ERROR, "UpdateMission(): <Mission.onUpdate> is not function");
+        lua_pop(pScript, 2);
+        return;
+    }
+
+    // Call Mission.onUpdate(dt)
+    lua_pushnumber(pScript, dtTime);
     if (lua_pcall(pScript, 1, 0, 0) != 0)
     {
         LuaNote(PR_ERROR, "UpdateMission(): %s", lua_tostring(pScript, -1));
-        lua_pop(pScript, 1);
+        lua_pop(pScript, 2);
+        return;
     }
+
+    // Pop table
+    lua_pop(pScript, 1);
 }
 
 void ScriptModule::RenderMission(lua_State* pScript)
 {
-    CallFunction(pScript, "onRender");
+    // Get Mission table
+    lua_getglobal(pScript, "Mission");
+    if (!lua_istable(pScript, -1))
+    {
+        LuaNote(PR_ERROR, "RenderMission(): global <Mission> is not table");
+        lua_pop(pScript, 1);
+        return;
+    }
+
+    // Get onRender function
+    lua_getfield(pScript, -1, "onRender");
+    if (!lua_isfunction(pScript, -1))
+    {
+        LuaNote(PR_ERROR, "RenderMission(): <Mission.onRender> is not function");
+        lua_pop(pScript, 2);
+        return;
+    }
+
+    // Call Mission.onRender()
+    if (lua_pcall(pScript, 0, 0, 0) != 0)
+    {
+        LuaNote(PR_ERROR, "RenderMission(): %s", lua_tostring(pScript, -1));
+        lua_pop(pScript, 2);
+        return;
+    }
+
+    // Pop table
+    lua_pop(pScript, 1);
 }
 
 void ScriptModule::CallFunction(lua_State* pScript, const char* functionName, void* userdata)
