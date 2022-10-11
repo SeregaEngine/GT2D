@@ -12,7 +12,7 @@
 b32 PlayState::OnEnter()
 {
     m_world.StartUp();
-    if (nullptr == (m_pScript = g_scriptModule.LoadMission(m_scriptPath, m_loadLocation)))
+    if (nullptr == (m_pScript = g_scriptModule.EnterMission(m_scriptPath, m_loadLocation)))
         return false;
 
     return true;
@@ -26,7 +26,7 @@ void PlayState::OnExit()
     g_soundModule.UndefineResources();
 
     // Unload mission
-    g_scriptModule.UnloadMission(m_pScript);
+    g_scriptModule.ExitMission(m_pScript);
 
     // Shut down world
     m_world.ShutDown();

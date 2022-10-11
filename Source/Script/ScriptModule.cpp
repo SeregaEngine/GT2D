@@ -337,7 +337,7 @@ void ScriptModule::DefineSymbols(lua_State* L)
     lua_setglobal(L, "GTT_PUSH_COMMAND");
 }
 
-lua_State* ScriptModule::LoadMission(const char* path, s32 location)
+lua_State* ScriptModule::EnterMission(const char* path, s32 location)
 {
     // Create mission lua state
     lua_State* pScript = luaL_newstate();
@@ -363,7 +363,7 @@ lua_State* ScriptModule::LoadMission(const char* path, s32 location)
     lua_getglobal(pScript, "Mission");
     if (!lua_istable(pScript, -1))
     {
-        LuaNote(PR_ERROR, "LoadMission(): global <Mission> is not table");
+        LuaNote(PR_ERROR, "EnterMission(): global <Mission> is not table");
         lua_pop(pScript, 1);
         lua_close(pScript);
         return nullptr;
@@ -373,7 +373,7 @@ lua_State* ScriptModule::LoadMission(const char* path, s32 location)
     lua_getfield(pScript, -1, "onEnter");
     if (!lua_isfunction(pScript, -1))
     {
-        LuaNote(PR_ERROR, "LoadMission(): <Mission.onEnter> is not function");
+        LuaNote(PR_ERROR, "EnterMission(): <Mission.onEnter> is not function");
         lua_pop(pScript, 2);
         lua_close(pScript);
         return nullptr;
@@ -394,7 +394,7 @@ lua_State* ScriptModule::LoadMission(const char* path, s32 location)
     return pScript;
 }
 
-void ScriptModule::UnloadMission(lua_State* pScript)
+void ScriptModule::ExitMission(lua_State* pScript)
 {
     if (pScript)
         lua_close(pScript);

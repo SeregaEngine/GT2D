@@ -26,8 +26,8 @@ public:
     b32 StartUp();
     void ShutDown();
 
-    lua_State* LoadMission(const char* path, s32 location);
-    void UnloadMission(lua_State* pScript);
+    lua_State* EnterMission(const char* path, s32 location);
+    void ExitMission(lua_State* pScript);
 
     void UpdateMission(lua_State* pScript, f32 dtTime);
     void RenderMission(lua_State* pScript);
