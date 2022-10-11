@@ -1,3 +1,7 @@
+/* TODO
+ * - LuaNote -> AddNote where no lua
+ */
+
 /* ====== INCLUDES ====== */
 extern "C"
 {
@@ -550,8 +554,23 @@ void ScriptModule::CallTrigger(lua_State* pScript, const char* functionName, Tri
         return;
     }
 
+    // Get trigger table
+    lua_getglobal(pScript, "Triggers");
+    if (!lua_istable(pScript, -1))
+    {
+        AddNote(PR_WARNING, "CallTrigger(): There're no <Triggers> table");
+        lua_pop(pScript, 1);
+        return;
+    }
+
     // Get function
-    lua_getglobal(pScript, functionName);
+    lua_getfield(pScript, -1, functionName);
+    if (!lua_isfunction(pScript, -1))
+    {
+        AddNote(PR_WARNING, "CallTrigger(): There're no <Triggers.%s> function", functionName);
+        lua_pop(pScript, 2);
+        return;
+    }
 
     // Push trigger table
     lua_newtable(pScript);
@@ -561,7 +580,6 @@ void ScriptModule::CallTrigger(lua_State* pScript, const char* functionName, Tri
     lua_pushlightuserdata(pScript, (void*)pTrigger);
     lua_setfield(pScript, -2, "Pointer");
 
-
     // Push entity table
     lua_newtable(pScript);
     lua_getglobal(pScript, "Entity");
@@ -570,13 +588,16 @@ void ScriptModule::CallTrigger(lua_State* pScript, const char* functionName, Tri
     lua_pushlightuserdata(pScript, (void*)pEntity);
     lua_setfield(pScript, -2, "Pointer");
 
-
     // Call function
     if (lua_pcall(pScript, 2, 0, 0) != 0)
     {
         LuaNote(PR_ERROR, "CallTrigger(): Error when function %s called: %s", functionName, lua_tostring(pScript, 1));
-        lua_pop(pScript, 1);
+        lua_pop(pScript, 2);
+        return;
     }
+
+    // Pop table
+    lua_pop(pScript, 1);
 }
 
 void ScriptModule::Interpret(lua_State* pScript, const char* text)

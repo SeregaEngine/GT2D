@@ -31,6 +31,7 @@ Sounds = {}
 Musics = {}
 Anims = {}
 Weapons = {}
+Triggers = {}
 States = {}
 
 Textures["Blank"] = Resource.defineTexture("Textures/Special/Blank.png", 1, 1)
