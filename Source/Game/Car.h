@@ -24,6 +24,11 @@ public:
     void PutActor(Actor* pActor, s32 place);
     void EjectActor(s32 place);
 private:
+    void HandleVelocity(f32 dtTime);
+    void HandlePosition(f32 dtTime) { m_vPosition += m_vVelocity * dtTime; }
+    void HandleAnimation(f32 dtTIme);
+    void HandleActors();
+
     void HandleActor(s32 place);
 };
 

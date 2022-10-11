@@ -25,7 +25,7 @@ function Mission.onEnter(Location)
 	Dodge:putActor(Player, 0)
 	Dodge:setMaxSpeed(0.05, 0)
 	Dodge:setAcceleration(-1, 0)
-	--Dodge:setAnimation(Anims["DodgeRiding"])
+	Dodge:setAnim(Anims["DodgeRiding"])
 
 	-- Level
 	local LevelWidth = SCREEN_WIDTH * 10

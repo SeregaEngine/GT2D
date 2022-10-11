@@ -23,39 +23,10 @@ void Car::Init(const Vector2& vPosition, s32 width, s32 height, const GT_Texture
 
 void Car::Update(f32 dtTime)
 {
-    // Velocity
-    m_vVelocity += m_vAcceleration * dtTime;
-
-    // X
-    if (fabsf(m_vVelocity.x) > fabsf(m_vMaxSpeed.x))
-    {
-        m_vVelocity.x = m_vMaxSpeed.x;
-        if (m_vAcceleration.x < 0)
-            m_vVelocity.x = -m_vVelocity.x;
-    }
-
-    // Y
-    if (fabsf(m_vVelocity.y) > fabsf(m_vMaxSpeed.y))
-    {
-        m_vVelocity.y = m_vMaxSpeed.y;
-        if (m_vAcceleration.y < 0)
-            m_vVelocity.y = -m_vVelocity.y;
-    }
-
-    // Position
-    m_vPosition += m_vVelocity * dtTime;
-
-    // Handle actors
-    for (i32f i = 0; i < MAX_CAR_PLACES; ++i)
-    {
-        if (!m_aPlaces[i])
-            continue;
-
-        if (g_game.GetWorld().HasEntity(m_aPlaces[i]))
-            HandleActor(i);
-        else
-            m_aPlaces[i] = nullptr;
-    }
+    HandleVelocity(dtTime);
+    HandlePosition(dtTime);
+    HandleAnimation(dtTime);
+    HandleActors();
 }
 
 void Car::PutActor(Actor* pActor, s32 place)
@@ -84,6 +55,62 @@ void Car::EjectActor(s32 place)
 
     // Free place
     m_aPlaces[place] = nullptr;
+}
+
+void Car::HandleVelocity(f32 dtTime)
+{
+    // Velocity
+    m_vVelocity += m_vAcceleration * dtTime;
+
+    // X
+    if (fabsf(m_vVelocity.x) > fabsf(m_vMaxSpeed.x))
+    {
+        m_vVelocity.x = m_vMaxSpeed.x;
+        if (m_vAcceleration.x < 0)
+            m_vVelocity.x = -m_vVelocity.x;
+    }
+
+    // Y
+    if (fabsf(m_vVelocity.y) > fabsf(m_vMaxSpeed.y))
+    {
+        m_vVelocity.y = m_vMaxSpeed.y;
+        if (m_vAcceleration.y < 0)
+            m_vVelocity.y = -m_vVelocity.y;
+    }
+}
+
+void Car::HandleAnimation(f32 dtTime)
+{
+    if (!m_pAnim)
+        return;
+
+    // Update frames
+    if (m_animElapsed >= m_pAnim->frameDuration)
+    {
+        m_animElapsed -= m_pAnim->frameDuration;
+        ++m_animFrame;
+
+        if (m_animFrame >= m_pAnim->count)
+            m_animFrame = 0;
+    }
+
+    // Update timer
+    m_animElapsed += dtTime;
+}
+
+void Car::HandleActors()
+{
+    // Handle actors
+    for (i32f i = 0; i < MAX_CAR_PLACES; ++i)
+    {
+        if (!m_aPlaces[i])
+            continue;
+
+        if (g_game.GetWorld().HasEntity(m_aPlaces[i]))
+            HandleActor(i);
+        else
+            m_aPlaces[i] = nullptr;
+    }
 }
 
 void Car::HandleActor(s32 place)
