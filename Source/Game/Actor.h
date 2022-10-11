@@ -3,8 +3,9 @@
 
 /* ====== INCLUDES ====== */
 #include "Entity.h"
-#include "AIModule.h"
 #include "GTState.h"
+#include "GTTask.h"
+#include "GTCommand.h"
 
 /* ====== DEFINES ====== */
 enum eActorState
@@ -61,7 +62,7 @@ public:
     const Weapon* m_pWeapon;
 private:
     /* AI */
-    GT_State m_pState;
+    GT_State m_state;
     TList<GT_Task*> m_lstTask;
     TList<s32> m_lstCommand;
 public:
@@ -77,8 +78,8 @@ public:
     void AddHealth(f32 diff) { if (!m_bGodMode) m_health += diff; }
 
     /* AI */
-    void SetState(const char* functionName) { strncpy(m_pState.functionName, functionName, GT_STATE_STRSIZE); }
-    const GT_State& GetState() const { return m_pState; }
+    void SetState(const char* functionName) { m_state.SetFunctionName(functionName); }
+    const GT_State& GetState() const { return m_state; }
 
     void PushTask(GT_Task* pTask) { if (pTask) m_lstTask.Push(pTask); }
     void RemoveTasks() { m_lstTask.Mapcar([](auto pTask) { delete pTask; }); m_lstTask.Clean(); }
@@ -91,7 +92,7 @@ private:
     void HandleActorState(f32 dtTime);
 
     /* AI */
-    void HandleAIState() { g_AIModule.HandleState(this); }
+    void HandleAIState() { m_state.Handle(); }
     void HandleAITasks();
     void HandleAICommand(f32 dtTime);
 

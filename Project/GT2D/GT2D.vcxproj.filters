@@ -47,9 +47,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\AI\AIModule.cpp">
-      <Filter>AI</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Animation\AnimationModule.cpp">
       <Filter>Animation</Filter>
     </ClCompile>
@@ -204,9 +201,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\AI\AIModule.h">
-      <Filter>AI</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Animation\AnimationModule.h">
       <Filter>Animation</Filter>
     </ClInclude>

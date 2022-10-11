@@ -173,7 +173,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\AI\AIModule.cpp" />
     <ClCompile Include="..\..\Source\AI\GotoEntityTask.cpp" />
     <ClCompile Include="..\..\Source\AI\GotoTask.cpp" />
     <ClCompile Include="..\..\Source\AI\KillTask.cpp" />
@@ -228,7 +227,6 @@
     <None Include="..\..\Bin\Scripts\MissionIntro.lua" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Source\AI\AIModule.h" />
     <ClInclude Include="..\..\Source\AI\AnimateForTask.h" />
     <ClInclude Include="..\..\Source\AI\FadeInTask.h" />
     <ClInclude Include="..\..\Source\AI\FadeOffTask.h" />

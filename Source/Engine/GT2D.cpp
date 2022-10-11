@@ -16,7 +16,6 @@
 #include "InputModule.h"
 #include "SoundModule.h"
 #include "AnimationModule.h"
-#include "AIModule.h"
 #include "ScriptModule.h"
 #include "Game.h"
 #include "CollisionManager.h"
@@ -97,8 +96,6 @@ b32 GT2D::StartUp()
             return false;
         if (!g_animModule.StartUp())
             return false;
-        if (!g_AIModule.StartUp())
-            return false;
         if (!g_scriptModule.StartUp())
             return false;
         if (!g_game.StartUp())
@@ -127,7 +124,6 @@ void GT2D::ShutDown()
         g_collisionMgr.ShutDown();
         g_game.ShutDown();
         g_scriptModule.ShutDown();
-        g_AIModule.ShutDown();
         g_animModule.ShutDown();
         g_soundModule.ShutDown();
         g_inputModule.ShutDown();

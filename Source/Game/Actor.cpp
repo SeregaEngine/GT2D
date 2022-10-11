@@ -49,7 +49,7 @@ void Actor::Init(const Vector2& vPosition, s32 width, s32 height, const GT_Textu
     m_pWeapon = nullptr;
 
     // Init AI
-    memset(m_pState.functionName, 0, GT_STATE_STRSIZE); // TODO(sean) Class GT_State that can handle itself
+    m_state.SetActor(this);
 
     // Init default actor animations
     for (i32f i = 0; i < MAX_ACTOR_ANIMATIONS; ++i)
