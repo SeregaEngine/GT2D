@@ -86,7 +86,6 @@ function defineCutscenes()
 
 				{ Zhenek, true, GTT_WAIT, 250.0 },
 				{ Zhenek, true, GTT_PUSH_COMMAND, GTC_TURN_LEFT },
-				--{ Zhenek, true, GTT_WAIT, 3000.0 },
 				{ Zhenek, true, GTT_WAIT_TALKING, Anthony },
 
 				{ Anthony, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "..sell houses and drink 30-year-old cognac.", 0.5, Anthony, Textures["DialogSquare"]) },

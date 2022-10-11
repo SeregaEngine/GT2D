@@ -49,25 +49,9 @@ public:
 
 public:
     TList() : m_pFirst(nullptr), m_pLast(nullptr) {}
-    TList(TList<T>& lst)
-    {
-        m_pFirst = lst.m_pFirst;
-        m_pLast = lst.m_pLast;
-        lst.m_pFirst = nullptr;
-        lst.m_pLast = nullptr;
-    }
     ~TList() { Clean(); }
 
-    void operator=(TList<T>& lst)
-    {
-        // Clean what we had before this assign
-        Clean();
-
-        m_pFirst = lst.m_pFirst;
-        m_pLast = lst.m_pLast;
-        lst.m_pFirst = nullptr;
-        lst.m_pLast = nullptr;
-    }
+    static void Move(TList<T>& lstDest, TList<T>& lstSrc);
 
     void Push(T data);
     void PushBack(T data);
@@ -90,9 +74,24 @@ public:
     Iterator End() { return nullptr; }
     Iterator CBegin() const { return m_pFirst; }
     Iterator CEnd() const { return nullptr; }
+private:
+    // No copy, no assignment. Use references instead
+    TList(TList<T>& lst) = delete;
+    void operator=(TList<T>& lst) = delete;
 };
 
 /* ====== METHODS ====== */
+template<class T>
+inline void TList<T>::Move(TList<T>& lstDest, TList<T>& lstSrc)
+{
+    lstDest.Clean();
+    lstDest.m_pFirst = lstSrc.m_pFirst;
+    lstDest.m_pLast = lstSrc.m_pLast;
+
+    lstSrc.m_pFirst = nullptr;
+    lstSrc.m_pLast = nullptr;
+}
+
 template<class T>
 inline void TList<T>::Push(T data)
 {

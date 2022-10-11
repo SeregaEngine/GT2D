@@ -15,6 +15,7 @@ public:
         : GT_Task(pActor, GTT_WAIT_TALKING), m_pDialog(nullptr)
     {
         auto& lstEntity = g_game.GetWorld().GetEntityList();
+
         auto end = lstEntity.End();
         for (auto it = lstEntity.Begin(); it != end; ++it)
         {
