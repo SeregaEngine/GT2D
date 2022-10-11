@@ -49,6 +49,8 @@ function defineCutscenes()
         function(TActor)
             IsZhenekBusy = true
             IsPlayerControllable = false
+
+			-- We use Player for Anthony's tasks to prevent canceling Anthony's tasks
             return {
 				{ Player, false, GTT_FADE_IN, 2000.0 },
 				{ Player, false, GTT_PUSH_COMMAND, GTC_TURN_LEFT },
@@ -69,7 +71,7 @@ function defineCutscenes()
 				{ Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Anthony, did you hear?", 0.5, Zhenek, Textures["DialogSquare"]) },
 				{ Zhenek, true, GTT_WAIT, 250.0 },
 
-				{ Player, false, GTT_RUN_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Man, i don't care", 0.5, Anthony, Textures["DialogSquare"]) }, -- Don't loose Anthony's current task
+				{ Player, false, GTT_RUN_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Man, i don't care", 0.5, Anthony, Textures["DialogSquare"]) },
 
 				{ Zhenek, true, GTT_WAIT, 250.0 },
 				{ Zhenek, true, GTT_PUSH_COMMAND, GTC_TURN_RIGHT },
@@ -81,14 +83,14 @@ function defineCutscenes()
 				{ Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "What the fuck, man?", 0.5, Player, Textures["DialogSquare"]) },
 				{ Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Who are you and this Anthony?", 0.5, Player, Textures["DialogSquare"]) },
 
-				{ Anthony, true, GTT_WAIT, 250.0 },
-				{ Anthony, false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "I was a gangster in early 90's, now i'm businnesman who love riding a taxi..", 3, Anthony, Textures["DialogSquare"]) },
+				{ Player, true, GTT_WAIT, 250.0 },
+				{ Player, false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "I was a gangster in early 90's, now i'm businnesman who love riding a taxi..", 3, Anthony, Textures["DialogSquare"]) },
 
 				{ Zhenek, true, GTT_WAIT, 250.0 },
 				{ Zhenek, true, GTT_PUSH_COMMAND, GTC_TURN_LEFT },
 				{ Zhenek, true, GTT_WAIT_TALKING, Anthony },
 
-				{ Anthony, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "..sell houses and drink 30-year-old cognac.", 0.5, Anthony, Textures["DialogSquare"]) },
+				{ Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "..sell houses and drink 30-year-old cognac.", 0.5, Anthony, Textures["DialogSquare"]) },
 
 				{ Zhenek, true, GTT_WAIT, 250.0 },
 				{ Zhenek, true, GTT_PUSH_COMMAND, GTC_TURN_RIGHT },
@@ -105,8 +107,8 @@ function defineCutscenes()
 				{ Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Your car, man... It's dead.", 0.5, Zhenek, Textures["DialogSquare"]) },
 				{ Zhenek, true, GTT_WAIT, 250.0 },
 
-				{ Anthony, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Don't cry kid, we can help you.", 0.5, Anthony, Textures["DialogSquare"]) },
-				{ Anthony, true, GTT_WAIT, 250.0 },
+				{ Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Don't cry kid, we can help you.", 0.5, Anthony, Textures["DialogSquare"]) },
+				{ Player, true, GTT_WAIT, 250.0 },
 
 				{ Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Of course we can.", 0.5, Zhenek, Textures["DialogSquare"]) },
 				{ Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "We have to find some parts for car and it'll be a long journey", 0.5, Zhenek, Textures["DialogSquare"]) },

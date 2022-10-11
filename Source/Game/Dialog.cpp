@@ -42,9 +42,6 @@ void Dialog::Update(f32 dtTime)
         return;
     }
 
-    // Update position
-    HandlePosition();
-
     // Handle time
     m_time -= dtTime;
 }
@@ -53,6 +50,9 @@ void Dialog::Draw()
 {
     if (!m_bRunning)
         return;
+
+    // Update position
+    HandlePosition();
 
     // Draw dialog box
     SDL_Rect dest = {
@@ -134,16 +134,44 @@ void Dialog::SetText(const char* text)
 
 void Dialog::HandlePosition()
 {
+    s32 cameraX, _;
+    g_graphicsModule.GetCamera().GetPosition(cameraX, _);
+
+    // X
     if (m_pAttached->m_bLookRight)
     {
+        // Try right
         m_vPosition.x = m_pAttached->m_vPosition.x + m_pAttached->m_hitBox.x2;
-        m_flip = SDL_FLIP_NONE;
+        if (m_vPosition.x - cameraX > g_graphicsModule.GetScreenWidth() - m_width)
+        {
+            // Turn left
+            m_vPosition.x = m_pAttached->m_vPosition.x + m_pAttached->m_hitBox.x1 - m_width;
+            m_flip = SDL_FLIP_HORIZONTAL;
+        }
+        else
+        {
+            // Stay right
+            m_flip = SDL_FLIP_NONE;
+        }
     }
     else
     {
+        // Try left
         m_vPosition.x = m_pAttached->m_vPosition.x + m_pAttached->m_hitBox.x1 - m_width;
-        m_flip = SDL_FLIP_HORIZONTAL;
+        if (m_vPosition.x - cameraX < m_width - 1)
+        {
+            // Turn right
+            m_vPosition.x = m_pAttached->m_vPosition.x + m_pAttached->m_hitBox.x2;
+            m_flip = SDL_FLIP_NONE;
+        }
+        else
+        {
+            // Stay left
+            m_flip = SDL_FLIP_HORIZONTAL;
+        }
     }
+
+    // Y
     m_vPosition.y = m_pAttached->m_vPosition.y + m_pAttached->m_hitBox.y1 - m_height;
 }
 
