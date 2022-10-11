@@ -4,7 +4,6 @@
 /* ====== INCLUDES ====== */
 #include "SoundModule.h"
 #include "ScriptModule.h"
-#include "AIModule.h"
 #include "Console.h"
 
 #include "PlayState.h"

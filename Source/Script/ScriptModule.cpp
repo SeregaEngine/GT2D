@@ -76,6 +76,9 @@ void ScriptModule::DefineFunctions(lua_State* L)
     /* Log */
     lua_register(L, "GT_LOG", _GT_LOG);
 
+    /* Lua */
+    lua_register(L, "dostring", _dostring);
+
     /* Graphics */
     // Textures
     lua_register(L, "defineTexture", _defineTexture);
@@ -650,6 +653,20 @@ s32 ScriptModule::_GT_LOG(lua_State* L)
 
     if (lua_isinteger(L, 1) && lua_isstring(L, 2))
         LuaNote((s32)lua_tointeger(L, 1), lua_tostring(L, 2));
+
+    return 0;
+}
+
+s32 ScriptModule::_dostring(lua_State* L)
+{
+    if (!LuaExpect(L, "dostring", 1))
+        return -1;
+
+    if (luaL_dostring(L, lua_tostring(L, 1)) != 0)
+    {
+        LuaNote(PR_ERROR, "dostring(): %s", lua_tostring(L, -1));
+        lua_pop(L, 1);
+    }
 
     return 0;
 }

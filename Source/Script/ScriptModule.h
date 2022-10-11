@@ -49,6 +49,9 @@ private:
     /* Log */
     static s32 _GT_LOG(lua_State* L);
 
+    /* Lua */
+    static s32 _dostring(lua_State* L);
+
     /* Graphics */
     // Textures
     static s32 _defineTexture(lua_State* L);
