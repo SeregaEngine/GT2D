@@ -7,20 +7,16 @@ Cutscene = {
     All = {},
 }
 
-function Cutscene.new(CutsceneActions, funInit, funEnd)
+function Cutscene.new(funInit, funEnd)
     local ID = #Cutscene.All + 1
-    Cutscene.All[ID] = {
-        Actions = CutsceneActions,
-        Stage = 0,
-    }
+    Cutscene.All[ID] = { Actions = {}, Stage = 0 }
 
     return function(TActor)
-        local Actions = Cutscene.All[ID].Actions
         local Stage = Cutscene.All[ID].Stage
-
         if Stage == 0 then
-            funInit(TActor)
+            Cutscene.All[ID].Actions = funInit(TActor)
         end
+        local Actions = Cutscene.All[ID].Actions
 
         while Stage == 0 or Stage > #Actions or not Actions[Stage][2] or Actions[Stage][1]:checkCurrentTask() == GTT_DONE do
             Cutscene.All[ID].Stage = Cutscene.All[ID].Stage + 1
