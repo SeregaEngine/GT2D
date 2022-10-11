@@ -19,7 +19,6 @@ class Trigger;
 
 class ScriptModule final : public EngineModule
 {
-    lua_State* m_pSaver;
 public:
     ScriptModule() : EngineModule("ScriptModule", CHANNEL_SCRIPT) {}
 

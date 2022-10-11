@@ -45,17 +45,6 @@ ScriptModule g_scriptModule;
 /* ====== METHODS ====== */
 b32 ScriptModule::StartUp()
 {
-    // Init lua
-    m_pSaver = luaL_newstate();
-    luaL_openlibs(m_pSaver);
-
-    DefineFunctions(m_pSaver);
-    DefineSymbols(m_pSaver);
-
-    // Init loader script
-    if (!CheckLua(m_pSaver, luaL_dofile(m_pSaver, MISSION_SAVER_PATH)))
-        return false;
-
     AddNote(PR_NOTE, "Module started");
 
     return true;
@@ -63,12 +52,6 @@ b32 ScriptModule::StartUp()
 
 void ScriptModule::ShutDown()
 {
-    if (m_pSaver)
-    {
-        lua_close(m_pSaver);
-        m_pSaver = nullptr;
-    }
-
     AddNote(PR_NOTE, "Module shut down");
 }
 
