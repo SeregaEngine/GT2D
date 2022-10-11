@@ -8,14 +8,13 @@ Cutscene = {
 }
 
 function Cutscene.new(CutsceneActions, funInit, funEnd)
-    local NewID = #Cutscene.All + 1
-    Cutscene.All[NewID] = {
+    local ID = #Cutscene.All + 1
+    Cutscene.All[ID] = {
         Actions = CutsceneActions,
         Stage = 0,
     }
 
     return function(TActor)
-        local ID = NewID
         local Actions = Cutscene.All[ID].Actions
         local Stage = Cutscene.All[ID].Stage
 
