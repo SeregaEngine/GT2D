@@ -18,7 +18,7 @@ GW_ACTOR = TW_ACTOR
 GH_ACTOR = TH_ACTOR
 
 -- Car
-TW_CAR = 72
+TW_CAR = 75
 TH_CAR = 21
 
 -- Dialog

@@ -11,12 +11,14 @@ Textures["Barrier"] = Resource.defineTexture("Textures/Locations/MissionIntro-Ba
 Textures["Road"] = Resource.defineTexture("Textures/Locations/MissionIntro-Road.png", TW_LOCATION, TH_LOCATION)
 Textures["Player"] = Resource.defineTexture("Textures/Actors/Player.png", TW_ACTOR, TH_ACTOR)
 Textures["Dodge"] = Resource.defineTexture("Textures/Cars/Dodge.png", TW_CAR, TH_CAR)
-Anims["DodgeRiding"] = Resource.defineAnimation(2, 3, 1000.0/15)
+Anims["DodgeRiding"] = Resource.defineAnimation(2, 4, 1000.0/15)
 Music["LA"] = Resource.defineMusic("Music/AmbientLA.wav")
 
 ---- Mission
 function Mission.onEnter(Location)
+	-- Entities
 	Player = Actor:new(0, 0, 10, 10, Textures["Player"])
+	Player:setState("riding")
 	IsPlayerControllable = false
 
 	Dodge = Car:new(75, 60, 51, 17, Textures["Dodge"])
@@ -26,6 +28,9 @@ function Mission.onEnter(Location)
 	Dodge:setMaxSpeed(0.05, 0)
 	Dodge:setAcceleration(-1, 0)
 	Dodge:setAnim(Anims["DodgeRiding"])
+
+	-- Cutscenes
+	defineCutscenes()
 
 	-- Level
 	local LevelWidth = SCREEN_WIDTH * 10
@@ -58,4 +63,53 @@ function Mission.onRender()
 
 	Graphics.drawFrame(RENDER_MODE_BACKGROUND, 2, true, { FastX, 0, GW_LOCATION, GH_LOCATION }, Textures["Road"], 0, 0)
 	Graphics.drawFrame(RENDER_MODE_BACKGROUND, 2, true, { FastX2, 0, GW_LOCATION, GH_LOCATION }, Textures["Road"], 0, 0)
+end
+
+function defineCutscenes()
+	States.riding = Cutscene.new(
+		function(TActor)
+			return {
+				{ Player, true, GTT_FADE_IN, 250.0 },
+				{ Player, true, GTT_WAIT, 250.0 },
+				{ Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Dialog", 0.25, Player, Textures["DialogSquare"]) },
+				{ Player, true, GTT_WAIT, 250.0 },
+				{ Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Dialog", 0.25, Player, Textures["DialogSquare"]) },
+				{ Player, true, GTT_WAIT, 250.0 },
+				{ Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Dialog", 0.25, Player, Textures["DialogSquare"]) },
+				{ Player, true, GTT_WAIT, 250.0 },
+				{ Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Dialog", 0.25, Player, Textures["DialogSquare"]) },
+				{ Player, true, GTT_WAIT, 250.0 },
+				{ Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Dialog", 0.25, Player, Textures["DialogSquare"]) },
+				{ Player, true, GTT_WAIT, 250.0 },
+				{ Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Dialog", 0.25, Player, Textures["DialogSquare"]) },
+				{ Player, true, GTT_WAIT, 250.0 },
+				{ Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Dialog", 0.25, Player, Textures["DialogSquare"]) },
+				{ Player, true, GTT_WAIT, 250.0 },
+				{ Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Dialog", 0.25, Player, Textures["DialogSquare"]) },
+				{ Player, true, GTT_WAIT, 250.0 },
+				{ Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Dialog", 0.25, Player, Textures["DialogSquare"]) },
+				{ Player, true, GTT_WAIT, 250.0 },
+				{ Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Dialog", 0.25, Player, Textures["DialogSquare"]) },
+				{ Player, true, GTT_WAIT, 250.0 },
+				{ Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Dialog", 0.25, Player, Textures["DialogSquare"]) },
+				{ Player, true, GTT_WAIT, 250.0 },
+				{ Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Dialog", 0.25, Player, Textures["DialogSquare"]) },
+			}
+		end,
+		function(TActor)
+			TActor:setState("crushing")
+		end
+	)
+
+	States.crushing = Cutscene.new(
+		function(TActor)
+			return {
+				{ Player, true, GTT_FADE_OFF, 250.0 },
+			}
+		end,
+		function(TActor)
+			TActor:setState("")
+			Mission.restart(1)
+		end
+	)
 end
