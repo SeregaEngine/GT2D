@@ -24,6 +24,7 @@ function Cutscene.new(funInit, funEnd)
 
             if Stage > #Actions then
                 funEnd(TActor)
+                Cutscene.All[ID].Stage = 0
                 return
             end
 

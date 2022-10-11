@@ -13,10 +13,6 @@ Textures["Car"] = Resource.defineTexture("Textures/Cars/Dodge.png", TW_CAR, TH_C
 Anims["PlayerSleep"] = Resource.defineAnimation(6, 1, 1000.0)
 Anims["PlayerWakeUp"] = Resource.defineAnimation(6, 3, 1000.0 / 1.5)
 
----- Globals
-MainCutscene = {}
-LeaveCutscene = {}
-
 ---- Mission functions
 function Mission.onEnter(Location)
     GT_LOG(PR_NOTE, "Mission 0 entered")
