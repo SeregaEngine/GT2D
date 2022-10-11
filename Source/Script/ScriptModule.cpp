@@ -23,6 +23,7 @@ extern "C"
 #include "AnimateForTask.h"
 #include "WaitAnimationTask.h"
 #include "WaitDialogTask.h"
+#include "WaitTalkingTask.h"
 #include "RunDialogTask.h"
 #include "FadeInTask.h"
 #include "FadeOffTask.h"
@@ -324,6 +325,8 @@ void ScriptModule::DefineSymbols(lua_State* L)
     lua_setglobal(L, "GTT_WAIT_ANIMATION");
     lua_pushinteger(L, GTT_WAIT_DIALOG);
     lua_setglobal(L, "GTT_WAIT_DIALOG");
+    lua_pushinteger(L, GTT_WAIT_TALKING);
+    lua_setglobal(L, "GTT_WAIT_TALKING");
     lua_pushinteger(L, GTT_RUN_DIALOG);
     lua_setglobal(L, "GTT_RUN_DIALOG");
     lua_pushinteger(L, GTT_FADE_IN);
@@ -1821,6 +1824,21 @@ s32 ScriptModule::_pushActorTask(lua_State* L)
         {
             pActor->PushTask(new WaitDialogTask(pActor, nullptr));
             LuaNote(PR_WARNING, "pushActorTask(): GTT_WAIT_DIALOG called with null dialog");
+        }
+    } break;
+
+    case GTT_WAIT_TALKING:
+    {
+        if (lua_istable(L, 3))
+        {
+            lua_getfield(L, 3, "Pointer");
+            pActor->PushTask(new WaitTalkingTask(pActor, (Actor*)lua_touserdata(L, -1)));
+            lua_pop(L, 1);
+        }
+        else
+        {
+            pActor->PushTask(new WaitTalkingTask(pActor, nullptr));
+            LuaNote(PR_WARNING, "pushActorTask(): GTT_WAIT_TALKING called with null actor");
         }
     } break;
 

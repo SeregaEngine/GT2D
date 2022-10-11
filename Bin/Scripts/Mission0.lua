@@ -69,7 +69,7 @@ function defineCutscenes()
 				{ Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Anthony, did you hear?", 0.5, Zhenek, Textures["DialogSquare"]) },
 				{ Zhenek, true, GTT_WAIT, 250.0 },
 
-				{ Player, false, GTT_RUN_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Anthony, did you hear?", 0.5, Zhenek, Textures["DialogSquare"]) }, -- Don't loose Anthony's current task
+				{ Player, false, GTT_RUN_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Man, i don't care", 0.5, Anthony, Textures["DialogSquare"]) }, -- Don't loose Anthony's current task
 
 				{ Zhenek, true, GTT_WAIT, 250.0 },
 				{ Zhenek, true, GTT_PUSH_COMMAND, GTC_TURN_RIGHT },
@@ -82,11 +82,12 @@ function defineCutscenes()
 				{ Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Who are you and this Anthony?", 0.5, Player, Textures["DialogSquare"]) },
 
 				{ Anthony, true, GTT_WAIT, 250.0 },
-				{ Anthony, false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "I was a gangster in early 90's, now i'm businnesman who love riding a taxi..", 0.5, Anthony, Textures["DialogSquare"]) },
+				{ Anthony, false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "I was a gangster in early 90's, now i'm businnesman who love riding a taxi..", 3, Anthony, Textures["DialogSquare"]) },
 
 				{ Zhenek, true, GTT_WAIT, 250.0 },
 				{ Zhenek, true, GTT_PUSH_COMMAND, GTC_TURN_LEFT },
-				{ Zhenek, true, GTT_WAIT, 250.0 }, -- TODO(sean) { Zhenek, true, GTT_WAIT_TALKING, Anthony }
+				--{ Zhenek, true, GTT_WAIT, 3000.0 },
+				{ Zhenek, true, GTT_WAIT_TALKING, Anthony },
 
 				{ Anthony, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "..sell houses and drink 30-year-old cognac.", 0.5, Anthony, Textures["DialogSquare"]) },
 

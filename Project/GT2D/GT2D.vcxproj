@@ -240,6 +240,7 @@
     <ClInclude Include="..\..\Source\AI\RunDialogTask.h" />
     <ClInclude Include="..\..\Source\AI\WaitAnimationTask.h" />
     <ClInclude Include="..\..\Source\AI\WaitDialogTask.h" />
+    <ClInclude Include="..\..\Source\AI\WaitTalkingTask.h" />
     <ClInclude Include="..\..\Source\AI\WaitTask.h" />
     <ClInclude Include="..\..\Source\Animation\AnimationModule.h" />
     <ClInclude Include="..\..\Source\Collision\CollisionManager.h" />

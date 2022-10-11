@@ -26,6 +26,8 @@ public:
     virtual void Draw() override;
 
     void Run() { m_bRunning = true; HandlePosition(); }
+    b32 Running() const { return m_bRunning; }
+
     void Attach(Actor* pActor) { m_pAttached = pActor; }
     void SetTime(f32 time) { m_time = time; }
     void SetText(const char* text);

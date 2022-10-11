@@ -24,4 +24,4 @@ public:
     }
 };
 
-#endif WAITDIALOGTASK_H_
+#endif // WAITDIALOGTASK_H_

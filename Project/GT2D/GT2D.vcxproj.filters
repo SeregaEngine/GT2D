@@ -336,5 +336,8 @@
     <ClInclude Include="..\..\Source\AI\GTState.h">
       <Filter>AI</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\AI\WaitTalkingTask.h">
+      <Filter>AI</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
