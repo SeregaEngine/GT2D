@@ -25,10 +25,12 @@ Anims["RepairCar"] = Resource.defineAnimation(4, 2, 1000.0 / 1)
 Anims["TakeInstruments"] = Resource.defineAnimation(5, 2, 1000.0 / 1)
 
 ---- Internal resources
+--[[ DEBUG(sean)
 States["_UpCar"] = Resource.defineState("_stateUpCar")
 States["_TakeInstruments"] = Resource.defineState("_stateTakeInstruments")
 States["_RandomTalk"] = Resource.defineState("_stateRandomTalk")
 States["_RepairCar"] = Resource.defineState("_stateRepairCar")
+]]--
 
 ---- Garage Blueprint
 GarageBlueprint = {}

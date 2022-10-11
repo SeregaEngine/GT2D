@@ -107,9 +107,6 @@ void ScriptModule::DefineFunctions(lua_State* L)
     lua_register(L, "isConsoleShown", _isConsoleShown);
     lua_register(L, "cls", _cls);
 
-    /* AI */
-    lua_register(L, "defineState", _defineState);
-
     /* Animation */
     lua_register(L, "defineAnimation", _defineAnimation);
 
@@ -505,8 +502,23 @@ void ScriptModule::CallState(lua_State* pScript, const char* functionName, Actor
         return;
     }
 
+    // Get States table
+    lua_getglobal(pScript, "States");
+    if (!lua_istable(pScript, -1))
+    {
+        AddNote(PR_WARNING, "CallState(): there're no <States> table");
+        lua_pop(pScript, 1);
+        return;
+    }
+
     // Get function
-    lua_getglobal(pScript, functionName);
+    lua_getfield(pScript, -1, functionName);
+    if (!lua_isfunction(pScript, -1))
+    {
+        AddNote(PR_WARNING, "CallState(): there're no <States.%s> function", functionName);
+        lua_pop(pScript, 2);
+        return;
+    }
 
     // Create instance of class Actor
     lua_newtable(pScript);
@@ -521,8 +533,12 @@ void ScriptModule::CallState(lua_State* pScript, const char* functionName, Actor
     if (lua_pcall(pScript, 1, 0, 0) != 0)
     {
         LuaNote(PR_ERROR, "CallState(): Error when function %s called: %s", functionName, lua_tostring(pScript, -1));
-        lua_pop(pScript, 1);
+        lua_pop(pScript, 2);
+        return;
     }
+
+    // Pop table
+    lua_pop(pScript, 1);
 }
 
 void ScriptModule::CallTrigger(lua_State* pScript, const char* functionName, Trigger* pTrigger, Entity* pEntity)
@@ -902,16 +918,6 @@ s32 ScriptModule::_cls(lua_State* L)
     g_console.Clear();
 
     return 0;
-}
-
-s32 ScriptModule::_defineState(lua_State* L)
-{
-    if (!LuaExpect(L, "defineState", 1))
-        return -1;
-
-    lua_pushlightuserdata(L, (void*)g_AIModule.DefineState(lua_tostring(L, 1)));
-
-    return 1;
 }
 
 s32 ScriptModule::_defineAnimation(lua_State* L)
@@ -1675,7 +1681,7 @@ s32 ScriptModule::_setActorState(lua_State* L)
     Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
     if (pActor)
     {
-        pActor->SetState((GT_State*)lua_touserdata(L, 2));
+        pActor->SetState(lua_tostring(L, 2));
     }
     else
     {

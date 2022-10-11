@@ -12,8 +12,6 @@ require "GarageBlueprint"
 Textures["Car"] = Resource.defineTexture("Textures/Cars/Dodge.png", TW_CAR, TH_CAR)
 Anims["PlayerSleep"] = Resource.defineAnimation(6, 1, 1000.0)
 Anims["PlayerWakeUp"] = Resource.defineAnimation(6, 3, 1000.0 / 1.5)
-States["MainCutscene"] = Resource.defineState("stateMainCutscene")
-States["LeaveCutscene"] = Resource.defineState("stateLeaveCutscene")
 
 ---- Globals
 MainCutscene = {}
@@ -29,7 +27,7 @@ function Mission.onEnter(Location)
 
     --- Init mission
 	defineCutscenes()
-    Player:setState(States["MainCutscene"])
+    Player:setState("MainCutscene")
 
     -- Triggers
     Trigger:new({ GROUND_WIDTH, GROUND_Y-5, 2, GROUND_HEIGHT*2 }, Player, "triggerLeaveCutscene")
@@ -49,12 +47,11 @@ end
 ---- Triggers
 function triggerLeaveCutscene(TTrigger, TEntity)
     setmetatable(TEntity, Actor)
-    TEntity:setState(States["LeaveCutscene"])
+    TEntity:setState("LeaveCutscene")
 end
 
 ---- Cutscenes
 function defineCutscenes()
-    -- Cutscenes
 	local MainCutscene = {
 		{ Player, false, GTT_FADE_IN, 2000.0 },
 		{ Player, false, GTT_PUSH_COMMAND, GTC_TURN_LEFT },
@@ -124,7 +121,7 @@ function defineCutscenes()
 		{ Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Cool, bro. Go outside when you'll ready", 0.5, Zhenek, Textures["DialogSquare"]) },
 	}
 
-	stateMainCutscene = Cutscene.new(
+	States["MainCutscene"] = Cutscene.new(
 		MainCutscene,
 		function(TActor)
 			IsZhenekBusy = true
@@ -133,7 +130,7 @@ function defineCutscenes()
 		function(TActor)
 			IsZhenekBusy = false
 			IsPlayerControllable = true
-			TActor:setState(nil)
+			TActor:setState("")
 		end
 	)
 
@@ -143,14 +140,14 @@ function defineCutscenes()
         { Player, false, GTT_FADE_IN, 0.0 }, -- Black screen on last frame
     }
 
-	stateLeaveCutscene = Cutscene.new(
+	States["LeaveCutscene"] = Cutscene.new(
 		LeaveCutscene,
 		function(TActor)
 			IsPlayerControllable = false
 		end,
 		function(TActor)
 			Mission.restart(1)
-			TActor:setState(nil)
+			TActor:setState("")
 		end
 	)
 end

@@ -17,10 +17,6 @@ function Resource.defineMusic(Path)
     return Music:new(Path)
 end
 
-function Resource.defineState(FunctionName)
-    return defineState(FunctionName)
-end
-
 function Resource.defineAnimation(Row, Count, FrameTime)
     return defineAnimation(Row, Count, FrameTime)
 end

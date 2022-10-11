@@ -339,5 +339,8 @@
     <ClInclude Include="..\..\Source\AI\RunDialogTask.h">
       <Filter>AI</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\AI\GTState.h">
+      <Filter>AI</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

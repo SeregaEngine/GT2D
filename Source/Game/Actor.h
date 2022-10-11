@@ -4,6 +4,7 @@
 /* ====== INCLUDES ====== */
 #include "Entity.h"
 #include "AIModule.h"
+#include "GTState.h"
 
 /* ====== DEFINES ====== */
 enum eActorState
@@ -60,7 +61,7 @@ public:
     const Weapon* m_pWeapon;
 private:
     /* AI */
-    const GT_State* m_pState;
+    GT_State m_pState;
     TList<GT_Task*> m_lstTask;
     TList<s32> m_lstCommand;
 public:
@@ -76,8 +77,8 @@ public:
     void AddHealth(f32 diff) { if (!m_bGodMode) m_health += diff; }
 
     /* AI */
-    void SetState(const GT_State* pState) { m_pState = pState; }
-    const GT_State* GetState() const { return m_pState; }
+    void SetState(const char* functionName) { strncpy(m_pState.functionName, functionName, GT_STATE_STRSIZE); }
+    const GT_State& GetState() const { return m_pState; }
 
     void PushTask(GT_Task* pTask) { if (pTask) m_lstTask.Push(pTask); }
     void RemoveTasks() { m_lstTask.Mapcar([](auto pTask) { delete pTask; }); m_lstTask.Clean(); }

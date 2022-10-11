@@ -25,7 +25,6 @@ void PlayState::OnExit()
     g_graphicsModule.UndefineTextures();
     g_animModule.UndefineAnimations();
     g_soundModule.UndefineResources();
-    g_AIModule.UndefineStates();
 
     // Unload mission
     g_scriptModule.UnloadMission(m_pScript);
