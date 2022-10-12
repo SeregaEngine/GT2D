@@ -69,9 +69,13 @@ void World::HandleSwitchLocation()
     // Clean current location stuff
     CleanEntities();
 
+    // Save switchLocation value
+    s32 location = m_switchLocation;
     // Call switch location function
     g_scriptModule.SwitchLocation(g_game.GetScript(), m_switchLocation);
-    m_switchLocation = -1;
+    // If there're no another switch location request then set to -1
+    if (m_switchLocation == location)
+        m_switchLocation = -1;
 }
 
 void World::UpdateEntities(f32 dtTime)

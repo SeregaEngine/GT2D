@@ -14,7 +14,7 @@
 #define ACTOR_DEFAULT_UNIT_SPEED_X 0.035f
 #define ACTOR_DEFAULT_UNIT_SPEED_Y 0.01f
 
-#define ACTOR_DEFAULT_ATTACK_RATE (1000.0f / 5.0f)
+#define ACTOR_DEFAULT_ATTACK_RATE (1000.0f / 6.0f)
 
 /* ====== VARIABLES ====== */
 static const GT_Animation s_aActorAnims[] =

@@ -9,7 +9,7 @@ require "Mission"
 ---- Loader
 function Mission.onEnter(Location)
 	GT_LOG(PR_NOTE, "Loader entered")
-	switchMission("Scripts/Mission0.lua", 1)
+	Mission.switch("Scripts/Mission1.lua", 3)
 end
 
 function Mission.onUpdate(dt)

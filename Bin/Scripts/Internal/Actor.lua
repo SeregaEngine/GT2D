@@ -87,7 +87,7 @@ function Actor:getCurrentTask()
 end
 
 function Actor:setDeathSound(Sound)
-    setActorDeathSound(self.Pointer, Sound)
+    setActorDeathSound(self.Pointer, Sound.Pointer)
 end
 
 function Actor:setWeapon(Weapon)

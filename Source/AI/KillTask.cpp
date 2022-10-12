@@ -1,9 +1,14 @@
 /* ====== INCLUDES ====== */
+#include <stdlib.h>
+
 #include "Game.h"
 #include "Actor.h"
 #include "CollisionManager.h"
 
 #include "KillTask.h"
+
+/* ====== DEFINES ====== */
+#define ERROR_RATE 300
 
 /* ====== METHODS ====== */
 void KillTask::Handle()
@@ -57,5 +62,6 @@ void KillTask::HandleActor()
     else
         m_pActor->m_bLookRight = true;
 
+    if (m_pActor->m_animElapsed - (f32)(rand() % ERROR_RATE) > m_pActor->m_attackRate)
     m_pActor->PushCommand(GTC_ATTACK);
 }
