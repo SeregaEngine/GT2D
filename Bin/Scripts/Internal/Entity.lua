@@ -14,7 +14,7 @@ function Entity:inherit(Object)
 end
 
 function Entity:new(X, Y, W, H, Texture)
-    local Object = inherit()
+    local Object = self:inherit()
     Object.Pointer = addEntity(X, Y, W, H, Texture)
     return Object
 end

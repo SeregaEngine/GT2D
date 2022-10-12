@@ -27,7 +27,7 @@ Textures["DarkLord"] = Resource.defineTexture("Textures/Actors/DarkLord.png", TW
 Textures["Serega"] = Resource.defineTexture("Textures/Actors/Serega.png", TW_ACTOR, TH_ACTOR)
 Textures["John"] = Resource.defineTexture("Textures/Actors/John.png", TW_ACTOR, TH_ACTOR)
 
-Textures["Wheels"] = Resource.defineTexture("Textures/Props/Wheels.png", TW_PROP, TH_PROP)
+Textures["Wheels"] = Resource.defineTexture("Textures/Props/Wheels.png", 16, 16)
 
 Sounds["OpenGate"] = Resource.defineSound("Sounds/MetalGateOpening.wav")
 Sounds["PickupThrottling"] = Resource.defineSound("Sounds/PickupThrottling.wav")
@@ -263,6 +263,14 @@ function L3.onRender()
 end
 
 function L3.defineTriggers()
+    function Triggers.takeWheel(TTrigger, TEntity)
+        TriggerPointerToWheel[TTrigger.Pointer]:delete()
+    end
+
+    function Triggers.leaveGarage(TTrigger, TEntity)
+        setmetatable(TEntity, Actor)
+        TEntity:setState("leavingGarageCutscene")
+    end
 end
 
 function L3.defineCutscenes()
@@ -272,6 +280,7 @@ function L3.defineCutscenes()
             IsPlayerControllable = false
             DarkLord:turnLeft()
             return {
+                --[[ DEBUG(sean)
                 { Player, true, GTT_FADE_IN, 1000.0 },
                 { Player, true, GTT_WAIT, 250.0 },
 
@@ -292,6 +301,7 @@ function L3.defineCutscenes()
 
                 { DarkLord, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "I'll not give my wheels, bald idiot", 0.25, DarkLord, Textures["DialogSquare"]) },
                 { DarkLord, true, GTT_WAIT, 250.0 },
+                ]]--
             }
         end,
         function(TActor)
@@ -313,6 +323,66 @@ function L3.defineCutscenes()
         end,
         function(TActor)
             Mission.switchLocation(3)
+        end
+    )
+
+    States.removeWheelsCutscene = Cutscene.new(
+        function(TActor)
+            return {
+                { Pamella, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Honey?!", 0.25, Pamella, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT, 250.0 },
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "I should take these wheels and run away", 0.25, Player, Textures["DialogSquare"]) },
+                { Player, true, GTT_FADE_OFF, 250.0 },
+                { Player, false, GTT_FADE_IN, 0.0 },
+            }
+        end,
+        function(TActor)
+            TActor:setState("wheelsRemovedCutscene")
+        end
+    )
+
+    States.wheelsRemovedCutscene = Cutscene.new(
+        function(TActor)
+            return {
+                { Player, false, GTT_FADE_IN, 250.0 },
+            }
+        end,
+        function(TActor)
+            TrashCar:setTexture(Textures["TrashCar"])
+
+			-- Add wheels and triggers
+            local GW_PROP = 8
+            local GH_PROP = 8
+            TriggerPointerToWheel = {}
+
+			for i = 1,4 do
+				local X = 20 + GW_PROP * (i - 1)
+				local Y = 60
+				local Wheel = Entity:new(X, Y, GW_PROP, GH_PROP, Textures["Wheels"])
+
+				TriggerPointerToWheel[Trigger:new({ X, Y, GW_PROP/4, GH_PROP/4 }, Player, "takeWheel").Pointer] = Wheel
+
+				if i > 2 then
+					Wheel:setAnimFrame(1)
+				end
+			end
+
+            TActor:setState("takingWheels")
+        end
+    )
+
+    States.leavingGarageCutscene = Cutscene.new(
+        function(TActor)
+            IsPlayerControllable = false
+            return {
+                { Player, false, GTT_GOTO, GROUND_WIDTH*3, GROUND_Y + GROUND_HEIGHT/2 },
+                { Player, true, GTT_FADE_OFF, 250.0 },
+                { Player, false, GTT_FADE_IN, 0.0 },
+            }
+        end,
+        function(TActor)
+            Mission.switchLocation(4)
+            TActor:setState("")
         end
     )
 end
@@ -342,6 +412,21 @@ function L3.defineStates()
     end
 
     function States.playerFighting(TActor)
+        if not DarkLord:isAlive() then
+            TActor:setState("removeWheelsCutscene")
+        end
+    end
+
+    function States.takingWheels(TActor)
+        for k,v in pairs(TriggerPointerToWheel) do
+            if v:isAvailable() then
+                return
+            end
+        end
+
+		Trigger:new({ SCREEN_WIDTH, SCREEN_HEIGHT/2, GW_ACTOR, SCREEN_HEIGHT }, Player, "leaveGarage")
+        Mission.setGroundBounds({ GROUND_X, GROUND_Y, GROUND_WIDTH*2, GROUND_HEIGHT })
+        TActor:setState("")
     end
 end
 
