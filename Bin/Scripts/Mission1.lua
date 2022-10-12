@@ -48,6 +48,8 @@ L4 = {}
 
 ---- Mission
 function Mission.onEnter(Location)
+    GT_LOG(PR_NOTE, "Mission1 entered with " .. Location .. " location")
+
     if Location == 1 then
         L1.onEnter()
     elseif Location == 2 then
@@ -172,7 +174,49 @@ function L1.defineCutscenes()
             }
         end,
         function(TActor)
-            Mission.restart(0)
+            Mission.switchLocation(2)
         end
     )
+end
+
+---- Location 2
+function L2.onEnter()
+    -- Functions
+    Mission.onUpdate = L2.onUpdate
+    Mission.onRender = L2.onRender
+end
+
+function L2.onUpdate(dt)
+    Input.defaultHandle()
+end
+
+function L2.onRender()
+end
+
+---- Location 3
+function L3.onEnter()
+    -- Functions
+    Mission.onUpdate = L3.onUpdate
+    Mission.onRender = L3.onRender
+end
+
+function L3.onUpdate(dt)
+    Input.defaultHandle()
+end
+
+function L3.onRender()
+end
+
+---- Location 4
+function L4.onEnter()
+    -- Functions
+    Mission.onUpdate = L4.onUpdate
+    Mission.onRender = L4.onRender
+end
+
+function L4.onUpdate(dt)
+    Input.defaultHandle()
+end
+
+function L4.onRender()
 end

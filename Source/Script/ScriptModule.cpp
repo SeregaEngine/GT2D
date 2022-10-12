@@ -383,6 +383,38 @@ void ScriptModule::ExitMission(lua_State* pScript)
         lua_close(pScript);
 }
 
+void ScriptModule::SwitchLocation(lua_State* pScript, s32 location)
+{
+    // Get Mission table
+    lua_getglobal(pScript, "Mission");
+    if (!lua_istable(pScript, -1))
+    {
+        LuaNote(PR_ERROR, "SwitchLocation(): global <Mission> is not table");
+        lua_pop(pScript, 1);
+        return;
+    }
+
+    // Get onEnter function
+    lua_getfield(pScript, -1, "onEnter");
+    if (!lua_isfunction(pScript, -1))
+    {
+        LuaNote(PR_ERROR, "SwitchLocation(): <Mission.onEnter> is not function");
+        lua_pop(pScript, 2);
+        return;
+    }
+
+    // Call onEnter()
+    lua_pushinteger(pScript, location);
+    if (!CheckLua(pScript, lua_pcall(pScript, 1, 0, 0)))
+    {
+        lua_pop(pScript, 1);
+        return;
+    }
+
+    // Pop mission table
+    lua_pop(pScript, 1);
+}
+
 void ScriptModule::UpdateMission(lua_State* pScript, f32 dtTime)
 {
     // Get Mission table
@@ -823,7 +855,7 @@ s32 ScriptModule::_hostSwitchLocation(lua_State* L)
     if (!LuaExpect(L, "hostSwitchLocation", 1))
         return -1;
 
-    g_game.GetWorld().SwitchLocation(lua_tostring(L, 1));
+    g_game.GetWorld().SwitchLocation((s32)lua_tointeger(L, 1));
 
     return 0;
 }

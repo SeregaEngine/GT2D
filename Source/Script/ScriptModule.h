@@ -27,7 +27,7 @@ public:
 
     lua_State* EnterMission(const char* path, s32 location);
     void ExitMission(lua_State* pScript);
-
+    void SwitchLocation(lua_State* pScript, s32 location);
     void UpdateMission(lua_State* pScript, f32 dtTime);
     void RenderMission(lua_State* pScript);
 

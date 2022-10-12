@@ -57,3 +57,13 @@ end
 function Mission.setGroundBounds(Rect)
     setGroundBounds(Rect[1], Rect[2], Rect[3], Rect[4])
 end
+
+function Mission.switchLocation(Location)
+    -- Set defaults
+    Entities = {}
+    Player = nil
+    IsPlayerControllable = true
+
+    -- Switch
+    hostSwitchLocation(Location)
+end

@@ -27,7 +27,7 @@ void World::StartUp()
     // Defaults
     m_groundBounds = { GROUND_BOUNDS_DEFAULT_X1, GROUND_BOUNDS_DEFAULT_Y1,
                        GROUND_BOUNDS_DEFAULT_X2, GROUND_BOUNDS_DEFAULT_Y2 };
-    m_switchLocation[0] = 0;
+    m_switchLocation = -1;
 
     g_graphicsModule.GetCamera().SetBounds({ CAMERA_BOUNDS_DEFAULT_X1, CAMERA_BOUNDS_DEFAULT_Y1,
                                              CAMERA_BOUNDS_DEFAULT_X2, CAMERA_BOUNDS_DEFAULT_Y2 });
@@ -59,8 +59,8 @@ void World::Render()
 
 void World::HandleSwitchLocation()
 {
-    // Check if we need to switch location
-    if (!m_switchLocation[0])
+    // Check if we don't need to switch location
+    if (m_switchLocation == -1)
         return;
 
     // Stop sounds and music
@@ -70,8 +70,8 @@ void World::HandleSwitchLocation()
     CleanEntities();
 
     // Call switch location function
-    g_scriptModule.CallFunction(g_game.GetScript(), m_switchLocation);
-    m_switchLocation[0] = 0;
+    g_scriptModule.SwitchLocation(g_game.GetScript(), m_switchLocation);
+    m_switchLocation = -1;
 }
 
 void World::UpdateEntities(f32 dtTime)

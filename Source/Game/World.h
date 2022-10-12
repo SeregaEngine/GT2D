@@ -6,8 +6,7 @@
 #include "Entity.h"
 #include "TList.h"
 
-/* ====== DEFINE ====== */
-#define WORLD_SWITCH_STRSIZE 32
+/* ====== DEFINES ====== */
 
 /* ====== STRUCTURES ====== */
 class Weapon;
@@ -19,7 +18,7 @@ class World final : EngineModule
     TList<Weapon*> m_lstWeapon;
 
     SRect m_groundBounds;
-    char m_switchLocation[WORLD_SWITCH_STRSIZE];
+    s32 m_switchLocation;
 public:
     World() : EngineModule("World", CHANNEL_GAME) {}
 
@@ -29,7 +28,7 @@ public:
     void Update(f32 dtTime);
     void Render();
 
-    void SwitchLocation(const char* funName) { strncpy(m_switchLocation, funName, WORLD_SWITCH_STRSIZE); }
+    void SwitchLocation(s32 location) { m_switchLocation = location; }
     void SetGroundBounds(SRect& rect) { m_groundBounds = rect; }
 
     void PushEntity(Entity* pEntity) { if (pEntity) m_lstEntity.Push(pEntity); }
