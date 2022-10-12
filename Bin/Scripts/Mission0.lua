@@ -139,7 +139,7 @@ function defineCutscenes()
 			}
         end,
         function(TActor)
-            Mission.restart(1)
+            Mission.switch("Scripts/Mission1.lua", 1)
             TActor:setState("")
         end
     )

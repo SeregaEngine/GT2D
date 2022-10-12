@@ -33,10 +33,10 @@ Sounds["OpenGate"] = Resource.defineSound("Sounds/MetalGateOpening.wav")
 Sounds["PickupThrottling"] = Resource.defineSound("Sounds/PickupThrottling.wav")
 Sounds["Police"] = Resource.defineSound("Sounds/PoliceScenario.wav")
 
-Music["Ambient1"] = Resource.defineMusic("Music/VnatureBgSound.wav")
-Music["Ambient2"] = Music["Ambient1"]
-Music["Ambient3"] = Resource.defineMusic("Music/Mission1GarageAmbient.wav")
-Music["Ambient4"] = Music["Ambient1"]
+Musics["Ambient1"] = Resource.defineMusic("Music/VnatureBgSound.wav")
+Musics["Ambient2"] = Musics["Ambient1"]
+Musics["Ambient3"] = Resource.defineMusic("Music/Mission1GarageAmbient.wav")
+Musics["Ambient4"] = Musics["Ambient1"]
 
 Anims["DarkLordFist"] = Resource.defineAnimation(4, 3, 1000.0 / 2)
 Anims["DarkLordDead"] = Resource.defineAnimation(5, 3, 1000.0 / 2)
@@ -108,8 +108,7 @@ function L1.onEnter()
     Mission.setGroundBounds({ GROUND_X, GROUND_Y, GROUND_WIDTH, GROUND_HEIGHT })
     Camera.setBounds({ 0, 0, GROUND_WIDTH, SCREEN_HEIGHT })
     Camera.attach(Player)
-
-    Music["Ambient1"]:play()
+    Musics["Ambient1"]:play()
 end
 
 function L1.onUpdate(dt)
@@ -249,9 +248,7 @@ function L3.onEnter()
     Mission.setGroundBounds({ GROUND_X, GROUND_Y, GROUND_WIDTH, GROUND_HEIGHT })
     Camera.setBounds({ 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT })
     Camera.attach(Player)
-
-    -- Music
-    Music["Ambient3"]:play()
+    Musics["Ambient3"]:play()
 end
 
 function L3.onUpdate(dt)
@@ -280,7 +277,6 @@ function L3.defineCutscenes()
             IsPlayerControllable = false
             DarkLord:turnLeft()
             return {
-                --[[ DEBUG(sean)
                 { Player, true, GTT_FADE_IN, 1000.0 },
                 { Player, true, GTT_WAIT, 250.0 },
 
@@ -301,7 +297,6 @@ function L3.defineCutscenes()
 
                 { DarkLord, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "I'll not give my wheels, bald idiot", 0.25, DarkLord, Textures["DialogSquare"]) },
                 { DarkLord, true, GTT_WAIT, 250.0 },
-                ]]--
             }
         end,
         function(TActor)
@@ -435,6 +430,60 @@ function L4.onEnter()
     -- Functions
     Mission.onUpdate = L4.onUpdate
     Mission.onRender = L4.onRender
+
+    -- Defines
+    GROUND_WIDTH = SCREEN_WIDTH * 2
+    GROUND_HEIGHT = 19
+    GROUND_X = 0
+    GROUND_Y = SCREEN_HEIGHT - GROUND_HEIGHT
+
+    -- Entities
+    Player = Actor:new(180, 35, GW_ACTOR, GH_ACTOR, Textures["Player"])
+    Player:setState("comingToCarCutscene")
+
+    Zhenek = Actor:new(0, 0, GW_ACTOR, GH_ACTOR, Textures["Zhenek"])
+    Zhenek:setTeam(ACTOR_TEAM_FRIENDS)
+
+    Pickup = Car:new(SCREEN_WIDTH + 75, 65, 107, 30, Textures["Pickup"])
+    Pickup:setMaxSpeed(0.075, 0)
+    Pickup:setPlacePosition(0, 10, -5)
+    Pickup:setPlacePosition(1, 6, -5)
+    Pickup:putActor(Zhenek, 0)
+
+    Serega = Actor:new(0, 0, GW_ACTOR, GH_ACTOR, Textures["Serega"])
+    Serega:toggleCollidable(false)
+    Serega:pushTask(GTT_WAIT, 5000) -- Don't check car velocity 5 seconds
+    Serega:setState("policeControllingCar")
+
+    John = Actor:new(0, 0, GW_ACTOR, GH_ACTOR, Textures["John"])
+    John:toggleCollidable(false)
+    local X,Y = John:getSpeed()
+    John:setSpeed(X*0.75, Y*0.75)
+
+    PoliceCar = Car:new(SCREEN_WIDTH*12, 66, 90, 32, Textures["PoliceCar"])
+    PoliceCar:setMaxSpeed(0.135, 0)
+    PoliceCar:setAcceleration(-1, 0)
+    PoliceCar:setPlacePosition(0, 0, -4)
+    PoliceCar:setPlacePosition(1, 7, -3)
+    PoliceCar:putActor(Serega, 0)
+    PoliceCar:putActor(John, 1)
+    PoliceCar:turnLeft()
+
+	Trigger:new({ SCREEN_WIDTH*2.3, SCREEN_HEIGHT/2, 1, SCREEN_HEIGHT }, PoliceCar, "policeStop")
+
+    -- Triggers and States
+    L4.defineTriggers()
+    L4.defineStates()
+    L4.defineCutscenes()
+
+    -- Level
+    Mission.setGroundBounds({ GROUND_X, GROUND_Y, GROUND_WIDTH, GROUND_HEIGHT })
+    Camera.setBounds({ 0, 0, GROUND_WIDTH, SCREEN_HEIGHT })
+    Camera.attach(Player)
+    Camera.detach()
+
+    Musics["Ambient4"]:play()
+    Sounds["Police"]:play()
 end
 
 function L4.onUpdate(dt)
@@ -442,10 +491,119 @@ function L4.onUpdate(dt)
 end
 
 function L4.onRender()
+    local X,Y = getCameraPosition()
+
+    -- Parallax
+    Graphics.drawFrame(RENDER_MODE_BACKGROUND, 0, true, { -X/2, -Y/2, GW_LOCATION*2, GH_LOCATION }, Textures["Parallax4"], 0, 0)
+
+    -- Background
+    Graphics.drawFrame(RENDER_MODE_BACKGROUND, 1, false, { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }, Textures["Background4"], 0, 0)
+    Graphics.drawFrame(RENDER_MODE_BACKGROUND, 1, false, { SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT }, Textures["Background4"], 0, 1)
+
+    -- Evening
+    Graphics.setDrawColor(0, 0, 0, 30)
+    Graphics.fillRect(RENDER_MODE_BACKGROUND, 2, true, { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT })
 end
 
 function L4.defineTriggers()
+    function Triggers.policeStop(TTrigger, TEntity)
+		PoliceCar:setAcceleration(0.00006, 0)
+    end
+end
+
+function L4.defineStates()
+	function States.policeControllingCar(TActor)
+		-- Wait
+		if TActor:checkCurrentTask() ~= GTT_DONE then
+			return
+		end
+
+		-- Handle velocity
+		local X,Y = PoliceCar:getVelocity()
+		if X > -0.025 then
+			-- Stop car, start dialog
+            PoliceCar:setMaxSpeed(0, 0)
+			TActor:setState("policeTalkingCutscene")
+		end
+    end
 end
 
 function L4.defineCutscenes()
+    States.comingToCarCutscene = Cutscene.new(
+        function(TActor)
+            Player:toggleCollidable(false)
+            IsPlayerControllable = false
+            Pickup:turnLeft()
+            local CarX,CarY = Pickup:getPosition()
+            CarY = CarY - 5
+            local PlayerX,PlayerY = Player:getPosition()
+            return {
+                { Player, false, GTT_FADE_IN, 1000.0 },
+                { Player, true, GTT_GOTO, PlayerX, CarY },
+                { Player, true, GTT_WAIT, 250.0 },
+
+                { Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Faster! Jump in car", 0.25, Zhenek, Textures["DialogSquare"]) },
+                { Zhenek, true, GTT_WAIT, 250.0 },
+
+                { Player, true, GTT_GOTO, CarX, CarY },
+            }
+        end,
+        function(TActor)
+            Sounds["CarDoorOpen"]:play()
+            Pickup:putActor(Player, 1)
+            Pickup:setAcceleration(-0.0001, 0)
+            TActor:setState("")
+        end
+    )
+
+    States.policeTalkingCutscene = Cutscene.new(
+        function(TActor)
+            return {
+                { John, true, GTT_WAIT, 250.0 },
+                { John, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "I don't like it...", 0.25, John, Textures["DialogSquare"]) },
+                { John, true, GTT_WAIT, 250.0 },
+
+                { Serega, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "C'mon, John! Are you a little girl?", 0.25, Serega, Textures["DialogSquare"]) },
+                { Serega, true, GTT_WAIT, 250.0 },
+
+                { John, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "I am a grown forty-year-old divorced man with two children and...", 0.25, John, Textures["DialogSquare"]) },
+                { John, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "a loan for a house that I have been giving for 10 years", 0.25, John, Textures["DialogSquare"]) },
+                { John, true, GTT_WAIT, 250.0 },
+                { John, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Yeah, i'm a little girl.", 0.25, John, Textures["DialogSquare"]) },
+                { John, true, GTT_WAIT, 250.0 },
+
+                { Serega, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Just shut up and let's go", 0.25, Serega, Textures["DialogSquare"]) },
+                { Serega, true, GTT_WAIT, 250.0 },
+            }
+        end,
+        function(TActor)
+            Sounds["CarDoorClose"]:play()
+            Sounds["CarDoorClose"]:play()
+            PoliceCar:ejectActor(0)
+            PoliceCar:ejectActor(1)
+
+            local X,Y = PoliceCar:getPosition()
+            Serega:setPosition(X - 7.5, Y - 5)
+            Serega:turnLeft()
+            John:setPosition(X, Y - 5)
+            John:turnLeft()
+
+            TActor:setState("policeComingHouseCutscene")
+        end
+    )
+
+    States.policeComingHouseCutscene = Cutscene.new(
+        function(TActor)
+            return {
+                { Serega, false, GTT_GOTO, 175, 30 },
+                { John, false, GTT_GOTO, 180, 30 },
+                { Serega, true, GTT_FADE_OFF, 3000.0 },
+                { Serega, false, GTT_FADE_IN, 0.0 },
+            }
+        end,
+        function(TActor)
+            Mission.switchLocation(0)
+            TActor:setState("")
+        end
+    )
 end
