@@ -31,20 +31,20 @@ function GarageBlueprint.onEnter()
     -- Entities
     Player = Actor:new(GW_LOCATION - GW_ACTOR, GH_LOCATION - GH_ACTOR, GW_ACTOR, GH_ACTOR, Textures["Player"])
     local XDefault,YDefault = Player:getSpeed()
-    Player:setSpeed(XDefault/1.75, YDefault/2)
+    Player:setSpeed(XDefault/1.2, YDefault/1.2)
     Player:setActorAnim(ACTOR_ANIMATION_HORIZONTAL, Anims["SlowMoving"])
     Player:setTeam(ACTOR_TEAM_FRIENDS)
     Player:setWeapon(Weapons["Fist"])
 
     Zhenek = Actor:new(85, 47, GW_ACTOR, GH_ACTOR, Textures["Zhenek"])
-    Zhenek:setSpeed(XDefault/1.75, YDefault/2)
+    Zhenek:setSpeed(XDefault/1.2, YDefault/1.2)
     Zhenek:setActorAnim(ACTOR_ANIMATION_HORIZONTAL, Anims["SlowMoving"])
     Zhenek:setTeam(ACTOR_TEAM_FRIENDS)
     Zhenek:turnLeft()
     IsZhenekBusy = false -- Change this when you cut-scene require Zhenek
 
     Anthony = Actor:new(50, 50, GW_ACTOR, GH_ACTOR, Textures["Anthony"])
-    Anthony:setSpeed(XDefault/2, YDefault/2)
+    Anthony:setSpeed(XDefault/1.2, YDefault/1.2)
     Anthony:setActorAnim(ACTOR_ANIMATION_HORIZONTAL, Anims["SlowMoving"])
     Anthony:setTeam(ACTOR_TEAM_FRIENDS)
     Anthony:setState("_upCar")

@@ -9,10 +9,10 @@
 #include "Actor.h"
 
 /* ====== DEFINES ====== */
-#define ACTOR_DEFAULT_HEALTH 3.0f
+#define ACTOR_DEFAULT_HEALTH 100.0f
 
-#define ACTOR_DEFAULT_UNIT_SPEED_X 0.05f
-#define ACTOR_DEFAULT_UNIT_SPEED_Y 0.02f
+#define ACTOR_DEFAULT_UNIT_SPEED_X 0.035f
+#define ACTOR_DEFAULT_UNIT_SPEED_Y 0.01f
 
 #define ACTOR_DEFAULT_ATTACK_RATE (1000.0f / 5.0f)
 
@@ -20,9 +20,9 @@
 static const GT_Animation s_aActorAnims[] =
 {
     { 0, 2, 1000.0f / 1.0f },
-    { 1, 5, 1000.0f / 15.0f },
-    { 2, 3, 1000.0f / 5.0f },
-    { 3, 3, 1000.0f / 5.0f },
+    { 1, 5, 1000.0f / 12.5f },
+    { 2, 3, 1000.0f / 6.0f },
+    { 3, 3, 1000.0f / 6.0f },
     { 0, 2, 1000.0f / 1.0f },
     { 0, 2, 1000.0f / 1.0f },
 };

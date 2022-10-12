@@ -40,6 +40,8 @@ Music["Ambient4"] = Music["Ambient1"]
 Anims["DarkLordDying"] = Resource.defineAnimation(5, 3, 1000.0 / 2)
 Anims["PlayerDying"] = Resource.defineAnimation(5, 3, 1000.0 / 2)
 
+Weapons["DarkLordFist"] = Resource.defineWeapon(Anims["DarkLordFist"], 8, 8, 10.0, Sounds["Punch1"], Sounds["Punch2"], Sounds["Punch3"], Sounds["Punch4"])
+
 ---- Globals
 L1 = {}
 L2 = {}
@@ -193,6 +195,12 @@ end
 function L2.onRender()
 end
 
+function L2.defineCutscenes()
+end
+
+function L2.defineTriggers()
+end
+
 ---- Location 3
 function L3.onEnter()
     -- Functions
@@ -207,6 +215,12 @@ end
 function L3.onRender()
 end
 
+function L3.defineCutscenes()
+end
+
+function L3.defineTriggers()
+end
+
 ---- Location 4
 function L4.onEnter()
     -- Functions
@@ -219,4 +233,10 @@ function L4.onUpdate(dt)
 end
 
 function L4.onRender()
+end
+
+function L4.defineCutscenes()
+end
+
+function L4.defineTriggers()
 end
