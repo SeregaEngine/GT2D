@@ -20,6 +20,7 @@ function Mission.onEnter(Location)
     --- Init garage blueprint
     GarageBlueprint.onEnter()
     Dodge:setTexture(Textures["Car"])
+	Dodge:setAnim(Resource.defineAnimation(1, 1, 999999))
 
     --- Init mission
     defineCutscenes()

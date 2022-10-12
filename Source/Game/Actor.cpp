@@ -294,7 +294,7 @@ void Actor::HandleAnimation(f32 dtTime)
     // Update frame
     if (m_animElapsed > m_pAnim->frameDuration)
     {
-        m_animElapsed -= m_pAnim->frameDuration;
+        m_animElapsed = 0;
         ++m_animFrame;
     }
 

@@ -87,7 +87,7 @@ void Car::HandleAnimation(f32 dtTime)
     // Update frames
     if (m_animElapsed >= m_pAnim->frameDuration)
     {
-        m_animElapsed -= m_pAnim->frameDuration;
+        m_animElapsed = 0;
         ++m_animFrame;
 
         if (m_animFrame >= m_pAnim->count)
