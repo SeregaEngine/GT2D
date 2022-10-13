@@ -12,6 +12,7 @@ require "Camera"
 require "Input"
 require "Sound"
 require "Music"
+require "Clock"
 require "Resource"
 
 require "Entity"

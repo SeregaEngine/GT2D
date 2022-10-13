@@ -32,6 +32,10 @@ Textures["Wheels"] = Resource.defineTexture("Textures/Props/Wheels.png", 16, 16)
 Sounds["OpenGate"] = Resource.defineSound("Sounds/MetalGateOpening.wav")
 Sounds["PickupThrottling"] = Resource.defineSound("Sounds/PickupThrottling.wav")
 Sounds["Police"] = Resource.defineSound("Sounds/PoliceScenario.wav")
+Sounds["LockpickStart"] = Resource.defineSound("Sounds/LockpickStart.wav")
+Sounds["LockpickFinish"] = Resource.defineSound("Sounds/LockpickFinish.wav")
+Sounds["LockpickSuccess"] = Resource.defineSound("Sounds/LockpickSuccess.wav")
+Sounds["LockpickFail"] = Resource.defineSound("Sounds/LockpickFail.wav")
 
 Musics["Ambient1"] = Resource.defineMusic("Music/VnatureBgSound.wav")
 Musics["Ambient2"] = Musics["Ambient1"]
@@ -190,21 +194,167 @@ function L2.onEnter()
     Mission.onUpdate = L2.onUpdate
     Mission.onRender = L2.onRender
 
-    -- TODO(sean)
-    Mission.switchLocation(3)
+    -- Defines
+    GW_SQUARE = 10
+    GH_SQUARE = 10
+
+    GW_LOCKPICK = 5
+    GH_LOCKPICK = 5
+    LOCKPICK_TOP = 20
+    LOCKPICK_BOTTOM = SCREEN_HEIGHT - LOCKPICK_TOP
+    LOCKPICK_YSPEED = 0.03
+    LOCKPICK_FAIL_SOUND_RATE = 500
+
+    -- Entities
+    Player = Actor:new(0, 0, 0, 0, Textures["Blank"])
+    Player:setState("fadeInCutscene")
+    IsPlayerControllable = false
+
+    Squares = {}
+    for i = 1,4 do
+        Squares[i] = Entity:new(20 + GW_SQUARE/2 + GW_SQUARE * (i-1) + 16 * (i-1), SCREEN_HEIGHT/2, GW_SQUARE, GH_SQUARE, Textures["Blank"])
+    end
+
+    local X,_ = Squares[1]:getPosition()
+    Lockpick = Entity:new(X, LOCKPICK_TOP, GW_LOCKPICK, GH_LOCKPICK, Textures["Blank"])
+	LockpickingStage = 1
+	LockpickGoBottom = true
+    LockpickLastTry = 0
+
+    -- States
+    L2.defineCutscenes()
+    L2.defineStates()
+
+    -- Level
+    Camera.setPosition(0, 0)
 end
 
 function L2.onUpdate(dt)
+    DT = dt -- Just workaround for global delta time
+
     Input.defaultHandle()
 end
 
 function L2.onRender()
+    -- Background
+    Graphics.drawFrame(RENDER_MODE_BACKGROUND, 0, true, { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }, Textures["Background2"], 0, 0)
+    Graphics.setDrawColor(68, 68, 68, 168)
+    Graphics.fillRect(RENDER_MODE_BACKGROUND, 1, true, { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT })
+
+    -- Squares
+    for i,v in ipairs(Squares) do
+        if i < LockpickingStage then
+			Graphics.setDrawColor(135, 200, 96, 255)
+        else
+			Graphics.setDrawColor(232, 232, 232, 255)
+        end
+
+        X,Y = v:getPosition()
+        Graphics.fillRect(RENDER_MODE_BACKGROUND, 2, true, { X - GW_SQUARE/2 , Y - GH_SQUARE/2, GW_SQUARE, GH_SQUARE })
+    end
+
+    -- Lockpick
+    local X,Y = Lockpick:getPosition()
+    Graphics.setDrawColor(228, 87, 129, 255)
+    Graphics.fillRect(RENDER_MODE_BACKGROUND, 3, true, { X - GW_LOCKPICK/2, Y - GH_LOCKPICK/2, GW_LOCKPICK, GH_LOCKPICK })
+
+    -- Help
+    Graphics.setDrawColor(255, 255, 255, 160)
+    Graphics.drawText(RENDER_MODE_BACKGROUND, 4, true, { 14, LOCKPICK_BOTTOM + 5, 100, 5 }, "Press space when lockpick'll be in square")
 end
 
-function L2.defineTriggers()
+function L2.onRenderFaded()
+    Graphics.setDrawColor(0, 0, 0, 255)
+    Graphics.fillRect(RENDER_MODE_BACKGROUND, 1, true, { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT })
 end
 
 function L2.defineCutscenes()
+    States.fadeInCutscene = Cutscene.new(
+        function(TActor)
+            Sounds["LockpickStart"]:play()
+            return {
+                { Player, true, GTT_FADE_IN, 1000.0 },
+            }
+        end,
+        function(TActor)
+            TActor:setState("lockpicking")
+        end
+    )
+
+    States.fadeOffCutscene1 = Cutscene.new(
+        function(TActor)
+            Sounds["LockpickFinish"]:play()
+            return {
+                { Player, true, GTT_FADE_OFF, 1500.0 },
+            }
+        end,
+        function(TActor)
+            Mission.onRender = L2.onRenderFaded
+            TActor:setState("fadeOffCutscene2")
+        end
+    )
+
+    States.fadeOffCutscene2 = Cutscene.new(
+        function(TActor)
+            Sounds["OpenGate"]:play()
+            return {
+                { Player, true, GTT_WAIT, 3000.0 },
+            }
+        end,
+        function(TActor)
+            Mission.switchLocation(3)
+            TActor:setState("")
+        end
+    )
+end
+
+function L2.defineStates()
+    function States.lockpicking(TActor)
+        -- Update lockpick position
+        local X,Y = Lockpick:getPosition()
+        if Y <= LOCKPICK_TOP then
+            LockpickGoBottom = true
+        elseif Y >= LOCKPICK_BOTTOM then
+            LockpickGoBottom = false
+        end
+
+        if LockpickGoBottom then
+            Y = Y + (LOCKPICK_YSPEED * DT)
+        else
+            Y = Y - (LOCKPICK_YSPEED * DT)
+        end
+        Lockpick:setPosition(X, Y)
+
+        -- Handle input
+        if Input.isKeyDown(GTK_SPACE) then
+            local LX,LY = Lockpick:getPosition()
+            local SX,SY = Squares[LockpickingStage]:getPosition()
+
+            -- Check collision with square
+            if (LY - GH_LOCKPICK/2 >= SY - GH_SQUARE/2) and
+               (LY + GH_LOCKPICK/2) <= SY + GH_SQUARE/2 then
+				LockpickingStage = LockpickingStage + 1
+                if (LockpickingStage > 4) then
+                    TActor:setState("fadeOffCutscene1")
+                    return
+                end
+
+                Sounds["LockpickSuccess"]:play()
+                LockpickLastTry = Clock.getTicks()
+
+                SX,SY = Squares[LockpickingStage]:getPosition()
+                LX = SX
+            else
+                if Clock.getTicks() - LockpickLastTry >= LOCKPICK_FAIL_SOUND_RATE then
+					Sounds["LockpickFail"]:play()
+                    LockpickLastTry = Clock.getTicks()
+				end
+
+                LX = SX
+            end
+            Lockpick:setPosition(LX, LOCKPICK_TOP)
+        end
+    end
 end
 
 ---- Location 3
@@ -345,22 +495,22 @@ function L3.defineCutscenes()
         function(TActor)
             TrashCar:setTexture(Textures["TrashCar"])
 
-			-- Add wheels and triggers
+            -- Add wheels and triggers
             local GW_PROP = 8
             local GH_PROP = 8
             TriggerPointerToWheel = {}
 
-			for i = 1,4 do
-				local X = 20 + GW_PROP * (i - 1)
-				local Y = 60
-				local Wheel = Entity:new(X, Y, GW_PROP, GH_PROP, Textures["Wheels"])
+            for i = 1,4 do
+                local X = 20 + GW_PROP * (i - 1)
+                local Y = 60
+                local Wheel = Entity:new(X, Y, GW_PROP, GH_PROP, Textures["Wheels"])
 
-				TriggerPointerToWheel[Trigger:new({ X, Y, GW_PROP/4, GH_PROP/4 }, Player, "takeWheel").Pointer] = Wheel
+                TriggerPointerToWheel[Trigger:new({ X, Y, GW_PROP/4, GH_PROP/4 }, Player, "takeWheel").Pointer] = Wheel
 
-				if i > 2 then
-					Wheel:setAnimFrame(1)
-				end
-			end
+                if i > 2 then
+                    Wheel:setAnimFrame(1)
+                end
+            end
 
             TActor:setState("takingWheels")
         end
@@ -419,7 +569,7 @@ function L3.defineStates()
             end
         end
 
-		Trigger:new({ SCREEN_WIDTH, SCREEN_HEIGHT/2, GW_ACTOR, SCREEN_HEIGHT }, Player, "leaveGarage")
+        Trigger:new({ SCREEN_WIDTH, SCREEN_HEIGHT/2, GW_ACTOR, SCREEN_HEIGHT }, Player, "leaveGarage")
         Mission.setGroundBounds({ GROUND_X, GROUND_Y, GROUND_WIDTH*2, GROUND_HEIGHT })
         TActor:setState("")
     end
@@ -469,7 +619,7 @@ function L4.onEnter()
     PoliceCar:putActor(John, 1)
     PoliceCar:turnLeft()
 
-	Trigger:new({ SCREEN_WIDTH*2.3, SCREEN_HEIGHT/2, 1, SCREEN_HEIGHT }, PoliceCar, "policeStop")
+    Trigger:new({ SCREEN_WIDTH*2.3, SCREEN_HEIGHT/2, 1, SCREEN_HEIGHT }, PoliceCar, "policeStop")
 
     -- Triggers and States
     L4.defineTriggers()
@@ -507,24 +657,24 @@ end
 
 function L4.defineTriggers()
     function Triggers.policeStop(TTrigger, TEntity)
-		PoliceCar:setAcceleration(0.00006, 0)
+        PoliceCar:setAcceleration(0.00006, 0)
     end
 end
 
 function L4.defineStates()
-	function States.policeControllingCar(TActor)
-		-- Wait
-		if TActor:checkCurrentTask() ~= GTT_DONE then
-			return
-		end
+    function States.policeControllingCar(TActor)
+        -- Wait
+        if TActor:checkCurrentTask() ~= GTT_DONE then
+            return
+        end
 
-		-- Handle velocity
-		local X,Y = PoliceCar:getVelocity()
-		if X > -0.025 then
-			-- Stop car, start dialog
+        -- Handle velocity
+        local X,Y = PoliceCar:getVelocity()
+        if X > -0.025 then
+            -- Stop car, start dialog
             PoliceCar:setMaxSpeed(0, 0)
-			TActor:setState("policeTalkingCutscene")
-		end
+            TActor:setState("policeTalkingCutscene")
+        end
     end
 end
 
