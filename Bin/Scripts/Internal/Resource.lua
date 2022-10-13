@@ -46,5 +46,5 @@ Sounds["CarDoorOpen"] = Resource.defineSound("Sounds/CarDoorOpening.wav")
 Sounds["CarDoorClose"] = Resource.defineSound("Sounds/CarDoorClose.wav")
 Sounds["StartEngine"] = Resource.defineSound("Sounds/DodgeEngineStart.wav")
 
-Weapons["Fist"] = Resource.defineWeapon(Resource.defineAnimation(4, 3, 1000.0 / 2.0), 8, 8, 25.0, Sounds["Punch1"], Sounds["Punch2"], Sounds["Punch3"], Sounds["Punch4"])
+Weapons["Fist"] = Resource.defineWeapon(Resource.defineAnimation(4, 3, 1000.0 / 2.0), 8, 8, 7.5, Sounds["Punch1"], Sounds["Punch2"], Sounds["Punch3"], Sounds["Punch4"])
 

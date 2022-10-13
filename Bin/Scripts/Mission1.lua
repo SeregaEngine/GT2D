@@ -29,7 +29,7 @@ Textures["John"] = Resource.defineTexture("Textures/Actors/John.png", TW_ACTOR, 
 
 Textures["Wheels"] = Resource.defineTexture("Textures/Props/Wheels.png", 16, 16)
 
-Sounds["OpenGate"] = Resource.defineSound("Sounds/MetalGateOpening.wav")
+Sounds["OpenGarage"] = Resource.defineSound("Sounds/GarageDoorOpening.wav")
 Sounds["PickupThrottling"] = Resource.defineSound("Sounds/PickupThrottling.wav")
 Sounds["Police"] = Resource.defineSound("Sounds/PoliceScenario.wav")
 Sounds["LockpickStart"] = Resource.defineSound("Sounds/LockpickStart.wav")
@@ -46,7 +46,7 @@ Anims["DarkLordFist"] = Resource.defineAnimation(4, 3, 1000.0 / 2)
 Anims["DarkLordDead"] = Resource.defineAnimation(5, 3, 1000.0 / 2)
 Anims["PlayerDead"] = Resource.defineAnimation(5, 3, 1000.0 / 2)
 
-Weapons["DarkLordFist"] = Resource.defineWeapon(Anims["DarkLordFist"], 8, 8, 10.0, Sounds["Punch1"], Sounds["Punch2"], Sounds["Punch3"], Sounds["Punch4"])
+Weapons["DarkLordFist"] = Resource.defineWeapon(Anims["DarkLordFist"], 8, 8, 5, Sounds["Punch1"], Sounds["Punch2"], Sounds["Punch3"], Sounds["Punch4"])
 
 ---- Globals
 L1 = {}
@@ -124,9 +124,13 @@ function L1.onRender()
     X,Y = getCameraPosition()
     Graphics.drawFrame(RENDER_MODE_BACKGROUND, 0, true, { -X/2, -Y/2, GW_LOCATION*2, GH_LOCATION }, Textures["Parallax1"], 0, 0)
 
+    -- Help
+    Graphics.setDrawColor(255, 255, 255, 160)
+    Graphics.drawText(RENDER_MODE_BACKGROUND, 1, true, { -X/2 + 75, -Y/2, 50, 10 }, "Try space to attack")
+
     -- Background
-    Graphics.drawFrame(RENDER_MODE_BACKGROUND, 1, false, { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }, Textures["Background1"], 0, 0)
-    Graphics.drawFrame(RENDER_MODE_BACKGROUND, 1, false, { SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT }, Textures["Background1"], 0, 1)
+    Graphics.drawFrame(RENDER_MODE_BACKGROUND, 2, false, { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }, Textures["Background1"], 0, 0)
+    Graphics.drawFrame(RENDER_MODE_BACKGROUND, 2, false, { SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT }, Textures["Background1"], 0, 1)
 end
 
 function L1.defineTriggers()
@@ -165,8 +169,7 @@ function L1.defineCutscenes()
             Camera.detach()
 
             return {
-                { Player, true, GTT_GOTO, 185, 50 },
-                { Player, true, GTT_GOTO, 185, 35 },
+                { Player, true, GTT_GOTO, 180, 30 },
                 { Player, true, GTT_GOTO, 165, 25 },
             }
         end,
@@ -227,6 +230,7 @@ function L2.onEnter()
 
     -- Level
     Camera.setPosition(0, 0)
+    Musics["Ambient4"]:play()
 end
 
 function L2.onUpdate(dt)
@@ -296,7 +300,7 @@ function L2.defineCutscenes()
 
     States.fadeOffCutscene2 = Cutscene.new(
         function(TActor)
-            Sounds["OpenGate"]:play()
+            Sounds["OpenGarage"]:play()
             return {
                 { Player, true, GTT_WAIT, 3000.0 },
             }
@@ -634,6 +638,7 @@ function L4.onEnter()
 
     Musics["Ambient4"]:play()
     Sounds["Police"]:play()
+    Sounds["StartEngine"]:play()
 end
 
 function L4.onUpdate(dt)
@@ -651,7 +656,7 @@ function L4.onRender()
     Graphics.drawFrame(RENDER_MODE_BACKGROUND, 1, false, { SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT }, Textures["Background4"], 0, 1)
 
     -- Evening
-    Graphics.setDrawColor(0, 0, 0, 30)
+    Graphics.setDrawColor(0, 0, 0, 50)
     Graphics.fillRect(RENDER_MODE_BACKGROUND, 2, true, { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT })
 end
 
@@ -700,6 +705,7 @@ function L4.defineCutscenes()
         end,
         function(TActor)
             Sounds["CarDoorOpen"]:play()
+            Sounds["PickupThrottling"]:play()
             Pickup:putActor(Player, 1)
             Pickup:setAcceleration(-0.0001, 0)
             TActor:setState("")
