@@ -17,6 +17,9 @@ Anims["PlayerWakeUp"] = Resource.defineAnimation(6, 3, 1000.0 / 1.5)
 function Mission.onEnter(Location)
     GT_LOG(PR_NOTE, "Mission 0 entered")
 
+	-- Function
+	Mission.onRender = onRender
+
     --- Init garage blueprint
     GarageBlueprint.onEnter()
     Dodge:setTexture(Textures["Car"])
@@ -34,8 +37,17 @@ function Mission.onUpdate(dt)
     Input.defaultHandle()
 end
 
-function Mission.onRender()
+function onRender()
     GarageBlueprint.onRender()
+end
+
+function onRenderWithHelp()
+	-- Garage
+    GarageBlueprint.onRender()
+
+	-- Text
+	Graphics.setDrawColor(255, 255, 255, 160)
+	Graphics.drawText(RENDER_MODE_BACKGROUND, 50, true, { 0, SCREEN_HEIGHT-5, 35, 5 }, "WASD to move")
 end
 
 ---- Triggers
@@ -122,6 +134,7 @@ function defineCutscenes()
 			}
         end,
         function(TActor)
+			Mission.onRender = onRenderWithHelp
             Trigger:new({ GROUND_WIDTH, GROUND_Y-5, 2, GROUND_HEIGHT*2 }, Player, "leaveCutscene")
             IsZhenekBusy = false
             IsPlayerControllable = true
@@ -131,6 +144,7 @@ function defineCutscenes()
 
     States.leaveCutscene = Cutscene.new(
         function(TActor)
+			Mission.onRender = onRender
             IsPlayerControllable = false
 			return {
 				{ Player, false, GTT_GOTO, GROUND_WIDTH*2, GROUND_Y + GROUND_HEIGHT/2 },

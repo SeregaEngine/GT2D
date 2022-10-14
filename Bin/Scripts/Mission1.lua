@@ -758,7 +758,7 @@ function L4.defineCutscenes()
             }
         end,
         function(TActor)
-            Mission.switchLocation(0)
+            Mission.switch("Scripts/Mission2.lua", 1)
             TActor:setState("")
         end
     )
