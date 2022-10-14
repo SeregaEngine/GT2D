@@ -19,6 +19,8 @@ Textures["Player"] = Resource.defineTexture("Textures/Actors/Player.png", TW_ACT
 Textures["Zhenek"] = Resource.defineTexture("Textures/Actors/Zhenek.png", TW_ACTOR, TH_ACTOR)
 Textures["Anthony"] = Resource.defineTexture("Textures/Actors/Anthony.png", TW_ACTOR, TH_ACTOR)
 Textures["PlaceholderCar"] = Resource.defineTexture("Textures/Cars/TrashCar.png", TW_CAR, TH_CAR)
+Textures["Fire"] = Resource.defineTexture("Textures/Props/Fire.png", TW_ACTOR, TH_ACTOR)
+Textures["FireLight"] = Resource.defineTexture("Textures/Props/FireLight.png", 50, 35)
 
 Anims["SlowMoving"] = Resource.defineAnimation(1, 5, 1000.0 / 13.5)
 Anims["RepairCar"] = Resource.defineAnimation(4, 2, 1000.0 / 1)
@@ -32,6 +34,18 @@ GarageBlueprint.Night = Resource.defineTexture("Textures/Locations/GarageBluepri
 
 function GarageBlueprint.onEnter()
     -- Entities
+	Fire = Actor:new(76, 36.5, GW_ACTOR, GH_ACTOR, Textures["Fire"])
+	Fire:setRenderMode(RENDER_MODE_BACKGROUND)
+	Fire:setZIndex(4)
+	Fire:toggleGodMode(true)
+	Fire:setActorAnim(ACTOR_ANIMATION_IDLE, Resource.defineAnimation(0, 2, 1000.0/10.0))
+
+	FireLight = Actor:new(76, 40, 50, 35, Textures["FireLight"])
+	FireLight:setRenderMode(RENDER_MODE_FOREGROUND)
+	FireLight:setZIndex(-2)
+	FireLight:toggleGodMode(true)
+	FireLight:setActorAnim(ACTOR_ANIMATION_IDLE, Resource.defineAnimation(0, 2, 1000.0/10.0))
+
     Player = Actor:new(GW_LOCATION - GW_ACTOR, GH_LOCATION - GH_ACTOR, GW_ACTOR, GH_ACTOR, Textures["Player"])
     local XDefault,YDefault = Player:getSpeed()
     Player:setSpeed(XDefault/1.2, YDefault/1.2)
