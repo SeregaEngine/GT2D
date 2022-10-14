@@ -14,7 +14,7 @@ GROUND_X = 0
 GROUND_Y = GH_LOCATION - GROUND_HEIGHT
 
 ---- Resources
-Textures["Background"] = Resource.defineTexture("Textures/Locations/Mission0-1.png", TW_LOCATION, TH_LOCATION)
+Textures["Background"] = Resource.defineTexture("Textures/Locations/GarageBlueprint.png", TW_LOCATION, TH_LOCATION)
 Textures["Player"] = Resource.defineTexture("Textures/Actors/Player.png", TW_ACTOR, TH_ACTOR)
 Textures["Zhenek"] = Resource.defineTexture("Textures/Actors/Zhenek.png", TW_ACTOR, TH_ACTOR)
 Textures["Anthony"] = Resource.defineTexture("Textures/Actors/Anthony.png", TW_ACTOR, TH_ACTOR)
@@ -26,6 +26,9 @@ Anims["TakeInstruments"] = Resource.defineAnimation(5, 2, 1000.0 / 1)
 
 ---- Garage Blueprint
 GarageBlueprint = {}
+
+GarageBlueprint.Day = Resource.defineTexture("Textures/Locations/GarageBlueprint-Day.png", TW_LOCATION, TH_LOCATION)
+GarageBlueprint.Night = Resource.defineTexture("Textures/Locations/GarageBlueprint-Night.png", TW_LOCATION, TH_LOCATION)
 
 function GarageBlueprint.onEnter()
     -- Entities
@@ -60,13 +63,20 @@ function GarageBlueprint.onEnter()
     GarageBlueprint._defineCutscenes()
 
     -- Set up
+	GarageBlueprint.DayTime = GarageBlueprint.Day
     Mission.setGroundBounds({ GROUND_X, GROUND_Y, GROUND_WIDTH, GROUND_HEIGHT })
     Camera.setBounds({ 0, 0, GW_LOCATION, GH_LOCATION })
     Camera.setPosition(0, 0)
 end
 
 function GarageBlueprint.onRender()
-    Graphics.drawFrame(RENDER_MODE_BACKGROUND, 0, false, { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }, Textures["Background"], 0, 0)
+	-- Parallax
+    local X = ((Clock.getTicks() % (GW_LOCATION*1000)) / 1000) % 128
+    Graphics.drawFrame(RENDER_MODE_BACKGROUND, 0, true, { X, 0, GW_LOCATION, GH_LOCATION }, GarageBlueprint.DayTime)
+    Graphics.drawFrame(RENDER_MODE_BACKGROUND, 0, true, { X-GW_LOCATION, 0, GW_LOCATION, GH_LOCATION }, GarageBlueprint.DayTime)
+
+	-- Background
+    Graphics.drawFrame(RENDER_MODE_BACKGROUND, 1, false, { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }, Textures["Background"], 0, 0)
 end
 
 ---- Internal functions

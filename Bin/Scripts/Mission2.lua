@@ -103,6 +103,8 @@ function L1.defineCutscenes()
             Zhenek:setPosition(GROUND_WIDTH * 1.8, GROUND_Y + GROUND_HEIGHT/2.5)
             Player:setPosition(GROUND_WIDTH * 1.9, GROUND_Y + GROUND_HEIGHT/2)
 
+            GarageBlueprint.DayTime = GarageBlueprint.Night
+
             -- We use Player for Anthony's tasks to prevent canceling Anthony's tasks
             return {
                 { Player, false, GTT_FADE_IN, 2000.0 },
@@ -146,6 +148,8 @@ function L1.defineCutscenes()
                 v:delete()
             end
             Player:setPosition(GW_LOCATION - GW_ACTOR, GH_LOCATION - GH_ACTOR)
+
+            GarageBlueprint.DayTime = GarageBlueprint.Day
 
             return {
 				{ Player, false, GTT_FADE_IN, 2000.0 },
@@ -243,7 +247,7 @@ function L2.onUpdate(dt)
 end
 
 function L2.onRender()
-    -- Parallax TODO(sean) Make it moving with ticks
+    -- Parallax
     local X = ((Clock.getTicks() % (GW_LOCATION*1000)) / 1000) % 128
     Graphics.drawFrame(RENDER_MODE_BACKGROUND, 0, true, { X, 0, GW_LOCATION, GH_LOCATION }, Textures["Parallax2"])
     Graphics.drawFrame(RENDER_MODE_BACKGROUND, 0, true, { X-GW_LOCATION, 0, GW_LOCATION, GH_LOCATION }, Textures["Parallax2"])
