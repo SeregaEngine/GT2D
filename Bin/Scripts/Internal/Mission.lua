@@ -5,25 +5,6 @@
 --| and functions for every mission
 ----------------------------------------------------------------------
 
----- Includes
-require "Console"
-require "Graphics"
-require "Camera"
-require "Input"
-require "Sound"
-require "Music"
-require "Clock"
-require "Resource"
-
-require "Entity"
-require "Actor"
-require "Car"
-require "Dialog"
-require "Trigger"
-
-require "Saver"
-require "Cutscene"
-
 ---- Defines
 DEBUG = true
 
@@ -56,6 +37,18 @@ function Mission.restart(Location)
     restartMission(Location)
 end
 
+function Mission.pause()
+    pauseMission()
+end
+
+function Mission.resume()
+    resumeMission()
+end
+
+function Mission.exitToMainMenu()
+    exitToMainMenu()
+end
+
 function Mission.setGroundBounds(Rect)
     setGroundBounds(Rect[1], Rect[2], Rect[3], Rect[4])
 end
@@ -69,3 +62,22 @@ function Mission.switchLocation(Location)
     -- Switch
     hostSwitchLocation(Location)
 end
+
+---- Includes
+require "Console"
+require "Graphics"
+require "Camera"
+require "Input"
+require "Sound"
+require "Music"
+require "Clock"
+require "Resource"
+
+require "Entity"
+require "Actor"
+require "Car"
+require "Dialog"
+require "Trigger"
+
+require "Saver"
+require "Cutscene"

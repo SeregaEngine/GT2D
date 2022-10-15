@@ -2,6 +2,7 @@
 #include "GraphicsModule.h"
 #include "ScriptModule.h"
 #include "PlayState.h"
+#include "PauseState.h"
 
 #include "Game.h"
 
@@ -59,7 +60,7 @@ void Game::HandleNewState()
         if (m_lstState.Front() != m_pCurrentState)
         {
             m_pCurrentState = m_lstState.Front();
-            if (m_pCurrentState && !m_pCurrentState->OnEnter())
+            if (m_pCurrentState && !m_pCurrentState->IsEntered() && !m_pCurrentState->OnEnter())
             {
                 AddNote(PR_ERROR, "False returned on current state's <OnEnter()>");
                 PopState();
@@ -81,4 +82,13 @@ void Game::RemoveStates()
     }
 
     m_lstRemove.Clean();
+}
+
+World& Game::GetWorld()
+{
+    s32 id = m_pCurrentState->GetID();
+    if (id == GAME_STATE_PLAY)
+        return static_cast<PlayState*>(m_pCurrentState)->GetWorld();
+    else
+        return static_cast<PauseState*>(m_pCurrentState)->GetWorld();
 }

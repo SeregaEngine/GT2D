@@ -97,6 +97,9 @@ private:
     static s32 _stopGame(lua_State* L);
     static s32 _switchMission(lua_State* L);
     static s32 _restartMission(lua_State* L);
+    static s32 _pauseMission(lua_State* L);
+    static s32 _resumeMission(lua_State* L);
+    static s32 _exitToMainMenu(lua_State* L);
 
     /* World */
     static s32 _hostSwitchLocation(lua_State* L);

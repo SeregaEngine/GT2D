@@ -15,6 +15,7 @@ extern "C"
 #include "InputModule.h"
 #include "Console.h"
 #include "Game.h"
+#include "PauseState.h"
 #include "Actor.h"
 #include "WaitTask.h"
 #include "GotoTask.h"
@@ -106,6 +107,9 @@ void ScriptModule::DefineFunctions(lua_State* L)
     lua_register(L, "stopGame", _stopGame);
     lua_register(L, "switchMission", _switchMission);
     lua_register(L, "restartMission", _restartMission);
+    lua_register(L, "pauseMission", _pauseMission);
+    lua_register(L, "resumeMission", _resumeMission);
+    lua_register(L, "exitToMainMenu", _exitToMainMenu);
 
     /* World */
     lua_register(L, "hostSwitchLocation", _hostSwitchLocation);
@@ -1024,6 +1028,40 @@ s32 ScriptModule::_restartMission(lua_State* L)
 
     g_game.ChangeState(new PlayState(static_cast<PlayState*>(
         g_game.GetCurrentState())->GetScriptPath(), (s32)lua_tointeger(L, 1)));
+
+    return 0;
+}
+
+s32 ScriptModule::_pauseMission(lua_State* L)
+{
+    if (!LuaExpect(L, "pauseMission", 0))
+        return -1;
+
+    PlayState* pState = (PlayState*)g_game.GetCurrentState();
+    g_game.PushState(new PauseState(pState->GetScript(), pState->GetWorld()));
+
+    return 0;
+}
+
+s32 ScriptModule::_resumeMission(lua_State* L)
+{
+    if (!LuaExpect(L, "resumeMission", 0))
+        return -1;
+
+    g_game.PopState();
+
+    return 0;
+}
+
+s32 ScriptModule::_exitToMainMenu(lua_State* L)
+{
+    if (!LuaExpect(L, "exitToMainMenu", 0))
+        return -1;
+
+    /* TODO(sean) Implement this
+    g_game.PopAllStates();
+    g_game.PushState(new PlayState("Scripts/MainMenu.lua", 1));
+    */
 
     return 0;
 }

@@ -22,9 +22,9 @@ function Input.defaultHandle()
         return
     end
 
-    -- Stop game on escape
+    -- Pause game on escape
     if Input.isKeyDown(GTK_ESCAPE) then
-        stopGame()
+        Mission.pause()
     end
 
     -- Handle Player's behaviour

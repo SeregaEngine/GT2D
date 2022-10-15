@@ -11,6 +11,8 @@
 /* ====== METHODS ====== */
 b32 PlayState::OnEnter()
 {
+    m_bEntered = true; // Mark that we been in OnEnter() once
+
     m_world.StartUp();
     if (nullptr == (m_pScript = g_scriptModule.EnterMission(m_scriptPath, m_loadLocation)))
         return false;

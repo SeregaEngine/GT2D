@@ -34,7 +34,7 @@ public:
     GameState* GetCurrentState() { return m_pCurrentState; }
 
     b32 Running() const { return m_bRunning; }
-    World& GetWorld() { return static_cast<PlayState*>(m_pCurrentState)->GetWorld(); }
+    World& GetWorld();
     lua_State* GetScript() { return m_pCurrentState ? m_pCurrentState->GetScript() : nullptr; };
 private:
     void HandleNewState();

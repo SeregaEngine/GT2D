@@ -134,6 +134,9 @@
     <ClCompile Include="..\..\Source\AI\WaitTask.cpp">
       <Filter>AI</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Game\PauseState.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Bin\Scripts\Mission1Old.lua">
@@ -203,6 +206,9 @@
       <Filter>Lua Scripts</Filter>
     </None>
     <None Include="..\..\Bin\Scripts\Mission2.lua">
+      <Filter>Lua Scripts</Filter>
+    </None>
+    <None Include="..\..\Bin\Scripts\Pause.lua">
       <Filter>Lua Scripts</Filter>
     </None>
   </ItemGroup>
@@ -344,6 +350,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\AI\WaitTalkingTask.h">
       <Filter>AI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Game\PauseState.h">
+      <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
