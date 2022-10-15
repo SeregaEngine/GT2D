@@ -2,14 +2,31 @@
 --| * Loader.lua *
 ----------------------------------------------------------------------
 
--- TODO(sean) Read save file
 ---- Includes
 require "Mission"
 
 ---- Loader
 function Mission.onEnter(Location)
 	GT_LOG(PR_NOTE, "Loader entered")
-	Mission.switch("Scripts/Mission2.lua", 1)
+
+	-- Set default value
+	local SaveInfo = {
+		Path = "Scripts/MissionIntro.lua",
+		Location = 1
+	}
+
+	-- Read save file or write default one
+	local Test = io.open("Save", "r")
+	if Test then
+		Test:close()
+		SaveInfo = dofile("Save")
+		GT_LOG(PR_NOTE, "Save file found")
+	else
+		Saver.save(SaveInfo.Path, SaveInfo.Location)
+		GT_LOG(PR_NOTE, "Save file didn't find, made new")
+	end
+
+	Mission.switch(SaveInfo.Path, SaveInfo.Location)
 end
 
 function Mission.onUpdate(dt)

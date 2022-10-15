@@ -2,8 +2,16 @@
 --| * Saver.lua *
 ----------------------------------------------------------------------
 
--- TODO(sean) Implement
+Saver = {}
 
-function save(Path, Location)
-	GT_LOG(PR_NOTE, string.format("%s %d saved", Path, Location))
+function Saver.save(Path, Location)
+	local File = io.open("Save", "w+")
+	if not File then
+		GT_LOG(PR_WARNING, "Couldn't open <Save> file")
+		return
+	end
+
+	File:write(string.format("return { Path = \"%s\", Location = %d }\n", Path, Location))
+	File:close()
 end
+

@@ -21,6 +21,7 @@ require "Car"
 require "Dialog"
 require "Trigger"
 
+require "Saver"
 require "Cutscene"
 
 ---- Defines

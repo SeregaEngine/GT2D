@@ -45,10 +45,6 @@ end
 
 function Mission.onUpdate(dt)
 	Input.defaultHandle()
-
-	if DEBUG then
-		GT_LOG(PR_NOTE, string.format("%.1f, %.1f", Camera.getPosition()))
-	end
 end
 
 function Mission.onRender()
