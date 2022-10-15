@@ -186,6 +186,7 @@ function L1.defineCutscenes()
             }
         end,
         function(TActor)
+            Saver.save("Scripts/Mission1.lua", 2)
             Mission.switchLocation(2)
         end
     )
@@ -306,6 +307,7 @@ function L2.defineCutscenes()
             }
         end,
         function(TActor)
+            Saver.save("Scripts/Mission1.lua", 3)
             Mission.switchLocation(3)
             TActor:setState("")
         end
@@ -530,6 +532,7 @@ function L3.defineCutscenes()
             }
         end,
         function(TActor)
+            Saver.save("Scripts/Mission1.lua", 4)
             Mission.switchLocation(4)
             TActor:setState("")
         end
@@ -758,7 +761,8 @@ function L4.defineCutscenes()
             }
         end,
         function(TActor)
-            Mission.switch("Scripts/Mission2.lua", 1)
+            Saver.save("Scripts/Mission2.lua", 1)
+            Mission.switch("Scripts/Internal/Loader.lua", 1)
             TActor:setState("")
         end
     )

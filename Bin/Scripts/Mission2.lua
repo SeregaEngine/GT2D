@@ -26,7 +26,7 @@ L2 = {}
 
 ---- Mission
 function Mission.onEnter(Location)
-    GT_LOG(PR_NOTE, "Mission 0 entered")
+    GT_LOG(PR_NOTE, "Mission 2 entered")
 
     if Location == 1 then
         L1.onEnter()
@@ -180,6 +180,7 @@ function L1.defineCutscenes()
 			}
         end,
         function(TActor)
+            Saver.save("Scripts/Mission2.lua", 2)
             Mission.switchLocation(2)
             TActor:setState("")
         end
@@ -354,6 +355,10 @@ function L2.defineCutscenes()
             }
         end,
         function(TActor)
+            --[[ TODO(sean) After third mission
+            Saver.save("Scripts/Mission3.lua", 2)
+            Mission.switch("Scripts/Internal/Loader.lua", 1)
+            ]]--
             Mission.restart(1)
             TActor:setState("")
         end

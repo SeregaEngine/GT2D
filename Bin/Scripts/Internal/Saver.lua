@@ -15,3 +15,6 @@ function Saver.save(Path, Location)
 	File:close()
 end
 
+function Saver.delete()
+	os.remove("Save")
+end

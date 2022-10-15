@@ -153,8 +153,9 @@ function defineCutscenes()
 			}
         end,
         function(TActor)
-            Mission.switch("Scripts/Mission1.lua", 1)
-            TActor:setState("")
+			Saver.save("Scripts/Mission1.lua", 1)
+			Mission.switch("Scripts/Internal/Loader.lua", 1)
+			TActor:setState("")
         end
     )
 end
