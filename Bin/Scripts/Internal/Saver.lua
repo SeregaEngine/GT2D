@@ -18,3 +18,12 @@ end
 function Saver.delete()
 	os.remove("Save")
 end
+
+function Saver.hasSave()
+	local Test = io.open("Save", "r")
+	if Test then
+		Test:close()
+		return true
+	end
+	return false
+end

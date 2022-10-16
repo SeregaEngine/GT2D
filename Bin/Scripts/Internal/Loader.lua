@@ -16,9 +16,7 @@ function Mission.onEnter(Location)
 	}
 
 	-- Read save file or write default one
-	local Test = io.open("Save", "r")
-	if Test then
-		Test:close()
+	if Saver.hasSave() then
 		SaveInfo = dofile("Save")
 		GT_LOG(PR_NOTE, "Save file found")
 	else
