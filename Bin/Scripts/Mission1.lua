@@ -124,7 +124,7 @@ end
 function L1.onRender()
     -- Parallax
     local XCamera, YCamera = getCameraPosition()
-    local X = (-(TimeTicks + XCamera/2.0*1000.0) % (GW_LOCATION*2*1000)) / 1000
+    local X = -(TimeTicks/1000.0 + XCamera/2.0) % (GW_LOCATION*2)
 
     Graphics.drawFrame(RENDER_MODE_BACKGROUND, 0, true, { X, 0, GW_LOCATION*2, GH_LOCATION }, Textures["Parallax1"])
     Graphics.drawFrame(RENDER_MODE_BACKGROUND, 0, true, { X-GW_LOCATION*2, 0, GW_LOCATION*2, GH_LOCATION }, Textures["Parallax1"])
@@ -658,7 +658,7 @@ end
 
 function L4.onRender()
     -- Parallax
-    local X = (-TimeTicks % (GW_LOCATION*2*1000)) / 1000
+    local X = -(TimeTicks/1000.0) % (GW_LOCATION*2)
     Graphics.drawFrame(RENDER_MODE_BACKGROUND, 0, true, { X, 0, GW_LOCATION*2, GH_LOCATION }, Textures["Parallax4"], 0, 0)
     Graphics.drawFrame(RENDER_MODE_BACKGROUND, 0, true, { X-GW_LOCATION*2, 0, GW_LOCATION*2, GH_LOCATION }, Textures["Parallax4"], 0, 0)
 

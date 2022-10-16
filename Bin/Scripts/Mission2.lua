@@ -66,10 +66,10 @@ function L1.onEnter()
             AnimFrame = 1
         end
 
-		Wheels[i] = Entity:new(X, Y, 8, 8, Textures["Wheel"])
+        Wheels[i] = Entity:new(X, Y, 8, 8, Textures["Wheel"])
         Wheels[i]:setAnimFrame(AnimFrame)
-		Wheels[i]:setRenderMode(RENDER_MODE_BACKGROUND)
-		Wheels[i]:setZIndex(10+i)
+        Wheels[i]:setRenderMode(RENDER_MODE_BACKGROUND)
+        Wheels[i]:setZIndex(10+i)
     end
 
     --- Init mission
@@ -80,7 +80,7 @@ function L1.onEnter()
 end
 
 function L1.onUpdate(dt)
-	GarageBlueprint.onUpdate(dt)
+    GarageBlueprint.onUpdate(dt)
     Input.defaultHandle()
 end
 
@@ -89,10 +89,10 @@ function L1.onRender()
 end
 
 function L1.defineTriggers()
-	function Triggers.leaveCutscene(TTrigger, TEntity)
-		setmetatable(TEntity, Actor)
-		TEntity:setState("leaveCutscene")
-	end
+    function Triggers.leaveCutscene(TTrigger, TEntity)
+        setmetatable(TEntity, Actor)
+        TEntity:setState("leaveCutscene")
+    end
 end
 
 function L1.defineCutscenes()
@@ -142,8 +142,8 @@ function L1.defineCutscenes()
 
     States.morningCutscene = Cutscene.new(
         function(TActor)
-			Anthony:delete()
-			Zhenek:delete()
+            Anthony:delete()
+            Zhenek:delete()
             Dodge:delete()
             for i,v in ipairs(Wheels) do
                 v:delete()
@@ -153,15 +153,15 @@ function L1.defineCutscenes()
             GarageBlueprint.DayTime = GarageBlueprint.Day
 
             return {
-				{ Player, false, GTT_FADE_IN, 2000.0 },
-				{ Player, false, GTT_PUSH_COMMAND, GTC_TURN_LEFT },
-				{ Player, true, GTT_ANIMATE_FOR, Anims["PlayerSleep"], 1000.0 },
-				{ Player, true, GTT_WAIT_ANIMATION, Anims["PlayerWakeUp"] },
-				{ Player, false, GTT_PUSH_COMMAND, GTC_TURN_LEFT },
-				{ Player, false, GTT_PUSH_COMMAND, GTC_IDLE },
+                { Player, false, GTT_FADE_IN, 2000.0 },
+                { Player, false, GTT_PUSH_COMMAND, GTC_TURN_LEFT },
+                { Player, true, GTT_ANIMATE_FOR, Anims["PlayerSleep"], 1000.0 },
+                { Player, true, GTT_WAIT_ANIMATION, Anims["PlayerWakeUp"] },
+                { Player, false, GTT_PUSH_COMMAND, GTC_TURN_LEFT },
+                { Player, false, GTT_PUSH_COMMAND, GTC_IDLE },
 
-				{ Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Where is my car?", 0.5, Player, Textures["DialogSquare"]) },
-				{ Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "What the fuck is going on", 0.5, Player, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Where is my car?", 0.5, Player, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "What the fuck is going on", 0.5, Player, Textures["DialogSquare"]) },
             }
         end,
         function(TActor)
@@ -174,11 +174,11 @@ function L1.defineCutscenes()
     States.leaveCutscene = Cutscene.new(
         function(TActor)
             IsPlayerControllable = false
-			return {
-				{ Player, false, GTT_GOTO, GROUND_WIDTH*2, GROUND_Y + GROUND_HEIGHT/2 },
-				{ Player, true, GTT_FADE_OFF, 2500.0 },
-				{ Player, false, GTT_FADE_IN, 0.0 }, -- Black screen on last frame
-			}
+            return {
+                { Player, false, GTT_GOTO, GROUND_WIDTH*2, GROUND_Y + GROUND_HEIGHT/2 },
+                { Player, true, GTT_FADE_OFF, 2500.0 },
+                { Player, false, GTT_FADE_IN, 0.0 }, -- Black screen on last frame
+            }
         end,
         function(TActor)
             Saver.save("Scripts/Mission2.lua", 2)
@@ -256,7 +256,7 @@ end
 
 function L2.onRender()
     -- Parallax
-    local X = ((TimeTicks % (GW_LOCATION*1000)) / 1000) % 128
+    local X = (-TimeTicks/1000 % GW_LOCATION)
     Graphics.drawFrame(RENDER_MODE_BACKGROUND, 0, true, { X, 0, GW_LOCATION, GH_LOCATION }, Textures["Parallax2"])
     Graphics.drawFrame(RENDER_MODE_BACKGROUND, 0, true, { X-GW_LOCATION, 0, GW_LOCATION, GH_LOCATION }, Textures["Parallax2"])
 
