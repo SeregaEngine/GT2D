@@ -80,6 +80,7 @@ function L1.onEnter()
 end
 
 function L1.onUpdate(dt)
+	GarageBlueprint.onUpdate(dt)
     Input.defaultHandle()
 end
 
@@ -199,6 +200,9 @@ function L2.onEnter()
     GROUND_X = 0
     GROUND_Y = SCREEN_HEIGHT - GROUND_HEIGHT
 
+    -- Globals
+    TimeTicks = Clock.getTicks()
+
     -- Entities
     Player = Actor:new(0, 0, GW_ACTOR, GH_ACTOR, Textures["Player"])
     local XDefault,YDefault = Player:getSpeed()
@@ -246,12 +250,13 @@ function L2.onEnter()
 end
 
 function L2.onUpdate(dt)
+    TimeTicks = Clock.getTicks()
     Input.defaultHandle()
 end
 
 function L2.onRender()
     -- Parallax
-    local X = ((Clock.getTicks() % (GW_LOCATION*1000)) / 1000) % 128
+    local X = ((TimeTicks % (GW_LOCATION*1000)) / 1000) % 128
     Graphics.drawFrame(RENDER_MODE_BACKGROUND, 0, true, { X, 0, GW_LOCATION, GH_LOCATION }, Textures["Parallax2"])
     Graphics.drawFrame(RENDER_MODE_BACKGROUND, 0, true, { X-GW_LOCATION, 0, GW_LOCATION, GH_LOCATION }, Textures["Parallax2"])
 

@@ -30,6 +30,10 @@ function Mission.onEnter(Location)
 end
 
 function Mission.onUpdate(dt)
+	if Console.isShown() then
+		return
+	end
+
 	local X,Y = Input.getMousePosition()
 	if (Input.isKeyDown(GTK_UP)) or
 	   (X >= BUTTON_CONTINUE_X and X < BUTTON_CONTINUE_X + BUTTON_CONTINUE_WIDTH and

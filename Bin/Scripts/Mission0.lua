@@ -34,6 +34,7 @@ function Mission.onEnter(Location)
 end
 
 function Mission.onUpdate(dt)
+	GarageBlueprint.onUpdate(dt)
     Input.defaultHandle()
 end
 

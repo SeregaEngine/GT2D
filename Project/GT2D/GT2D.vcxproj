@@ -205,6 +205,7 @@
     <ClCompile Include="..\..\Source\Sound\SoundModule.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\Bin\Scripts\Credits.lua" />
     <None Include="..\..\Bin\Scripts\GarageBlueprint.lua" />
     <None Include="..\..\Bin\Scripts\Internal\Actor.lua" />
     <None Include="..\..\Bin\Scripts\Internal\Camera.lua" />

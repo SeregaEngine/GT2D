@@ -31,8 +31,10 @@ GarageBlueprint = {}
 
 GarageBlueprint.Day = Resource.defineTexture("Textures/Locations/GarageBlueprint-Day.png", TW_LOCATION, TH_LOCATION)
 GarageBlueprint.Night = Resource.defineTexture("Textures/Locations/GarageBlueprint-Night.png", TW_LOCATION, TH_LOCATION)
+GarageBlueprint.TimeTicks = Clock.getTicks()
 
 function GarageBlueprint.onEnter()
+
     -- Entities
 	Fire = Actor:new(76, 36.5, GW_ACTOR, GH_ACTOR, Textures["Fire"])
 	Fire:setRenderMode(RENDER_MODE_BACKGROUND)
@@ -83,9 +85,13 @@ function GarageBlueprint.onEnter()
     Camera.setPosition(0, 0)
 end
 
+function GarageBlueprint.onUpdate(dt)
+	GarageBlueprint.TimeTicks = Clock.getTicks()
+end
+
 function GarageBlueprint.onRender()
 	-- Parallax
-    local X = ((Clock.getTicks() % (GW_LOCATION*1000)) / 1000) % 128
+    local X = ((GarageBlueprint.TimeTicks % (GW_LOCATION*1000)) / 1000) % 128
     Graphics.drawFrame(RENDER_MODE_BACKGROUND, 0, true, { X, 0, GW_LOCATION, GH_LOCATION }, GarageBlueprint.DayTime)
     Graphics.drawFrame(RENDER_MODE_BACKGROUND, 0, true, { X-GW_LOCATION, 0, GW_LOCATION, GH_LOCATION }, GarageBlueprint.DayTime)
 

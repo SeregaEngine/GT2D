@@ -12,34 +12,42 @@ function Mission.onEnter(Location)
 
 	BUTTON_CHAR_WIDTH = 4
 	BUTTON_HEIGHT = 8
-	MAX_BUTTONS = 3
+	MAX_BUTTONS = 4
 
 	-- Globals
 	LastArrowTry = 0
 	IgnoreClick = (Input.isKeyDown(GTK_RETURN) or Input.isMouseDown(GTM_LEFT)) and true or false
 
 	Buttons = {}
-	Buttons[1] = {}
-	Buttons[2] = {}
-	Buttons[3] = {}
+	for i = 1,MAX_BUTTONS do Buttons[i] = {} end
 
 	Buttons[1].IsAvailable = Saver.hasSave() and true or false
 	Buttons[1].Text = "Continue"
 	Buttons[1].Width = string.len(Buttons[1].Text) * BUTTON_CHAR_WIDTH
 	Buttons[1].X = (SCREEN_WIDTH - Buttons[1].Width)/2
 	Buttons[1].Y = (SCREEN_HEIGHT - BUTTON_HEIGHT*MAX_BUTTONS)/2
+	Buttons[1].Action = function() Mission.switch("Scripts/Internal/Loader.lua", 1) end
 	
 	Buttons[2].IsAvailable = true
 	Buttons[2].Text = "New game"
 	Buttons[2].Width = string.len(Buttons[2].Text) * BUTTON_CHAR_WIDTH
 	Buttons[2].X = (SCREEN_WIDTH - Buttons[2].Width)/2
 	Buttons[2].Y = Buttons[1].Y + BUTTON_HEIGHT
+	Buttons[2].Action = function() Saver.delete(); Mission.switch("Scripts/Internal/Loader.lua", 1) end
 
 	Buttons[3].IsAvailable = true
-	Buttons[3].Text = "Leave"
+	Buttons[3].Text = "Credits"
 	Buttons[3].Width = string.len(Buttons[3].Text) * BUTTON_CHAR_WIDTH
 	Buttons[3].X = (SCREEN_WIDTH - Buttons[3].Width)/2
 	Buttons[3].Y = Buttons[2].Y + BUTTON_HEIGHT
+	Buttons[3].Action = function() Mission.switch("Scripts/Credits.lua", 1) end
+
+	Buttons[4].IsAvailable = true
+	Buttons[4].Text = "Leave"
+	Buttons[4].Width = string.len(Buttons[4].Text) * BUTTON_CHAR_WIDTH
+	Buttons[4].X = (SCREEN_WIDTH - Buttons[4].Width)/2
+	Buttons[4].Y = Buttons[3].Y + BUTTON_HEIGHT
+	Buttons[4].Action = function() Mission.stop() end
 
 	-- Some global stuff
 	Active = Buttons[1].IsAvailable and 1 or 2
@@ -76,14 +84,7 @@ function Mission.onUpdate(dt)
 	end
 
 	if not IgnoreClick and (Input.isKeyDown(GTK_RETURN) or Input.isMouseDown(GTM_LEFT)) then
-		if Active == 1 then
-			Mission.switch("Scripts/Internal/Loader.lua", 1)
-		elseif Active == 2 then
-			Saver.delete()
-			Mission.switch("Scripts/Internal/Loader.lua", 1)
-		elseif Active == 3 then
-			Mission.stop()
-		end
+		Buttons[Active].Action()
 	end
 end
 
