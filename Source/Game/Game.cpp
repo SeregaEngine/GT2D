@@ -16,7 +16,7 @@ b32 Game::StartUp()
     m_bRunning = true;
 
     m_pCurrentState = nullptr;
-    m_lstState.Push(new PlayState(MISSION_LOADER_PATH, 0));
+    m_lstState.Push(new PlayState(MAIN_MENU_PATH, 0));
 
     AddNote(PR_NOTE, "Module started");
 

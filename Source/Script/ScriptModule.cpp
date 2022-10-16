@@ -1058,10 +1058,8 @@ s32 ScriptModule::_exitToMainMenu(lua_State* L)
     if (!LuaExpect(L, "exitToMainMenu", 0))
         return -1;
 
-    /* TODO(sean) Implement this
     g_game.PopAllStates();
     g_game.PushState(new PlayState("Scripts/MainMenu.lua", 1));
-    */
 
     return 0;
 }

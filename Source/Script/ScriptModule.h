@@ -11,6 +11,7 @@ extern "C"
 
 /* ====== DEFINES ====== */
 #define MISSION_LOADER_PATH "Scripts/Internal/Loader.lua"
+#define MAIN_MENU_PATH "Scripts/MainMenu.lua"
 
 /* ====== STRUCTURES ====== */
 class Entity;

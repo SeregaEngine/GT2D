@@ -53,7 +53,7 @@ function Mission.onUpdate(dt)
 end
 
 function Mission.onRender()
-	Graphics.setDrawColor(30, 20, 0, 160)
+	Graphics.setDrawColor(160, 50, 0, 160)
 	Graphics.fillRect(RENDER_MODE_FOREGROUND, 999, true, { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT })
 
 	setButtonColor(BUTTON_CONTINUE_TEXT)

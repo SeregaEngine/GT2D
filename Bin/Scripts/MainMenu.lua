@@ -16,6 +16,7 @@ function Mission.onEnter(Location)
 
 	-- Globals
 	LastArrowTry = 0
+	IgnoreClick = (Input.isKeyDown(GTK_RETURN) or Input.isMouseDown(GTM_LEFT)) and true or false
 
 	Buttons = {}
 	Buttons[1] = {}
@@ -61,7 +62,8 @@ function Mission.onUpdate(dt)
 	-- Handle mouse
 	local X,Y = Input.getMousePosition()
 	for i,v in ipairs(Buttons) do
-	   if X >= Buttons[i].X and X < Buttons[i].X + Buttons[i].Width and
+	   if Buttons[i].IsAvailable and
+	      X >= Buttons[i].X and X < Buttons[i].X + Buttons[i].Width and
 	      Y >= Buttons[i].Y and Y < Buttons[i].Y + BUTTON_HEIGHT then
 		Active = i
 		break
@@ -69,9 +71,19 @@ function Mission.onUpdate(dt)
 	end
 
 	-- Handle button enter
-	if Input.isKeyDown(GTK_RETURN) or Input.isMouseDown(GTM_LEFT) then
-		Mission.stop()
-		-- DEBUG(sean)
+	if IgnoreClick and not Input.isKeyDown(GTK_RETURN) and not Input.isMouseDown(GTM_LEFT) then
+		IgnoreClick = false
+	end
+
+	if not IgnoreClick and (Input.isKeyDown(GTK_RETURN) or Input.isMouseDown(GTM_LEFT)) then
+		if Active == 1 then
+			Mission.switch("Scripts/Internal/Loader.lua", 1)
+		elseif Active == 2 then
+			Saver.delete()
+			Mission.switch("Scripts/Internal/Loader.lua", 1)
+		elseif Active == 3 then
+			Mission.stop()
+		end
 	end
 end
 
