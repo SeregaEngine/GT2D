@@ -91,7 +91,7 @@ end
 
 function GarageBlueprint.onRender()
 	-- Parallax
-    local X = ((GarageBlueprint.TimeTicks % (GW_LOCATION*1000)) / 1000) % 128
+    local X = -(GarageBlueprint.TimeTicks/1000.0) % GW_LOCATION
     Graphics.drawFrame(RENDER_MODE_BACKGROUND, 0, true, { X, 0, GW_LOCATION, GH_LOCATION }, GarageBlueprint.DayTime)
     Graphics.drawFrame(RENDER_MODE_BACKGROUND, 0, true, { X-GW_LOCATION, 0, GW_LOCATION, GH_LOCATION }, GarageBlueprint.DayTime)
 

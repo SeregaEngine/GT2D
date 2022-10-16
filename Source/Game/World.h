@@ -19,6 +19,8 @@ class World final : EngineModule
 
     SRect m_groundBounds;
     s32 m_switchLocation;
+    // TODO(sean) World ticks
+
 public:
     World() : EngineModule("World", CHANNEL_GAME) {}
 

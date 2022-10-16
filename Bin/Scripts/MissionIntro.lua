@@ -54,7 +54,7 @@ function Mission.onRender()
 	Graphics.drawFrame(RENDER_MODE_BACKGROUND, 0, true, { -GW_LOCATION - X*0.1, Y, GW_LOCATION*2, GH_LOCATION }, Textures["Background"], 0, 0)
 
 	-- Barrier and road
-	local FastX = math.abs(X*1.5) % 128
+	local FastX = -(X*1.5) % GW_LOCATION
 	local FastX2 = FastX - GW_LOCATION
 
 	Graphics.drawFrame(RENDER_MODE_BACKGROUND, 1, true, { FastX, 0, GW_LOCATION, GH_LOCATION }, Textures["Barrier"], 0, 0)
