@@ -68,7 +68,7 @@ function Mission.onEnter(Location)
 		"ART LEAD",
 		"Kirill Sednev",
 	}
-	Y = SCREEN_HEIGHT
+	Y = SCREEN_HEIGHT * 1.1
 	YMax = -(TITLE_HEIGHT + #Credits/2 * POSITION_HEIGHT + #Credits/2 * NAME_HEIGHT) * 1.1
 end
 

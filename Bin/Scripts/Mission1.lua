@@ -109,6 +109,7 @@ function L1.onEnter()
     L1.defineCutscenes()
 
     -- Level
+    TimeTicks = Clock.getTicks()
     Mission.setGroundBounds({ GROUND_X, GROUND_Y, GROUND_WIDTH, GROUND_HEIGHT })
     Camera.setBounds({ 0, 0, GROUND_WIDTH, SCREEN_HEIGHT })
     Camera.attach(Player)
@@ -116,17 +117,21 @@ function L1.onEnter()
 end
 
 function L1.onUpdate(dt)
+    TimeTicks = Clock.getTicks()
     Input.defaultHandle()
 end
 
 function L1.onRender()
     -- Parallax
-    X,Y = getCameraPosition()
-    Graphics.drawFrame(RENDER_MODE_BACKGROUND, 0, true, { -X/2, -Y/2, GW_LOCATION*2, GH_LOCATION }, Textures["Parallax1"], 0, 0)
+    local XCamera, YCamera = getCameraPosition()
+    local X = (-(TimeTicks + XCamera/2.0*1000.0) % (GW_LOCATION*2*1000)) / 1000
+
+    Graphics.drawFrame(RENDER_MODE_BACKGROUND, 0, true, { X, 0, GW_LOCATION*2, GH_LOCATION }, Textures["Parallax1"])
+    Graphics.drawFrame(RENDER_MODE_BACKGROUND, 0, true, { X-GW_LOCATION*2, 0, GW_LOCATION*2, GH_LOCATION }, Textures["Parallax1"])
 
     -- Help
     Graphics.setDrawColor(255, 255, 255, 160)
-    Graphics.drawText(RENDER_MODE_BACKGROUND, 1, true, { -X/2 + 75, -Y/2, 50, 10 }, "Try space to attack")
+    Graphics.drawText(RENDER_MODE_BACKGROUND, 1, true, { X - 128, 0, 50, 10 }, "Try space to attack")
 
     -- Background
     Graphics.drawFrame(RENDER_MODE_BACKGROUND, 2, false, { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }, Textures["Background1"], 0, 0)
@@ -221,8 +226,8 @@ function L2.onEnter()
 
     local X,_ = Squares[1]:getPosition()
     Lockpick = Entity:new(X, LOCKPICK_TOP, GW_LOCKPICK, GH_LOCKPICK, Textures["Blank"])
-	LockpickingStage = 1
-	LockpickGoBottom = true
+    LockpickingStage = 1
+    LockpickGoBottom = true
     LockpickLastTry = 0
 
     -- States
@@ -249,9 +254,9 @@ function L2.onRender()
     -- Squares
     for i,v in ipairs(Squares) do
         if i < LockpickingStage then
-			Graphics.setDrawColor(135, 200, 96, 255)
+            Graphics.setDrawColor(135, 200, 96, 255)
         else
-			Graphics.setDrawColor(232, 232, 232, 255)
+            Graphics.setDrawColor(232, 232, 232, 255)
         end
 
         X,Y = v:getPosition()
@@ -339,7 +344,7 @@ function L2.defineStates()
             -- Check collision with square
             if (LY - GH_LOCKPICK/2 >= SY - GH_SQUARE/2) and
                (LY + GH_LOCKPICK/2) <= SY + GH_SQUARE/2 then
-				LockpickingStage = LockpickingStage + 1
+                LockpickingStage = LockpickingStage + 1
                 if (LockpickingStage > 4) then
                     TActor:setState("fadeOffCutscene1")
                     return
@@ -352,9 +357,9 @@ function L2.defineStates()
                 LX = SX
             else
                 if Clock.getTicks() - LockpickLastTry >= LOCKPICK_FAIL_SOUND_RATE then
-					Sounds["LockpickFail"]:play()
+                    Sounds["LockpickFail"]:play()
                     LockpickLastTry = Clock.getTicks()
-				end
+                end
 
                 LX = SX
             end
@@ -634,6 +639,8 @@ function L4.onEnter()
     L4.defineCutscenes()
 
     -- Level
+    TimeTicks = Clock.getTicks()
+
     Mission.setGroundBounds({ GROUND_X, GROUND_Y, GROUND_WIDTH, GROUND_HEIGHT })
     Camera.setBounds({ 0, 0, GROUND_WIDTH, SCREEN_HEIGHT })
     Camera.attach(Player)
@@ -645,14 +652,15 @@ function L4.onEnter()
 end
 
 function L4.onUpdate(dt)
+    TimeTicks = Clock.getTicks()
     Input.defaultHandle()
 end
 
 function L4.onRender()
-    local X,Y = getCameraPosition()
-
     -- Parallax
-    Graphics.drawFrame(RENDER_MODE_BACKGROUND, 0, true, { -X/2, -Y/2, GW_LOCATION*2, GH_LOCATION }, Textures["Parallax4"], 0, 0)
+    local X = (-TimeTicks % (GW_LOCATION*2*1000)) / 1000
+    Graphics.drawFrame(RENDER_MODE_BACKGROUND, 0, true, { X, 0, GW_LOCATION*2, GH_LOCATION }, Textures["Parallax4"], 0, 0)
+    Graphics.drawFrame(RENDER_MODE_BACKGROUND, 0, true, { X-GW_LOCATION*2, 0, GW_LOCATION*2, GH_LOCATION }, Textures["Parallax4"], 0, 0)
 
     -- Background
     Graphics.drawFrame(RENDER_MODE_BACKGROUND, 1, false, { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }, Textures["Background4"], 0, 0)
