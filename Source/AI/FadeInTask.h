@@ -29,7 +29,7 @@ public:
         }
 
         g_graphicsModule.SetDrawColor(0, 0, 0, (Uint8)m_alpha);
-        g_graphicsModule.FillRect(RENDER_MODE_FOREGROUND, 999, true, m_destRect);
+        g_graphicsModule.FillRect(RENDER_MODE_FOREGROUND, 500, true, m_destRect);
         m_alpha -= m_alphaPerMs * g_clockMgr.GetDelta();
     }
 };

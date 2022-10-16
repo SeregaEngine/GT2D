@@ -10,15 +10,62 @@ require "Mission"
 
 function Mission.onEnter(Location)
 	GT_LOG(PR_NOTE, "Game paused")
+
+	-- Defines
+	BUTTON_CHAR_WIDTH = 4
+	BUTTON_HEIGHT = 8
+
+	BUTTON_CONTINUE_TEXT = "Continue"
+	BUTTON_CONTINUE_WIDTH = string.len(BUTTON_CONTINUE_TEXT) * BUTTON_CHAR_WIDTH
+	BUTTON_CONTINUE_X = (SCREEN_WIDTH - BUTTON_CONTINUE_WIDTH)/2
+	BUTTON_CONTINUE_Y = (SCREEN_HEIGHT - BUTTON_HEIGHT*2)/2
+
+	BUTTON_EXIT_TEXT = "Exit"
+	BUTTON_EXIT_WIDTH = string.len(BUTTON_EXIT_TEXT) * BUTTON_CHAR_WIDTH
+	BUTTON_EXIT_X = (SCREEN_WIDTH - BUTTON_EXIT_WIDTH)/2
+	BUTTON_EXIT_Y = BUTTON_CONTINUE_Y + BUTTON_HEIGHT
+
+	-- Some global stuff
+	Active = BUTTON_CONTINUE_TEXT 
 end
 
 function Mission.onUpdate(dt)
-	if Input.isKeyDown(GTK_SPACE) then
-		Mission.resume()
+	local X,Y = Input.getMousePosition()
+	if (Input.isKeyDown(GTK_UP)) or
+	   (X >= BUTTON_CONTINUE_X and X < BUTTON_CONTINUE_X + BUTTON_CONTINUE_WIDTH and
+	    Y >= BUTTON_CONTINUE_Y and Y < BUTTON_CONTINUE_Y + BUTTON_HEIGHT) then
+		Active = BUTTON_CONTINUE_TEXT
+	elseif (Input.isKeyDown(GTK_DOWN)) or
+	       (X >= BUTTON_EXIT_X and X < BUTTON_EXIT_X + BUTTON_EXIT_WIDTH and
+	        Y >= BUTTON_EXIT_Y and Y < BUTTON_EXIT_Y + BUTTON_HEIGHT) then
+		Active = BUTTON_EXIT_TEXT
+	end
+
+	if Input.isKeyDown(GTK_RETURN) or Input.isMouseDown(GTM_LEFT) then
+		if Active == BUTTON_CONTINUE_TEXT then
+			Mission.resume()
+			GT_LOG(PR_NOTE, "Game resumed")
+		else
+			Mission.exitToMainMenu()
+			GT_LOG(PR_NOTE, "Game exited to main menu")
+		end
 	end
 end
 
 function Mission.onRender()
-	Graphics.setDrawColor(0, 0, 0, 160)
-	Graphics.fillRect(RENDER_MODE_FOREGROUND, true, 999, { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT })
+	Graphics.setDrawColor(30, 20, 0, 160)
+	Graphics.fillRect(RENDER_MODE_FOREGROUND, 999, true, { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT })
+
+	setButtonColor(BUTTON_CONTINUE_TEXT)
+	Graphics.drawText(RENDER_MODE_FOREGROUND, 1000, true, { BUTTON_CONTINUE_X, BUTTON_CONTINUE_Y, BUTTON_CONTINUE_WIDTH, BUTTON_HEIGHT }, BUTTON_CONTINUE_TEXT)
+	setButtonColor(BUTTON_EXIT_TEXT)
+	Graphics.drawText(RENDER_MODE_FOREGROUND, 1000, true, { BUTTON_EXIT_X, BUTTON_EXIT_Y, BUTTON_EXIT_WIDTH, BUTTON_HEIGHT }, BUTTON_EXIT_TEXT)
+end
+
+function setButtonColor(ButtonName)
+	if ButtonName == Active then
+		Graphics.setDrawColor(255, 255, 255, 170)
+	else
+		Graphics.setDrawColor(255, 255, 255, 255)
+	end
 end
