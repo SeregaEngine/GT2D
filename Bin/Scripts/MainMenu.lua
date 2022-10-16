@@ -8,7 +8,7 @@ require "Mission"
 ---- Menu
 function Mission.onEnter(Location)
 	-- Defines
-	ARROW_TRY_RATE = 75
+	ARROW_TRY_RATE = 150
 
 	BUTTON_CHAR_WIDTH = 4
 	BUTTON_HEIGHT = 8
