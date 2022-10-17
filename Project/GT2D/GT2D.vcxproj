@@ -227,8 +227,8 @@
     <None Include="..\..\Bin\Scripts\MainMenu.lua" />
     <None Include="..\..\Bin\Scripts\Mission0.lua" />
     <None Include="..\..\Bin\Scripts\Mission1.lua" />
-    <None Include="..\..\Bin\Scripts\Mission1Old.lua" />
     <None Include="..\..\Bin\Scripts\Mission2.lua" />
+    <None Include="..\..\Bin\Scripts\Mission3.lua" />
     <None Include="..\..\Bin\Scripts\MissionIntro.lua" />
     <None Include="..\..\Bin\Scripts\Pause.lua" />
   </ItemGroup>

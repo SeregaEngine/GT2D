@@ -139,9 +139,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\Bin\Scripts\Mission1Old.lua">
-      <Filter>Lua Scripts</Filter>
-    </None>
     <None Include="..\..\Bin\Scripts\Mission0.lua">
       <Filter>Lua Scripts</Filter>
     </None>
@@ -215,6 +212,9 @@
       <Filter>Lua Scripts</Filter>
     </None>
     <None Include="..\..\Bin\Scripts\Credits.lua">
+      <Filter>Lua Scripts</Filter>
+    </None>
+    <None Include="..\..\Bin\Scripts\Mission3.lua">
       <Filter>Lua Scripts</Filter>
     </None>
   </ItemGroup>
