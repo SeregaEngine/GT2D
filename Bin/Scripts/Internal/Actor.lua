@@ -4,6 +4,7 @@
 
 ---- Defines
 ACTOR_TEAM_FRIENDS = ACTOR_TEAM_DEFAULT + 1
+ACTOR_TEAM_ENEMIES = ACTOR_TEAM_FRIENDS + 1
 
 ---- Singleton
 Actor = Entity:inherit()
