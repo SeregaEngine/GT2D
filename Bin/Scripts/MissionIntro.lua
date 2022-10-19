@@ -75,6 +75,8 @@ function defineCutscenes()
         function(TActor)
             return {
                 { Player, true, GTT_FADE_IN, 15000.0 },
+
+                -- TODO(sean) Paste dialogs
                 { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "", 0.25, Player, Textures["DialogSquare"]) },
                 { Player, true, GTT_WAIT, 20000.0 },
             }
