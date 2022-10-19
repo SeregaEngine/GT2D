@@ -132,7 +132,7 @@ function L1.onRender()
 
     -- Help
     Graphics.setDrawColor(255, 255, 255, 160)
-    Graphics.drawText(RENDER_MODE_BACKGROUND, 1, true, { X - 128, 0, 50, 10 }, "Try space to attack")
+    Graphics.drawText(RENDER_MODE_BACKGROUND, 1, false, { 128 - XCamera/5.0, 0, 50, 10 }, "Try space to attack")
 
     -- Background
     Graphics.drawFrame(RENDER_MODE_BACKGROUND, 2, false, { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }, Textures["Background1"], 0, 0)
