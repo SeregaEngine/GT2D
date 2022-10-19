@@ -108,29 +108,30 @@ function L1.defineCutscenes()
 
             -- We use Player for Anthony's tasks to prevent canceling Anthony's tasks
             return {
-                { Player, false, GTT_FADE_IN, 2000.0 },
+                { Player, false, GTT_FADE_IN, 3000.0 },
                 { Zhenek, false, GTT_GOTO, 70, GROUND_Y + GROUND_HEIGHT/2.5 },
-                { Player, true, GTT_GOTO, 80, GROUND_Y + GROUND_HEIGHT/2 },
+                { Player, true, GTT_GOTO, 87.5, GROUND_Y + GROUND_HEIGHT/2 },
 
-                { Zhenek, true, GTT_WAIT, 250.0 },
-                { Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Wassup Anthony", 0.25, Zhenek, Textures["DialogSquare"]) },
+                { Zhenek, true, GTT_WAIT, 500.0 },
+                { Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Wassup Anthony", 1.5, Zhenek, Textures["DialogSquare"]) },
                 { Zhenek, true, GTT_WAIT, 250.0 },
 
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Sup man", 0.25, Anthony, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Sup man", 1, Anthony, Textures["DialogSquare"]) },
                 { Player, true, GTT_WAIT, 250.0 },
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "I thought you guys died", 0.25, Anthony, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "I thought you guys died", 2, Anthony, Textures["DialogSquare"]) },
                 { Player, true, GTT_WAIT, 250.0 },
 
-                { Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Maybe next time", 0.25, Zhenek, Textures["DialogSquare"]) },
+                { Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Maybe next time", 1.5, Zhenek, Textures["DialogSquare"]) },
                 { Zhenek, true, GTT_WAIT, 250.0 },
 
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "So", 0.25, Player, Textures["DialogSquare"]) },
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "What's next?", 0.25, Player, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "So", 0.75, Player, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "What's next?", 1.5, Player, Textures["DialogSquare"]) },
                 { Player, true, GTT_WAIT, 250.0 },
 
                 { Zhenek, false, GTT_PUSH_COMMAND, GTC_TURN_RIGHT },
                 { Zhenek, true, GTT_WAIT, 250.0 },
-                { Zhenek, false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Our next goal is engine.", 0.25, Zhenek, Textures["DialogSquare"]) },
+                { Zhenek, false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Our next goal is engine.", 4, Zhenek, Textures["DialogSquare"]) },
+                { Zhenek, true, GTT_WAIT, 1000.0 },
                 { Zhenek, true, GTT_FADE_OFF, 4000.0 },
                 { Zhenek, false, GTT_FADE_IN, 0.0 },
             }
@@ -153,15 +154,15 @@ function L1.defineCutscenes()
             GarageBlueprint.DayTime = GarageBlueprint.Day
 
             return {
-                { Player, false, GTT_FADE_IN, 2000.0 },
+                { Player, false, GTT_FADE_IN, 4000.0 },
                 { Player, false, GTT_PUSH_COMMAND, GTC_TURN_LEFT },
-                { Player, true, GTT_ANIMATE_FOR, Anims["PlayerSleep"], 1000.0 },
+                { Player, true, GTT_ANIMATE_FOR, Anims["PlayerSleep"], 3000.0 },
                 { Player, true, GTT_WAIT_ANIMATION, Anims["PlayerWakeUp"] },
                 { Player, false, GTT_PUSH_COMMAND, GTC_TURN_LEFT },
                 { Player, false, GTT_PUSH_COMMAND, GTC_IDLE },
 
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Where is my car?", 0.5, Player, Textures["DialogSquare"]) },
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "What the fuck is going on", 0.5, Player, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Where is my car?", 1, Player, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "What the fuck is going on", 2, Player, Textures["DialogSquare"]) },
             }
         end,
         function(TActor)
@@ -175,8 +176,8 @@ function L1.defineCutscenes()
         function(TActor)
             IsPlayerControllable = false
             return {
-                { Player, false, GTT_GOTO, GROUND_WIDTH*2, GROUND_Y + GROUND_HEIGHT/2 },
-                { Player, true, GTT_FADE_OFF, 2500.0 },
+                { Player, false, GTT_GOTO, GROUND_WIDTH*2, GROUND_Y + GROUND_HEIGHT },
+                { Player, true, GTT_FADE_OFF, 1500.0 },
                 { Player, false, GTT_FADE_IN, 0.0 }, -- Black screen on last frame
             }
         end,
@@ -360,7 +361,7 @@ function L2.defineCutscenes()
             }
         end,
         function(TActor)
-            Saver.save("Scripts/Mission3.lua", 2)
+            Saver.save("Scripts/Mission3.lua", 1)
             Mission.switch("Scripts/Internal/Loader.lua", 1)
             TActor:setState("")
         end
