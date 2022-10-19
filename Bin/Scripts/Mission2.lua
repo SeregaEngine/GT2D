@@ -360,11 +360,8 @@ function L2.defineCutscenes()
             }
         end,
         function(TActor)
-            --[[ TODO(sean) After third mission
             Saver.save("Scripts/Mission3.lua", 2)
             Mission.switch("Scripts/Internal/Loader.lua", 1)
-            ]]--
-            Mission.restart(1)
             TActor:setState("")
         end
     )

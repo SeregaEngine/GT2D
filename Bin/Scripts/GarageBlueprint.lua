@@ -83,6 +83,7 @@ function GarageBlueprint.onEnter()
     Mission.setGroundBounds({ GROUND_X, GROUND_Y, GROUND_WIDTH, GROUND_HEIGHT })
     Camera.setBounds({ 0, 0, GW_LOCATION, GH_LOCATION })
     Camera.setPosition(0, 0)
+	Resource.defineMusic("Music/MainGarageAmbient.wav"):play()
 end
 
 function GarageBlueprint.onUpdate(dt)

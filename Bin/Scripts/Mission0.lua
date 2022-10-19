@@ -11,19 +11,19 @@ require "GarageBlueprint"
 ---- Resources
 Textures["Car"] = Resource.defineTexture("Textures/Cars/Dodge.png", TW_CAR, TH_CAR)
 Anims["PlayerSleep"] = Resource.defineAnimation(6, 1, 1000.0)
-Anims["PlayerWakeUp"] = Resource.defineAnimation(6, 3, 1000.0 / 1.5)
+Anims["PlayerWakeUp"] = Resource.defineAnimation(6, 3, 1000.0 / 1)
 
 ---- Mission functions
 function Mission.onEnter(Location)
     GT_LOG(PR_NOTE, "Mission 0 entered")
 
-	-- Function
-	Mission.onRender = onRender
+    -- Function
+    Mission.onRender = onRender
 
     --- Init garage blueprint
     GarageBlueprint.onEnter()
     Dodge:setTexture(Textures["Car"])
-	Dodge:setAnim(Resource.defineAnimation(1, 1, 999999))
+    Dodge:setAnim(Resource.defineAnimation(1, 1, 999999))
 
     --- Init mission
     defineCutscenes()
@@ -34,7 +34,7 @@ function Mission.onEnter(Location)
 end
 
 function Mission.onUpdate(dt)
-	GarageBlueprint.onUpdate(dt)
+    GarageBlueprint.onUpdate(dt)
     Input.defaultHandle()
 end
 
@@ -43,12 +43,12 @@ function onRender()
 end
 
 function onRenderWithHelp()
-	-- Garage
+    -- Garage
     GarageBlueprint.onRender()
 
-	-- Text
-	Graphics.setDrawColor(255, 255, 255, 160)
-	Graphics.drawText(RENDER_MODE_BACKGROUND, 50, true, { 0, SCREEN_HEIGHT-5, 35, 5 }, "WASD to move")
+    -- Text
+    Graphics.setDrawColor(255, 255, 255, 160)
+    Graphics.drawText(RENDER_MODE_BACKGROUND, 50, true, { 0, SCREEN_HEIGHT-5, 35, 5 }, "WASD to move")
 end
 
 ---- Triggers
@@ -64,78 +64,78 @@ function defineCutscenes()
             IsZhenekBusy = true
             IsPlayerControllable = false
 
-			-- We use Player for Anthony's tasks to prevent canceling Anthony's tasks
+            -- We use Player for Anthony's tasks to prevent canceling Anthony's tasks
             return {
-				{ Player, false, GTT_FADE_IN, 2000.0 },
-				{ Player, false, GTT_PUSH_COMMAND, GTC_TURN_LEFT },
-				{ Player, true, GTT_ANIMATE_FOR, Anims["PlayerSleep"], 1000.0 },
-				{ Player, true, GTT_WAIT_ANIMATION, Anims["PlayerWakeUp"] },
-				{ Player, false, GTT_PUSH_COMMAND, GTC_TURN_LEFT },
-				{ Player, false, GTT_PUSH_COMMAND, GTC_IDLE },
+                { Player, false, GTT_FADE_IN, 4000.0 },
+                { Player, false, GTT_PUSH_COMMAND, GTC_TURN_LEFT },
+                { Player, true, GTT_ANIMATE_FOR, Anims["PlayerSleep"], 3000.0 },
+                { Player, true, GTT_WAIT_ANIMATION, Anims["PlayerWakeUp"] },
+                { Player, false, GTT_PUSH_COMMAND, GTC_TURN_LEFT },
+                { Player, false, GTT_PUSH_COMMAND, GTC_IDLE },
 
-				{ Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Uh...", 0.5, Player, Textures["DialogSquare"]) },
-				{ Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Where am i?", 0.5, Player, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Uh...", 1.5, Player, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Where am i?", 1, Player, Textures["DialogSquare"]) },
 
-				{ Zhenek, false, GTT_PUSH_COMMAND, GTC_TURN_RIGHT },
-				{ Zhenek, true, GTT_WAIT, 500.0 },
-				{ Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Oh, you are alive!", 0.5, Zhenek, Textures["DialogSquare"]) },
-				{ Zhenek, true, GTT_WAIT, 250.0 },
-				{ Zhenek, false, GTT_PUSH_COMMAND, GTC_TURN_LEFT },
-				{ Zhenek, true, GTT_WAIT, 250.0 },
-				{ Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Anthony, did you hear?", 0.5, Zhenek, Textures["DialogSquare"]) },
-				{ Zhenek, true, GTT_WAIT, 250.0 },
+                { Zhenek, false, GTT_PUSH_COMMAND, GTC_TURN_RIGHT },
+                { Zhenek, true, GTT_WAIT, 500.0 },
+                { Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Oh, you are alive!", 2, Zhenek, Textures["DialogSquare"]) },
+                { Zhenek, true, GTT_WAIT, 250.0 },
+                { Zhenek, false, GTT_PUSH_COMMAND, GTC_TURN_LEFT },
+                { Zhenek, true, GTT_WAIT, 250.0 },
+                { Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Anthony, did you hear?", 2, Zhenek, Textures["DialogSquare"]) },
+                { Zhenek, true, GTT_WAIT, 250.0 },
 
-				{ Player, false, GTT_RUN_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Man, i don't care", 0.5, Anthony, Textures["DialogSquare"]) },
+                { Player, true, GTT_RUN_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Man, i don't care", 1, Anthony, Textures["DialogSquare"]) },
 
-				{ Zhenek, true, GTT_WAIT, 250.0 },
-				{ Zhenek, true, GTT_PUSH_COMMAND, GTC_TURN_RIGHT },
+                { Zhenek, true, GTT_WAIT, 250.0 },
+                { Zhenek, true, GTT_PUSH_COMMAND, GTC_TURN_RIGHT },
 
-				{ Player, false, GTT_GOTO_ENTITY, Zhenek },
-				{ Zhenek, true, GTT_WAIT, 250.0 },
-				{ Zhenek, true, GTT_GOTO_ENTITY, Player },
+                { Player, false, GTT_GOTO_ENTITY, Zhenek },
+                { Zhenek, true, GTT_WAIT, 250.0 },
+                { Zhenek, true, GTT_GOTO_ENTITY, Player },
 
-				{ Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "What the fuck, man?", 0.5, Player, Textures["DialogSquare"]) },
-				{ Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Who are you and this Anthony?", 0.5, Player, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "What the fuck, man?", 1.5, Player, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Who are you and this Anthony?", 1.5, Player, Textures["DialogSquare"]) },
 
-				{ Player, true, GTT_WAIT, 250.0 },
-				{ Player, false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "I was a gangster in early 90's, now i'm businnesman who love riding a taxi..", 3, Anthony, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT, 250.0 },
+                { Player, false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "I was a gangster in early 90's, now i'm businnesman who love riding a taxi..", 4, Anthony, Textures["DialogSquare"]) },
 
-				{ Zhenek, true, GTT_WAIT, 250.0 },
-				{ Zhenek, true, GTT_PUSH_COMMAND, GTC_TURN_LEFT },
-				{ Zhenek, true, GTT_WAIT_TALKING, Anthony },
+                { Zhenek, true, GTT_WAIT, 250.0 },
+                { Zhenek, true, GTT_PUSH_COMMAND, GTC_TURN_LEFT },
+                { Zhenek, true, GTT_WAIT_TALKING, Anthony },
 
-				{ Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "..sell houses and drink 30-year-old cognac.", 0.5, Anthony, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "..sell houses and drink 30-year-old cognac.", 2.5, Anthony, Textures["DialogSquare"]) },
 
-				{ Zhenek, true, GTT_WAIT, 250.0 },
-				{ Zhenek, true, GTT_PUSH_COMMAND, GTC_TURN_RIGHT },
-				{ Zhenek, true, GTT_WAIT, 250.0 },
+                { Zhenek, true, GTT_WAIT, 250.0 },
+                { Zhenek, true, GTT_PUSH_COMMAND, GTC_TURN_RIGHT },
+                { Zhenek, true, GTT_WAIT, 250.0 },
 
-				{ Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "He's just homeless, don't pay attention to him.", 0.5, Zhenek, Textures["DialogSquare"]) },
-				{ Zhenek, true, GTT_WAIT, 250.0 },
+                { Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "He's just homeless, don't pay attention to him.", 2, Zhenek, Textures["DialogSquare"]) },
+                { Zhenek, true, GTT_WAIT, 250.0 },
 
-				{ Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Damn man...", 0.5, Player, Textures["DialogSquare"]) },
-				{ Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "I need to get to my family", 0.5, Player, Textures["DialogSquare"]) },
-				{ Player, true, GTT_WAIT, 250.0 },
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Damn man...", 2, Player, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "I need to get to my family", 1.5, Player, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT, 250.0 },
 
-				{ Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Yeah, so you have little trouble..", 0.5, Zhenek, Textures["DialogSquare"]) },
-				{ Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Your car, man... It's dead.", 0.5, Zhenek, Textures["DialogSquare"]) },
-				{ Zhenek, true, GTT_WAIT, 250.0 },
+                { Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Yeah, so you have little trouble..", 2, Zhenek, Textures["DialogSquare"]) },
+                { Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Your car, man... It's dead.", 2, Zhenek, Textures["DialogSquare"]) },
+                { Zhenek, true, GTT_WAIT, 250.0 },
 
-				{ Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Don't cry kid, we can help you.", 0.5, Anthony, Textures["DialogSquare"]) },
-				{ Player, true, GTT_WAIT, 250.0 },
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Don't cry kid, we can help you.", 1.5, Anthony, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT, 250.0 },
 
-				{ Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Of course we can.", 0.5, Zhenek, Textures["DialogSquare"]) },
-				{ Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "We have to find some parts for car and it'll be a long journey", 0.5, Zhenek, Textures["DialogSquare"]) },
-				{ Zhenek, true, GTT_WAIT, 250.0 },
+                { Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Of course we can.", 1, Zhenek, Textures["DialogSquare"]) },
+                { Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "We have to find some parts for car and it'll be a long journey", 3, Zhenek, Textures["DialogSquare"]) },
+                { Zhenek, true, GTT_WAIT, 250.0 },
 
-				{ Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Ok, i got it", 0.5, Player, Textures["DialogSquare"]) },
-				{ Player, true, GTT_WAIT, 250.0 },
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Ok, i got it", 2, Player, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT, 250.0 },
 
-				{ Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Cool, bro. Go outside when you'll ready", 0.5, Zhenek, Textures["DialogSquare"]) },
-			}
+                { Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Cool, bro. Go outside when you'll ready", 2, Zhenek, Textures["DialogSquare"]) },
+            }
         end,
         function(TActor)
-			Mission.onRender = onRenderWithHelp
+            Mission.onRender = onRenderWithHelp
             Trigger:new({ GROUND_WIDTH, GROUND_Y-5, 2, GROUND_HEIGHT*2 }, Player, "leaveCutscene")
             IsZhenekBusy = false
             IsPlayerControllable = true
@@ -145,18 +145,18 @@ function defineCutscenes()
 
     States.leaveCutscene = Cutscene.new(
         function(TActor)
-			Mission.onRender = onRender
+            Mission.onRender = onRender
             IsPlayerControllable = false
-			return {
-				{ Player, false, GTT_GOTO, GROUND_WIDTH*2, GROUND_Y + GROUND_HEIGHT/2 },
-				{ Player, true, GTT_FADE_OFF, 2500.0 },
-				{ Player, false, GTT_FADE_IN, 0.0 }, -- Black screen on last frame
-			}
+            return {
+                { Player, false, GTT_GOTO, GROUND_WIDTH*2, GROUND_Y + GROUND_HEIGHT/4 },
+                { Player, true, GTT_FADE_OFF, 4500.0 },
+                { Player, false, GTT_FADE_IN, 0.0 }, -- Black screen on last frame
+            }
         end,
         function(TActor)
-			Saver.save("Scripts/Mission1.lua", 1)
-			Mission.switch("Scripts/Internal/Loader.lua", 1)
-			TActor:setState("")
+            Saver.save("Scripts/Mission1.lua", 1)
+            Mission.switch("Scripts/Internal/Loader.lua", 1)
+            TActor:setState("")
         end
     )
 end

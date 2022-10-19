@@ -36,6 +36,7 @@ Sounds["LockpickStart"] = Resource.defineSound("Sounds/LockpickStart.wav")
 Sounds["LockpickFinish"] = Resource.defineSound("Sounds/LockpickFinish.wav")
 Sounds["LockpickSuccess"] = Resource.defineSound("Sounds/LockpickSuccess.wav")
 Sounds["LockpickFail"] = Resource.defineSound("Sounds/LockpickFail.wav")
+Sounds["PickUp"] = Resource.defineSound("Sounds/ItemPickUp.wav")
 
 Musics["Ambient1"] = Resource.defineMusic("Music/VnatureBgSound.wav")
 Musics["Ambient2"] = Musics["Ambient1"]
@@ -423,6 +424,7 @@ end
 function L3.defineTriggers()
     function Triggers.takeWheel(TTrigger, TEntity)
         TriggerPointerToWheel[TTrigger.Pointer]:delete()
+        Sounds["PickUp"]:play()
     end
 
     function Triggers.leaveGarage(TTrigger, TEntity)

@@ -220,7 +220,7 @@ function L1.defineCutscenes()
             end
 
             IsPlayerControllable = true
-            TActor:setState("playerMoreFightMex")
+            TActor:setState("playerFightMoreMex")
         end
     )
 
@@ -265,6 +265,16 @@ function L1.defineStates()
             Player:setHealth(100.0)
             TActor:setState("")
         end
+    end
+
+    function States.playerFightMoreMex(TActor)
+        for i,v in ipairs(MoreMex) do
+            if v:isAlive() then
+                return
+            end
+        end
+
+        TActor:setState("policeCutscene")
     end
 
     function States.killPlayer(TActor)
