@@ -29,7 +29,7 @@ function Mission.onEnter(Location)
     Dodge:turnLeft()
     Dodge:setPlacePosition(0, 1, -3)
     Dodge:putActor(Player, 0)
-    Dodge:setMaxSpeed(0.05, 0.01)
+    Dodge:setMaxSpeed(0.03, 0.01)
     Dodge:setAcceleration(-1, 0)
     Dodge:setAnim(Anims["DodgeRiding"])
 
@@ -46,7 +46,6 @@ function Mission.onEnter(Location)
 end
 
 function Mission.onUpdate(dt)
-    Input.defaultHandle()
 end
 
 function Mission.onRender()
@@ -56,7 +55,7 @@ function Mission.onRender()
     Graphics.drawFrame(RENDER_MODE_BACKGROUND, 0, true, { -GW_LOCATION - X*0.1, Y, GW_LOCATION*2, GH_LOCATION }, Textures["Background"], 0, 0)
 
     -- Barrier and road
-    local FastX = -(X*1.5) % GW_LOCATION
+    local FastX = -(X*4) % GW_LOCATION
     local FastX2 = FastX - GW_LOCATION
 
     Graphics.drawFrame(RENDER_MODE_BACKGROUND, 1, true, { FastX, 0, GW_LOCATION, GH_LOCATION }, Textures["Barrier"], 0, 0)
@@ -76,8 +75,8 @@ function defineCutscenes()
         function(TActor)
             return {
                 { Player, true, GTT_FADE_IN, 15000.0 },
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "", 1, Player, Textures["DialogSquare"]) },
-                { Player, true, GTT_WAIT, 5000.0 },
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "", 0.25, Player, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT, 20000.0 },
             }
         end,
         function(TActor)
