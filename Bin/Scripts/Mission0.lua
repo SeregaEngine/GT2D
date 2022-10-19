@@ -85,7 +85,7 @@ function defineCutscenes()
                 { Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Anthony, did you hear?", 2, Zhenek, Textures["DialogSquare"]) },
                 { Zhenek, true, GTT_WAIT, 250.0 },
 
-                { Player, true, GTT_RUN_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Man, i don't care", 1, Anthony, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Man, i don't care", 1, Anthony, Textures["DialogSquare"]) },
 
                 { Zhenek, true, GTT_WAIT, 250.0 },
                 { Zhenek, true, GTT_PUSH_COMMAND, GTC_TURN_RIGHT },
