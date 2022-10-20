@@ -130,7 +130,7 @@ function L1.onEnter()
     PoliceCar:setMaxSpeed(0.135, 0)
     PoliceCar:setPlacePosition(0, 0, -4)
     PoliceCar:setPlacePosition(1, 7, -3)
-    PoliceCar:setPlacePosition(2, 7, -3)
+    PoliceCar:setPlacePosition(2, 9, -5)
     PoliceCar:putActor(Serega, 0)
     PoliceCar:putActor(John, 1)
     PoliceCar:putActor(Blank, 2) -- Walkie-talkie
@@ -292,18 +292,53 @@ function L1.defineCutscenes()
             }
         end,
         function(TActor)
-			PoliceCar:setMaxSpeed(0.135, 0)
+            PoliceCar:setMaxSpeed(0.135, 0)
             PoliceCar:setAcceleration(-0.00002, 0)
             Sounds["PoliceStart"]:play()
 
-            for i,v in ipairs(MoreMex) do
-                v:pushTask(GTT_NONE)
-                v:toggleCollidable(true)
-            end
-            --v:setState("killPlayer")
+            MoreMex[1]:pushTask(GTT_NONE)
+            MoreMex[1]:toggleCollidable(true)
+            MoreMex[1]:setState("killPlayer")
 
             IsPlayerControllable = true
-            TActor:setState("")
+            TActor:setState("moreMexFight1")
+        end
+    )
+
+    States.moreMexCutscene3 = Cutscene.new(
+        function(TActor)
+            MoreMex[2]:toggleCollidable(false)
+            return {
+                { MoreMex[2], false, GTT_GOTO, GW_LOCATION * 2.75, GROUND_Y + 1 },
+                { MoreMex[2], true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Come to me, baby", 1, MoreMex[2], Textures["DialogSquare"]) },
+                { MoreMex[2], true, GTT_WAIT, 250.0 },
+
+                { Player, false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Don't call mommy when i kick your ass", 1, Player, Textures["DialogSquare"]) },
+            }
+        end,
+        function(TActor)
+            MoreMex[2]:pushTask(GTT_NONE)
+            MoreMex[2]:toggleCollidable(true)
+            MoreMex[2]:setState("killPlayer")
+            TActor:setState("moreMexFight2")
+        end
+    )
+
+    States.moreMexCutscene4 = Cutscene.new(
+        function(TActor)
+            MoreMex[3]:toggleCollidable(false)
+            return {
+                { MoreMex[3], false, GTT_GOTO, GW_LOCATION * 2.25, GROUND_Y + 1 },
+                { MoreMex[3], true, GTT_WAIT, 1000.0 },
+
+                { Player, false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Come on cabrons", 1, Player, Textures["DialogSquare"]) },
+            }
+        end,
+        function(TActor)
+            MoreMex[3]:pushTask(GTT_NONE)
+            MoreMex[3]:toggleCollidable(true)
+            MoreMex[3]:setState("killPlayer")
+            TActor:setState("moreMexFight3")
         end
     )
 end
@@ -363,6 +398,28 @@ function L1.defineStates()
         local X,Y = PoliceCar:getVelocity()
         if X > 0.01 then
             PoliceCar:setMaxSpeed(0, 0)
+        end
+    end
+
+    function States.moreMexFight1(TActor)
+        if not MoreMex[1]:isAlive() then
+            Player:setHealth(100.0)
+            TActor:setState("moreMexCutscene3")
+        end
+    end
+
+    function States.moreMexFight2(TActor)
+        if not MoreMex[2]:isAlive() then
+            Player:setHealth(100.0)
+            TActor:setState("moreMexCutscene4")
+        end
+    end
+
+    function States.moreMexFight3(TActor)
+        if not MoreMex[3]:isAlive() then
+            Mission.setGroundBounds({ GW_LOCATION * 2, GROUND_Y, GW_LOCATION*2, GROUND_HEIGHT })
+            Player:setHealth(100.0)
+            TActor:setState("")
         end
     end
 end
