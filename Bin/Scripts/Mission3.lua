@@ -28,6 +28,17 @@ Textures["Artem"] = Textures["Mex1"] -- Placeholder
 Textures["Kirill"] = Textures["Mex1"] -- Placeholder
 
 Sounds["PickupThrottling"] = Resource.defineSound("Sounds/PickupThrottling.wav")
+Sounds["PoliceStart"] = Resource.defineSound("Sounds/PoliceCarStart.wav")
+Sounds["PoliceStop"] = Resource.defineSound("Sounds/PoliceCarStop.wav")
+
+Sounds["PoliceHit1"] = Resource.defineSound("Sounds/PoliceBatonHit1.wav")
+Sounds["PoliceHit2"] = Resource.defineSound("Sounds/PoliceBatonHit2.wav")
+Sounds["PoliceHit3"] = Resource.defineSound("Sounds/PoliceBatonHit3.wav")
+
+Sounds["Colt1"] = Resource.defineSound("Sounds/ColtShot1.wav")
+Sounds["Colt2"] = Resource.defineSound("Sounds/ColtShot2.wav")
+Sounds["Colt3"] = Resource.defineSound("Sounds/ColtShot3.wav")
+
 Musics["Ambient1"] = Resource.defineMusic("Music/VnatureBgSound.wav") -- Placeholder
 Musics["Ambient2"] = Musics["Ambient1"] -- Placeholder
 Musics["Ambient3"] = Musics["Ambient1"]
@@ -69,7 +80,7 @@ function L1.onEnter()
     GROUND_Y = GH_LOCATION - GROUND_HEIGHT
 
     -- Entities
-    Blank = Actor:new(-SCREEN_WIDTH, SCREEN_HEIGHT*2, 0, 0, Textures["Blank"])
+    Blank = Actor:new(0, 0, 0, 0, Textures["Blank"])
     Blank:toggleGodMode(true)
     Blank:setState("playerFightMexCameraFix")
 
@@ -108,6 +119,23 @@ function L1.onEnter()
         MoreMex[i] = Mex
     end
 
+    Serega = Actor:new(0, 0, GW_ACTOR, GH_ACTOR, Textures["Serega"])
+    Serega:toggleCollidable(false)
+    Serega:setState("policeDriving")
+
+    John = Actor:new(0, 0, GW_ACTOR, GH_ACTOR, Textures["John"])
+    John:toggleCollidable(false)
+
+    PoliceCar = Car:new(GW_LOCATION*4, 66, 90, 32, Textures["PoliceCar"])
+    PoliceCar:setMaxSpeed(0.135, 0)
+    PoliceCar:setPlacePosition(0, 0, -4)
+    PoliceCar:setPlacePosition(1, 7, -3)
+    PoliceCar:setPlacePosition(2, 7, -3)
+    PoliceCar:putActor(Serega, 0)
+    PoliceCar:putActor(John, 1)
+    PoliceCar:putActor(Blank, 2) -- Walkie-talkie
+    PoliceCar:turnLeft()
+
     -- Mission
     L1.defineTriggers()
     L1.defineCutscenes()
@@ -139,6 +167,7 @@ end
 function L1.defineTriggers()
     Trigger:new({ GW_LOCATION*1.45, GROUND_Y, 2, GH_LOCATION }, Player, "startMexCutscene")
     Trigger:new({ GW_LOCATION*2.2, GROUND_Y, 2, GH_LOCATION }, Player, "startMoreMexCutscene")
+    Trigger:new({ GW_LOCATION*3, SCREEN_HEIGHT/2, 2, SCREEN_HEIGHT }, PoliceCar, "policeStop")
 
     function Triggers.startMexCutscene(TTrigger, TEntity)
         setmetatable(TEntity, Actor)
@@ -149,9 +178,26 @@ function L1.defineTriggers()
         setmetatable(TEntity, Actor)
         TEntity:setState("moreMexCutscene")
     end
+
+    function Triggers.policeStop(TTrigger, TEntity)
+        PoliceCar:setAcceleration(0.00006, 0)
+    end
 end
 
 function L1.defineCutscenes()
+    States.playerKilledCutscene = Cutscene.new(
+        function(TActor)
+            return {
+                { TActor, true, GTT_WAIT, 500.0 },
+                { TActor, true, GTT_FADE_OFF, 1000.0 },
+                { TActor, false, GTT_FADE_IN, 0.0 },
+            }
+        end,
+        function(TActor)
+            Mission.switchLocation(1)
+        end
+    )
+
     States.introCutscene = Cutscene.new(
         function(TActor)
             Pickup:turnLeft()
@@ -164,7 +210,7 @@ function L1.defineCutscenes()
         end,
         function(TActor)
             Sounds["PickupThrottling"]:play()
-            Pickup:setAcceleration(-0.0001, 0)
+            Pickup:setAcceleration(-0.00001, 0)
             TActor:setState("")
         end
     )
@@ -198,7 +244,7 @@ function L1.defineCutscenes()
             IsPlayerControllable = false
 
             for i,v in ipairs(MoreMex) do
-                v:setPosition(GW_LOCATION*3.5 + i*10, GROUND_Y + 5 + i*3)
+                v:setPosition(GW_LOCATION*3.3 + i*10, GROUND_Y + 5 + i*3)
                 v:toggleCollidable(false)
             end
 
@@ -206,77 +252,63 @@ function L1.defineCutscenes()
                 { Player, false, GTT_GOTO, GW_LOCATION*2.5, GROUND_Y + GROUND_HEIGHT/4},
                 { MoreMex[3], false, GTT_GOTO, GW_LOCATION * 2.75, GROUND_Y + GROUND_HEIGHT/4 },
                 { MoreMex[2], false, GTT_GOTO, GW_LOCATION * 2.75, GROUND_Y + GROUND_HEIGHT/1.8 },
-                { MoreMex[1], true, GTT_GOTO, GW_LOCATION * 2.60, GROUND_Y + GROUND_HEIGHT/2 },
+                { MoreMex[1], false, GTT_GOTO, GW_LOCATION * 2.60, GROUND_Y + GROUND_HEIGHT/2 },
 
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Hey, what're you doing?", 0.25, Player, Textures["DialogSquare"]) },
-                { Player, true, GTT_WAIT, 1000.0 },
+                { MoreMex[1], true, GTT_WAIT, 2500.0 },
+                { MoreMex[1], true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Who are you?", 0.25, MoreMex[1], Textures["DialogSquare"]) },
+
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Shit...", 0.25, Player, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT, 250.0 },
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Guys, i don't have problems", 0.25, Player, Textures["DialogSquare"]) },
+
+                { MoreMex[1], true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Listen to me, bald cabron..", 0.25, MoreMex[1], Textures["DialogSquare"]) },
+                { MoreMex[1], false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "You give us everything you have and we will not touch you", 2, MoreMex[1], Textures["DialogSquare"]) },
             }
         end,
         function(TActor)
-            for i,v in ipairs(MoreMex) do
-                v:pushTask(GTT_NONE)
-                v:setState("killPlayer")
-                v:toggleCollidable(true)
-            end
-
-            IsPlayerControllable = true
-            TActor:setState("playerFightMoreMex")
+            Sounds["PoliceStop"]:play()
+            TActor:setState("moreMexCutscene2")
         end
     )
 
-    States.playerKilledCutscene = Cutscene.new(
+    States.moreMexCutscene2 = Cutscene.new(
         function(TActor)
+            PoliceCar:setAcceleration(-0.00009, 0)
+
             return {
-                { TActor, true, GTT_WAIT, 500.0 },
-                { TActor, true, GTT_FADE_OFF, 1000.0 },
-                { TActor, false, GTT_FADE_IN, 0.0 },
+                { Player, true, GTT_WAIT, 2500 },
+                { MoreMex[3], false, GTT_GOTO, GW_LOCATION * 1.8, GROUND_Y + 1 },
+                { MoreMex[2], false, GTT_GOTO, GW_LOCATION * 3.2, GROUND_Y + 1 },
+                { MoreMex[2], true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Police...", 1, MoreMex[2], Textures["DialogSquare"]) },
+
+                { Serega, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Hey, what is going on?", 1, Serega, Textures["DialogSquare"]) },
+                { Serega, true, GTT_WAIT, 250 },
+
+                { Blank, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Blah-blah", 1, Blank, Textures["DialogSquare"]) },
+                { Blank, true, GTT_WAIT, 250 },
+
+                { John, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "We are too busy to help this bald guy", 1, John, Textures["DialogSquare"]) },
+                { John, true, GTT_WAIT, 250 },
             }
         end,
         function(TActor)
-            Mission.switchLocation(1)
+			PoliceCar:setMaxSpeed(0.135, 0)
+            PoliceCar:setAcceleration(-0.00002, 0)
+            Sounds["PoliceStart"]:play()
+
+            for i,v in ipairs(MoreMex) do
+                v:pushTask(GTT_NONE)
+                v:toggleCollidable(true)
+            end
+            --v:setState("killPlayer")
+
+            IsPlayerControllable = true
+            TActor:setState("")
         end
     )
 end
 
 function L1.defineStates()
-    function States.playerFightMexCameraFix(TActor)
-        local X,Y = Camera.getPosition()
-        if X > GW_LOCATION then
-            Camera.setBounds({ GW_LOCATION, 0, GW_LOCATION*2, SCREEN_HEIGHT })
-            TActor:setState("")
-        end
-    end
-
-    function States.playerFightMoreMexCameraFix(TActor)
-        local X,Y = Camera.getPosition()
-        if X > GW_LOCATION * 2 then
-            GT_LOG(PR_NOTE, tostring(X))
-            Camera.setBounds({ GW_LOCATION*2, 0, GW_LOCATION*2, SCREEN_HEIGHT })
-            TActor:setState("")
-        end
-    end
-
-    function States.playerFightMex(TActor)
-        if not Mex1:isAlive() then
-            Mission.setGroundBounds({ GW_LOCATION, GROUND_Y, GW_LOCATION*2, GROUND_HEIGHT })
-            Camera.setBounds({ GW_LOCATION, 0, GW_LOCATION*3, SCREEN_HEIGHT })
-
-            Blank:setState("playerFightMoreMexCameraFix")
-            Player:setHealth(100.0)
-            TActor:setState("")
-        end
-    end
-
-    function States.playerFightMoreMex(TActor)
-        for i,v in ipairs(MoreMex) do
-            if v:isAlive() then
-                return
-            end
-        end
-
-        TActor:setState("policeCutscene")
-    end
-
     function States.killPlayer(TActor)
         local Task = TActor:getCurrentTask()
         local Status = TActor:checkCurrentTask()
@@ -297,6 +329,40 @@ function L1.defineStates()
             else
                 TActor:setState("") -- Just do nothing on strange error
             end
+        end
+    end
+
+    function States.playerFightMexCameraFix(TActor)
+        local X,Y = Camera.getPosition()
+        if X > GW_LOCATION then
+            Camera.setBounds({ GW_LOCATION, 0, GW_LOCATION*2, SCREEN_HEIGHT })
+            TActor:setState("")
+        end
+    end
+
+    function States.playerFightMoreMexCameraFix(TActor)
+        local X,Y = Camera.getPosition()
+        if X > GW_LOCATION * 2 then
+            Camera.setBounds({ GW_LOCATION*2, 0, GW_LOCATION*2, SCREEN_HEIGHT })
+            TActor:setState("")
+        end
+    end
+
+    function States.playerFightMex(TActor)
+        if not Mex1:isAlive() then
+            Mission.setGroundBounds({ GW_LOCATION, GROUND_Y, GW_LOCATION*2, GROUND_HEIGHT })
+            Camera.setBounds({ GW_LOCATION, 0, GW_LOCATION*3, SCREEN_HEIGHT })
+
+            Blank:setState("playerFightMoreMexCameraFix")
+            Player:setHealth(100.0)
+            TActor:setState("")
+        end
+    end
+
+    function States.policeDriving(TActor)
+        local X,Y = PoliceCar:getVelocity()
+        if X > 0.01 then
+            PoliceCar:setMaxSpeed(0, 0)
         end
     end
 end
