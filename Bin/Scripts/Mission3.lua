@@ -27,6 +27,8 @@ Textures["Mex3"] = Textures["Mex1"] -- Placeholder
 Textures["Artem"] = Textures["Mex1"] -- Placeholder
 Textures["Kirill"] = Textures["Mex1"] -- Placeholder
 Textures["Dog"] = Textures["Mex1"] -- Placeholder
+Textures["Vlassanov"] = Textures["Mex1"] -- Placeholder
+Textures["Stranger"] = Textures["Mex1"] -- Placeholder
 
 Sounds["PickupThrottling"] = Resource.defineSound("Sounds/PickupThrottling.wav")
 Sounds["PoliceStart"] = Resource.defineSound("Sounds/PoliceCarStart.wav")
@@ -35,6 +37,7 @@ Sounds["DogDeath"] = Resource.defineSound("Sounds/DogDyingSound.wav")
 Sounds["DogPunch1"] = Resource.defineSound("Sounds/DogPunch1.wav")
 Sounds["DogPunch2"] = Resource.defineSound("Sounds/DogPunch2.wav")
 Sounds["DogPunch3"] = Resource.defineSound("Sounds/DogPunch3.wav")
+Sounds["PickUp"] = Resource.defineSound("Sounds/ItemPickUp.wav")
 
 Sounds["PoliceHit1"] = Resource.defineSound("Sounds/PoliceBatonHit1.wav")
 Sounds["PoliceHit2"] = Resource.defineSound("Sounds/PoliceBatonHit2.wav")
@@ -164,6 +167,11 @@ function L1.onEnter()
     Camera.attach(Player)
     Camera.setBounds({ 0, 0, GROUND_WIDTH, SCREEN_HEIGHT })
     Mission.setGroundBounds({ GROUND_X, GROUND_Y, GROUND_WIDTH, GROUND_HEIGHT })
+    Musics["Ambient1"]:play()
+
+    -- DEBUG(sean)
+    Player:setPosition(GROUND_WIDTH - 50, 50)
+    Camera.detach()
 end
 
 function L1.onUpdate(dt)
@@ -187,6 +195,7 @@ function L1.defineTriggers()
     Trigger:new({ GW_LOCATION*1.45, GROUND_Y, 2, GH_LOCATION }, Player, "startMexCutscene")
     Trigger:new({ GW_LOCATION*2.2, GROUND_Y, 2, GH_LOCATION }, Player, "startMoreMexCutscene")
     Trigger:new({ GW_LOCATION*3, SCREEN_HEIGHT/2, 2, SCREEN_HEIGHT }, PoliceCar, "policeStop")
+    Trigger:new({ GROUND_WIDTH - 20, SCREEN_HEIGHT/2, 2, SCREEN_HEIGHT }, Player, "comeToBar")
 
     function Triggers.startMexCutscene(TTrigger, TEntity)
         setmetatable(TEntity, Actor)
@@ -200,6 +209,10 @@ function L1.defineTriggers()
 
     function Triggers.policeStop(TTrigger, TEntity)
         PoliceCar:setAcceleration(0.00006, 0)
+    end
+
+    function Triggers.comeToBar(TTrigger, TEntity)
+        Player:setState("comeToBarCutscene")
     end
 end
 
@@ -360,6 +373,23 @@ function L1.defineCutscenes()
             TActor:setState("moreMexFight3")
         end
     )
+
+    States.comeToBarCutscene = Cutscene.new(
+        function(TActor)
+            IsPlayerControllable = false
+            Player:toggleCollidable(false)
+
+            return {
+                { Player, false, GTT_GOTO, GROUND_WIDTH * 2, GROUND_Y + 1 },
+                { Player, true, GTT_FADE_OFF, 2000.0 },
+                { Player, false, GTT_FADE_IN, 0 },
+            }
+        end,
+        function(TActor)
+            Saver.save("Scripts/Mission3.lua", 2)
+            Mission.switchLocation(2)
+        end
+    )
 end
 
 function L1.defineStates()
@@ -456,3 +486,170 @@ function L1.defineStates()
         end
     end
 end
+
+---- Location 2
+function L2.onEnter()
+    -- Functions
+    Mission.onUpdate = L2.onUpdate
+    Mission.onRender = L2.onRender
+
+    -- Defines
+    GROUND_WIDTH = GW_LOCATION
+    GROUND_HEIGHT = 20
+    GROUND_X = 0
+    GROUND_Y = GH_LOCATION - GROUND_HEIGHT
+
+    -- Entities
+    Player = Actor:new(10, 50, GW_ACTOR, GH_ACTOR, Textures["Player"])
+    Player:setActorAnim(ACTOR_ANIMATION_DEAD, Anims["PlayerDead"])
+    Player:setDeathSound(Sounds["ActorDeath"])
+    Player:setWeapon(Weapons["Fist"])
+    Player:setTeam(ACTOR_TEAM_FRIENDS)
+    Player:setState("introCutscene")
+
+    Vlassanov = Actor:new(70, 49.5, GW_ACTOR, GH_ACTOR, Textures["Vlassanov"])
+    Vlassanov:setTeam(ACTOR_TEAM_ENEMIES)
+    Vlassanov:setActorAnim(ACTOR_ANIMATION_DEAD, Anims["MexDead"]) -- Placeholders
+    Vlassanov:setDeathSound(Sounds["ActorDeath"])
+    Vlassanov:setWeapon(Weapons["MexFist"])
+
+    Stranger = Actor:new(86, 48, GW_ACTOR, GH_ACTOR, Textures["Stranger"])
+    Stranger:setTeam(ACTOR_TEAM_ENEMIES)
+    Stranger:setActorAnim(ACTOR_ANIMATION_DEAD, Anims["MexDead"]) -- Placeholders
+    Stranger:setDeathSound(Sounds["ActorDeath"])
+    Stranger:setWeapon(Weapons["MexFist"])
+
+    -- Cutscenes and triggers
+    L2.defineTriggers()
+    L2.defineCutscenes()
+    L2.defineStates()
+
+    -- Mission
+    Camera.attach(Player)
+    Camera.setBounds({ 0, 0, GROUND_WIDTH, SCREEN_HEIGHT })
+    Mission.setGroundBounds({ GROUND_X, GROUND_Y, GROUND_WIDTH, GROUND_HEIGHT })
+
+    Musics["Ambient2"]:play()
+end
+
+function L2.onUpdate(dt)
+    Input.defaultHandle()
+end
+
+function L2.onRender()
+end
+
+function L2.defineTriggers()
+    function Triggers.leave(TTriger, TEntity)
+        Player:setState("leaveCutscene")
+    end
+end
+
+function L2.defineCutscenes()
+    States.playerKilledCutscene = Cutscene.new(
+        function(TActor)
+            return {
+                { TActor, true, GTT_WAIT, 500.0 },
+                { TActor, true, GTT_FADE_OFF, 1000.0 },
+                { TActor, false, GTT_FADE_IN, 0.0 },
+            }
+        end,
+        function(TActor)
+            Mission.switchLocation(2)
+        end
+    )
+
+    States.introCutscene = Cutscene.new(
+        function(TActor)
+            IsPlayerControllable = false
+            Stranger:turnLeft()
+
+            return {
+                { Player, true, GTT_FADE_IN, 500 },
+                { Player, true, GTT_WAIT, 250 },
+
+                { Vlassanov, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Blah-blah", 0.25, Vlassanov, Textures["DialogSquare"]) },
+                { Vlassanov, true, GTT_WAIT, 250 },
+
+                { Stranger, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Blah-blah", 0.25, Stranger, Textures["DialogSquare"]) },
+                { Stranger, true, GTT_WAIT, 250 },
+
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "I think they have keys", 0.25, Player, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT, 250 },
+
+                { Stranger, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Wait, who is this guy?", 0.25, Stranger, Textures["DialogSquare"]) },
+                { Stranger, true, GTT_WAIT, 250 },
+
+                { Vlassanov, true, GTT_PUSH_COMMAND, GTC_TURN_LEFT },
+                { Vlassanov, true, GTT_WAIT, 250 },
+                { Vlassanov, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Let's show him where his place", 0.25, Vlassanov, Textures["DialogSquare"]) },
+                { Vlassanov, true, GTT_WAIT, 250 },
+
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Fuck..", 0.25, Player, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT, 250 },
+
+                { Vlassanov, false, GTT_NONE },
+                { Stranger, false, GTT_NONE },
+            }
+        end,
+        function(TActor)
+            Vlassanov:setState("killPlayer")
+            Stranger:setState("killPlayer")
+
+            IsPlayerControllable = true
+            TActor:setState("fight")
+        end
+    )
+
+    States.leaveCutscene = Cutscene.new(
+        function(TActor)
+			Player:toggleCollidable(false)
+            IsPlayerControllable = false
+
+            return {
+                { Player, false, GTT_GOTO, -50, GROUND_Y },
+                { Player, true, GTT_FADE_OFF, 2500 },
+                { Player, false, GTT_FADE_IN, 0 },
+            }
+        end,
+        function(TActor)
+            Saver.save("Scripts/Mission3.lua", 3)
+            Mission.switchLocation(3)
+        end
+    )
+end
+
+function L2.defineStates()
+    function States.fight(TActor)
+        if not Vlassanov:isAlive() and not Stranger:isAlive() then
+            Trigger:new({ 1, SCREEN_HEIGHT/2, 2, SCREEN_HEIGHT }, Player, "leave")
+            Dialog:new(GW_DIALOG, GH_DIALOG, "I found keys", 0.25, Player, Textures["DialogSquare"]):run()
+            Sounds["PickUp"]:play()
+            TActor:setState("")
+        end
+    end
+
+    function States.killPlayer(TActor)
+        local Task = TActor:getCurrentTask()
+        local Status = TActor:checkCurrentTask()
+
+        if Task == GTT_NONE then
+            TActor:pushTask(GTT_GOTO_ENTITY, Player)
+        elseif Status == GTT_INPROCESS then
+            return
+        elseif Status == GTT_DONE then
+            if Task == GTT_GOTO_ENTITY then
+                TActor:pushTask(GTT_KILL, Player)
+            elseif Task == GTT_KILL then
+                TActor:setState("playerKilledCutscene")
+            end
+        elseif Status == GTT_IMPOSSIBLE then
+            if Task == GTT_KILL then
+                TActor:pushTask(GTT_GOTO_ENTITY, Player)
+            else
+                TActor:setState("") -- Just do nothing on strange error
+            end
+        end
+    end
+end
+
