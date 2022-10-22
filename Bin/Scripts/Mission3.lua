@@ -26,10 +26,15 @@ Textures["Mex2"] = Textures["Mex1"] -- Placeholder
 Textures["Mex3"] = Textures["Mex1"] -- Placeholder
 Textures["Artem"] = Textures["Mex1"] -- Placeholder
 Textures["Kirill"] = Textures["Mex1"] -- Placeholder
+Textures["Dog"] = Textures["Mex1"] -- Placeholder
 
 Sounds["PickupThrottling"] = Resource.defineSound("Sounds/PickupThrottling.wav")
 Sounds["PoliceStart"] = Resource.defineSound("Sounds/PoliceCarStart.wav")
 Sounds["PoliceStop"] = Resource.defineSound("Sounds/PoliceCarStop.wav")
+Sounds["DogDeath"] = Resource.defineSound("Sounds/DogDyingSound.wav")
+Sounds["DogPunch1"] = Resource.defineSound("Sounds/DogPunch1.wav")
+Sounds["DogPunch2"] = Resource.defineSound("Sounds/DogPunch2.wav")
+Sounds["DogPunch3"] = Resource.defineSound("Sounds/DogPunch3.wav")
 
 Sounds["PoliceHit1"] = Resource.defineSound("Sounds/PoliceBatonHit1.wav")
 Sounds["PoliceHit2"] = Resource.defineSound("Sounds/PoliceBatonHit2.wav")
@@ -47,10 +52,12 @@ Anims["PlayerDead"] = Resource.defineAnimation(5, 3, 1000.0 / 2)
 Anims["MexFist"] = Resource.defineAnimation(4, 3, 1000.0 / 2)
 Anims["MexDead"] = Resource.defineAnimation(5, 3, 1000.0 / 2)
 Anims["MexDraw"] = Resource.defineAnimation(6, 3, 1000.0 / 10)
+Anims["DogAttack"] = Resource.defineAnimation(4, 3, 1000.0 / 2) -- Placeholder
+Anims["DogDead"] = Resource.defineAnimation(5, 3, 1000.0 / 2) -- Placeholder
 
--- DEBUG(sean) Remove this fist
-Weapons["Fist"] = Resource.defineWeapon(Resource.defineAnimation(4, 3, 1000.0 / 2.0), 8, 8, 50.0, Sounds["Punch1"], Sounds["Punch2"], Sounds["Punch3"], Sounds["Punch4"])
+Weapons["Fist"] = Resource.defineWeapon(Resource.defineAnimation(4, 3, 1000.0 / 2.0), 8, 8, 50.0, Sounds["Punch1"], Sounds["Punch2"], Sounds["Punch3"], Sounds["Punch4"]) -- DEBUG(sean) Remove this fist
 Weapons["MexFist"] = Resource.defineWeapon(Anims["MexFist"], 8, 8, 5, Sounds["Punch1"], Sounds["Punch2"], Sounds["Punch3"], Sounds["Punch4"])
+Weapons["DogFist"] = Resource.defineWeapon(Anims["DogAttack"], 8, 8, 5, Sounds["DogPunch1"], Sounds["DogPunch2"], Sounds["DogPunch3"])
 
 ---- Mission
 L1 = {}
@@ -135,6 +142,18 @@ function L1.onEnter()
     PoliceCar:putActor(John, 1)
     PoliceCar:putActor(Blank, 2) -- Walkie-talkie
     PoliceCar:turnLeft()
+
+    Dog1 = Actor:new(GW_LOCATION * 3.6, 48, GW_ACTOR, GH_ACTOR, Textures["Dog"])
+    Dog1:setTeam(ACTOR_TEAM_ENEMIES)
+    Dog1:setActorAnim(ACTOR_ANIMATION_DEAD, Anims["DogDead"])
+    Dog1:setDeathSound(Sounds["DogDeath"])
+    Dog1:setWeapon(Weapons["DogAttack"])
+
+    Dog2 = Actor:new(GW_LOCATION * 3.6, 56, GW_ACTOR, GH_ACTOR, Textures["Dog"])
+    Dog2:setTeam(ACTOR_TEAM_ENEMIES)
+    Dog2:setActorAnim(ACTOR_ANIMATION_DEAD, Anims["DogDead"])
+    Dog2:setDeathSound(Sounds["DogDeath"])
+    Dog2:setWeapon(Weapons["DogAttack"])
 
     -- Mission
     L1.defineTriggers()
@@ -418,6 +437,20 @@ function L1.defineStates()
     function States.moreMexFight3(TActor)
         if not MoreMex[3]:isAlive() then
             Mission.setGroundBounds({ GW_LOCATION * 2, GROUND_Y, GW_LOCATION*2, GROUND_HEIGHT })
+            Player:setHealth(100.0)
+            TActor:setState("addDogs")
+        end
+    end
+
+    function States.addDogs(TActor)
+        Dog1:setState("killPlayer")
+        Dog2:setState("killPlayer")
+        TActor:setState("fightDogs")
+    end
+
+    function States.fightDogs(TActor)
+        if not Dog1:isAlive() and not Dog2:isAlive() then
+            Mission.setGroundBounds({ 0, GROUND_Y, GROUND_WIDTH, GROUND_HEIGHT })
             Player:setHealth(100.0)
             TActor:setState("")
         end
