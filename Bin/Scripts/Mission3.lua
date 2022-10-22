@@ -15,6 +15,7 @@ Textures["Parallax1"] = Resource.defineTexture("Textures/Locations/Mission3-1_Pa
 Textures["Parallax3"] = Textures["Parallax1"]
 
 Textures["Pickup"] = Resource.defineTexture("Textures/Cars/Pickup.png", TW_CAR, TH_CAR)
+Textures["TrashCar"] = Resource.defineTexture("Textures/Cars/TrashCar.png", TW_CAR, TH_CAR)
 Textures["PoliceCar"] = Resource.defineTexture("Textures/Cars/PoliceCar.png", TW_CAR, TH_CAR)
 
 Textures["Player"] = Resource.defineTexture("Textures/Actors/Player.png", TW_ACTOR, TH_ACTOR)
@@ -672,42 +673,49 @@ function L3.onEnter()
     Player:setWeapon(Weapons["Fist"])
     Player:setTeam(ACTOR_TEAM_FRIENDS)
     Player:setState("introCutscene")
+    Player:toggleCollidable(false)
     IsPlayerControllable = false
 
     Zhenek = Actor:new(0, 0, GW_ACTOR, GH_ACTOR, Textures["Zhenek"])
     Zhenek:setTeam(ACTOR_TEAM_FRIENDS)
+    Zhenek:setState("zhenekDriving")
 
-    Pickup = Car:new(30, 68, 107, 30, Textures["Pickup"])
+    Pickup = Car:new(GROUND_WIDTH - 110, 68, 107, 30, Textures["Pickup"])
     Pickup:setRenderMode(RENDER_MODE_FOREGROUND)
     Pickup:setZIndex(-1)
     Pickup:setMaxSpeed(0.075, 0)
     Pickup:setPlacePosition(0, 10, -5)
     Pickup:putActor(Zhenek, 0)
+    Pickup:turnLeft()
 
-    Serega = Actor:new(0, 0, GW_ACTOR, GH_ACTOR, Textures["Serega"])
+    Trash = Car:new(GROUND_WIDTH - 5, 68, 90, 25.2, Textures["TrashCar"])
+    Trash:setRenderMode(RENDER_MODE_FOREGROUND)
+    Trash:setZIndex(-1)
+    Trash:setMaxSpeed(0.075, 0)
+    Trash:setPlacePosition(0, 5, -4)
+    Trash:turnLeft()
+
+    Serega = Actor:new(GROUND_WIDTH - GW_LOCATION * 1.5, 0, GW_ACTOR, GH_ACTOR, Textures["Serega"])
     Serega:toggleCollidable(false)
-    Serega:setState("policeDriving")
 
-    John = Actor:new(0, 0, GW_ACTOR, GH_ACTOR, Textures["John"])
+    John = Actor:new(GROUND_WIDTH - GW_LOCATION * 1.5, 0, GW_ACTOR, GH_ACTOR, Textures["John"])
     John:toggleCollidable(false)
 
     -- Mission
     L3.defineCutscenes()
+    L3.defineStates()
 
     TimeTicks = 0
-    Camera.attach(Player)
     Camera.setBounds({ 0, 0, GROUND_WIDTH, SCREEN_HEIGHT })
+    Camera.attach(Player)
+    Camera.detach()
     Mission.setGroundBounds({ GROUND_X, GROUND_Y, GROUND_WIDTH, GROUND_HEIGHT })
     Musics["Ambient3"]:play()
-
-    -- DEBUG(sean)
-    Player:setPosition(GROUND_WIDTH - 50, 50)
-    Camera.detach()
 end
 
 function L3.onUpdate(dt)
     TimeTicks = Clock.getTicks()
-    Input.defaultHandle()
+    Input.defaultHandle() -- DEBUG(sean) remove
 end
 
 function L3.onRender()
@@ -724,13 +732,48 @@ function L3.onRender()
     -- Fade
     Graphics.setDrawColor(0, 0, 0, 40)
     Graphics.fillRect(RENDER_MODE_FOREGROUND, -999, true, { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT })
+
+    -- Rope between cars
+    Graphics.setDrawColor(255, 255, 255, 255) -- TODO(sean) Find color
+    local X1,Y1 = Pickup:getPosition()
+    local X2,Y2 = Trash:getPosition()
+    Graphics.fillRect(RENDER_MODE_FOREGROUND, -2, false, { X1, Y1, X2-X1, 2 })
 end
 
 function L3.defineCutscenes()
     States.introCutscene = Cutscene.new(
         function(TActor)
+            Sounds["StartEngine"]:play()
+            local X,Y = Trash:getPosition()
+
             return {
+                { Player, false, GTT_GOTO, GROUND_WIDTH - 30, GROUND_Y },
                 { Player, true, GTT_FADE_IN, 500 },
+
+                { Zhenek, true, GTT_WAIT, 500 },
+                { Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Come on, Petrol! Sit in the car", 0.25, Zhenek, Textures["DialogSquare"]) },
+
+                { Player, true, GTT_WAIT, 500 },
+                { Player, false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Blah-blah", 0.25, Player, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT, 100 },
+                { Player, true, GTT_GOTO, X, Y },
+            }
+        end,
+        function(TActor)
+            Sounds["CarDoorOpen"]:play()
+            Sounds["StartEngine"]:play()
+            Sounds["PickupThrottling"]:play()
+            Trash:putActor(Player, 0)
+            TActor:setState("scene2")
+        end
+    )
+
+    States.scene2 = Cutscene.new(
+        function(TActor)
+            Pickup:setAcceleration(-0.0001, 0)
+
+            return {
+                { Player, true, GTT_WAIT, 10000 },
             }
         end,
         function(TActor)
@@ -738,9 +781,16 @@ function L3.defineCutscenes()
             Saver.save("Scripts/Mission4.lua", 1)
             Mission.switch("Scripts/Mission4.lua", 1)
             ]]--
-            Mission.switch("Scripts/Mission3.lua", 3)
+            Mission.restart(3)
 
             TActor:setState("")
         end
     )
+end
+
+function L3.defineStates()
+    function States.zhenekDriving(TActor)
+        local X,Y = Pickup:getVelocity()
+        Trash:setVelocity(X, Y)
+    end
 end
