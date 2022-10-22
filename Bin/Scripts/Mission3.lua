@@ -10,7 +10,7 @@ require "Mission"
 ---- Resources
 Textures["Background1"] = Resource.defineTexture("Textures/Locations/Mission3-1.png", TW_LOCATION*4, TH_LOCATION)
 Textures["Background2"] = Resource.defineTexture("Textures/Locations/Mission3-2.png", TW_LOCATION, TH_LOCATION)
-Textures["Background3"] = Textures["Background3"]
+Textures["Background3"] = Textures["Background1"]
 Textures["Parallax1"] = Resource.defineTexture("Textures/Locations/Mission3-1_Parallax.png", TW_LOCATION*2, TH_LOCATION)
 Textures["Parallax3"] = Textures["Parallax1"]
 
@@ -603,7 +603,7 @@ function L2.defineCutscenes()
 
     States.leaveCutscene = Cutscene.new(
         function(TActor)
-			Player:toggleCollidable(false)
+            Player:toggleCollidable(false)
             IsPlayerControllable = false
 
             return {
@@ -653,3 +653,94 @@ function L2.defineStates()
     end
 end
 
+---- Location 3
+function L3.onEnter()
+    -- Functions
+    Mission.onUpdate = L3.onUpdate
+    Mission.onRender = L3.onRender
+
+    -- Defines
+    GROUND_WIDTH = GW_LOCATION * 4
+    GROUND_HEIGHT = 20
+    GROUND_X = 0
+    GROUND_Y = GH_LOCATION - GROUND_HEIGHT
+
+    -- Entities
+    Player = Actor:new(GROUND_WIDTH, 60, GW_ACTOR, GH_ACTOR, Textures["Player"])
+    Player:setActorAnim(ACTOR_ANIMATION_DEAD, Anims["PlayerDead"])
+    Player:setDeathSound(Sounds["ActorDeath"])
+    Player:setWeapon(Weapons["Fist"])
+    Player:setTeam(ACTOR_TEAM_FRIENDS)
+    Player:setState("introCutscene")
+    IsPlayerControllable = false
+
+    Zhenek = Actor:new(0, 0, GW_ACTOR, GH_ACTOR, Textures["Zhenek"])
+    Zhenek:setTeam(ACTOR_TEAM_FRIENDS)
+
+    Pickup = Car:new(30, 68, 107, 30, Textures["Pickup"])
+    Pickup:setRenderMode(RENDER_MODE_FOREGROUND)
+    Pickup:setZIndex(-1)
+    Pickup:setMaxSpeed(0.075, 0)
+    Pickup:setPlacePosition(0, 10, -5)
+    Pickup:putActor(Zhenek, 0)
+
+    Serega = Actor:new(0, 0, GW_ACTOR, GH_ACTOR, Textures["Serega"])
+    Serega:toggleCollidable(false)
+    Serega:setState("policeDriving")
+
+    John = Actor:new(0, 0, GW_ACTOR, GH_ACTOR, Textures["John"])
+    John:toggleCollidable(false)
+
+    -- Mission
+    L3.defineCutscenes()
+
+    TimeTicks = 0
+    Camera.attach(Player)
+    Camera.setBounds({ 0, 0, GROUND_WIDTH, SCREEN_HEIGHT })
+    Mission.setGroundBounds({ GROUND_X, GROUND_Y, GROUND_WIDTH, GROUND_HEIGHT })
+    Musics["Ambient3"]:play()
+
+    -- DEBUG(sean)
+    Player:setPosition(GROUND_WIDTH - 50, 50)
+    Camera.detach()
+end
+
+function L3.onUpdate(dt)
+    TimeTicks = Clock.getTicks()
+    Input.defaultHandle()
+end
+
+function L3.onRender()
+    -- Parallax
+    local XCamera, YCamera = getCameraPosition()
+    local X = -(TimeTicks/1000.0 + XCamera/2.0) % (GW_LOCATION*2)
+
+    Graphics.drawFrame(RENDER_MODE_BACKGROUND, 0, true, { X, 0, GW_LOCATION*2, GH_LOCATION }, Textures["Parallax3"])
+    Graphics.drawFrame(RENDER_MODE_BACKGROUND, 0, true, { X-GW_LOCATION*2, 0, GW_LOCATION*2, GH_LOCATION }, Textures["Parallax3"])
+
+    -- Background
+    Graphics.drawFrame(RENDER_MODE_BACKGROUND, 1, false, { 0, 0, GW_LOCATION*4, GH_LOCATION }, Textures["Background3"], 0, 0)
+
+    -- Fade
+    Graphics.setDrawColor(0, 0, 0, 40)
+    Graphics.fillRect(RENDER_MODE_FOREGROUND, -999, true, { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT })
+end
+
+function L3.defineCutscenes()
+    States.introCutscene = Cutscene.new(
+        function(TActor)
+            return {
+                { Player, true, GTT_FADE_IN, 500 },
+            }
+        end,
+        function(TActor)
+            --[[ TODO(sean)
+            Saver.save("Scripts/Mission4.lua", 1)
+            Mission.switch("Scripts/Mission4.lua", 1)
+            ]]--
+            Mission.switch("Scripts/Mission3.lua", 3)
+
+            TActor:setState("")
+        end
+    )
+end
