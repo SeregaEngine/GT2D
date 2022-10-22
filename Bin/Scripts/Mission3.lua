@@ -40,9 +40,9 @@ Sounds["DogPunch2"] = Resource.defineSound("Sounds/DogPunch2.wav")
 Sounds["DogPunch3"] = Resource.defineSound("Sounds/DogPunch3.wav")
 Sounds["PickUp"] = Resource.defineSound("Sounds/ItemPickUp.wav")
 
-Sounds["PoliceHit1"] = Resource.defineSound("Sounds/PoliceBatonHit1.wav")
-Sounds["PoliceHit2"] = Resource.defineSound("Sounds/PoliceBatonHit2.wav")
-Sounds["PoliceHit3"] = Resource.defineSound("Sounds/PoliceBatonHit3.wav")
+Sounds["Police1"] = Resource.defineSound("Sounds/PoliceBatonHit1.wav")
+Sounds["Police2"] = Resource.defineSound("Sounds/PoliceBatonHit2.wav")
+Sounds["Police3"] = Resource.defineSound("Sounds/PoliceBatonHit3.wav")
 
 Sounds["Colt1"] = Resource.defineSound("Sounds/ColtShot1.wav")
 Sounds["Colt2"] = Resource.defineSound("Sounds/ColtShot2.wav")
@@ -667,6 +667,8 @@ function L3.onEnter()
     GROUND_Y = GH_LOCATION - GROUND_HEIGHT
 
     -- Entities
+    Blank = Actor:new(GROUND_WIDTH-5, GROUND_Y, 1, 1, Textures["Blank"])
+
     Player = Actor:new(GROUND_WIDTH, 60, GW_ACTOR, GH_ACTOR, Textures["Player"])
     Player:setActorAnim(ACTOR_ANIMATION_DEAD, Anims["PlayerDead"])
     Player:setDeathSound(Sounds["ActorDeath"])
@@ -695,10 +697,10 @@ function L3.onEnter()
     Trash:setPlacePosition(0, 5, -4)
     Trash:turnLeft()
 
-    Serega = Actor:new(GROUND_WIDTH - GW_LOCATION * 1.5, 0, GW_ACTOR, GH_ACTOR, Textures["Serega"])
+    Serega = Actor:new(GROUND_WIDTH - GW_LOCATION * 1.5, GROUND_Y, GW_ACTOR, GH_ACTOR, Textures["Serega"])
     Serega:toggleCollidable(false)
 
-    John = Actor:new(GROUND_WIDTH - GW_LOCATION * 1.5, 0, GW_ACTOR, GH_ACTOR, Textures["John"])
+    John = Actor:new(GROUND_WIDTH - GW_LOCATION * 1.3, GROUND_Y + 1, GW_ACTOR, GH_ACTOR, Textures["John"])
     John:toggleCollidable(false)
 
     -- Mission
@@ -761,7 +763,6 @@ function L3.defineCutscenes()
         end,
         function(TActor)
             Sounds["CarDoorOpen"]:play()
-            Sounds["StartEngine"]:play()
             Sounds["PickupThrottling"]:play()
             Trash:putActor(Player, 0)
             TActor:setState("scene2")
@@ -773,19 +774,142 @@ function L3.defineCutscenes()
             Pickup:setAcceleration(-0.0001, 0)
 
             return {
-                { Player, true, GTT_WAIT, 10000 },
+                { Serega, false, GTT_GOTO, GROUND_WIDTH + 10, GROUND_Y },
+                { John, true, GTT_GOTO, GROUND_WIDTH - 50, GROUND_Y + 1 },
+                { John, false, GTT_RUN_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Blah-blah", 0.25, John, Textures["DialogSquare"]) },
+
+                { John, true, GTT_GOTO, GROUND_WIDTH, GROUND_Y + 1 },
+                { John, false, GTT_GOTO, GROUND_WIDTH + 10, GROUND_Y + 1 },
+                { John, true, GTT_FADE_OFF, 1000 },
+                { John, true, GTT_FADE_IN, 1000 },
+
+                { Blank, true, GTT_WAIT, 250, },
+                { Blank, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Blah-blah", 0.25, Blank, Textures["DialogSquare"]) },
+                { Blank, true, GTT_WAIT, 250, },
+                { Blank, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Blah-blah", 0.25, Blank, Textures["DialogSquare"]) },
             }
         end,
         function(TActor)
-            --[[ TODO(sean)
-            Saver.save("Scripts/Mission4.lua", 1)
-            Mission.switch("Scripts/Mission4.lua", 1)
-            ]]--
-            Mission.restart(3)
-
-            TActor:setState("")
+            Sounds["Colt1"]:play()
+            TActor:setState("scene3")
         end
     )
+
+    States.scene3 = Cutscene.new(
+        function(TActor)
+            return {
+                { Blank, true, GTT_WAIT, 500 },
+            }
+        end,
+        function(TActor)
+            Sounds["Colt2"]:play()
+            TActor:setState("scene4")
+        end
+    )
+
+    States.scene4 = Cutscene.new(
+        function(TActor)
+            return {
+                { Blank, true, GTT_WAIT, 100 },
+            }
+        end,
+        function(TActor)
+            Sounds["Colt3"]:play()
+            TActor:setState("scene5")
+        end
+    )
+
+    States.scene5 = Cutscene.new(
+        function(TActor)
+            return {
+                { Blank, true, GTT_WAIT, 750 },
+                { Blank, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Shit... man", 0.25, Blank, Textures["DialogSquare"]) },
+                { Blank, true, GTT_WAIT, 100 },
+            }
+        end,
+        function(TActor)
+            Sounds["Colt1"]:play()
+            TActor:setState("scene6")
+        end
+    )
+
+    States.scene6 = Cutscene.new(
+        function(TActor)
+            return {
+                { Blank, true, GTT_WAIT, 250 },
+                { Blank, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Come on", 0.25, Blank, Textures["DialogSquare"]) },
+            }
+        end,
+        function(TActor)
+            Sounds["Police1"]:play()
+            TActor:setState("scene7")
+        end
+    )
+
+    States.scene7 = Cutscene.new(
+        function(TActor)
+            return {
+                { Blank, true, GTT_WAIT, 250 },
+            }
+        end,
+        function(TActor)
+            Sounds["Police2"]:play()
+            TActor:setState("scene8")
+        end
+    )
+
+    States.scene8 = Cutscene.new(
+        function(TActor)
+            return {
+                { Blank, true, GTT_WAIT, 350 },
+            }
+        end,
+        function(TActor)
+            Sounds["Police3"]:play()
+            TActor:setState("scene9")
+        end
+    )
+
+    States.scene9 = Cutscene.new(
+        function(TActor)
+            return {
+                { Blank, true, GTT_WAIT, 650 },
+            }
+        end,
+        function(TActor)
+            Sounds["Colt2"]:play()
+            TActor:setState("scene10")
+        end
+    )
+
+    States.scene10 = Cutscene.new(
+        function(TActor)
+            return {
+                { Blank, true, GTT_WAIT, 1000 },
+            }
+        end,
+        function(TActor)
+            Sounds["Colt3"]:play()
+            TActor:setState("scene11")
+        end
+    )
+
+    States.scene11 = Cutscene.new(
+        function(TActor)
+            return {
+                { Blank, true, GTT_FADE_OFF, 5000 },
+                { Blank, false, GTT_FADE_IN, 0 },
+            }
+        end,
+        function(TActor)
+            TActor:setState("")
+            Mission.restart(3)
+        end
+    )
+    --[[
+		Saver.save("Scripts/Mission4.lua", 1)
+		Mission.switch("Scripts/Mission4.lua", 1)
+	]]--
 end
 
 function L3.defineStates()
