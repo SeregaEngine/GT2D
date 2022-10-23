@@ -902,14 +902,11 @@ function L3.defineCutscenes()
             }
         end,
         function(TActor)
+			Saver.save("Scripts/Mission4.lua", 1)
+			Mission.switch("Scripts/Mission4.lua", 1)
             TActor:setState("")
-            Mission.restart(3)
         end
     )
-    --[[
-		Saver.save("Scripts/Mission4.lua", 1)
-		Mission.switch("Scripts/Mission4.lua", 1)
-	]]--
 end
 
 function L3.defineStates()

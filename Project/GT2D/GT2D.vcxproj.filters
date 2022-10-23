@@ -217,6 +217,9 @@
     <None Include="..\..\Bin\Scripts\Mission3.lua">
       <Filter>Lua Scripts</Filter>
     </None>
+    <None Include="..\..\Bin\Scripts\Mission4.lua">
+      <Filter>Lua Scripts</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Animation\AnimationModule.h">

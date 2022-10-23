@@ -103,6 +103,10 @@ end
 ---- Internal functions
 function GarageBlueprint._defineCutscenes()
 	function States._upCar(TActor)
+		if not Dodge:isAvailable() then
+			return
+		end
+
 		local X,Y = Dodge:getPosition()
 
 		if Y >= 44 and Y <= 45 then
