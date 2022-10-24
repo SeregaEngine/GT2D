@@ -38,7 +38,6 @@ end
 
 function Mission.onUpdate(dt)
     GarageBlueprint.onUpdate(dt)
-    Input.defaultHandle()
 end
 
 function Mission.onRender()
@@ -78,11 +77,8 @@ function defineCutscenes()
             }
         end,
         function(TActor)
-            --[[
             Saver.save("Scripts/Mission5.lua", 1)
             Mission.switch("Scripts/Mission5.lua", 1)
-            ]]--
-            Mission.restart(1)
             TActor:setState("")
         end
     )
