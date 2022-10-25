@@ -16,3 +16,11 @@ function Sound:play()
     playSound(self.Pointer)
 end
 
+function Sound:playLooped()
+    playSoundLooped(self.Pointer)
+end
+
+function Sound.stopAll()
+    stopAllSounds()
+end
+

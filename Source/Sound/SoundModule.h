@@ -30,7 +30,7 @@ public:
     void UndefineMusics();
     void UndefineResources() { UndefineSounds(); UndefineMusics(); }
 
-    b32 PlaySound(GT_Sound* pSound);
+    b32 PlaySound(GT_Sound* pSound, b32 bLoop = false);
     b32 PlayMusic(GT_Music* pMusic);
     void StopSounds() { Mix_HaltChannel(-1); }
     void StopMusic() { Mix_HaltMusic(); }

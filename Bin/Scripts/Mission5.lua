@@ -19,6 +19,7 @@ Textures["PoliceCar"] = Resource.defineTexture("Textures/Cars/PoliceCar.png", TW
 
 Anims["DodgeRiding"] = Resource.defineAnimation(2, 4, 1000.0/15)
 Anims["PoliceRiding"] = Resource.defineAnimation(0, 4, 1000.0/17)
+Anims["PlayerDead"] = Resource.defineAnimation(6, 1, 1)
 
 Sounds["DodgeThrottling"] = Resource.defineSound("Sounds/DodgeThrottlingLong.wav")
 Sounds["PoliceThrottling"] = Resource.defineSound("Sounds/PoliceThrottling.wav")
@@ -29,6 +30,9 @@ Music["LA"] = Resource.defineMusic("Music/AmbientLA.wav")
 
 ---- Mission
 function Mission.onEnter(Location)
+    -- Functions
+    Mission.onRender = onRender
+
     -- Entities
     Player = Actor:new(0, 0, 10, 10, Textures["Player"])
     Player:setState("scene1")
@@ -71,7 +75,7 @@ function Mission.onUpdate(dt)
     Input.defaultHandle() -- DEBUG(sean)
 end
 
-function Mission.onRender()
+function onRender()
     local X,Y = getCameraPosition()
 
     -- Background LA
@@ -88,12 +92,20 @@ function Mission.onRender()
     Graphics.drawFrame(RENDER_MODE_BACKGROUND, 2, true, { FastX2, 0, GW_LOCATION, GH_LOCATION }, Textures["Road"], 0, 0)
 end
 
+function onRenderFaded()
+    Graphics.setDrawColor(0, 0, 0, 255)
+    Graphics.fillRect(RENDER_MODE_FOREGROUND, 999, true, { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT })
+end
+
 function defineCutscenes()
     States.scene1 = Cutscene.new(
         function(TActor)
             return {
                 { Player, true, GTT_FADE_IN, 250 },
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "", 0.25, Player, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "It's the end.", 0.25, Player, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT, 250 },
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "I'll back to my family soon...", 0.25, Player, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT, 250 },
             }
         end,
         function(TActor)
@@ -117,10 +129,10 @@ function defineCutscenes()
     States.scene3 = Cutscene.new(
         function(TActor)
             local X,Y = Camera.getPosition()
-            PoliceCar:setPosition(X + GW_LOCATION, Y + GH_LOCATION)
-			PoliceCar:setMaxSpeed(0.032, 0.01)
+            PoliceCar:setPosition(X + GW_LOCATION*1.5, 60)
+            PoliceCar:setMaxSpeed(0.04, 0.01)
             return {
-                { Player, true, GTT_WAIT, 1000 },
+                { Player, true, GTT_WAIT, 7500 },
             }
         end,
         function(TActor)
@@ -130,15 +142,72 @@ function defineCutscenes()
 
     States.scene4 = Cutscene.new(
         function(TActor)
-            local X,Y = Camera.getPosition()
-            PoliceCar:setPosition(X + GW_LOCATION, Y + GH_LOCATION)
-			PoliceCar:setMaxSpeed(0.030, 0.01)
+            PoliceCar:setMaxSpeed(0.030, 0.01)
             return {
-                { Player, true, GTT_WAIT, 1000 },
+                { Serega, true, GTT_WAIT, 250 },
+                { Serega, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Petrol, stop the car right now!", 0.25, Serega, Textures["DialogSquare"]) },
+                { Serega, true, GTT_WAIT, 250 },
+
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Shit man...", 0.25, Player, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT, 2500 },
             }
         end,
         function(TActor)
             TActor:setState("scene5")
+        end
+    )
+
+    States.scene5 = Cutscene.new(
+        function(TActor)
+            Dodge:setMaxSpeed(0.027, 0.01)
+            return {
+                { Player, true, GTT_WAIT, 500 },
+                { Player, true, GTT_FADE_OFF, 500 },
+            }
+        end,
+        function(TActor)
+            Sound.stopAll()
+            Mission.onRender = onRenderFaded
+            TActor:setState("scene6")
+        end
+    )
+
+    States.scene6 = Cutscene.new(
+        function(TActor)
+            Sounds["Crash"]:play()
+            return {
+                { Player, true, GTT_WAIT, 6000 },
+            }
+        end,
+        function(TActor)
+            TActor:setState("scene7")
+        end
+    )
+
+    States.scene7 = Cutscene.new(
+        function(TActor)
+            Mission.onRender = onRender
+            local X,Y = Camera.getPosition()
+
+            PoliceCar:setPosition(X, Y - 999)
+            Dodge:setPosition(X, Y - 999)
+            Dodge:ejectActor(0)
+            PoliceCar:ejectActor(0)
+            PoliceCar:ejectActor(1)
+
+            Player:setPosition(X + GW_LOCATION/2, 60)
+            Player:playAnimLooped(Anims["PlayerDead"])
+
+            Serega:setPosition(X - 16, 56)
+            John:setPosition(X - 8, 54)
+
+            return {
+                { Player, true, GTT_FADE_IN, 2000 },
+                { Player, true, GTT_WAIT, 2500 },
+            }
+        end,
+        function(TActor)
+            TActor:setState("scene8")
         end
     )
 end

@@ -73,6 +73,8 @@ private:
     /* Sound */
     static s32 _defineSound(lua_State* L);
     static s32 _playSound(lua_State* L);
+    static s32 _playSoundLooped(lua_State* L);
+    static s32 _stopAllSounds(lua_State* L);
 
     /* Music */
     static s32 _defineMusic(lua_State* L);
@@ -86,9 +88,6 @@ private:
     // Console
     static s32 _isConsoleShown(lua_State* L);
     static s32 _cls(lua_State* L);
-
-    /* AI */
-    static s32 _defineState(lua_State* L);
 
     /* Animation */
     static s32 _defineAnimation(lua_State* L);
@@ -151,14 +150,12 @@ private:
     static s32 _setActorTeam(lua_State* L);
     static s32 _getActorTeam(lua_State* L);
 
-    static s32 _addActorHealth(lua_State* L);
     static s32 _setActorHealth(lua_State* L);
     static s32 _getActorHealth(lua_State* L);
 
     static s32 _isActorAlive(lua_State* L);
 
     static s32 _toggleActorGodMode(lua_State* L);
-    static s32 _isActorInGodMode(lua_State* L);
     static s32 _isActorLookRight(lua_State* L);
 
     static s32 _turnActorLeft(lua_State* L);
@@ -177,7 +174,6 @@ private:
     static s32 _setActorDeathSound(lua_State* L);
 
     static s32 _setActorWeapon(lua_State* L);
-    static s32 _getActorWeapon(lua_State* L);
 
     static s32 _setActorAttackRate(lua_State* L);
     static s32 _getActorAttackRate(lua_State* L);

@@ -124,11 +124,11 @@ void SoundModule::UndefineMusics()
     }
 }
 
-b32 SoundModule::PlaySound(GT_Sound* pSound)
+b32 SoundModule::PlaySound(GT_Sound* pSound, b32 bLoop)
 {
     if (pSound)
     {
-        Mix_PlayChannel(-1, pSound->pSound, 0);
+        Mix_PlayChannel(-1, pSound->pSound, bLoop ? -1 : 1);
         return true;
     }
     else

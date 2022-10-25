@@ -85,6 +85,8 @@ void ScriptModule::DefineFunctions(lua_State* L)
     /* Sound */
     lua_register(L, "defineSound", _defineSound);
     lua_register(L, "playSound", _playSound);
+    lua_register(L, "playSoundLooped", _playSoundLooped);
+    lua_register(L, "stopAllSounds", _stopAllSounds);
 
     /* Music */
     lua_register(L, "defineMusic", _defineMusic);
@@ -906,6 +908,26 @@ s32 ScriptModule::_playSound(lua_State* L)
         return -1;
 
     g_soundModule.PlaySound( (GT_Sound*)lua_touserdata(L, 1) );
+
+    return 0;
+}
+
+s32 ScriptModule::_playSoundLooped(lua_State* L)
+{
+    if (!LuaExpect(L, "playSound", 1))
+        return -1;
+
+    g_soundModule.PlaySound((GT_Sound*)lua_touserdata(L, 1), true);
+
+    return 0;
+}
+
+s32 ScriptModule::_stopAllSounds(lua_State* L)
+{
+    if (!LuaExpect(L, "stopAllSounds", 0))
+        return -1;
+
+    g_soundModule.StopSounds();
 
     return 0;
 }
