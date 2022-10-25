@@ -26,7 +26,8 @@ Sounds["PoliceThrottling"] = Resource.defineSound("Sounds/PoliceThrottling.wav")
 Sounds["PoliceSiren"] = Resource.defineSound("Sounds/PoliceSiren.wav")
 Sounds["Crash"] = Resource.defineSound("Sounds/FinalCrash.wav")
 
-Music["LA"] = Resource.defineMusic("Music/AmbientLA.wav")
+Musics["LA"] = Resource.defineMusic("Music/AmbientLA.wav")
+Musics["Sad"] = Resource.defineMusic("Music/Sad.mp3")
 
 ---- Mission
 function Mission.onEnter(Location)
@@ -39,7 +40,12 @@ function Mission.onEnter(Location)
     IsPlayerControllable = false
 
     Serega = Actor:new(0, 0, 10, 10, Textures["Serega"])
+    Serega:toggleCollidable(false)
+    local X,Y = Serega:getSpeed()
+    Serega:setSpeed(X/2, Y/2)
     John = Actor:new(0, 0, 10, 10, Textures["John"])
+    John:toggleCollidable(false)
+    John:setSpeed(X/2, Y/2)
 
     Dodge = Car:new(75, 60, 51, 17, Textures["Dodge"])
     Dodge:turnLeft()
@@ -67,7 +73,7 @@ function Mission.onEnter(Location)
     Camera.setBounds({ -LevelWidth, 0, LevelWidth + SCREEN_WIDTH, SCREEN_HEIGHT })
     Camera.attach(Player)
 
-    Music["LA"]:play()
+    Musics["LA"]:play()
     Sounds["DodgeThrottling"]:play()
 end
 
@@ -186,6 +192,7 @@ function defineCutscenes()
 
     States.scene7 = Cutscene.new(
         function(TActor)
+            Musics["Sad"]:play()
             Mission.onRender = onRender
             local X,Y = Camera.getPosition()
 
@@ -208,6 +215,24 @@ function defineCutscenes()
         end,
         function(TActor)
             TActor:setState("scene8")
+        end
+    )
+
+    States.scene8 = Cutscene.new(
+        function(TActor)
+            local X,Y = Player:getPosition()
+            return {
+                { Serega, false, GTT_GOTO, X - 12, Y + 1 },
+                { John, true, GTT_GOTO, X - 7, Y + 1 },
+                { Serega, true, GTT_WAIT, 1000 },
+                { John, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "God bless you..", 1, John, Textures["DialogSquare"]) },
+                { John, true, GTT_FADE_OFF, 10000 },
+            }
+        end,
+        function(TActor)
+            Mission.onRender = onRenderFaded
+            Mission.switch("Scripts/Credits.lua", 1)
+            TActor:setState("")
         end
     )
 end
