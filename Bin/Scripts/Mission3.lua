@@ -27,7 +27,7 @@ Textures["Mex2"] = Textures["Mex1"] -- Placeholder
 Textures["Mex3"] = Textures[""] -- Placeholder
 Textures["Dog"] = Textures["Mex1"] -- Placeholder
 Textures["Vlassanov"] = Resource.defineTexture("Textures/Actors/Vlassanov.png", TW_ACTOR, TH_ACTOR)
-Textures["Stranger"] = Textures["Mex1"] -- Placeholder
+Textures["Stranger"] = Resource.defineTexture("Textures/Actors/Stranger.png", TW_ACTOR, TH_ACTOR)
 
 Sounds["PickupThrottling"] = Resource.defineSound("Sounds/PickupThrottling.wav")
 Sounds["PoliceStart"] = Resource.defineSound("Sounds/PoliceCarStart.wav")
