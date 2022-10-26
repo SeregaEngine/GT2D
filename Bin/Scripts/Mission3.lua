@@ -24,11 +24,9 @@ Textures["Serega"] = Resource.defineTexture("Textures/Actors/Serega.png", TW_ACT
 Textures["John"] = Resource.defineTexture("Textures/Actors/John.png", TW_ACTOR, TH_ACTOR)
 Textures["Mex1"] = Resource.defineTexture("Textures/Actors/Mex1.png", TW_ACTOR, TH_ACTOR)
 Textures["Mex2"] = Textures["Mex1"] -- Placeholder
-Textures["Mex3"] = Textures["Mex1"] -- Placeholder
-Textures["Artem"] = Textures["Mex1"] -- Placeholder
-Textures["Kirill"] = Textures["Mex1"] -- Placeholder
+Textures["Mex3"] = Textures[""] -- Placeholder
 Textures["Dog"] = Textures["Mex1"] -- Placeholder
-Textures["Vlassanov"] = Textures["Mex1"] -- Placeholder
+Textures["Vlassanov"] = Resource.defineTexture("Textures/Actors/Vlassanov.png", TW_ACTOR, TH_ACTOR)
 Textures["Stranger"] = Textures["Mex1"] -- Placeholder
 
 Sounds["PickupThrottling"] = Resource.defineSound("Sounds/PickupThrottling.wav")
