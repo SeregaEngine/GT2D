@@ -17,8 +17,8 @@ Textures["John"] = Resource.defineTexture("Textures/Actors/John.png", TW_ACTOR, 
 Textures["Dodge"] = Resource.defineTexture("Textures/Cars/Dodge.png", TW_CAR, TH_CAR)
 Textures["PoliceCar"] = Resource.defineTexture("Textures/Cars/PoliceCar.png", TW_CAR, TH_CAR)
 
-Anims["DodgeRiding"] = Resource.defineAnimation(2, 4, 1000.0/15)
-Anims["PoliceRiding"] = Resource.defineAnimation(0, 4, 1000.0/17)
+Anims["DodgeRiding"] = Resource.defineAnimation(2, 4, 1000.0/30)
+Anims["PoliceRiding"] = Resource.defineAnimation(0, 4, 1000.0/30)
 Anims["PlayerDead"] = Resource.defineAnimation(6, 1, 1)
 
 Sounds["DodgeThrottling"] = Resource.defineSound("Sounds/DodgeThrottlingLong.wav")
