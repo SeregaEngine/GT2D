@@ -25,7 +25,7 @@ Textures["John"] = Resource.defineTexture("Textures/Actors/John.png", TW_ACTOR, 
 Textures["Mex1"] = Resource.defineTexture("Textures/Actors/Mex1.png", TW_ACTOR, TH_ACTOR)
 Textures["Mex2"] = Resource.defineTexture("Textures/Actors/Mex2.png", TW_ACTOR, TH_ACTOR)
 Textures["Mex3"] = Resource.defineTexture("Textures/Actors/Mex3.png", TW_ACTOR, TH_ACTOR)
-Textures["Dog"] = Textures["Mex1"] -- Placeholder
+Textures["Dog"] = Resource.defineTexture("Textures/Actors/Dog.png", TW_ACTOR, TH_ACTOR)
 Textures["Vlassanov"] = Resource.defineTexture("Textures/Actors/Vlassanov.png", TW_ACTOR, TH_ACTOR)
 Textures["Stranger"] = Resource.defineTexture("Textures/Actors/Stranger.png", TW_ACTOR, TH_ACTOR)
 
@@ -54,8 +54,9 @@ Anims["PlayerDead"] = Resource.defineAnimation(5, 3, 1000.0 / 2)
 Anims["MexFist"] = Resource.defineAnimation(4, 3, 1000.0 / 2)
 Anims["MexDead"] = Resource.defineAnimation(5, 3, 1000.0 / 2)
 Anims["MexDraw"] = Resource.defineAnimation(6, 3, 1000.0 / 10)
-Anims["DogAttack"] = Resource.defineAnimation(4, 3, 1000.0 / 2) -- Placeholder
-Anims["DogDead"] = Resource.defineAnimation(5, 3, 1000.0 / 2) -- Placeholder
+Anims["DogAttack"] = Resource.defineAnimation(4, 3, 1000.0 / 2)
+Anims["DogWalk"] = Resource.defineAnimation(1, 5, 1000.0 / 12)
+Anims["DogDead"] = Resource.defineAnimation(5, 3, 1000.0 / 2)
 
 Weapons["Fist"] = Resource.defineWeapon(Resource.defineAnimation(4, 3, 1000.0 / 2.0), 8, 8, 50.0, Sounds["Punch1"], Sounds["Punch2"], Sounds["Punch3"], Sounds["Punch4"]) -- DEBUG(sean) Remove this fist
 Weapons["MexFist"] = Resource.defineWeapon(Anims["MexFist"], 8, 8, 5, Sounds["Punch1"], Sounds["Punch2"], Sounds["Punch3"], Sounds["Punch4"])
@@ -147,15 +148,17 @@ function L1.onEnter()
 
     Dog1 = Actor:new(GW_LOCATION * 3.6, 48, GW_ACTOR, GH_ACTOR, Textures["Dog"])
     Dog1:setTeam(ACTOR_TEAM_ENEMIES)
+    Dog1:setActorAnim(ACTOR_ANIMATION_HORIZONTAL, Anims["DogWalk"])
     Dog1:setActorAnim(ACTOR_ANIMATION_DEAD, Anims["DogDead"])
     Dog1:setDeathSound(Sounds["DogDeath"])
-    Dog1:setWeapon(Weapons["DogAttack"])
+    Dog1:setWeapon(Weapons["DogFist"])
 
     Dog2 = Actor:new(GW_LOCATION * 3.6, 56, GW_ACTOR, GH_ACTOR, Textures["Dog"])
     Dog2:setTeam(ACTOR_TEAM_ENEMIES)
+    Dog2:setActorAnim(ACTOR_ANIMATION_HORIZONTAL, Anims["DogWalk"])
     Dog2:setActorAnim(ACTOR_ANIMATION_DEAD, Anims["DogDead"])
     Dog2:setDeathSound(Sounds["DogDeath"])
-    Dog2:setWeapon(Weapons["DogAttack"])
+    Dog2:setWeapon(Weapons["DogFist"])
 
     -- Mission
     L1.defineTriggers()
