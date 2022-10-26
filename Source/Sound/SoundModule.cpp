@@ -128,7 +128,7 @@ b32 SoundModule::PlaySound(GT_Sound* pSound, b32 bLoop)
 {
     if (pSound)
     {
-        Mix_PlayChannel(-1, pSound->pSound, bLoop ? -1 : 1);
+        Mix_PlayChannel(-1, pSound->pSound, bLoop ? -1 : 0);
         return true;
     }
     else

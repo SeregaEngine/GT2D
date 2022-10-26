@@ -887,7 +887,9 @@ s32 ScriptModule::_hasWorldEntity(lua_State* L)
     if (!LuaExpect(L, "hasWorldEntity", 1))
         return -1;
 
-    lua_pushboolean(L, g_game.GetWorld().HasEntity((Entity*)lua_touserdata(L, 1)));
+    Entity* pEntity = (Entity*)lua_touserdata(L, 1);
+    b32 bAvailable = g_game.GetWorld().HasEntity(pEntity);
+    lua_pushboolean(L, bAvailable);
 
     return 1;
 }

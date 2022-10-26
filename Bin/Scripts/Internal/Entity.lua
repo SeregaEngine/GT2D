@@ -25,7 +25,7 @@ function Entity:delete()
 end
 
 function Entity:isAvailable()
-    return hasWorldEntity(Entity.Pointer)
+    return hasWorldEntity(self.Pointer)
 end
 
 function Entity:setPosition(X, Y)
