@@ -69,6 +69,7 @@ function Mission.onEnter(Location)
     defineCutscenes()
 
     -- Level
+    TimeTicks = Clock.getTicks()
     local LevelWidth = SCREEN_WIDTH * 10
     Camera.setBounds({ -LevelWidth, 0, LevelWidth + SCREEN_WIDTH, SCREEN_HEIGHT })
     Camera.attach(Player)
@@ -78,6 +79,7 @@ function Mission.onEnter(Location)
 end
 
 function Mission.onUpdate(dt)
+    TimeTicks = Clock.getTicks()
     Input.defaultHandle() -- DEBUG(sean)
 end
 
@@ -96,6 +98,10 @@ function onRender()
 
     Graphics.drawFrame(RENDER_MODE_BACKGROUND, 2, true, { FastX, 0, GW_LOCATION, GH_LOCATION }, Textures["Road"], 0, 0)
     Graphics.drawFrame(RENDER_MODE_BACKGROUND, 2, true, { FastX2, 0, GW_LOCATION, GH_LOCATION }, Textures["Road"], 0, 0)
+
+    -- Fade
+    Graphics.setDrawColor(0, 0, 0, 30)
+    Graphics.fillRect(RENDER_MODE_BACKGROUND, 3, true, { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT })
 end
 
 function onRenderFaded()

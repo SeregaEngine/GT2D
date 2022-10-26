@@ -23,8 +23,8 @@ Textures["Zhenek"] = Resource.defineTexture("Textures/Actors/Zhenek.png", TW_ACT
 Textures["Serega"] = Resource.defineTexture("Textures/Actors/Serega.png", TW_ACTOR, TH_ACTOR)
 Textures["John"] = Resource.defineTexture("Textures/Actors/John.png", TW_ACTOR, TH_ACTOR)
 Textures["Mex1"] = Resource.defineTexture("Textures/Actors/Mex1.png", TW_ACTOR, TH_ACTOR)
-Textures["Mex2"] = Textures["Mex1"] -- Placeholder
-Textures["Mex3"] = Textures[""] -- Placeholder
+Textures["Mex2"] = Resource.defineTexture("Textures/Actors/Mex2.png", TW_ACTOR, TH_ACTOR)
+Textures["Mex3"] = Resource.defineTexture("Textures/Actors/Mex3.png", TW_ACTOR, TH_ACTOR)
 Textures["Dog"] = Textures["Mex1"] -- Placeholder
 Textures["Vlassanov"] = Resource.defineTexture("Textures/Actors/Vlassanov.png", TW_ACTOR, TH_ACTOR)
 Textures["Stranger"] = Resource.defineTexture("Textures/Actors/Stranger.png", TW_ACTOR, TH_ACTOR)
@@ -167,10 +167,6 @@ function L1.onEnter()
     Camera.setBounds({ 0, 0, GROUND_WIDTH, SCREEN_HEIGHT })
     Mission.setGroundBounds({ GROUND_X, GROUND_Y, GROUND_WIDTH, GROUND_HEIGHT })
     Musics["Ambient1"]:play()
-
-    -- DEBUG(sean)
-    Player:setPosition(GROUND_WIDTH - 50, 50)
-    Camera.detach()
 end
 
 function L1.onUpdate(dt)
