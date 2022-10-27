@@ -535,6 +535,7 @@ function L2.onUpdate(dt)
 end
 
 function L2.onRender()
+    Graphics.drawFrame(RENDER_MODE_BACKGROUND, 0, true, { 0, 0, GW_LOCATION, GH_LOCATION }, Textures["Background2"])
 end
 
 function L2.defineTriggers()

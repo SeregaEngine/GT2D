@@ -17,7 +17,6 @@ function Mission.onEnter(Location)
     GarageBlueprint.onEnter()
     GarageBlueprint.DayTime = GarageBlueprint.Night
     Fire:delete()
-    FireLight:delete()
     Dodge:delete()
     Anthony:delete()
     Zhenek:delete()
