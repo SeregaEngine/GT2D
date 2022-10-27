@@ -7,6 +7,7 @@ require "Mission"
 
 ---- Resources
 Textures["Background"] = Resource.defineTexture("Textures/Locations/MissionIntro-LA.png", TW_LOCATION*2, TH_LOCATION)
+Textures["Parallax"] = Resource.defineTexture("Textures/Locations/MissionIntro-LA_Parallax.png", TW_LOCATION, TH_LOCATION)
 Textures["Barrier"] = Resource.defineTexture("Textures/Locations/MissionIntro-Barrier.png", TW_LOCATION, TH_LOCATION)
 Textures["Road"] = Resource.defineTexture("Textures/Locations/MissionIntro-Road.png", TW_LOCATION, TH_LOCATION)
 Textures["Player"] = Resource.defineTexture("Textures/Actors/Player.png", TW_ACTOR, TH_ACTOR)
@@ -40,18 +41,24 @@ function Mission.onEnter(Location)
     local LevelWidth = SCREEN_WIDTH * 10
     Camera.setBounds({ -LevelWidth, 0, LevelWidth + SCREEN_WIDTH, SCREEN_HEIGHT })
     Camera.attach(Player)
+    TimeTicks = Clock.getTicks()
 
     Music["LA"]:play()
     Sounds["Throttling"]:play()
 end
 
 function Mission.onUpdate(dt)
+    TimeTicks = Clock.getTicks()
 end
 
 function Mission.onRender()
     local X,Y = getCameraPosition()
 
-    -- Background LA
+    -- LA
+    local ParallaxX = (-X*0.075 + TimeTicks/750) % GW_LOCATION
+    Graphics.drawFrame(RENDER_MODE_BACKGROUND, -1, true, { ParallaxX, Y, GW_LOCATION, GH_LOCATION }, Textures["Parallax"], 0, 0)
+    Graphics.drawFrame(RENDER_MODE_BACKGROUND, -1, true, { ParallaxX - GW_LOCATION, Y, GW_LOCATION, GH_LOCATION }, Textures["Parallax"], 0, 0)
+
     Graphics.drawFrame(RENDER_MODE_BACKGROUND, 0, true, { -GW_LOCATION - X*0.1, Y, GW_LOCATION*2, GH_LOCATION }, Textures["Background"], 0, 0)
 
     -- Barrier and road
