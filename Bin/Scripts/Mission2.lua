@@ -19,6 +19,7 @@ Anims["PlayerWakeUp"] = Resource.defineAnimation(6, 3, 1000.0 / 1.5)
 
 Sounds["PickupThrottling"] = Resource.defineSound("Sounds/PickupThrottling.wav")
 Musics["Ambient2"] = Resource.defineMusic("Music/VnatureBgSound.wav")
+Musics["Morning"] = Musics["Ambient2"]
 
 ---- Globals
 L1 = {}
@@ -143,9 +144,11 @@ function L1.defineCutscenes()
 
     States.morningCutscene = Cutscene.new(
         function(TActor)
+            Musics["Morning"]:play()
             Anthony:delete()
             Zhenek:delete()
             Dodge:delete()
+            Fire:delete()
             for i,v in ipairs(Wheels) do
                 v:delete()
             end
@@ -217,7 +220,7 @@ function L2.onEnter()
     Zhenek:setSpeed(XDefault/1.2, YDefault/1.2)
     Zhenek:setActorAnim(ACTOR_ANIMATION_HORIZONTAL, Anims["SlowMoving"])
     Zhenek:setTeam(ACTOR_TEAM_FRIENDS)
-    IsZhenekBusy = false -- Change this when you cut-scene require Zhenek
+    IsZhenekBusy = false
 
     Anthony = Actor:new(0, 0, GW_ACTOR, GH_ACTOR, Textures["Anthony"])
     Anthony:setSpeed(XDefault/1.2, YDefault/1.2)
