@@ -9,8 +9,10 @@ require "Mission"
 
 ---- Resources
 Textures["Background1"] = Resource.defineTexture("Textures/Locations/Mission3-1.png", TW_LOCATION*4, TH_LOCATION)
+Textures["Foreground1"] = Resource.defineTexture("Textures/Locations/Mission3-1_2.png", TW_LOCATION*4, TH_LOCATION)
 Textures["Background2"] = Resource.defineTexture("Textures/Locations/Mission3-2.png", TW_LOCATION, TH_LOCATION)
 Textures["Background3"] = Textures["Background1"]
+Textures["Foreground3"] = Textures["Foreground1"]
 Textures["Parallax1"] = Resource.defineTexture("Textures/Locations/Mission3-1_Parallax.png", TW_LOCATION*2, TH_LOCATION)
 Textures["Parallax3"] = Textures["Parallax1"]
 
@@ -187,6 +189,11 @@ function L1.onRender()
 
     -- Background
     Graphics.drawFrame(RENDER_MODE_BACKGROUND, 1, false, { 0, 0, GW_LOCATION*4, GH_LOCATION }, Textures["Background1"], 0, 0)
+
+    -- Foreground
+    Graphics.drawFrame(RENDER_MODE_FOREGROUND, 1, false, { 0, 0, GW_LOCATION*4, GH_LOCATION }, Textures["Foreground1"], 0, 0)
+
+    Graphics.drawFrame(RENDER_MODE_BACKGROUND, 2, false, { GW_LOCATION*4 - 85, 30, 64, 18 }, Textures["TrashCar"])
 end
 
 function L1.defineTriggers()
@@ -729,12 +736,15 @@ function L3.onRender()
     -- Background
     Graphics.drawFrame(RENDER_MODE_BACKGROUND, 1, false, { 0, 0, GW_LOCATION*4, GH_LOCATION }, Textures["Background3"], 0, 0)
 
+    -- Foreground
+    Graphics.drawFrame(RENDER_MODE_FOREGROUND, -5, false, { 0, 0, GW_LOCATION*4, GH_LOCATION }, Textures["Foreground3"], 0, 0)
+
     -- Fade
     Graphics.setDrawColor(0, 0, 0, 40)
     Graphics.fillRect(RENDER_MODE_FOREGROUND, -999, true, { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT })
 
     -- Rope between cars
-    Graphics.setDrawColor(255, 255, 255, 255) -- TODO(sean) Find color
+    Graphics.setDrawColor(120, 60, 40, 255)
     local X1,Y1 = Pickup:getPosition()
     local X2,Y2 = Trash:getPosition()
     Graphics.fillRect(RENDER_MODE_FOREGROUND, -2, false, { X1, Y1, X2-X1, 2 })
