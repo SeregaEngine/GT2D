@@ -24,7 +24,7 @@ TTF_Font* GraphicsModule::s_pConsoleFont = nullptr;
 TTF_Font* GraphicsModule::s_pGameFont = nullptr;
 
 /* ====== METHODS ====== */
-b32 GraphicsModule::StartUp(SDL_Renderer* pRenderer, s32 width, s32 height)
+b32 GraphicsModule::StartUp(SDL_Window* pWindow, SDL_Renderer* pRenderer, s32 width, s32 height)
 {
     // Defaults
     m_screenWidth = width;
@@ -35,9 +35,12 @@ b32 GraphicsModule::StartUp(SDL_Renderer* pRenderer, s32 width, s32 height)
     // Set global unitX/Y
     GTU::SetUnitXY(m_screenWidth / (f32)UNIT_SCREEN_WIDTH, m_screenHeight / (f32)UNIT_SCREEN_HEIGHT);
 
-    // Renderer stuff
-    m_drawColor = { 0x00, 0x00, 0x00, 0xFF };
+    // SDL
+    m_pWindow = pWindow;
     m_pRenderer = pRenderer;
+
+    // Color
+    m_drawColor = { 0x00, 0x00, 0x00, 0xFF };
 
     // Allocate textures
     m_aTextures = new GT_Texture[MAX_TEXTURES];
@@ -47,6 +50,9 @@ b32 GraphicsModule::StartUp(SDL_Renderer* pRenderer, s32 width, s32 height)
     // Open console font
     s_pConsoleFont = TTF_OpenFont("Fonts/Cascadia.ttf", 48);
     s_pGameFont = TTF_OpenFont("Fonts/VT323-Regular.ttf", 100); // TODO(sean) Is it ok to set 100 ptsize?
+
+    // Set windows icon
+    SetWindowIcon();
 
     AddNote(PR_NOTE, "Module started");
 
@@ -206,6 +212,13 @@ void GraphicsModule::DrawRect(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Re
 
     // Push element
     PushRenderElement(renderMode, new RenderElementRect(zIndex, dest, RenderElementRect::ACTION_DRAW));
+}
+
+void GraphicsModule::SetWindowIcon()
+{
+    SDL_Surface* pSurface = IMG_Load("Icon.png");
+    SDL_SetWindowIcon(m_pWindow, pSurface);
+    SDL_FreeSurface(pSurface);
 }
 
 void GraphicsModule::RenderQueue(const TList<RenderElement*>& queue) const

@@ -88,7 +88,7 @@ b32 GT2D::StartUp()
     { // Start up engine`s modules
         if (!GTM::StartUp())
             return false;
-        if (!g_graphicsModule.StartUp(m_pRenderer, SCREEN_WIDTH, SCREEN_HEIGHT))
+        if (!g_graphicsModule.StartUp(m_pWindow, m_pRenderer, SCREEN_WIDTH, SCREEN_HEIGHT))
             return false;
         if (!g_inputModule.StartUp())
             return false;

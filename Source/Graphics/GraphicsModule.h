@@ -39,18 +39,21 @@ private:
     Camera m_camera;
     s32 m_cameraX, m_cameraY;
 
-    SDL_Color m_drawColor;
+    SDL_Window* m_pWindow;
     SDL_Renderer* m_pRenderer;
+
+    SDL_Color m_drawColor;
     GT_Texture* m_aTextures;
 
     TList<RenderElement*> m_queueBackground;
     TList<RenderElement*> m_queueDynamic;
     TList<RenderElement*> m_queueForeground;
     TList<RenderElement*> m_queueDebug;
+
 public:
     GraphicsModule() : EngineModule("GraphicsModule", CHANNEL_GRAPHICS) {}
 
-    b32 StartUp(SDL_Renderer* pRenderer, s32 width, s32 height);
+    b32 StartUp(SDL_Window* pWindow, SDL_Renderer* pRenderer, s32 width, s32 height);
     void ShutDown();
 
     void PrepareToRender();
@@ -74,7 +77,10 @@ public:
     Camera& GetCamera() { return m_camera; }
     const SDL_Color& GetDrawColor() const { return m_drawColor; }
     SDL_Renderer* GetRenderer() { return m_pRenderer; }
+
 private:
+    void SetWindowIcon();
+
     void RenderQueue(const TList<RenderElement*>& queue) const;
     void CleanQueues();
     void CleanQueue(TList<RenderElement*>& queue);
