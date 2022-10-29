@@ -272,13 +272,13 @@ function L2.defineCutscenes()
     States.scene1 = Cutscene.new(
         function(TActor)
             Zhenek:toggleCollidable(false)
-            Player:setPosition(60, 35)
+            Player:setPosition(70, 35)
             Player:toggleCollidable(false)
             IsPlayerControllable = false
 
             return {
                 { Player, false, GTT_FADE_IN, 5000.0 },
-                { Player, false, GTT_GOTO, 60, 52 },
+                { Player, false, GTT_GOTO, 70, 52 },
                 { Player, false, GTT_PUSH_COMMAND, GTC_TURN_LEFT },
 
                 { Zhenek, true, GTT_WAIT, 1000.0 },

@@ -58,8 +58,8 @@ function Mission.onEnter(Location)
 
     PoliceCar = Car:new(300, 62, 51, 17, Textures["PoliceCar"])
     PoliceCar:turnLeft()
-    PoliceCar:setPlacePosition(0, 1, -3)
-    PoliceCar:setPlacePosition(1, 1, -3)
+    PoliceCar:setPlacePosition(0, 0, -2)
+    PoliceCar:setPlacePosition(1, 4, -1)
     PoliceCar:setMaxSpeed(0, 0)
     PoliceCar:setAcceleration(-1, 0)
     PoliceCar:setAnim(Anims["PoliceRiding"])
@@ -114,11 +114,12 @@ function defineCutscenes()
     States.scene1 = Cutscene.new(
         function(TActor)
             return {
-                { Player, true, GTT_FADE_IN, 250 },
+                { Player, true, GTT_FADE_IN, 5000 },
+                { Player, true, GTT_WAIT, 1000 },
                 { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "It's the end.", 0.25, Player, Textures["DialogSquare"]) },
                 { Player, true, GTT_WAIT, 250 },
                 { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "I'll back to my family soon...", 0.25, Player, Textures["DialogSquare"]) },
-                { Player, true, GTT_WAIT, 250 },
+                { Player, true, GTT_WAIT, 1000 },
             }
         end,
         function(TActor)
@@ -131,7 +132,7 @@ function defineCutscenes()
             Sounds["PoliceThrottling"]:play()
             Sounds["PoliceSiren"]:play()
             return {
-                { Player, true, GTT_WAIT, 250 },
+                { Player, true, GTT_WAIT, 1000 },
             }
         end,
         function(TActor)
@@ -188,6 +189,7 @@ function defineCutscenes()
     States.scene6 = Cutscene.new(
         function(TActor)
             Sounds["Crash"]:play()
+            Musics["End"]:play()
             return {
                 { Player, true, GTT_WAIT, 6000 },
             }
@@ -199,7 +201,6 @@ function defineCutscenes()
 
     States.scene7 = Cutscene.new(
         function(TActor)
-            Musics["End"]:play()
             Mission.onRender = onRender
             local X,Y = Camera.getPosition()
 
@@ -212,8 +213,8 @@ function defineCutscenes()
             Player:setPosition(X + GW_LOCATION/2, 60)
             Player:playAnimLooped(Anims["PlayerDead"])
 
-            Serega:setPosition(X - 16, 56)
-            John:setPosition(X - 8, 54)
+            Serega:setPosition(X - 48, 56)
+            John:setPosition(X - 40, 54)
 
             return {
                 { Player, true, GTT_FADE_IN, 2000 },
@@ -229,11 +230,12 @@ function defineCutscenes()
         function(TActor)
             local X,Y = Player:getPosition()
             return {
-                { Serega, false, GTT_GOTO, X - 12, Y + 1 },
+                { Serega, false, GTT_GOTO, X - 12, Y + 3 },
                 { John, true, GTT_GOTO, X - 7, Y + 1 },
                 { Serega, true, GTT_WAIT, 1000 },
-                { John, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "God bless you..", 1, John, Textures["DialogSquare"]) },
-                { John, true, GTT_FADE_OFF, 10000 },
+                { John, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "God bless you..", 3, John, Textures["DialogSquare"]) },
+                { John, true, GTT_WAIT, 500 },
+                { John, true, GTT_FADE_OFF, 20000 },
             }
         end,
         function(TActor)

@@ -60,9 +60,9 @@ Anims["DogAttack"] = Resource.defineAnimation(4, 3, 1000.0 / 2)
 Anims["DogWalk"] = Resource.defineAnimation(1, 5, 1000.0 / 12)
 Anims["DogDead"] = Resource.defineAnimation(5, 3, 1000.0 / 2)
 
-Weapons["Fist"] = Resource.defineWeapon(Resource.defineAnimation(4, 3, 1000.0 / 2.0), 8, 8, 50.0, Sounds["Punch1"], Sounds["Punch2"], Sounds["Punch3"], Sounds["Punch4"]) -- DEBUG(sean) Remove this fist
-Weapons["MexFist"] = Resource.defineWeapon(Anims["MexFist"], 8, 8, 5, Sounds["Punch1"], Sounds["Punch2"], Sounds["Punch3"], Sounds["Punch4"])
-Weapons["DogFist"] = Resource.defineWeapon(Anims["DogAttack"], 8, 8, 5, Sounds["DogPunch1"], Sounds["DogPunch2"], Sounds["DogPunch3"])
+Weapons["Fist"] = Resource.defineWeapon(Resource.defineAnimation(4, 3, 1000.0 / 2.0), 8, 8, 20, Sounds["Punch1"], Sounds["Punch2"], Sounds["Punch3"], Sounds["Punch4"]) -- DEBUG(sean) Remove this fist
+Weapons["MexFist"] = Resource.defineWeapon(Anims["MexFist"], 8, 8, 10, Sounds["Punch1"], Sounds["Punch2"], Sounds["Punch3"], Sounds["Punch4"])
+Weapons["DogFist"] = Resource.defineWeapon(Anims["DogAttack"], 8, 8, 3, Sounds["DogPunch1"], Sounds["DogPunch2"], Sounds["DogPunch3"])
 
 ---- Mission
 L1 = {}
@@ -96,7 +96,7 @@ function L1.onEnter()
     Blank:toggleGodMode(true)
     Blank:setState("playerFightMexCameraFix")
 
-    Player = Actor:new(128, 60, GW_ACTOR, GH_ACTOR, Textures["Player"])
+    Player = Actor:new(50, 55, GW_ACTOR, GH_ACTOR, Textures["Player"])
     Player:setActorAnim(ACTOR_ANIMATION_DEAD, Anims["PlayerDead"])
     Player:setDeathSound(Sounds["ActorDeath"])
     Player:setWeapon(Weapons["Fist"])
@@ -241,8 +241,9 @@ function L1.defineCutscenes()
             Sounds["CarDoorClose"]:play()
 
             return {
-                { Player, true, GTT_FADE_IN, 1000.0 },
-                { Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "See you later", 0.25, Zhenek, Textures["DialogSquare"]) },
+                { Player, false, GTT_FADE_IN, 3500.0 },
+                { Player, true, GTT_WAIT, 1000 },
+                { Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "See you later", 2, Zhenek, Textures["DialogSquare"]) },
             }
         end,
         function(TActor)
@@ -258,11 +259,11 @@ function L1.defineCutscenes()
             Mex1:toggleGodMode(true)
 
             return {
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Hey, what're you doing?", 0.25, Player, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Hey, what're you doing?", 2, Player, Textures["DialogSquare"]) },
                 { Player, true, GTT_WAIT, 250.0 },
 
-                { Mex1, false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "KILL ME IF YOU CAN", 0.25, Mex1, Textures["DialogSquare"]) },
-                { Mex1, true, GTT_WAIT, 250.0 },
+                { Mex1, false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "It's not your busisness, cabron", 2, Mex1, Textures["DialogSquare"]) },
+                { Mex1, true, GTT_WAIT, 1500.0 },
                 { Mex1, false, GTT_PUSH_COMMAND, GTC_TURN_LEFT },
                 { Mex1, true, GTT_PUSH_COMMAND, GTC_IDLE },
             }
@@ -287,19 +288,28 @@ function L1.defineCutscenes()
 
             return {
                 { Player, false, GTT_GOTO, GW_LOCATION*2.5, GROUND_Y + GROUND_HEIGHT/4},
-                { MoreMex[3], false, GTT_GOTO, GW_LOCATION * 2.75, GROUND_Y + GROUND_HEIGHT/4 },
+                { MoreMex[3], false, GTT_GOTO, GW_LOCATION * 2.75, GROUND_Y + GROUND_HEIGHT/6 },
                 { MoreMex[2], false, GTT_GOTO, GW_LOCATION * 2.75, GROUND_Y + GROUND_HEIGHT/1.8 },
-                { MoreMex[1], false, GTT_GOTO, GW_LOCATION * 2.60, GROUND_Y + GROUND_HEIGHT/2 },
+                { MoreMex[1], false, GTT_GOTO, GW_LOCATION * 2.65, GROUND_Y + GROUND_HEIGHT/3 },
 
                 { MoreMex[1], true, GTT_WAIT, 2500.0 },
-                { MoreMex[1], true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Who are you?", 0.25, MoreMex[1], Textures["DialogSquare"]) },
+                { MoreMex[1], true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Well, well, look at there..", 3, MoreMex[1], Textures["DialogSquare"]) },
 
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Shit...", 0.25, Player, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Shit...", 1, Player, Textures["DialogSquare"]) },
                 { Player, true, GTT_WAIT, 250.0 },
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Guys, i don't have problems", 0.25, Player, Textures["DialogSquare"]) },
 
-                { MoreMex[1], true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Listen to me, bald cabron..", 0.25, MoreMex[1], Textures["DialogSquare"]) },
-                { MoreMex[1], false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "You give us everything you have and we will not touch you", 2, MoreMex[1], Textures["DialogSquare"]) },
+                { MoreMex[1], true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "What are you doing on my block?", 2.5, MoreMex[1], Textures["DialogSquare"]) },
+                { MoreMex[1], true, GTT_WAIT, 250.0 },
+
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Guys, i don't have problems", 2, Player, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT, 250.0 },
+
+                { MoreMex[1], false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Gimme all your money, now!", 2, MoreMex[1], Textures["DialogSquare"]) },
+                { MoreMex[1], true, GTT_WAIT, 500.0 },
+
+                { MoreMex[3], false, GTT_GOTO, GW_LOCATION * 1.8, GROUND_Y + 1 },
+                { MoreMex[2], false, GTT_GOTO, GW_LOCATION * 3.2, GROUND_Y + 1 },
+                { MoreMex[2], false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Police...", 1, MoreMex[2], Textures["DialogSquare"]) },
             }
         end,
         function(TActor)
@@ -313,10 +323,7 @@ function L1.defineCutscenes()
             PoliceCar:setAcceleration(-0.00009, 0)
 
             return {
-                { Player, true, GTT_WAIT, 2500 },
-                { MoreMex[3], false, GTT_GOTO, GW_LOCATION * 1.8, GROUND_Y + 1 },
-                { MoreMex[2], false, GTT_GOTO, GW_LOCATION * 3.2, GROUND_Y + 1 },
-                { MoreMex[2], true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Police...", 1, MoreMex[2], Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT, 3500 },
 
                 { Serega, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Hey, what is going on?", 1, Serega, Textures["DialogSquare"]) },
                 { Serega, true, GTT_WAIT, 250 },
@@ -350,7 +357,7 @@ function L1.defineCutscenes()
                 { MoreMex[2], true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Come to me, baby", 1, MoreMex[2], Textures["DialogSquare"]) },
                 { MoreMex[2], true, GTT_WAIT, 250.0 },
 
-                { Player, false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Don't call mommy when i kick your ass", 1, Player, Textures["DialogSquare"]) },
+                { Player, false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Don't call mommy when i kick your ass", 2, Player, Textures["DialogSquare"]) },
             }
         end,
         function(TActor)
@@ -368,7 +375,7 @@ function L1.defineCutscenes()
                 { MoreMex[3], false, GTT_GOTO, GW_LOCATION * 2.25, GROUND_Y + 1 },
                 { MoreMex[3], true, GTT_WAIT, 1000.0 },
 
-                { Player, false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Come on cabrons", 1, Player, Textures["DialogSquare"]) },
+                { Player, false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Come on, cabrons", 1, Player, Textures["DialogSquare"]) },
             }
         end,
         function(TActor)
@@ -439,6 +446,7 @@ function L1.defineStates()
 
     function States.playerFightMex(TActor)
         if not Mex1:isAlive() then
+            Dialog:new(GW_DIALOG, GH_DIALOG, "Ohh, madre...", 1.5, Mex1, Textures["DialogSquare"]):run()
             Mission.setGroundBounds({ GW_LOCATION, GROUND_Y, GW_LOCATION*2, GROUND_HEIGHT })
             Camera.setBounds({ GW_LOCATION, 0, GW_LOCATION*3, SCREEN_HEIGHT })
 
@@ -471,6 +479,8 @@ function L1.defineStates()
 
     function States.moreMexFight3(TActor)
         if not MoreMex[3]:isAlive() then
+            Dialog:new(GW_DIALOG, GH_DIALOG, "Ok-ok, you won..", 1.5, MoreMex[3], Textures["DialogSquare"]):run()
+
             Mission.setGroundBounds({ GW_LOCATION * 2, GROUND_Y, GW_LOCATION*2, GROUND_HEIGHT })
             Player:setHealth(100.0)
             TActor:setState("addDogs")
@@ -571,8 +581,8 @@ function L2.defineCutscenes()
             Stranger:turnLeft()
 
             return {
-                { Player, true, GTT_FADE_IN, 500 },
-                { Player, true, GTT_WAIT, 250 },
+                { Player, false, GTT_FADE_IN, 3500 },
+                { Player, true, GTT_WAIT, 1000 },
 
                 { Vlassanov, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Blah-blah", 0.25, Vlassanov, Textures["DialogSquare"]) },
                 { Vlassanov, true, GTT_WAIT, 250 },
@@ -600,7 +610,6 @@ function L2.defineCutscenes()
         end,
         function(TActor)
             Vlassanov:setState("killPlayer")
-            Stranger:setState("killPlayer")
 
             IsPlayerControllable = true
             TActor:setState("fight")
@@ -627,11 +636,15 @@ end
 
 function L2.defineStates()
     function States.fight(TActor)
-        if not Vlassanov:isAlive() and not Stranger:isAlive() then
-            Trigger:new({ 1, SCREEN_HEIGHT/2, 2, SCREEN_HEIGHT }, Player, "leave")
-            Dialog:new(GW_DIALOG, GH_DIALOG, "I found keys", 0.25, Player, Textures["DialogSquare"]):run()
-            Sounds["PickUp"]:play()
-            TActor:setState("")
+        if not Vlassanov:isAlive() then
+            if not Stranger:isAlive() then
+				Trigger:new({ 1, SCREEN_HEIGHT/2, 2, SCREEN_HEIGHT }, Player, "leave")
+				Dialog:new(GW_DIALOG, GH_DIALOG, "I found keys", 0.25, Player, Textures["DialogSquare"]):run()
+				Sounds["PickUp"]:play()
+				TActor:setState("")
+            else
+                Stranger:setState("killPlayer")
+            end
         end
     end
 
