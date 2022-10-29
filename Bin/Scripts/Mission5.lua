@@ -27,8 +27,8 @@ Sounds["PoliceThrottling"] = Resource.defineSound("Sounds/PoliceThrottling.wav")
 Sounds["PoliceSiren"] = Resource.defineSound("Sounds/PoliceSiren.wav")
 Sounds["Crash"] = Resource.defineSound("Sounds/FinalCrash.wav")
 
-Musics["LA"] = Resource.defineMusic("Music/AmbientLA.wav")
-Musics["Sad"] = Resource.defineMusic("Music/Sad.mp3")
+Musics["LA"] = Resource.defineMusic("Music/LA.mp3")
+Musics["End"] = Resource.defineMusic("Music/End5.mp3")
 
 ---- Mission
 function Mission.onEnter(Location)
@@ -199,7 +199,7 @@ function defineCutscenes()
 
     States.scene7 = Cutscene.new(
         function(TActor)
-            Musics["Sad"]:play()
+            Musics["End"]:play()
             Mission.onRender = onRender
             local X,Y = Camera.getPosition()
 

@@ -26,6 +26,8 @@ Anims["RepairCar"] = Resource.defineAnimation(4, 2, 1000.0 / 1)
 Anims["TakeInstruments"] = Resource.defineAnimation(5, 2, 1000.0 / 1)
 Anims["Fire"] = Resource.defineAnimation(0, 10, 1000.0/10)
 
+Musics["Garage"] = Resource.defineMusic("Music/Garage.mp3")
+
 ---- Garage Blueprint
 GarageBlueprint = {}
 
@@ -77,7 +79,7 @@ function GarageBlueprint.onEnter()
     Mission.setGroundBounds({ GROUND_X, GROUND_Y, GROUND_WIDTH, GROUND_HEIGHT })
     Camera.setBounds({ 0, 0, GW_LOCATION, GH_LOCATION })
     Camera.setPosition(0, 0)
-	Resource.defineMusic("Music/MainGarageAmbient.wav"):play()
+	Musics["Garage"]:play()
 end
 
 function GarageBlueprint.onUpdate(dt)

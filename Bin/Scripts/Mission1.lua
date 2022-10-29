@@ -38,10 +38,10 @@ Sounds["LockpickSuccess"] = Resource.defineSound("Sounds/LockpickSuccess.wav")
 Sounds["LockpickFail"] = Resource.defineSound("Sounds/LockpickFail.wav")
 Sounds["PickUp"] = Resource.defineSound("Sounds/ItemPickUp.wav")
 
-Musics["Ambient1"] = Resource.defineMusic("Music/VnatureBgSound.wav")
+Musics["Ambient1"] = Resource.defineMusic("Music/Nature.mp3")
 Musics["Ambient2"] = Musics["Ambient1"]
-Musics["Ambient3"] = Resource.defineMusic("Music/Mission1GarageAmbient.wav")
-Musics["Ambient4"] = Musics["Ambient1"]
+Musics["Ambient3"] = Resource.defineMusic("Music/M1Fight.mp3")
+Musics["Ambient4"] = Resource.defineMusic("Music/M1AfterFight.mp3")
 
 Anims["DarkLordFist"] = Resource.defineAnimation(4, 3, 1000.0 / 2)
 Anims["DarkLordDead"] = Resource.defineAnimation(5, 3, 1000.0 / 2)

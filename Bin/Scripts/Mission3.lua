@@ -48,8 +48,8 @@ Sounds["Colt1"] = Resource.defineSound("Sounds/ColtShot1.wav")
 Sounds["Colt2"] = Resource.defineSound("Sounds/ColtShot2.wav")
 Sounds["Colt3"] = Resource.defineSound("Sounds/ColtShot3.wav")
 
-Musics["Ambient1"] = Resource.defineMusic("Music/VnatureBgSound.wav") -- Placeholder
-Musics["Ambient2"] = Musics["Ambient1"] -- Placeholder
+Musics["Ambient1"] = Resource.defineMusic("Music/Nature.mp3")
+Musics["Ambient2"] = Resource.defineMusic("Music/TexasPub.mp3")
 Musics["Ambient3"] = Musics["Ambient1"]
 
 Anims["PlayerDead"] = Resource.defineAnimation(5, 3, 1000.0 / 2)

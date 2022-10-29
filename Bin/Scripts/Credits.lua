@@ -5,6 +5,9 @@
 ---- Includes
 require "Mission"
 
+---- Resources
+Musics["Music"] = Resource.defineMusic("Music/Credits.mp3")
+
 function Mission.onEnter(Location)
 	-- Defines
 	TITLE_CHAR_WIDTH = 5
@@ -64,6 +67,8 @@ function Mission.onEnter(Location)
 	}
 	Y = SCREEN_HEIGHT * 1.1
 	YMax = -(TITLE_HEIGHT + #Credits/2 * POSITION_HEIGHT + #Credits/2 * NAME_HEIGHT) * 1.1
+
+	Musics["Music"]:play()
 end
 
 function Mission.onUpdate(dt)

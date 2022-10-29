@@ -18,7 +18,7 @@ Anims["PlayerSleep"] = Resource.defineAnimation(6, 1, 1000.0)
 Anims["PlayerWakeUp"] = Resource.defineAnimation(6, 3, 1000.0 / 1.5)
 
 Sounds["PickupThrottling"] = Resource.defineSound("Sounds/PickupThrottling.wav")
-Musics["Ambient2"] = Resource.defineMusic("Music/VnatureBgSound.wav")
+Musics["Ambient2"] = Resource.defineMusic("Music/Nature.mp3")
 Musics["Morning"] = Musics["Ambient2"]
 
 ---- Globals
