@@ -116,10 +116,10 @@ function defineCutscenes()
             return {
                 { Player, true, GTT_FADE_IN, 5000 },
                 { Player, true, GTT_WAIT, 1000 },
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "It's the end.", 0.25, Player, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "It's the end.", 3, Player, Textures["DialogSquare"]) },
                 { Player, true, GTT_WAIT, 250 },
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "I'll back to my family soon...", 0.25, Player, Textures["DialogSquare"]) },
-                { Player, true, GTT_WAIT, 1000 },
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "I'll back to my family soon...", 4, Player, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT, 2000 },
             }
         end,
         function(TActor)
@@ -132,7 +132,7 @@ function defineCutscenes()
             Sounds["PoliceThrottling"]:play()
             Sounds["PoliceSiren"]:play()
             return {
-                { Player, true, GTT_WAIT, 1000 },
+                { Player, true, GTT_WAIT, 2000 },
             }
         end,
         function(TActor)
@@ -159,10 +159,10 @@ function defineCutscenes()
             PoliceCar:setMaxSpeed(0.030, 0.01)
             return {
                 { Serega, true, GTT_WAIT, 250 },
-                { Serega, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Petrol, stop the car right now!", 0.25, Serega, Textures["DialogSquare"]) },
+                { Serega, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Petrol, stop the car right now!", 3, Serega, Textures["DialogSquare"]) },
                 { Serega, true, GTT_WAIT, 250 },
 
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Shit man...", 0.25, Player, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Shit, man...", 2, Player, Textures["DialogSquare"]) },
                 { Player, true, GTT_WAIT, 2500 },
             }
         end,
@@ -175,7 +175,7 @@ function defineCutscenes()
         function(TActor)
             Dodge:setMaxSpeed(0.027, 0.01)
             return {
-                { Player, true, GTT_WAIT, 500 },
+                { Player, true, GTT_WAIT, 3000 },
                 { Player, true, GTT_FADE_OFF, 500 },
             }
         end,
