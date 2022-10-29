@@ -241,7 +241,7 @@ function L2.onEnter()
 
     -- Level
     Camera.setPosition(0, 0)
-    Musics["Ambient4"]:play()
+    Musics["Ambient2"]:play()
 end
 
 function L2.onUpdate(dt)

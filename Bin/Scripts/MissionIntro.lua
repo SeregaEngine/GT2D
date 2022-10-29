@@ -17,7 +17,7 @@ Anims["DodgeRiding"] = Resource.defineAnimation(2, 4, 1000.0/15)
 
 Sounds["Crush"] = Resource.defineSound("Sounds/CarAccident.wav")
 Sounds["Throttling"] = Resource.defineSound("Sounds/DodgeThrottlingLong.wav")
-Musics["LA"] = Resource.defineMusic("Music/LA.mp3")
+Musics["Ambient"] = Resource.defineMusic("Music/Intro.mp3")
 
 ---- Mission
 function Mission.onEnter(Location)
@@ -43,7 +43,7 @@ function Mission.onEnter(Location)
     Camera.attach(Player)
     TimeTicks = Clock.getTicks()
 
-    Musics["LA"]:play()
+    Musics["Ambient"]:play()
     Sounds["Throttling"]:play()
 end
 
