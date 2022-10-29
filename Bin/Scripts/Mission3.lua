@@ -325,14 +325,14 @@ function L1.defineCutscenes()
             return {
                 { Player, true, GTT_WAIT, 3500 },
 
-                { Serega, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Hey, what is going on?", 1, Serega, Textures["DialogSquare"]) },
+                { Serega, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Hey, what is going on?", 3, Serega, Textures["DialogSquare"]) },
                 { Serega, true, GTT_WAIT, 250 },
 
-                { Blank, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Blah-blah", 1, Blank, Textures["DialogSquare"]) },
+                { Blank, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Blah-blah", 2, Blank, Textures["DialogSquare"]) },
                 { Blank, true, GTT_WAIT, 250 },
 
-                { John, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "We are too busy to help this bald guy", 1, John, Textures["DialogSquare"]) },
-                { John, true, GTT_WAIT, 250 },
+                { John, false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "We are too busy to help this bald guy", 4, John, Textures["DialogSquare"]) },
+                { John, true, GTT_WAIT, 1000 },
             }
         end,
         function(TActor)
