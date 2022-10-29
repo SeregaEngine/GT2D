@@ -57,7 +57,7 @@ b32 GT2D::StartUp()
         }
 
         // Create renderer
-        if ( nullptr == (m_pRenderer = SDL_CreateRenderer(m_pWindow, -1, SDL_RENDERER_ACCELERATED)) )
+        if ( nullptr == (m_pRenderer = SDL_CreateRenderer(m_pWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC)) )
         {
             AddNote(PR_ERROR, "Error on creating renderer: %s", SDL_GetError());
             return false;
@@ -159,7 +159,8 @@ s32 GT2D::Run()
         g_game.Update(g_clockMgr.ComputeDelta());
         g_game.Render();
 
-        g_clockMgr.Sync();
+        // We use VSync instead of clock synchronization
+        // g_clockMgr.Sync();
     }
 
     return EC_OK;
