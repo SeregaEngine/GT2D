@@ -81,7 +81,6 @@ end
 
 function Mission.onUpdate(dt)
     TimeTicks = Clock.getTicks()
-    Input.defaultHandle() -- DEBUG(sean)
 end
 
 function onRender()

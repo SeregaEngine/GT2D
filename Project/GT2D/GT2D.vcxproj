@@ -98,8 +98,8 @@
     <OutDir>..\..\Bin\</OutDir>
     <IntDir>..\..\Build\</IntDir>
     <TargetName>GT2D</TargetName>
-    <IncludePath>C:\Workshop\GT2D\Source\Collision;C:\Workshop\GT2D\Source\Templates;C:\Workshop\GT2D\Source\Sound;C:\Workshop\GT2D\Source\Script;C:\Workshop\GT2D\Source\Math;C:\Workshop\GT2D\Source\Input;C:\Workshop\GT2D\Source\Graphics;C:\Workshop\GT2D\Source\Game;C:\Workshop\GT2D\Source\Engine;C:\Workshop\GT2D\Source\Animation;C:\Workshop\GT2D\Source\AI;C:\Workshop\GT2D\ThirdParty\Lua\Include;C:\Workshop\GT2D\ThirdParty\SDL\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Workshop\GT2D\ThirdParty\Lua\Libs\;C:\Workshop\GT2D\ThirdParty\SDL\Libs;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)..\..\Source\Collision;$(SolutionDir)..\..\Source\Templates;$(SolutionDir)..\..\Source\Sound;$(SolutionDir)..\..\Source\Script;$(SolutionDir)..\..\Source\Math;$(SolutionDir)..\..\Source\Input;$(SolutionDir)..\..\Source\Graphics;$(SolutionDir)..\..\Source\Game;$(SolutionDir)..\..\Source\Engine;$(SolutionDir)..\..\Source\Animation;$(SolutionDir)..\..\Source\AI;$(SolutionDir)..\..\ThirdParty\Lua\Include;$(SolutionDir)..\..\ThirdParty\SDL\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)..\..\ThirdParty\Lua\Libs\;$(SolutionDir)..\..\ThirdParty\SDL\Libs;$(LibraryPath)</LibraryPath>
     <SourcePath>$(SourcePath)</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

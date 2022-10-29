@@ -25,8 +25,8 @@
 
 /* ====== DEFINES ====== */
 #define FPS 60
-#define SCREEN_WIDTH 1280
-#define SCREEN_HEIGHT 720
+#define DEFAULT_SCREEN_WIDTH 1280
+#define DEFAULT_SCREEN_HEIGHT 720
 
 /* ====== VARIABLES ====== */
 GT2D g_GT2D;
@@ -46,11 +46,16 @@ b32 GT2D::StartUp()
         }
 
         // Create window
+        Uint32 windowFlags = SDL_WINDOW_SHOWN | SDL_WINDOW_INPUT_FOCUS;
+#ifdef NDEBUG
+        windowFlags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+#endif
+
         if ( nullptr == (m_pWindow = SDL_CreateWindow(
                             "GT2D",
                             SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                            SCREEN_WIDTH, SCREEN_HEIGHT,
-                            SDL_WINDOW_SHOWN | SDL_WINDOW_INPUT_FOCUS)) )
+                            DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT,
+                            windowFlags)) )
         {
             AddNote(PR_ERROR, "Error on creating window: %s", SDL_GetError());
             return false;
@@ -88,8 +93,12 @@ b32 GT2D::StartUp()
     { // Start up engine`s modules
         if (!GTM::StartUp())
             return false;
-        if (!g_graphicsModule.StartUp(m_pWindow, m_pRenderer, SCREEN_WIDTH, SCREEN_HEIGHT))
+
+        s32 width, height;
+        SDL_GetWindowSize(m_pWindow, &width, &height);
+        if (!g_graphicsModule.StartUp(m_pWindow, m_pRenderer, width, height))
             return false;
+
         if (!g_inputModule.StartUp())
             return false;
         if (!g_soundModule.StartUp())

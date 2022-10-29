@@ -107,10 +107,12 @@ enum ePriorityColor
 /* ====== METHODS ====== */
 b32 DebugLogManager::StartUp()
 {
+#ifdef _DEBUG
     // Allocate windows console
     if (!AllocConsole())
         return false;
     hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+#endif
 
     // Start up engine's console
     if (!g_console.StartUp())
@@ -160,7 +162,9 @@ void DebugLogManager::ShutDown()
 
     // Detach consoles
     g_console.ShutDown();
+#ifdef _DEBUG
     FreeConsole();
+#endif
 }
 
 void DebugLogManager::VAddNote(s32 channel, s32 priority, const char* name, const char* fmt, va_list vl)

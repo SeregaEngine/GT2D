@@ -60,7 +60,7 @@ Anims["DogAttack"] = Resource.defineAnimation(4, 3, 1000.0 / 2)
 Anims["DogWalk"] = Resource.defineAnimation(1, 5, 1000.0 / 12)
 Anims["DogDead"] = Resource.defineAnimation(5, 3, 1000.0 / 2)
 
-Weapons["Fist"] = Resource.defineWeapon(Resource.defineAnimation(4, 3, 1000.0 / 2.0), 8, 8, 20, Sounds["Punch1"], Sounds["Punch2"], Sounds["Punch3"], Sounds["Punch4"]) -- DEBUG(sean) Remove this fist
+Weapons["Fist"] = Resource.defineWeapon(Resource.defineAnimation(4, 3, 1000.0 / 2.0), 8, 8, 20, Sounds["Punch1"], Sounds["Punch2"], Sounds["Punch3"], Sounds["Punch4"])
 Weapons["MexFist"] = Resource.defineWeapon(Anims["MexFist"], 8, 8, 10, Sounds["Punch1"], Sounds["Punch2"], Sounds["Punch3"], Sounds["Punch4"])
 Weapons["DogFist"] = Resource.defineWeapon(Anims["DogAttack"], 8, 8, 3, Sounds["DogPunch1"], Sounds["DogPunch2"], Sounds["DogPunch3"])
 
@@ -741,7 +741,6 @@ end
 
 function L3.onUpdate(dt)
     TimeTicks = Clock.getTicks()
-    Input.defaultHandle() -- DEBUG(sean) remove
 end
 
 function L3.onRender()
