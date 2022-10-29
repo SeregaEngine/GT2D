@@ -5,6 +5,9 @@
 ---- Includes
 require "Mission"
 
+---- Resources
+Textures["Background"] = Resource.defineTexture("Textures/Special/MainMenu.png", SCREEN_WIDTH, SCREEN_HEIGHT)
+
 ---- Menu
 function Mission.onEnter(Location)
 	-- Defines
@@ -89,8 +92,7 @@ function Mission.onUpdate(dt)
 end
 
 function Mission.onRender()
-	Graphics.setDrawColor(190, 80, 0, 255)
-	Graphics.fillRect(RENDER_MODE_FOREGROUND, 999, true, { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT })
+	Graphics.drawFrame(RENDER_MODE_BACKGROUND, 0, true, { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }, Textures["Background"], 0, 0)
 
 	for i,v in ipairs(Buttons) do
 		setButtonColor(i)
