@@ -115,9 +115,9 @@ function defineCutscenes()
             return {
                 { Player, true, GTT_FADE_IN, 5000 },
                 { Player, true, GTT_WAIT, 1000 },
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "It's the end.", 3, Player, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "It's the end.", 5, Player, Textures["DialogSquare"]) },
                 { Player, true, GTT_WAIT, 250 },
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "I'll back to my family soon...", 4, Player, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "I'll back to my family soon...", 6, Player, Textures["DialogSquare"]) },
                 { Player, true, GTT_WAIT, 2000 },
             }
         end,
@@ -232,8 +232,8 @@ function defineCutscenes()
                 { Serega, false, GTT_GOTO, X - 12, Y + 3 },
                 { John, true, GTT_GOTO, X - 7, Y + 1 },
                 { Serega, true, GTT_WAIT, 1000 },
-                { John, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "God bless you..", 3, John, Textures["DialogSquare"]) },
-                { John, true, GTT_WAIT, 500 },
+                { John, false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "God bless you..", 6, John, Textures["DialogSquare"]) },
+                { John, true, GTT_WAIT, 3500 },
                 { John, true, GTT_FADE_OFF, 20000 },
             }
         end,

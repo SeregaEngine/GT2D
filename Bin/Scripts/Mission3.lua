@@ -259,11 +259,11 @@ function L1.defineCutscenes()
             Mex1:toggleGodMode(true)
 
             return {
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Hey, what're you doing?", 2, Player, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Hey, what're you doing?", 5, Player, Textures["DialogSquare"]) },
                 { Player, true, GTT_WAIT, 250.0 },
 
-                { Mex1, false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "It's not your busisness, cabron", 2, Mex1, Textures["DialogSquare"]) },
-                { Mex1, true, GTT_WAIT, 1500.0 },
+                { Mex1, false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "It's not your busisness, cabron", 4, Mex1, Textures["DialogSquare"]) },
+                { Mex1, true, GTT_WAIT, 3500.0 },
                 { Mex1, false, GTT_PUSH_COMMAND, GTC_TURN_LEFT },
                 { Mex1, true, GTT_PUSH_COMMAND, GTC_IDLE },
             }
@@ -293,19 +293,19 @@ function L1.defineCutscenes()
                 { MoreMex[1], false, GTT_GOTO, GW_LOCATION * 2.65, GROUND_Y + GROUND_HEIGHT/3 },
 
                 { MoreMex[1], true, GTT_WAIT, 2500.0 },
-                { MoreMex[1], true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Well, well, look at there..", 3, MoreMex[1], Textures["DialogSquare"]) },
+                { MoreMex[1], true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Well, well, look at there..", 5, MoreMex[1], Textures["DialogSquare"]) },
 
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Shit...", 1, Player, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Shit...", 2, Player, Textures["DialogSquare"]) },
                 { Player, true, GTT_WAIT, 250.0 },
 
-                { MoreMex[1], true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "What are you doing on my block?", 2.5, MoreMex[1], Textures["DialogSquare"]) },
+                { MoreMex[1], true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "What are you doing on my block?", 5, MoreMex[1], Textures["DialogSquare"]) },
                 { MoreMex[1], true, GTT_WAIT, 250.0 },
 
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Guys, i don't have problems", 2, Player, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Guys, i don't have problems", 4, Player, Textures["DialogSquare"]) },
                 { Player, true, GTT_WAIT, 250.0 },
 
-                { MoreMex[1], false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Gimme all your money, now!", 2, MoreMex[1], Textures["DialogSquare"]) },
-                { MoreMex[1], true, GTT_WAIT, 500.0 },
+                { MoreMex[1], false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Gimme all your money, now!", 5, MoreMex[1], Textures["DialogSquare"]) },
+                { MoreMex[1], true, GTT_WAIT, 1500.0 },
 
                 { MoreMex[3], false, GTT_GOTO, GW_LOCATION * 1.8, GROUND_Y + 1 },
                 { MoreMex[2], false, GTT_GOTO, GW_LOCATION * 3.2, GROUND_Y + 1 },
@@ -325,18 +325,18 @@ function L1.defineCutscenes()
             return {
                 { Player, true, GTT_WAIT, 3500 },
 
-                { Serega, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Hey, what is going on?", 3, Serega, Textures["DialogSquare"]) },
+                { Serega, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Hey, what is going on?", 4, Serega, Textures["DialogSquare"]) },
                 { Serega, true, GTT_WAIT, 250 },
 
-                { Blank, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Alpha one, we have situation at Malholland drive, need support", 4, Blank, Textures["DialogSquare"]) },
+                { Blank, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Alpha one, we have situation at Malholland drive, need backup", 8, Blank, Textures["DialogSquare"]) },
                 { Blank, true, GTT_WAIT, 250 },
-                { Blank, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Do you copy?", 2, Blank, Textures["DialogSquare"]) },
+                { Blank, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Do you copy?", 3, Blank, Textures["DialogSquare"]) },
                 { Blank, true, GTT_WAIT, 250 },
 
-                { Serega, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Loud and clear, Base. We'll be there in 2 minutes.", 4, Serega, Textures["DialogSquare"]) },
+                { Serega, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Loud and clear, Base. We'll be there in 2 minutes.", 6, Serega, Textures["DialogSquare"]) },
                 { Serega, true, GTT_WAIT, 250 },
 
-                { John, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "We are too busy to help this bald guy", 3, John, Textures["DialogSquare"]) },
+                { John, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "We are too busy to help this bald guy", 4, John, Textures["DialogSquare"]) },
                 { John, true, GTT_WAIT, 250 },
 
                 { Serega, false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Right", 3, Serega, Textures["DialogSquare"]) },
@@ -365,7 +365,7 @@ function L1.defineCutscenes()
                 { MoreMex[2], true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Come to me, baby", 1, MoreMex[2], Textures["DialogSquare"]) },
                 { MoreMex[2], true, GTT_WAIT, 250.0 },
 
-                { Player, false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Don't call mommy when i kick your ass", 2, Player, Textures["DialogSquare"]) },
+                { Player, false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Don't call mommy when i kick your ass", 4, Player, Textures["DialogSquare"]) },
             }
         end,
         function(TActor)
@@ -382,8 +382,6 @@ function L1.defineCutscenes()
             return {
                 { MoreMex[3], false, GTT_GOTO, GW_LOCATION * 2.25, GROUND_Y + 1 },
                 { MoreMex[3], true, GTT_WAIT, 1000.0 },
-
-                { Player, false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Come on, cabrons", 1, Player, Textures["DialogSquare"]) },
             }
         end,
         function(TActor)
@@ -454,7 +452,7 @@ function L1.defineStates()
 
     function States.playerFightMex(TActor)
         if not Mex1:isAlive() then
-            Dialog:new(GW_DIALOG, GH_DIALOG, "Ohh, madre...", 1.5, Mex1, Textures["DialogSquare"]):run()
+            Dialog:new(GW_DIALOG, GH_DIALOG, "Ohh, madre...", 2, Mex1, Textures["DialogSquare"]):run()
             Mission.setGroundBounds({ GW_LOCATION, GROUND_Y, GW_LOCATION*2, GROUND_HEIGHT })
             Camera.setBounds({ GW_LOCATION, 0, GW_LOCATION*3, SCREEN_HEIGHT })
 
@@ -487,7 +485,7 @@ function L1.defineStates()
 
     function States.moreMexFight3(TActor)
         if not MoreMex[3]:isAlive() then
-            Dialog:new(GW_DIALOG, GH_DIALOG, "Ok-ok, you won..", 1.5, MoreMex[3], Textures["DialogSquare"]):run()
+            Dialog:new(GW_DIALOG, GH_DIALOG, "Ok-ok, you won..", 2, MoreMex[3], Textures["DialogSquare"]):run()
 
             Mission.setGroundBounds({ GW_LOCATION * 2, GROUND_Y, GW_LOCATION*2, GROUND_HEIGHT })
             Player:setHealth(100.0)
@@ -592,24 +590,24 @@ function L2.defineCutscenes()
                 { Player, false, GTT_FADE_IN, 3500 },
                 { Player, true, GTT_WAIT, 1000 },
 
-                { Vlassanov, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "..and I told her that I am the son of an oil magnate", 4, Vlassanov, Textures["DialogSquare"]) },
+                { Vlassanov, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "..and I told her that I am the son of an oil magnate", 6, Vlassanov, Textures["DialogSquare"]) },
                 { Vlassanov, true, GTT_WAIT, 250 },
 
-                { Stranger, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "That's how we roll, man", 2.5, Stranger, Textures["DialogSquare"]) },
+                { Stranger, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "That's how we roll, man", 4, Stranger, Textures["DialogSquare"]) },
                 { Stranger, true, GTT_WAIT, 250 },
 
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "I think they have keys", 2, Player, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "I think they have keys", 4, Player, Textures["DialogSquare"]) },
                 { Player, true, GTT_WAIT, 250 },
 
-                { Stranger, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Wait, who is this guy?", 3, Stranger, Textures["DialogSquare"]) },
+                { Stranger, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Wait, who is this guy?", 4, Stranger, Textures["DialogSquare"]) },
                 { Stranger, true, GTT_WAIT, 250 },
 
                 { Vlassanov, true, GTT_PUSH_COMMAND, GTC_TURN_LEFT },
                 { Vlassanov, true, GTT_WAIT, 250 },
-                { Vlassanov, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Let's show him where is his place", 2, Vlassanov, Textures["DialogSquare"]) },
+                { Vlassanov, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Let's show him where is his place", 6, Vlassanov, Textures["DialogSquare"]) },
                 { Vlassanov, true, GTT_WAIT, 250 },
 
-                { Player, false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Fuck..", 1, Player, Textures["DialogSquare"]) },
+                { Player, false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Fuck..", 1.5, Player, Textures["DialogSquare"]) },
                 { Player, true, GTT_WAIT, 500 },
 
                 { Vlassanov, false, GTT_NONE },
@@ -649,12 +647,12 @@ function L2.defineStates()
         if not Vlassanov:isAlive() then
             if not Stranger:isAlive() then
                 Trigger:new({ 1, SCREEN_HEIGHT/2, 2, SCREEN_HEIGHT }, Player, "leave")
-                Dialog:new(GW_DIALOG, GH_DIALOG, "I found keys", 3, Player, Textures["DialogSquare"]):run()
+                Dialog:new(GW_DIALOG, GH_DIALOG, "I found keys", 4, Player, Textures["DialogSquare"]):run()
                 Sounds["PickUp"]:play()
                 TActor:setState("")
             else
                 if not IsStrangerTalked then
-                    Dialog:new(GW_DIALOG, GH_DIALOG, "Come here, babe", 1.5, Stranger, Textures["DialogSquare"]):run()
+                    Dialog:new(GW_DIALOG, GH_DIALOG, "Come here, babe", 3, Stranger, Textures["DialogSquare"]):run()
                     IsStrangerTalked = true
                 end
                 Stranger:setState("killPlayer")
@@ -787,7 +785,7 @@ function L3.defineCutscenes()
                 { Player, true, GTT_FADE_IN, 2000 },
 
                 { Zhenek, true, GTT_WAIT, 500 },
-                { Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Come on, Petrol! Sit in the car", 3, Zhenek, Textures["DialogSquare"]) },
+                { Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Come on, Petrol! Sit in the car", 4, Zhenek, Textures["DialogSquare"]) },
 
                 { Player, true, GTT_WAIT, 500 },
                 { Player, false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Man.. how you did this", 4, Player, Textures["DialogSquare"]) },
@@ -818,9 +816,9 @@ function L3.defineCutscenes()
                 { John, true, GTT_FADE_IN, 1000 },
 
                 { Blank, true, GTT_WAIT, 250, },
-                { Blank, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Hey, what's going on", 2, Blank, Textures["DialogSquare"]) },
+                { Blank, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Hey, what's going on", 4, Blank, Textures["DialogSquare"]) },
                 { Blank, true, GTT_WAIT, 250, },
-                { Blank, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "It's my territory, cabrons", 2, Blank, Textures["DialogSquare"]) },
+                { Blank, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "It's my territory, cabrons", 6, Blank, Textures["DialogSquare"]) },
             }
         end,
         function(TActor)
@@ -857,7 +855,7 @@ function L3.defineCutscenes()
         function(TActor)
             return {
                 { Blank, true, GTT_WAIT, 750 },
-                { Blank, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Shit... man", 0.25, Blank, Textures["DialogSquare"]) },
+                { Blank, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Shit... man", 2, Blank, Textures["DialogSquare"]) },
                 { Blank, true, GTT_WAIT, 100 },
             }
         end,
@@ -871,7 +869,7 @@ function L3.defineCutscenes()
         function(TActor)
             return {
                 { Blank, true, GTT_WAIT, 250 },
-                { Blank, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Come on", 0.25, Blank, Textures["DialogSquare"]) },
+                { Blank, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Come on", 2, Blank, Textures["DialogSquare"]) },
             }
         end,
         function(TActor)

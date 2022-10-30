@@ -131,8 +131,8 @@ function L1.onRender()
     Graphics.drawFrame(RENDER_MODE_BACKGROUND, 0, true, { X-GW_LOCATION*2, 0, GW_LOCATION*2, GH_LOCATION }, Textures["Parallax1"])
 
     -- Help
-    Graphics.setDrawColor(255, 255, 255, 160)
-    Graphics.drawText(RENDER_MODE_BACKGROUND, 1, false, { 128 - XCamera/5.0, 0, 50, 10 }, "Try space to attack")
+    Graphics.setDrawColor(255, 255, 255, 255)
+    Graphics.drawText(RENDER_MODE_BACKGROUND, 1, false, { 128 - XCamera/5.0, 0, 50, 10 }, "Press space to attack")
 
     -- Background
     Graphics.drawFrame(RENDER_MODE_BACKGROUND, 2, false, { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }, Textures["Background1"], 0, 0)
@@ -156,10 +156,10 @@ function L1.defineCutscenes()
                 { Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "So all the way we talked, you break in and steal the wheels", 4, Zhenek, Textures["DialogSquare"]) },
                 { Zhenek, true, GTT_WAIT, 250.0 },
 
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Ok, where we will meet?", 2, Player, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Ok, where we will meet?", 3, Player, Textures["DialogSquare"]) },
                 { Player, true, GTT_WAIT, 250.0 },
 
-                { Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "I'll be around the corner, let's go", 3, Zhenek, Textures["DialogSquare"]) },
+                { Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "I'll be around the corner, let's go", 4, Zhenek, Textures["DialogSquare"]) },
                 { Zhenek, true, GTT_WAIT, 250.0 },
 
                 { Player, true, GTT_WAIT, 1000.0 },
@@ -382,7 +382,7 @@ end
 function L3.onEnter()
     -- Functions
     Mission.onUpdate = L3.onUpdate
-    Mission.onRender = L3.onRender
+    Mission.onRender = L3.onRenderBeforeTutorial
 
     -- Defines
     GROUND_WIDTH = SCREEN_WIDTH - 10
@@ -424,9 +424,20 @@ end
 
 function L3.onUpdate(dt)
     Input.defaultHandle()
+
+    if DarkLord:getHealth() < 95.0 then
+        Mission.onRender = L3.onRenderAfterTutorial
+    end
 end
 
-function L3.onRender()
+function L3.onRenderBeforeTutorial()
+    Graphics.drawFrame(RENDER_MODE_BACKGROUND, 0, true, { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }, Textures["Background3"], 0, 0)
+
+    Graphics.setDrawColor(255, 255, 255, 168)
+    Graphics.drawText(RENDER_MODE_BACKGROUND, 1, true, { 8, SCREEN_HEIGHT - 8, 21 * 3, 8 }, "Press space to attack")
+end
+
+function L3.onRenderAfterTutorial()
     Graphics.drawFrame(RENDER_MODE_BACKGROUND, 0, true, { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }, Textures["Background3"], 0, 0)
 end
 
@@ -453,21 +464,21 @@ function L3.defineCutscenes()
                 { Player, true, GTT_WAIT, 500.0 },
 
                 { DarkLord, false, GTT_PUSH_COMMAND, GTC_TURN_RIGHT },
-                { DarkLord, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Hmm?", 0.5, DarkLord, Textures["DialogSquare"]) },
+                { DarkLord, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Hmm?", 2, DarkLord, Textures["DialogSquare"]) },
                 { DarkLord, true, GTT_WAIT, 250.0 },
-                { DarkLord, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "What the hell? Who are you?!", 2, DarkLord, Textures["DialogSquare"]) },
+                { DarkLord, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "What the hell? Who are you?!", 4, DarkLord, Textures["DialogSquare"]) },
 
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "I came for your wheels, dawg", 2, Player, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "I came for your wheels, dawg", 4, Player, Textures["DialogSquare"]) },
                 { Player, true, GTT_WAIT, 250.0 },
 
-                { DarkLord, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Pamella!!!", 1, DarkLord, Textures["DialogSquare"]) },
-                { DarkLord, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Call the police! There's someone in our garage", 1.5, DarkLord, Textures["DialogSquare"]) },
+                { DarkLord, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Pamella!!!", 2, DarkLord, Textures["DialogSquare"]) },
+                { DarkLord, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Call the police! There's someone in our garage", 6, DarkLord, Textures["DialogSquare"]) },
                 { DarkLord, true, GTT_WAIT, 250.0 },
 
-                { Pamella, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "What? Honey, i didn't hear you!", 2, Pamella, Textures["DialogSquare"]) },
+                { Pamella, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "What? Honey, i didn't hear you!", 3, Pamella, Textures["DialogSquare"]) },
                 { Pamella, true, GTT_WAIT, 250.0 },
 
-                { DarkLord, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "I'll not give my wheels, bald idiot", 1.5, DarkLord, Textures["DialogSquare"]) },
+                { DarkLord, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "I'll not give my wheels, bald idiot", 4, DarkLord, Textures["DialogSquare"]) },
                 { DarkLord, true, GTT_WAIT, 250.0 },
             }
         end,
@@ -483,7 +494,7 @@ function L3.defineCutscenes()
         function(TActor)
             return {
                 { DarkLord, true, GTT_WAIT, 250.0 },
-                { DarkLord, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "You shouldn't have come...", 2, DarkLord, Textures["DialogSquare"]) },
+                { DarkLord, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "You shouldn't have come...", 3, DarkLord, Textures["DialogSquare"]) },
                 { DarkLord, true, GTT_FADE_OFF, 3000.0 },
                 { DarkLord, false, GTT_FADE_IN, 0.0 },
             }
@@ -497,9 +508,9 @@ function L3.defineCutscenes()
         function(TActor)
             return {
                 { Player, true, GTT_WAIT, 1750.0 },
-                { Pamella, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Honey?!", 1.5, Pamella, Textures["DialogSquare"]) },
+                { Pamella, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Honey?!", 2, Pamella, Textures["DialogSquare"]) },
                 { Player, true, GTT_WAIT, 250.0 },
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "I should take these wheels and run away", 2.5, Player, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "I should take these wheels and run away", 4, Player, Textures["DialogSquare"]) },
                 { Player, true, GTT_FADE_OFF, 1000.0 },
                 { Player, false, GTT_FADE_IN, 0.0 },
             }
@@ -719,7 +730,7 @@ function L4.defineCutscenes()
                 { Player, true, GTT_GOTO, PlayerX, CarY },
                 { Player, true, GTT_WAIT, 500.0 },
 
-                { Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Faster! Jump in car", 1, Zhenek, Textures["DialogSquare"]) },
+                { Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Faster! Jump in car", 2, Zhenek, Textures["DialogSquare"]) },
                 { Zhenek, true, GTT_WAIT, 250.0 },
 
                 { Player, true, GTT_GOTO, CarX, CarY },
@@ -738,19 +749,19 @@ function L4.defineCutscenes()
         function(TActor)
             return {
                 { John, true, GTT_WAIT, 500.0 },
-                { John, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "I don't like it...", 1.5, John, Textures["DialogSquare"]) },
+                { John, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "I don't like it...", 2, John, Textures["DialogSquare"]) },
                 { John, true, GTT_WAIT, 250.0 },
 
-                { Serega, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "C'mon, John! Are you a little girl?", 2, Serega, Textures["DialogSquare"]) },
+                { Serega, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "C'mon, John! Are you a little girl?", 4, Serega, Textures["DialogSquare"]) },
                 { Serega, true, GTT_WAIT, 250.0 },
 
-                { John, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "I am a grown forty-year-old divorced man with two children and...", 4, John, Textures["DialogSquare"]) },
-                { John, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "a loan for a house that I have been giving for 10 years", 2, John, Textures["DialogSquare"]) },
+                { John, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "I am a grown forty-year-old divorced man with two children and...", 8, John, Textures["DialogSquare"]) },
+                { John, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "a loan for a house that I have been giving for 10 years", 6, John, Textures["DialogSquare"]) },
                 { John, true, GTT_WAIT, 250.0 },
-                { John, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Yeah, i'm a little girl.", 1, John, Textures["DialogSquare"]) },
+                { John, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Yeah, i'm a little girl.", 4, John, Textures["DialogSquare"]) },
                 { John, true, GTT_WAIT, 250.0 },
 
-                { Serega, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Just shut up and let's go", 1.5, Serega, Textures["DialogSquare"]) },
+                { Serega, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Just shut up and let's go", 4, Serega, Textures["DialogSquare"]) },
                 { Serega, true, GTT_WAIT, 250.0 },
             }
         end,

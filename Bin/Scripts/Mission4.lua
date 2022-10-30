@@ -56,10 +56,10 @@ function defineCutscenes()
                 { Serega, false, GTT_PUSH_COMMAND, GTC_TURN_RIGHT },
                 { Serega, true, GTT_WAIT, 250 },
 
-                { Serega, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "They've already hit the road..", 3, Serega, Textures["DialogSquare"]) },
+                { Serega, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "They've already hit the road..", 6, Serega, Textures["DialogSquare"]) },
                 { Serega, true, GTT_WAIT, 250 },
 
-                { John, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Don't worry, we'll catch 'em up", 4, John, Textures["DialogSquare"]) },
+                { John, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Don't worry, we'll catch 'em up", 5, John, Textures["DialogSquare"]) },
                 { John, true, GTT_WAIT, 250 },
 
                 { Serega, false, GTT_PUSH_COMMAND, GTC_TURN_LEFT },

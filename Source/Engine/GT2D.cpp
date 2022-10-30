@@ -52,7 +52,7 @@ b32 GT2D::StartUp()
 #endif
 
         if ( nullptr == (m_pWindow = SDL_CreateWindow(
-                            "GT2D",
+                            "Petrol: The Fastest",
                             SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                             DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT,
                             windowFlags)) )
