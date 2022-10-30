@@ -699,7 +699,7 @@ function L3.onEnter()
     GROUND_Y = GH_LOCATION - GROUND_HEIGHT
 
     -- Entities
-    Blank = Actor:new(GROUND_WIDTH-5, GROUND_Y, 1, 1, Textures["Blank"])
+    Blank = Actor:new(GROUND_WIDTH-5, GROUND_Y-7.5, 1, 1, Textures["Blank"])
 
     Player = Actor:new(GROUND_WIDTH, 60, GW_ACTOR, GH_ACTOR, Textures["Player"])
     Player:setActorAnim(ACTOR_ANIMATION_DEAD, Anims["PlayerDead"])
@@ -810,7 +810,7 @@ function L3.defineCutscenes()
             return {
                 { Serega, false, GTT_GOTO, GROUND_WIDTH + 10, GROUND_Y },
                 { John, true, GTT_GOTO, GROUND_WIDTH - 50, GROUND_Y + 1 },
-                { John, false, GTT_RUN_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Blah-blah", 0.25, John, Textures["DialogSquare"]) },
+                { John, false, GTT_RUN_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Like in the old days, yeah?", 2, John, Textures["DialogSquare"]) },
 
                 { John, true, GTT_GOTO, GROUND_WIDTH, GROUND_Y + 1 },
                 { John, false, GTT_GOTO, GROUND_WIDTH + 10, GROUND_Y + 1 },
@@ -818,9 +818,9 @@ function L3.defineCutscenes()
                 { John, true, GTT_FADE_IN, 1000 },
 
                 { Blank, true, GTT_WAIT, 250, },
-                { Blank, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Blah-blah", 0.25, Blank, Textures["DialogSquare"]) },
+                { Blank, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Hey, what's going on", 2, Blank, Textures["DialogSquare"]) },
                 { Blank, true, GTT_WAIT, 250, },
-                { Blank, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Blah-blah", 0.25, Blank, Textures["DialogSquare"]) },
+                { Blank, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "It's my territory, cabrons", 2, Blank, Textures["DialogSquare"]) },
             }
         end,
         function(TActor)
@@ -931,7 +931,7 @@ function L3.defineCutscenes()
     States.scene11 = Cutscene.new(
         function(TActor)
             return {
-                { Blank, true, GTT_FADE_OFF, 5000 },
+                { Blank, true, GTT_FADE_OFF, 2500 },
                 { Blank, false, GTT_FADE_IN, 0 },
             }
         end,

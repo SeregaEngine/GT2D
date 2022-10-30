@@ -28,7 +28,6 @@ Console g_console;
 /* ====== METHODS ====== */
 b32 Console::StartUp()
 {
-#ifdef _DEBUG
     // Allocate and init buffer
     m_buffer = new u8[CONSOLE_BUFSIZE];
     Clear();
@@ -42,24 +41,20 @@ b32 Console::StartUp()
     m_bShown = false;
     m_lastInputPosition = m_currentInput;
     m_lastCursorPosition = m_cursorPosition;
-#endif
 
     return true;
 }
 
 void Console::ShutDown()
 {
-#ifdef _DEBUG
     if (m_buffer)
         delete[] m_buffer;
     if (m_lastInput)
         delete[] m_lastInput;
-#endif
 }
 
 void Console::Render() const
 {
-#ifdef _DEBUG
     // Draw console's background
     g_graphicsModule.SetDrawColor(0x00, 0x00, 0x00, 0xCC);
     SDL_Rect dest = { 0, 0, g_graphicsModule.GetScreenWidth(),
@@ -95,12 +90,10 @@ void Console::Render() const
 
     g_graphicsModule.SetDrawColor(0xFF, 0xFF, 0xFF, 0xFF);
     g_graphicsModule.FillRect(RENDER_MODE_DEBUG, 999, true, dest);
-#endif
 }
 
 void Console::Print(const char* text)
 {
-#ifdef _DEBUG
     for (i32f y = m_currentRow * CONSOLE_STRING_WIDTH, x = 0, j = 0; text[j]; ++x, ++j)
     {
         if (text[j] == '\n')
@@ -120,12 +113,10 @@ void Console::Print(const char* text)
 
         m_buffer[y + x] = text[j];
     }
-#endif
 }
 
 void Console::Input(i32f ch)
 {
-#ifdef _DEBUG
     // Check if it's special symbol
     switch (ch)
     {
@@ -163,24 +154,20 @@ void Console::Input(i32f ch)
         ++m_currentInput;
         ++m_cursorPosition;
     }
-#endif
 }
 
 void Console::Clear()
 {
-#ifdef _DEBUG
     // Clear buffer
     memset(m_buffer, ' ', CONSOLE_BUFSIZE-1);
     m_buffer[CONSOLE_BUFSIZE - 1] = 0;
 
     // Reset row
     m_currentRow = 0;
-#endif
 }
 
 void Console::Arrow(i32f ch)
 {
-#ifdef _DEBUG
     switch (ch)
     {
 
@@ -216,12 +203,10 @@ void Console::Arrow(i32f ch)
     default: {} break;
 
     }
-#endif
 }
 
 void Console::Interpret()
 {
-#ifdef _DEBUG
     // Save this input
     memcpy(m_lastInput, &m_buffer[CONSOLE_INPUT_INDEX], LAST_BUFSIZE);
     m_lastCursorPosition = m_cursorPosition;
@@ -236,12 +221,10 @@ void Console::Interpret()
 
     // Reset console's input
     Reset();
-#endif
 }
 
 void Console::LineFeed()
 {
-#ifdef _DEBUG
     if (m_currentRow >= CONSOLE_STRING_HEIGHT - 2)
     {
         memcpy(m_buffer, &m_buffer[CONSOLE_STRING_WIDTH],
@@ -253,12 +236,10 @@ void Console::LineFeed()
     {
         ++m_currentRow;
     }
-#endif
 }
 
 void Console::Erase()
 {
-#ifdef _DEBUG
     if (m_cursorPosition > CONSOLE_INPUT_INDEX + strlen(s_consolePrompt))
     {
         memcpy(&m_buffer[m_cursorPosition - 1], &m_buffer[m_cursorPosition], (CONSOLE_BUFSIZE - 1) - m_cursorPosition);
@@ -266,16 +247,13 @@ void Console::Erase()
         --m_currentInput;
         m_buffer[m_currentInput] = ' ';
     }
-#endif
 }
 
 void Console::Reset()
 {
-#ifdef _DEBUG
     m_currentInput = CONSOLE_INPUT_INDEX + (s32)strlen(s_consolePrompt);
     m_cursorPosition = m_currentInput;
 
     memset(&m_buffer[CONSOLE_INPUT_INDEX], ' ', CONSOLE_STRING_WIDTH);
     memcpy(&m_buffer[CONSOLE_INPUT_INDEX], s_consolePrompt, strlen(s_consolePrompt));
-#endif
 }
