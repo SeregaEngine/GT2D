@@ -49,7 +49,7 @@ b32 GraphicsModule::StartUp(SDL_Window* pWindow, SDL_Renderer* pRenderer, s32 wi
 
     // Open console font
     s_pConsoleFont = TTF_OpenFont("Fonts/Cascadia.ttf", 48);
-    s_pGameFont = TTF_OpenFont("Fonts/VT323-Regular.ttf", 100); // TODO(sean) Is it ok to set 100 ptsize?
+    s_pGameFont = TTF_OpenFont("Fonts/VT323-Regular.ttf", 148);
 
     // Set windows icon
     SetWindowIcon();

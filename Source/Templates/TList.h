@@ -72,8 +72,8 @@ public:
 
     Iterator Begin() { return m_pFirst; }
     Iterator End() { return nullptr; }
-    Iterator CBegin() const { return m_pFirst; }
-    Iterator CEnd() const { return nullptr; }
+    const Iterator CBegin() const { return m_pFirst; }
+    const Iterator CEnd() const { return nullptr; }
 private:
     // No copy, no assignment. Use references instead
     TList(TList<T>& lst) = delete;

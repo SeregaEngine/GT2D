@@ -10,6 +10,8 @@ Textures["Background"] = Resource.defineTexture("Textures/Special/MainMenu.png",
 
 ---- Menu
 function Mission.onEnter(Location)
+	showCursor()
+
 	-- Defines
 	ARROW_TRY_RATE = 150
 

@@ -328,11 +328,19 @@ function L1.defineCutscenes()
                 { Serega, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Hey, what is going on?", 3, Serega, Textures["DialogSquare"]) },
                 { Serega, true, GTT_WAIT, 250 },
 
-                { Blank, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Blah-blah", 2, Blank, Textures["DialogSquare"]) },
+                { Blank, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Alpha one, we have situation at Malholland drive, need support", 4, Blank, Textures["DialogSquare"]) },
+                { Blank, true, GTT_WAIT, 250 },
+                { Blank, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Do you copy?", 2, Blank, Textures["DialogSquare"]) },
                 { Blank, true, GTT_WAIT, 250 },
 
-                { John, false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "We are too busy to help this bald guy", 4, John, Textures["DialogSquare"]) },
-                { John, true, GTT_WAIT, 1000 },
+                { Serega, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Loud and clear, Base. We'll be there in 2 minutes.", 4, Serega, Textures["DialogSquare"]) },
+                { Serega, true, GTT_WAIT, 250 },
+
+                { John, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "We are too busy to help this bald guy", 3, John, Textures["DialogSquare"]) },
+                { John, true, GTT_WAIT, 250 },
+
+                { Serega, false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Right", 3, Serega, Textures["DialogSquare"]) },
+                { Serega, true, GTT_WAIT, 250 },
             }
         end,
         function(TActor)
@@ -640,15 +648,15 @@ function L2.defineStates()
     function States.fight(TActor)
         if not Vlassanov:isAlive() then
             if not Stranger:isAlive() then
-				Trigger:new({ 1, SCREEN_HEIGHT/2, 2, SCREEN_HEIGHT }, Player, "leave")
-				Dialog:new(GW_DIALOG, GH_DIALOG, "I found keys", 3, Player, Textures["DialogSquare"]):run()
-				Sounds["PickUp"]:play()
-				TActor:setState("")
+                Trigger:new({ 1, SCREEN_HEIGHT/2, 2, SCREEN_HEIGHT }, Player, "leave")
+                Dialog:new(GW_DIALOG, GH_DIALOG, "I found keys", 3, Player, Textures["DialogSquare"]):run()
+                Sounds["PickUp"]:play()
+                TActor:setState("")
             else
                 if not IsStrangerTalked then
-					Dialog:new(GW_DIALOG, GH_DIALOG, "Come here, babe", 1.5, Stranger, Textures["DialogSquare"]):run()
+                    Dialog:new(GW_DIALOG, GH_DIALOG, "Come here, babe", 1.5, Stranger, Textures["DialogSquare"]):run()
                     IsStrangerTalked = true
-				end
+                end
                 Stranger:setState("killPlayer")
             end
         end
@@ -928,8 +936,8 @@ function L3.defineCutscenes()
             }
         end,
         function(TActor)
-			Saver.save("Scripts/Mission4.lua", 1)
-			Mission.switch("Scripts/Mission4.lua", 1)
+            Saver.save("Scripts/Mission4.lua", 1)
+            Mission.switch("Scripts/Mission4.lua", 1)
             TActor:setState("")
         end
     )

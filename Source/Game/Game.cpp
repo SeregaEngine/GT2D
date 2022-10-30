@@ -59,6 +59,7 @@ void Game::HandleNewState()
     {
         if (m_lstState.Front() != m_pCurrentState)
         {
+            SDL_ShowCursor(SDL_DISABLE);
             m_pCurrentState = m_lstState.Front();
             if (m_pCurrentState && !m_pCurrentState->IsEntered() && !m_pCurrentState->OnEnter())
             {

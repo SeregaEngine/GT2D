@@ -83,9 +83,14 @@ function defineCutscenes()
             return {
                 { Player, true, GTT_FADE_IN, 15000.0 },
 
-                -- TODO(sean) Paste dialogs
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "", 0.25, Player, Textures["DialogSquare"]) },
-                { Player, true, GTT_WAIT, 20000.0 },
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Family is the best thing in life...", 4, Player, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT, 1000.0 },
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Sometimes we spend not as much time as we would like to at least see them.", 6, Player, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT, 750.0 },
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "But from now..", 2, Player, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT, 250.0 },
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "..everything will change", 4, Player, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT, 2000.0 },
             }
         end,
         function(TActor)
@@ -95,6 +100,7 @@ function defineCutscenes()
 
     States.crushing = Cutscene.new(
         function(TActor)
+            Sound.stopAll()
             Sounds["Crush"]:play()
             Dodge:setAcceleration(-1, 1)
             return {

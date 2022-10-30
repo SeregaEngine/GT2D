@@ -52,6 +52,9 @@ private:
     /* Lua */
     static s32 _dostring(lua_State* L);
 
+    /* Window */
+    static s32 _showCursor(lua_State* L);
+
     /* Graphics */
     // Textures
     static s32 _defineTexture(lua_State* L);

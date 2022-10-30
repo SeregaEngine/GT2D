@@ -10,6 +10,7 @@ require "Mission"
 
 function Mission.onEnter(Location)
 	GT_LOG(PR_NOTE, "Game paused")
+	showCursor()
 
 	-- Defines
 	BUTTON_CHAR_WIDTH = 4

@@ -153,9 +153,14 @@ function L1.defineCutscenes()
             return {
                 { Player, true, GTT_FADE_IN, 3500.0 },
 
-                -- TODO(sean) Paste dialogs
-                { Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "", 0.25, Zhenek, Textures["DialogSquare"]) },
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "", 0.25, Player, Textures["DialogSquare"]) },
+                { Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "So all the way we talked, you break in and steal the wheels", 4, Zhenek, Textures["DialogSquare"]) },
+                { Zhenek, true, GTT_WAIT, 250.0 },
+
+                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Ok, where we will meet?", 2, Player, Textures["DialogSquare"]) },
+                { Player, true, GTT_WAIT, 250.0 },
+
+                { Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "I'll be around the corner, let's go", 3, Zhenek, Textures["DialogSquare"]) },
+                { Zhenek, true, GTT_WAIT, 250.0 },
 
                 { Player, true, GTT_WAIT, 1000.0 },
             }

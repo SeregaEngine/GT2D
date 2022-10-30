@@ -64,6 +64,9 @@ void ScriptModule::DefineFunctions(lua_State* L)
     /* Lua */
     lua_register(L, "dostring", _dostring);
 
+    /* Window*/
+    lua_register(L, "showCursor", _showCursor);
+
     /* Graphics */
     // Textures
     lua_register(L, "defineTexture", _defineTexture);
@@ -691,6 +694,16 @@ s32 ScriptModule::_dostring(lua_State* L)
         LuaNote(PR_ERROR, "dostring(): %s", lua_tostring(L, -1));
         lua_pop(L, 1);
     }
+
+    return 0;
+}
+
+s32 ScriptModule::_showCursor(lua_State* L)
+{
+    if (!LuaExpect(L, "showCursor", 0))
+        return -1;
+
+    SDL_ShowCursor(SDL_ENABLE);
 
     return 0;
 }
