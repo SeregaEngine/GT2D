@@ -4,7 +4,7 @@
 ![](Project/Images/Header.png)
 
 It's simple 2D engine that based on SDL and Lua for scripting,
-also it was used to create ![Petrol: The Fastest](https://17seannnn.itch.io/petrol-the-fastest) game.
+also it was used to create [Petrol: The Fastest](https://17seannnn.itch.io/petrol-the-fastest) game.
 
 ## Screenshot
 ![Screenshot](Project/Images/Screenshot1.png)
