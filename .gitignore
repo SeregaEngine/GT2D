@@ -13,6 +13,8 @@ Build
 ThirdParty
 Bin/Save
 Bin/LICENSE*
+Bin/Textures
+Bin/Icon*
 
 CHANGES.txt
 TODO
@@ -32,7 +34,6 @@ TODO
 *.ncb
 *.opt
 *.bmp
-*.png
 *.wav
 *.ilk
 *.ttf
