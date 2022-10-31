@@ -1,12 +1,13 @@
+# GT2D
+
 ![](Project/Images/Header.png)
+
+## Screenshot
+![Screenshot](Project/Images/Screenshot1.png)
 
 ## Summary
 It's simple 2D engine that based on SDL and Lua for scripting,
 also it was used to create ![Petrol: The Fastest](https://17seannnn.itch.io/petrol-the-fastest) game.
-
-## Screenshots
-![Screenshot](Project/Images/Screenshot1.png)
-![Screenshot](Project/Images/Screenshot2.png)
 
 ## AI
 Actors are controlled by sending them a commands like GTC_TURN_LEFT or GTC_ATTACK.
