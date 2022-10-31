@@ -6,8 +6,8 @@
 Summary...
 
 ## Screenshots
-- [](Project/Images/Screenshot1.png)
-- [](Project/Images/Screenshot2.png)
+![](Project/Images/Screenshot1.png)
+![](Project/Images/Screenshot2.png)
 
 ## Petrol: The Fastest
 Description of this game...
