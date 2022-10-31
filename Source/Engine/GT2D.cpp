@@ -28,6 +28,12 @@
 #define DEFAULT_SCREEN_WIDTH 1280
 #define DEFAULT_SCREEN_HEIGHT 720
 
+#ifdef _DEBUG
+# define WINDOW_TITLE "GT2D"
+#else
+# define WINDOW_TITLE "Petrol: The Fastest"
+#endif
+
 /* ====== VARIABLES ====== */
 GT2D g_GT2D;
 
@@ -52,7 +58,7 @@ b32 GT2D::StartUp()
 #endif
 
         if ( nullptr == (m_pWindow = SDL_CreateWindow(
-                            "Petrol: The Fastest",
+                            WINDOW_TITLE,
                             SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                             DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT,
                             windowFlags)) )
