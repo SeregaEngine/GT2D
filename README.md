@@ -1,5 +1,3 @@
-# GT2D
-
 ![](Project/Images/Header.png)
 
 ## Summary
