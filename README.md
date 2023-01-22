@@ -4,7 +4,7 @@
 ![](Project/Images/Header.png)
 
 It's simple 2D engine that based on SDL and Lua for scripting,
-also it was used to create [Petrol: The Fastest](https://17seannnn.itch.io/petrol-the-fastest) game.
+also it was used to create [Petrol: The Fastest](https://seregaengine.itch.io/petrol-the-fastest) game.
 
 ## Screenshot
 ![Screenshot](Project/Images/Screenshot1.png)
@@ -41,4 +41,4 @@ To load from "Save" file you can just do Mission.switch("Scripts/Internal/Loader
 ![Screenshot](Project/Images/Screenshot2.png)
 
 You can check out game made with this engine
-[Petrol: The Fastest on itch.io](https://17seannnn.itch.io/petrol-the-fastest)
+[Petrol: The Fastest on itch.io](https://seregaengine.itch.io/petrol-the-fastest)
