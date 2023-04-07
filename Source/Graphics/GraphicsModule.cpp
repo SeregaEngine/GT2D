@@ -7,9 +7,6 @@
 
 static constexpr i32f MAX_TEXTURES = 256;
 
-TTF_Font* GraphicsModule::s_pConsoleFont = nullptr;
-TTF_Font* GraphicsModule::s_pGameFont = nullptr;
-
 void GraphicsModule::StartUp(SDL_Window* pWindow, SDL_Renderer* pRenderer, s32 width, s32 height)
 {
     // Defaults
@@ -37,8 +34,8 @@ void GraphicsModule::StartUp(SDL_Window* pWindow, SDL_Renderer* pRenderer, s32 w
     memset(m_aTextures, 0, sizeof(Texture) * MAX_TEXTURES);
 
     // Open console font
-    s_pConsoleFont = TTF_OpenFont("Fonts/Cascadia.ttf", 48);
-    s_pGameFont = TTF_OpenFont("Fonts/VT323-Regular.ttf", 148);
+    m_pConsoleFont = TTF_OpenFont("Fonts/Cascadia.ttf", 48);
+    m_pGameFont = TTF_OpenFont("Fonts/VT323-Regular.ttf", 148);
 
     // Set windows icon
     SetWindowIcon();
@@ -49,15 +46,15 @@ void GraphicsModule::StartUp(SDL_Window* pWindow, SDL_Renderer* pRenderer, s32 w
 void GraphicsModule::ShutDown()
 {
     // Close font
-    if (s_pConsoleFont)
+    if (m_pConsoleFont)
     {
-        TTF_CloseFont(s_pConsoleFont);
-        s_pConsoleFont = nullptr;
+        TTF_CloseFont(m_pConsoleFont);
+        m_pConsoleFont = nullptr;
     }
-    if (s_pGameFont)
+    if (m_pGameFont)
     {
-        TTF_CloseFont(s_pGameFont);
-        s_pGameFont = nullptr;
+        TTF_CloseFont(m_pGameFont);
+        m_pGameFont = nullptr;
     }
 
     // Free textures
@@ -172,7 +169,7 @@ void GraphicsModule::DrawFrame(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_R
     PushRenderElement(renderMode, new RenderElementFrame(zIndex, dest, pTexture, row, col, angle, flip));
 }
 
-void GraphicsModule::DrawText(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Rect& dstRect, const char* text, TTF_Font* pFont)
+void GraphicsModule::DrawText(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Rect& dstRect, const char* text, eFontID font)
 {
     // Check and correct destination rectangle
     SDL_Rect dest = dstRect;
@@ -182,7 +179,7 @@ void GraphicsModule::DrawText(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Re
     }
 
     // Push element
-    PushRenderElement(renderMode, new RenderElementText(zIndex, dest, text, pFont));
+    PushRenderElement(renderMode, new RenderElementText(zIndex, dest, text, font == FONT_GAME ? m_pGameFont : m_pConsoleFont));
 }
 
 void GraphicsModule::FillRect(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Rect& dstRect)

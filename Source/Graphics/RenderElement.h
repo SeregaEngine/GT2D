@@ -49,8 +49,8 @@ public:
     RenderElementText(s32 zIndex, const SDL_Rect& dest, const char* _text, TTF_Font* _pFont) :
         RenderElement(zIndex, dest), pFont(_pFont), color(g_graphicsModule.GetDrawColor())
     {
-        text = new char[strlen(_text) + 1];
-        memcpy(text, _text, strlen(_text) + 1);
+        text = new char[std::strlen(_text) + 1];
+        memcpy(text, _text, std::strlen(_text) + 1);
     }
 
     ~RenderElementText()

@@ -76,8 +76,8 @@ void Dialog::Draw()
         // Draw this string line
         g_graphicsModule.DrawText(
             m_renderMode, m_zIndex + 1, false,
-              dest, &m_text[tempIndex - DIALOG_STRING_WIDTH],
-              GraphicsModule::s_pGameFont
+            dest, &m_text[tempIndex - DIALOG_STRING_WIDTH],
+            FONT_GAME 
         );
 
         // Recover string

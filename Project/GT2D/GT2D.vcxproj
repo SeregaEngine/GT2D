@@ -209,6 +209,7 @@
     <None Include="..\..\Bin\Scripts\Internal\Camera.lua" />
     <None Include="..\..\Bin\Scripts\Internal\Car.lua" />
     <None Include="..\..\Bin\Scripts\Internal\Console.lua" />
+    <None Include="..\..\Bin\Scripts\Internal\ConsoleDev.lua" />
     <None Include="..\..\Bin\Scripts\Internal\Cutscene.lua" />
     <None Include="..\..\Bin\Scripts\Internal\Clock.lua" />
     <None Include="..\..\Bin\Scripts\Internal\Dialog.lua" />

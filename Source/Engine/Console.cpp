@@ -66,7 +66,7 @@ void Console::Render() const
         u8 temp = m_buffer[tempIndex]; // Save start of next string that will be null terminated
         m_buffer[tempIndex] = 0;
 
-        g_graphicsModule.DrawText(RENDER_MODE_DEBUG, 998, true, dest, (const char*) &m_buffer[i * CONSOLE_STRING_WIDTH], GraphicsModule::s_pConsoleFont);
+        g_graphicsModule.DrawText(RENDER_MODE_DEBUG, 998, true, dest, (const char*) &m_buffer[i * CONSOLE_STRING_WIDTH], FONT_CONSOLE);
 
         m_buffer[tempIndex] = temp; // Restore
     }
@@ -186,7 +186,7 @@ void Console::Arrow(i32f ch)
 
     case SDLK_LEFT:
     {
-        if (m_cursorPosition > CONSOLE_INPUT_INDEX + strlen(CONSOLE_PROMPT))
+        if (m_cursorPosition > CONSOLE_INPUT_INDEX + std::strlen(CONSOLE_PROMPT))
         {
             --m_cursorPosition;
         }
@@ -218,7 +218,7 @@ void Console::Interpret()
     }
 
     // Interpret it
-    g_scriptModule.Interpret(g_game.GetScript(), (const char*)&m_buffer[CONSOLE_INPUT_INDEX + strlen(CONSOLE_PROMPT)]);
+    g_scriptModule.Interpret(g_game.GetScript(), (const char*)&m_buffer[CONSOLE_INPUT_INDEX + std::strlen(CONSOLE_PROMPT)]);
 
     // Reset console's input
     Reset();
@@ -239,7 +239,7 @@ void Console::LineFeed()
 
 void Console::Erase()
 {
-    if (m_cursorPosition > CONSOLE_INPUT_INDEX + strlen(CONSOLE_PROMPT))
+    if (m_cursorPosition > CONSOLE_INPUT_INDEX + std::strlen(CONSOLE_PROMPT))
     {
         memcpy(&m_buffer[m_cursorPosition - 1], &m_buffer[m_cursorPosition], (CONSOLE_BUFSIZE - 1) - m_cursorPosition);
         --m_cursorPosition;
@@ -250,9 +250,9 @@ void Console::Erase()
 
 void Console::Reset()
 {
-    m_currentInput = CONSOLE_INPUT_INDEX + (s32)strlen(CONSOLE_PROMPT);
+    m_currentInput = CONSOLE_INPUT_INDEX + (s32)std::strlen(CONSOLE_PROMPT);
     m_cursorPosition = m_currentInput;
 
     memset(&m_buffer[CONSOLE_INPUT_INDEX], ' ', CONSOLE_STRING_WIDTH);
-    memcpy(&m_buffer[CONSOLE_INPUT_INDEX], CONSOLE_PROMPT, strlen(CONSOLE_PROMPT));
+    memcpy(&m_buffer[CONSOLE_INPUT_INDEX], CONSOLE_PROMPT, std::strlen(CONSOLE_PROMPT));
 }

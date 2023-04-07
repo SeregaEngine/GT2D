@@ -19,15 +19,17 @@ enum eRenderMode
     RENDER_MODE_DEBUG
 };
 
+enum eFontID
+{
+    FONT_GAME = 0,
+    FONT_CONSOLE
+};
+
 struct RenderElement;
 struct Texture;
 
 class GraphicsModule final : public EngineModule
 {
-public:
-    static TTF_Font* s_pConsoleFont;
-    static TTF_Font* s_pGameFont;
-
 private:
     s32 m_screenWidth;
     s32 m_screenHeight;
@@ -42,6 +44,9 @@ private:
 
     SDL_Window* m_pWindow;
     SDL_Renderer* m_pRenderer;
+
+    TTF_Font* m_pConsoleFont;
+    TTF_Font* m_pGameFont;
 
     SDL_Color m_drawColor;
     Texture* m_aTextures;
@@ -65,7 +70,7 @@ public:
     void UndefineTextures();
 
     void DrawFrame(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Rect& dstRect, const Texture* pTexture, s32 row, s32 col, f32 angle = 0.0f, SDL_RendererFlip flip = SDL_FLIP_NONE);
-    void DrawText(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Rect& dstRect, const char* text, TTF_Font* pFont = s_pGameFont);
+    void DrawText(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Rect& dstRect, const char* text, eFontID font = FONT_GAME);
     void FillRect(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Rect& dstRect);
     void DrawRect(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Rect& dstRect);
 

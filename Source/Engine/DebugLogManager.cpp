@@ -234,15 +234,15 @@ void DebugLogManager::VAddNote(s32 channel, s32 priority, const char* name, cons
 
     // Get note prefix
     char notePrefix[NOTE_PREFIX_BUFSIZE];
-    std::snprintf(notePrefix, NOTE_PREFIX_BUFSIZE, "<%s> %s", name, priorityName);
+    snprintf(notePrefix, NOTE_PREFIX_BUFSIZE, "<%s> %s", name, priorityName);
 
     // Get note message
     char noteMessage[NOTE_MESSAGE_BUFSIZE];
-    std::vsnprintf(noteMessage, NOTE_MESSAGE_BUFSIZE, fmt, vl);
+    vsnprintf(noteMessage, NOTE_MESSAGE_BUFSIZE, fmt, vl);
 
     // Get final note
     char noteFinal[NOTE_FINAL_BUFSIZE];
-    std::snprintf(noteFinal, NOTE_FINAL_BUFSIZE, "%s: %s\n", notePrefix, noteMessage);
+    snprintf(noteFinal, NOTE_FINAL_BUFSIZE, "%s: %s\n", notePrefix, noteMessage);
     size_t noteLength = std::strlen(noteFinal);
 
     // Output
@@ -264,7 +264,7 @@ void DebugLogManager::VAddNote(s32 channel, s32 priority, const char* name, cons
 
 void DebugLogManager::AddNote(s32 channel, s32 priority, const char* name, const char* fmt, ...)
 {
-    std::va_list vl;
+    va_list vl;
     va_start(vl, fmt);
 
     VAddNote(channel, priority, name, fmt, vl);

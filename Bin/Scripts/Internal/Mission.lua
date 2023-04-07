@@ -81,3 +81,5 @@ require "Trigger"
 
 require "Saver"
 require "Cutscene"
+
+require "ConsoleDev"
