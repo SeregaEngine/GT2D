@@ -1,17 +1,11 @@
-#ifndef DEBUGLOGMANAGER_H_
-#define DEBUGLOGMANAGER_H_
+#pragma once
 
-/* ====== INCLUDES ======= */
-#include <stdio.h>
-
+#include <cstdio>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-
 #include "Types.h"
 
-/* ====== DEFINES ====== */
-
-// Each channel represent engine's module
+/** Each channel represent engine's module */
 enum eDebugLogChannel
 {
     CHANNEL_LOGMGR    = 1 << 0,
@@ -31,7 +25,6 @@ enum eDebugLogPriority
     PR_NOTE    = 1 << 2
 };
 
-/* ====== STRUCTURES ======= */
 class DebugLogManager
 {
     HANDLE hConsole;
@@ -55,5 +48,3 @@ public:
 };
 
 inline DebugLogManager g_debugLogMgr;
-
-#endif // DEBUGLOGMANAGER_H_

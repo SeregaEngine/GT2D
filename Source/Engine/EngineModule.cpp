@@ -1,9 +1,6 @@
-/* ====== INCLUDES ====== */
 #include "DebugLogManager.h"
-
 #include "EngineModule.h"
 
-/* ====== METHODS ====== */
 void EngineModule::AddNote(s32 priority, const char* fmt, ...) const
 {
     va_list vl;

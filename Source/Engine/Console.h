@@ -1,5 +1,4 @@
-#ifndef CONSOLE_H_
-#define CONSOLE_H_
+#pragma once
 
 #include "EngineModule.h"
 
@@ -9,12 +8,13 @@ class Console : public EngineModule
     u8* m_lastInput;
     b32 m_bShown;
 
-    s32 m_currentRow;   // Row for Print()
-    s32 m_currentInput; // Last position in input's row
-    s32 m_cursorPosition; // Cursor's position
+    s32 m_currentRow;     /** Row for Print() */
+    s32 m_currentInput;   /** Last position in input's row */
+    s32 m_cursorPosition; /** Cursor's position */
 
     s32 m_lastInputPosition;
     s32 m_lastCursorPosition;
+
 public:
     Console() : EngineModule("Console", CHANNEL_LOGMGR) {}
 
@@ -40,5 +40,3 @@ private:
 };
 
 inline Console g_console;
-
-#endif // CONSOLE_H_

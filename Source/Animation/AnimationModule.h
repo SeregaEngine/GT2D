@@ -1,12 +1,7 @@
-#ifndef ANIMATIONMODULE_H_
-#define ANIMATIONMODULE_H_
-
-/* ====== INCLUDES ====== */
-#include "SDL.h"
+#pragma once
 
 #include "EngineModule.h"
 
-/* ====== STRUCTURES ====== */
 struct GT_Animation
 {
     s32 row;
@@ -18,6 +13,7 @@ class AnimationModule final : public EngineModule
 {
     GT_Animation* m_aAnims;
     s32 m_usedAnims;
+
 public:
     AnimationModule() : EngineModule("AnimationModule", CHANNEL_ANIMATION) {}
 
@@ -29,5 +25,3 @@ public:
 };
 
 inline AnimationModule g_animModule;
-
-#endif // ANIMATIONMODULE_H_

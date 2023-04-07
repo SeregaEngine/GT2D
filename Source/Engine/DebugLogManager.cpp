@@ -1,45 +1,31 @@
-/* ====== TODO ======
- * - Timestamp
- * - Filter
- * - Verbosity
- * - Enable, disable console
- */
-
-/* ====== INCLUDES ====== */
-#include <stdio.h>
-#include <stdlib.h>
-#include <errno.h>
+#include <cstdlib>
+#include <cerrno>
+#include <cstdarg>
 #include <filesystem>
-
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-
 #include "Console.h"
-
 #include "DebugLogManager.h"
 
-/* ====== DEFINES ====== */
-#define NOTE_PREFIX_BUFSIZE  64
-#define NOTE_MESSAGE_BUFSIZE 512
-#define NOTE_FINAL_BUFSIZE   1024
+static constexpr i32f NOTE_PREFIX_BUFSIZE  = 64;
+static constexpr i32f NOTE_MESSAGE_BUFSIZE = 512;
+static constexpr i32f NOTE_FINAL_BUFSIZE   = 1024;
 
-#define PRIORITY_PREFIX_UNDEFINED "Undefined"
-#define PRIORITY_PREFIX_ERROR     "Error"
-#define PRIORITY_PREFIX_WARNING   "Warning"
-#define PRIORITY_PREFIX_NOTE      "Note"
+static constexpr char PRIORITY_PREFIX_UNDEFINED[] = "Undefined";
+static constexpr char PRIORITY_PREFIX_ERROR[]     = "Error";
+static constexpr char PRIORITY_PREFIX_WARNING[]   = "Warning";
+static constexpr char PRIORITY_PREFIX_NOTE[]      = "Note";
 
 #define DIR_LOGS "Logs\\"
 #define LOGS_EXTENSION ".log"
 
-#define FILENAME_LOGFULL         DIR_LOGS "LogFull" LOGS_EXTENSION
-#define FILENAME_DEBUGLOGMANAGER DIR_LOGS "DebugLogManager" LOGS_EXTENSION
-#define FILENAME_GT2D            DIR_LOGS "GT2D" LOGS_EXTENSION
-#define FILENAME_GRAPHICSMODULE  DIR_LOGS "GraphicsModule" LOGS_EXTENSION
-#define FILENAME_INPUTMODULE     DIR_LOGS "InputModule" LOGS_EXTENSION
-#define FILENAME_SOUNDMODULE     DIR_LOGS "SoundModule" LOGS_EXTENSION
-#define FILENAME_ANIMATIONMODULE DIR_LOGS "AnimationModule" LOGS_EXTENSION
-#define FILENAME_SCRIPTMODULE    DIR_LOGS "ScriptModule" LOGS_EXTENSION
-#define FILENAME_GAME            DIR_LOGS "Game" LOGS_EXTENSION
+static constexpr char FILENAME_LOGFULL[]         = DIR_LOGS "LogFull" LOGS_EXTENSION;
+static constexpr char FILENAME_DEBUGLOGMANAGER[] = DIR_LOGS "DebugLogManager" LOGS_EXTENSION;
+static constexpr char FILENAME_GT2D[]            = DIR_LOGS "GT2D" LOGS_EXTENSION;
+static constexpr char FILENAME_GRAPHICSMODULE[]  = DIR_LOGS "GraphicsModule" LOGS_EXTENSION;
+static constexpr char FILENAME_INPUTMODULE[]     = DIR_LOGS "InputModule" LOGS_EXTENSION;
+static constexpr char FILENAME_SOUNDMODULE[]     = DIR_LOGS "SoundModule" LOGS_EXTENSION;
+static constexpr char FILENAME_ANIMATIONMODULE[] = DIR_LOGS "AnimationModule" LOGS_EXTENSION;
+static constexpr char FILENAME_SCRIPTMODULE[]    = DIR_LOGS "ScriptModule" LOGS_EXTENSION;
+static constexpr char FILENAME_GAME[]            = DIR_LOGS "Game" LOGS_EXTENSION;
 
 enum eFgColor
 {
@@ -101,44 +87,37 @@ enum ePriorityColor
     PRIORITY_COLOR_NOTE      = 0,
 };
 
-/* ====== METHODS ====== */
 b32 DebugLogManager::StartUp()
 {
 #ifdef _DEBUG
     // Allocate windows console
     if (!AllocConsole())
+    {
         return false;
+    }
     hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 #endif
 
     // Start up engine's console
     if (!g_console.StartUp())
+    {
         return false;
+    }
 
     // Open all log files
     std::filesystem::create_directory(DIR_LOGS);
-    
-    if ( nullptr == (hLogFull = fopen(FILENAME_LOGFULL, "w")) )
-        return false;
-    if ( nullptr == (hLogMgr = fopen(FILENAME_DEBUGLOGMANAGER, "w")) )
-        AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
-    if ( nullptr == (hGT2D = fopen(FILENAME_GT2D, "w")) )
-        AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
-    if ( nullptr == (hGraphics = fopen(FILENAME_GRAPHICSMODULE, "w")) )
-        AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
-    if ( nullptr == (hInput = fopen(FILENAME_INPUTMODULE, "w")) )
-        AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
-    if ( nullptr == (hSound = fopen(FILENAME_SOUNDMODULE, "w")) )
-        AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
-    if ( nullptr == (hAnim = fopen(FILENAME_ANIMATIONMODULE, "w")) )
-        AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
-    if (nullptr == (hScript = fopen(FILENAME_SCRIPTMODULE, "w")))
-        AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
-    if ( nullptr == (hGame = fopen(FILENAME_GAME, "w")) )
-        AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
+
+    if ( nullptr == (hLogFull = fopen(FILENAME_LOGFULL, "w")) ) return false;
+    if ( nullptr == (hLogMgr = fopen(FILENAME_DEBUGLOGMANAGER, "w")) ) AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
+    if ( nullptr == (hGT2D = fopen(FILENAME_GT2D, "w")) ) AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
+    if ( nullptr == (hGraphics = fopen(FILENAME_GRAPHICSMODULE, "w")) ) AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
+    if ( nullptr == (hInput = fopen(FILENAME_INPUTMODULE, "w")) ) AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
+    if ( nullptr == (hSound = fopen(FILENAME_SOUNDMODULE, "w")) ) AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
+    if ( nullptr == (hAnim = fopen(FILENAME_ANIMATIONMODULE, "w")) ) AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
+    if ( nullptr == (hScript = fopen(FILENAME_SCRIPTMODULE, "w")) ) AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
+    if ( nullptr == (hGame = fopen(FILENAME_GAME, "w")) ) AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
 
     AddNote(CHANNEL_LOGMGR, PR_NOTE, "DebugLogManager", "Manager started");
-
     return true;
 }
 
@@ -173,7 +152,6 @@ void DebugLogManager::VAddNote(s32 channel, s32 priority, const char* name, cons
     // Foreground color and channel prefix
     switch (channel)
     {
-
     case CHANNEL_LOGMGR:
     {
         hFile = hLogMgr;
@@ -227,7 +205,6 @@ void DebugLogManager::VAddNote(s32 channel, s32 priority, const char* name, cons
         hFile = nullptr;
         noteColor |= CHANNEL_COLOR_UNDEFINED;
     } break;
-
     }
 
     // Background color and priority prefix
@@ -256,31 +233,32 @@ void DebugLogManager::VAddNote(s32 channel, s32 priority, const char* name, cons
         priorityName = PRIORITY_PREFIX_UNDEFINED;
         noteColor |= PRIORITY_COLOR_UNDEFINED;
     } break;
-
     }
 
     // Get note prefix
     char notePrefix[NOTE_PREFIX_BUFSIZE];
-    snprintf(notePrefix, NOTE_PREFIX_BUFSIZE, "<%s> %s", name, priorityName);
+    std::snprintf(notePrefix, NOTE_PREFIX_BUFSIZE, "<%s> %s", name, priorityName);
 
     // Get note message
     char noteMessage[NOTE_MESSAGE_BUFSIZE];
-    vsnprintf(noteMessage, NOTE_MESSAGE_BUFSIZE, fmt, vl);
+    std::vsnprintf(noteMessage, NOTE_MESSAGE_BUFSIZE, fmt, vl);
 
     // Get final note
     char noteFinal[NOTE_FINAL_BUFSIZE];
-    snprintf(noteFinal, NOTE_FINAL_BUFSIZE, "%s: %s\n", notePrefix, noteMessage);
-    size_t noteLength = strlen(noteFinal);
+    std::snprintf(noteFinal, NOTE_FINAL_BUFSIZE, "%s: %s\n", notePrefix, noteMessage);
+    size_t noteLength = std::strlen(noteFinal);
 
     // Output
     g_console.Print(noteFinal);
 
     SetConsoleTextAttribute(hConsole, noteColor);
-    WriteConsoleA(hConsole, noteFinal, (DWORD)noteLength, NULL, NULL);
+    WriteConsoleA(hConsole, noteFinal, (DWORD)noteLength, nullptr, nullptr);
 
     fwrite(noteFinal, 1, noteLength, hLogFull);
     if (hFile)
+    {
         fwrite(noteFinal, 1, noteLength, hFile);
+    }
 
     // Flush stuff
     fflush(hLogFull);
@@ -289,7 +267,7 @@ void DebugLogManager::VAddNote(s32 channel, s32 priority, const char* name, cons
 
 void DebugLogManager::AddNote(s32 channel, s32 priority, const char* name, const char* fmt, ...)
 {
-    va_list vl;
+    std::va_list vl;
     va_start(vl, fmt);
 
     VAddNote(channel, priority, name, fmt, vl);

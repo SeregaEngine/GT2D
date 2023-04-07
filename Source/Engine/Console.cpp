@@ -1,28 +1,19 @@
-/* TODO
- * - Colorful text on Print()
- */
-
-/* ====== INCLUDES ====== */
 #include <string.h>
-
 #include "GraphicsModule.h"
 #include "ScriptModule.h"
 #include "Game.h"
-
 #include "Console.h"
 
-/* ====== DEFINES ====== */
-#define CONSOLE_STRING_WIDTH 80
-#define CONSOLE_STRING_HEIGHT 15
-#define CONSOLE_BUFSIZE ((CONSOLE_STRING_WIDTH * CONSOLE_STRING_HEIGHT) + 1)
+static constexpr i32f CONSOLE_STRING_WIDTH = 80;
+static constexpr i32f CONSOLE_STRING_HEIGHT = 15;
+static constexpr i32f CONSOLE_BUFSIZE = (CONSOLE_STRING_WIDTH * CONSOLE_STRING_HEIGHT) + 1;
 
-#define CONSOLE_INPUT_INDEX (CONSOLE_STRING_WIDTH * (CONSOLE_STRING_HEIGHT - 1))
+static constexpr i32f CONSOLE_INPUT_INDEX = CONSOLE_STRING_WIDTH * (CONSOLE_STRING_HEIGHT - 1);
 
-#define LAST_BUFSIZE (CONSOLE_STRING_WIDTH + 1)
+static constexpr i32f LAST_BUFSIZE = CONSOLE_STRING_WIDTH + 1;
 
-static const char s_consolePrompt[] = "> ";
+static constexpr char CONSOLE_PROMPT[] = "> ";
 
-/* ====== METHODS ====== */
 b32 Console::StartUp()
 {
     // Allocate and init buffer
@@ -45,9 +36,13 @@ b32 Console::StartUp()
 void Console::ShutDown()
 {
     if (m_buffer)
+    {
         delete[] m_buffer;
+    }
     if (m_lastInput)
+    {
         delete[] m_lastInput;
+    }
 }
 
 void Console::Render() const
@@ -117,8 +112,8 @@ void Console::Input(i32f ch)
     // Check if it's special symbol
     switch (ch)
     {
-    case SDLK_ESCAPE: Reset(); return;
-    case SDLK_RETURN: Interpret(); return;
+    case SDLK_ESCAPE:    Reset(); return;
+    case SDLK_RETURN:    Interpret(); return;
     case SDLK_BACKSPACE: Erase(); return;
 
     case SDLK_UP:
@@ -135,7 +130,9 @@ void Console::Input(i32f ch)
 
     // Return if there no space for new character
     if (m_currentInput >= CONSOLE_BUFSIZE - 1)
+    {
         return;
+    }
 
     // Place character
     if (m_cursorPosition >= m_currentInput)
@@ -167,7 +164,6 @@ void Console::Arrow(i32f ch)
 {
     switch (ch)
     {
-
     case SDLK_UP:
     case SDLK_DOWN:
     {
@@ -187,18 +183,21 @@ void Console::Arrow(i32f ch)
 
     case SDLK_LEFT:
     {
-        if (m_cursorPosition > CONSOLE_INPUT_INDEX + strlen(s_consolePrompt))
+        if (m_cursorPosition > CONSOLE_INPUT_INDEX + strlen(CONSOLE_PROMPT))
+        {
             --m_cursorPosition;
+        }
     } break;
 
     case SDLK_RIGHT:
     {
         if (m_cursorPosition < m_currentInput)
+        {
             ++m_cursorPosition;
+        }
     } break;
 
     default: {} break;
-
     }
 }
 
@@ -211,10 +210,12 @@ void Console::Interpret()
 
     // Null-terminate input string
     if (m_currentInput < CONSOLE_BUFSIZE - 1)
+    {
         m_buffer[m_currentInput] = 0;
+    }
 
     // Interpret it
-    g_scriptModule.Interpret(g_game.GetScript(), (const char*)&m_buffer[CONSOLE_INPUT_INDEX + strlen(s_consolePrompt)]);
+    g_scriptModule.Interpret(g_game.GetScript(), (const char*)&m_buffer[CONSOLE_INPUT_INDEX + strlen(CONSOLE_PROMPT)]);
 
     // Reset console's input
     Reset();
@@ -224,10 +225,8 @@ void Console::LineFeed()
 {
     if (m_currentRow >= CONSOLE_STRING_HEIGHT - 2)
     {
-        memcpy(m_buffer, &m_buffer[CONSOLE_STRING_WIDTH],
-               CONSOLE_STRING_WIDTH * (CONSOLE_STRING_HEIGHT - 2));
-        memset(&m_buffer[CONSOLE_STRING_WIDTH * (CONSOLE_STRING_HEIGHT - 2)], ' ',
-               CONSOLE_STRING_WIDTH);
+        memcpy(m_buffer, &m_buffer[CONSOLE_STRING_WIDTH], CONSOLE_STRING_WIDTH * (CONSOLE_STRING_HEIGHT - 2));
+        memset(&m_buffer[CONSOLE_STRING_WIDTH * (CONSOLE_STRING_HEIGHT - 2)], ' ', CONSOLE_STRING_WIDTH);
     }
     else
     {
@@ -237,7 +236,7 @@ void Console::LineFeed()
 
 void Console::Erase()
 {
-    if (m_cursorPosition > CONSOLE_INPUT_INDEX + strlen(s_consolePrompt))
+    if (m_cursorPosition > CONSOLE_INPUT_INDEX + strlen(CONSOLE_PROMPT))
     {
         memcpy(&m_buffer[m_cursorPosition - 1], &m_buffer[m_cursorPosition], (CONSOLE_BUFSIZE - 1) - m_cursorPosition);
         --m_cursorPosition;
@@ -248,9 +247,9 @@ void Console::Erase()
 
 void Console::Reset()
 {
-    m_currentInput = CONSOLE_INPUT_INDEX + (s32)strlen(s_consolePrompt);
+    m_currentInput = CONSOLE_INPUT_INDEX + (s32)strlen(CONSOLE_PROMPT);
     m_cursorPosition = m_currentInput;
 
     memset(&m_buffer[CONSOLE_INPUT_INDEX], ' ', CONSOLE_STRING_WIDTH);
-    memcpy(&m_buffer[CONSOLE_INPUT_INDEX], s_consolePrompt, strlen(s_consolePrompt));
+    memcpy(&m_buffer[CONSOLE_INPUT_INDEX], CONSOLE_PROMPT, strlen(CONSOLE_PROMPT));
 }

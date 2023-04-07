@@ -1,13 +1,7 @@
-/* TODO
- * - Make asserts
- */
-
-/* ====== INCLUDES ====== */
 #include "SDL.h"
 #include "SDL_image.h"
 #include "SDL_mixer.h"
 #include "SDL_ttf.h"
-
 #include "DebugLogManager.h"
 #include "Console.h"
 #include "ClockManager.h"
@@ -20,26 +14,25 @@
 #include "Game.h"
 #include "CollisionManager.h"
 #include "DamageManager.h"
-
 #include "GT2D.h"
 
-/* ====== DEFINES ====== */
-#define FPS 60
-#define DEFAULT_SCREEN_WIDTH 1280
-#define DEFAULT_SCREEN_HEIGHT 720
+static constexpr i32f DEFAULT_FPS = 60;
+static constexpr i32f DEFAULT_SCREEN_WIDTH = 1280;
+static constexpr i32f DEFAULT_SCREEN_HEIGHT = 720;
 
 #ifdef _DEBUG
-# define WINDOW_TITLE "GT2D"
+    #define WINDOW_TITLE "GT2D"
 #else
-# define WINDOW_TITLE "Petrol: The Fastest"
+    #define WINDOW_TITLE "Petrol: The Fastest"
 #endif
 
-/* ====== METHODS ====== */
 b32 GT2D::StartUp()
 {
     // Start up log manager
     if (!g_debugLogMgr.StartUp())
+    {
         return false;
+    }
 
     { // Init all SDL stuff
         if (0 != SDL_Init(SDL_INIT_EVERYTHING))
@@ -95,29 +88,22 @@ b32 GT2D::StartUp()
 
     { // Start up engine`s modules
         if (!GTM::StartUp())
+        {
             return false;
+        }
 
         s32 width, height;
         SDL_GetWindowSize(m_pWindow, &width, &height);
-        if (!g_graphicsModule.StartUp(m_pWindow, m_pRenderer, width, height))
-            return false;
 
-        if (!g_inputModule.StartUp())
-            return false;
-        if (!g_soundModule.StartUp())
-            return false;
-        if (!g_animModule.StartUp())
-            return false;
-        if (!g_scriptModule.StartUp())
-            return false;
-        if (!g_game.StartUp())
-            return false;
-        if (!g_collisionMgr.StartUp())
-            return false;
-        if (!g_damageMgr.StartUp())
-            return false;
-        if (!g_clockMgr.StartUp(FPS))
-            return false;
+        if (!g_graphicsModule.StartUp(m_pWindow, m_pRenderer, width, height)) return false;
+        if (!g_inputModule.StartUp())  return false;
+        if (!g_soundModule.StartUp())  return false;
+        if (!g_animModule.StartUp())   return false;
+        if (!g_scriptModule.StartUp()) return false;
+        if (!g_game.StartUp())         return false;
+        if (!g_collisionMgr.StartUp()) return false;
+        if (!g_damageMgr.StartUp())    return false;
+        if (!g_clockMgr.StartUp(DEFAULT_FPS))  return false;
     }
 
     AddNote(PR_NOTE, "Engine started successfully\n");
@@ -166,7 +152,9 @@ s32 GT2D::Run()
     while (g_game.Running())
     {
         if (!g_inputModule.HandleEvents())
+        {
             break;
+        }
 
         g_game.Update(g_clockMgr.ComputeDelta());
         g_game.Render();

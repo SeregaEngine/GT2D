@@ -1,10 +1,7 @@
-/* ====== INCLUDES ====== */
 #include "AnimationModule.h"
 
-/* ====== DEFINES ====== */
-#define MAX_ANIMATIONS 256
+static constexpr i32f MAX_ANIMATIONS = 256;
 
-/* ====== METHODS ====== */
 b32 AnimationModule::StartUp()
 {
     m_aAnims = new GT_Animation[MAX_ANIMATIONS];

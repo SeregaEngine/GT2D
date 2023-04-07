@@ -1,13 +1,9 @@
-/* ====== INCLUDES ====== */
 #include "Game.h"
-
 #include "CollisionManager.h"
 
-/* ====== METHODS ====== */
 b32 CollisionManager::StartUp()
 {
     AddNote(PR_NOTE, "Module started");
-
     return true;
 }
 
@@ -19,11 +15,7 @@ void CollisionManager::ShutDown()
 b32 CollisionManager::IsOnGround(const Vector2& vPoint, const FRect& hitBox) const
 {
     const SRect& ground = g_game.GetWorld().GetGroundBounds();
-
-    if (vPoint.y + hitBox.y2 >= ground.y1 && vPoint.y + hitBox.y2 <= ground.y2 &&
-        vPoint.x + hitBox.x1 >= ground.x1 && vPoint.x + hitBox.x2 <= ground.x2)
-        return true;
-    return false;
+    return vPoint.y + hitBox.y2 >= ground.y1 && vPoint.y + hitBox.y2 <= ground.y2 && vPoint.x + hitBox.x1 >= ground.x1 && vPoint.x + hitBox.x2 <= ground.x2;
 }
 
 void CollisionManager::CheckCollision(const Vector2& vPoint, const FRect& hitBox, TList<Entity*>& lstEntity, const Entity* pExcept) const
@@ -41,7 +33,9 @@ void CollisionManager::CheckCollision(const Vector2& vPoint, const FRect& hitBox
     for (auto it = lstWorldEntity.Begin(); it != end; ++it)
     {
         if (it->data == pExcept || !it->data->m_bCollidable)
+        {
             continue;
+        }
 
         // Get entity hitbox in world coords
         const Vector2& vEntity = it->data->m_vPosition;
@@ -77,7 +71,9 @@ void CollisionManager::CheckCollision(const Vector2& vPoint, const FRect& hitBox
     for (auto it = lstWorldEntity.Begin(); it != end; ++it)
     {
         if (it->data == pExcept || !it->data->m_bCollidable || !predicate(it->data, userdata))
+        {
             continue;
+        }
 
         // Get entity hitbox in world coords
         const Vector2& vEntity = it->data->m_vPosition;

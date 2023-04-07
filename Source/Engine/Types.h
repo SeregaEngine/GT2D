@@ -1,25 +1,23 @@
-#ifndef TYPES_H_
-#define TYPES_H_
+#pragma once
 
 #include <cstdint>
-// Integers
-typedef std::int8_t  s8,  n8,  i8;
-typedef std::int16_t s16, n16, i16;
-typedef std::int32_t s32, n32, i32;
-typedef std::int64_t s64, n64, i64;
-typedef std::int_fast32_t s32f, n32f, i32f;
 
-typedef std::uint8_t  u8;
-typedef std::uint16_t u16;
-typedef std::uint32_t u32;
-typedef std::uint64_t u64;
+/** Integers */
+using s8   = std::int8_t;
+using s16  = std::int16_t;
+using s32  = std::int32_t;
+using s64  = std::int64_t;
+using i32f = std::int_fast32_t;
 
-// Float
-typedef float  f32, r32;
-typedef double f64, r64;
+using u8  = std::uint8_t;
+using u16 = std::uint16_t;
+using u32 = std::uint32_t;
+using u64 = std::uint64_t;
 
-// Bool
-typedef s8  b8;
-typedef s32 b32;
+/** Floats */
+using f32 = float;
+using f64 = double;
 
-#endif // TYPES_H_
+/** Bools */
+using b8  = u8;
+using b32 = u32;
