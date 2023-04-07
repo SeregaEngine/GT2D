@@ -17,7 +17,7 @@ public:
     AIState() : m_functionName("") {}
 
     void SetActor(Actor* pActor) { m_pActor = pActor; }
-    void SetFunctionName(const char* functionName) { strncpy(m_functionName, functionName, AIState_STRSIZE); }
+    void SetFunctionName(const char* functionName) { std::strncpy(m_functionName, functionName, AIState_STRSIZE); }
     const char* GetFunctionName() const { return m_functionName; }
 
     void Handle()

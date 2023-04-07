@@ -23,7 +23,7 @@ void Console::StartUp()
 
     // Allocate and init last input buffer
     m_lastInput = new u8[CONSOLE_STRING_WIDTH + 1];
-    memcpy(m_lastInput, &m_buffer[CONSOLE_INPUT_INDEX], LAST_BUFSIZE);
+    std::memcpy(m_lastInput, &m_buffer[CONSOLE_INPUT_INDEX], LAST_BUFSIZE);
 
     // Defaults
     m_bShown = false;
@@ -146,7 +146,7 @@ void Console::Input(i32f ch)
     }
     else
     {
-        memmove(&m_buffer[m_cursorPosition + 1], &m_buffer[m_cursorPosition], (CONSOLE_BUFSIZE - 1) - (m_cursorPosition + 1));
+        std::memmove(&m_buffer[m_cursorPosition + 1], &m_buffer[m_cursorPosition], (CONSOLE_BUFSIZE - 1) - (m_cursorPosition + 1));
         m_buffer[m_cursorPosition] = (u8)ch;
         ++m_currentInput;
         ++m_cursorPosition;
@@ -156,7 +156,7 @@ void Console::Input(i32f ch)
 void Console::Clear()
 {
     // Clear buffer
-    memset(m_buffer, ' ', CONSOLE_BUFSIZE-1);
+    std::memset(m_buffer, ' ', CONSOLE_BUFSIZE-1);
     m_buffer[CONSOLE_BUFSIZE - 1] = 0;
 
     // Reset row
@@ -179,9 +179,9 @@ void Console::Arrow(i32f ch)
         m_currentInput = tempInt;
 
         u8 temp[LAST_BUFSIZE];
-        memcpy(temp, &m_buffer[CONSOLE_INPUT_INDEX], LAST_BUFSIZE);
-        memcpy(&m_buffer[CONSOLE_INPUT_INDEX], m_lastInput, LAST_BUFSIZE);
-        memcpy(m_lastInput, temp, LAST_BUFSIZE);
+        std::memcpy(temp, &m_buffer[CONSOLE_INPUT_INDEX], LAST_BUFSIZE);
+        std::memcpy(&m_buffer[CONSOLE_INPUT_INDEX], m_lastInput, LAST_BUFSIZE);
+        std::memcpy(m_lastInput, temp, LAST_BUFSIZE);
     } break;
 
     case SDLK_LEFT:
@@ -207,7 +207,7 @@ void Console::Arrow(i32f ch)
 void Console::Interpret()
 {
     // Save this input
-    memcpy(m_lastInput, &m_buffer[CONSOLE_INPUT_INDEX], LAST_BUFSIZE);
+    std::memcpy(m_lastInput, &m_buffer[CONSOLE_INPUT_INDEX], LAST_BUFSIZE);
     m_lastCursorPosition = m_cursorPosition;
     m_lastInputPosition = m_currentInput;
 
@@ -228,8 +228,8 @@ void Console::LineFeed()
 {
     if (m_currentRow >= CONSOLE_STRING_HEIGHT - 2)
     {
-        memcpy(m_buffer, &m_buffer[CONSOLE_STRING_WIDTH], CONSOLE_STRING_WIDTH * (CONSOLE_STRING_HEIGHT - 2));
-        memset(&m_buffer[CONSOLE_STRING_WIDTH * (CONSOLE_STRING_HEIGHT - 2)], ' ', CONSOLE_STRING_WIDTH);
+        std::memcpy(m_buffer, &m_buffer[CONSOLE_STRING_WIDTH], CONSOLE_STRING_WIDTH * (CONSOLE_STRING_HEIGHT - 2));
+        std::memset(&m_buffer[CONSOLE_STRING_WIDTH * (CONSOLE_STRING_HEIGHT - 2)], ' ', CONSOLE_STRING_WIDTH);
     }
     else
     {
@@ -241,7 +241,7 @@ void Console::Erase()
 {
     if (m_cursorPosition > CONSOLE_INPUT_INDEX + std::strlen(CONSOLE_PROMPT))
     {
-        memcpy(&m_buffer[m_cursorPosition - 1], &m_buffer[m_cursorPosition], (CONSOLE_BUFSIZE - 1) - m_cursorPosition);
+        std::memcpy(&m_buffer[m_cursorPosition - 1], &m_buffer[m_cursorPosition], (CONSOLE_BUFSIZE - 1) - m_cursorPosition);
         --m_cursorPosition;
         --m_currentInput;
         m_buffer[m_currentInput] = ' ';
@@ -253,6 +253,6 @@ void Console::Reset()
     m_currentInput = CONSOLE_INPUT_INDEX + (s32)std::strlen(CONSOLE_PROMPT);
     m_cursorPosition = m_currentInput;
 
-    memset(&m_buffer[CONSOLE_INPUT_INDEX], ' ', CONSOLE_STRING_WIDTH);
-    memcpy(&m_buffer[CONSOLE_INPUT_INDEX], CONSOLE_PROMPT, std::strlen(CONSOLE_PROMPT));
+    std::memset(&m_buffer[CONSOLE_INPUT_INDEX], ' ', CONSOLE_STRING_WIDTH);
+    std::memcpy(&m_buffer[CONSOLE_INPUT_INDEX], CONSOLE_PROMPT, std::strlen(CONSOLE_PROMPT));
 }

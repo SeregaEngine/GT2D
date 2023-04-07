@@ -10,7 +10,7 @@ void Trigger::Init(const Vector2& vPosition, s32 width, s32 height, const Textur
     m_type = ENTITY_TYPE_TRIGGER;
     m_bCollidable = false;
 
-    memset(m_functionName, 0, TRIGGER_STRSIZE);
+    std::memset(m_functionName, 0, TRIGGER_STRSIZE);
     m_pAttached = nullptr;
 }
 

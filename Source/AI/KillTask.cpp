@@ -60,7 +60,7 @@ void KillTask::HandleActor()
         m_pActor->m_bLookRight = true;
     }
 
-    if (m_pActor->m_animElapsed - (f32)(rand() % ERROR_RATE) > m_pActor->m_attackRate)
+    if (m_pActor->m_animElapsed - (f32)(std::rand() % ERROR_RATE) > m_pActor->m_attackRate)
     {
         m_pActor->PushCommand(AICMD_ATTACK);
     }

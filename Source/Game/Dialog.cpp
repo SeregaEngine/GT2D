@@ -121,13 +121,13 @@ void Dialog::SetText(const char* text)
             }
             else // We have enough room for this word
             {
-                memcpy(&m_text[i * DIALOG_STRING_WIDTH + j], text, len);
+                std::memcpy(&m_text[i * DIALOG_STRING_WIDTH + j], text, len);
                 j += len;
                 text += len;
             }
         }
 
-        memset(&m_text[i * DIALOG_STRING_WIDTH + j], ' ', DIALOG_STRING_WIDTH - j);
+        std::memset(&m_text[i * DIALOG_STRING_WIDTH + j], ' ', DIALOG_STRING_WIDTH - j);
     }
 
     // Null-terminate

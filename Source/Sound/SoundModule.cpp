@@ -1,3 +1,4 @@
+#include <cstring>
 #include "Sound/Sound.h"
 #include "Sound/SoundModule.h"
 
@@ -13,10 +14,10 @@ void SoundModule::StartUp()
 {
     // Init sounds
     m_aSounds = new Sound[MAX_SOUNDS];
-    memset(m_aSounds, 0, MAX_SOUNDS * sizeof(Sound));
+    std::memset(m_aSounds, 0, MAX_SOUNDS * sizeof(Sound));
 
     m_aMusics = new Music[MAX_MUSICS];
-    memset(m_aMusics, 0, MAX_MUSICS * sizeof(Music));
+    std::memset(m_aMusics, 0, MAX_MUSICS * sizeof(Music));
 
     AddNote(PR_NOTE, "Module started");
 }

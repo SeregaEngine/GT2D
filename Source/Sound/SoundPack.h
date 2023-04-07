@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstring>
 #include "Engine/Types.h"
 #include "Sound/SoundModule.h"
 #include "Sound/Sound.h"
@@ -14,7 +15,7 @@ public:
     SoundPack(s32 count) :
         m_aSounds(count > 0 ? new Sound*[count] : nullptr), m_count(count)
     {
-        memset(m_aSounds, 0, count * sizeof(Sound*));
+        std::memset(m_aSounds, 0, count * sizeof(Sound*));
     }
 
     ~SoundPack()

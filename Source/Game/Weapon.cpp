@@ -12,7 +12,7 @@ void Weapon::PlaySound() const
 {
     if (m_soundPack.GetCount() > 0)
     {
-        m_soundPack.Play(rand() % m_soundPack.GetCount());
+        m_soundPack.Play(std::rand() % m_soundPack.GetCount());
     }
 }
 

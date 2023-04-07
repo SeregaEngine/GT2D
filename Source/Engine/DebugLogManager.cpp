@@ -140,7 +140,7 @@ void DebugLogManager::ShutDown()
 #endif
 }
 
-void DebugLogManager::VAddNote(s32 channel, s32 priority, const char* name, const char* fmt, va_list vl)
+void DebugLogManager::VAddNote(s32 channel, s32 priority, const char* name, const char* fmt, std::va_list vl)
 {
     FILE* hFile;
     const char* priorityName = "";
@@ -264,7 +264,7 @@ void DebugLogManager::VAddNote(s32 channel, s32 priority, const char* name, cons
 
 void DebugLogManager::AddNote(s32 channel, s32 priority, const char* name, const char* fmt, ...)
 {
-    va_list vl;
+    std::va_list vl;
     va_start(vl, fmt);
 
     VAddNote(channel, priority, name, fmt, vl);

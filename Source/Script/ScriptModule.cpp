@@ -598,7 +598,7 @@ void ScriptModule::Interpret(lua_State* pScript, const char* text)
 
 void ScriptModule::LuaNote(s32 priority, const char* fmt, ...)
 {
-    va_list vl;
+    std::va_list vl;
     va_start(vl, fmt);
 
     g_debugLogMgr.VAddNote(CHANNEL_SCRIPT, priority, "Lua", fmt, vl);

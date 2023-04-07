@@ -31,7 +31,7 @@ void GraphicsModule::StartUp(SDL_Window* pWindow, SDL_Renderer* pRenderer, s32 w
 
     // Allocate textures
     m_aTextures = new Texture[MAX_TEXTURES];
-    memset(m_aTextures, 0, sizeof(Texture) * MAX_TEXTURES);
+    std::memset(m_aTextures, 0, sizeof(Texture) * MAX_TEXTURES);
 
     // Open console font
     m_pConsoleFont = TTF_OpenFont("Fonts/Cascadia.ttf", 48);

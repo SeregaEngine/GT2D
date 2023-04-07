@@ -144,7 +144,7 @@ public:
     template<typename T>
     forceinline static T RandRange(T min, T max) noexcept
     {
-        return min + (rand() % (max - min + 1));
+        return min + (std::rand() % (max - min + 1));
     }
 
     /** @DEPRECATED */

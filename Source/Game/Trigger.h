@@ -17,7 +17,7 @@ public:
     virtual void Update(f32 dtTime) override;
     virtual void Draw() override {} /** No drawing */
 
-    void SetFunctionName(const char* functionName) { strncpy(m_functionName, functionName, TRIGGER_STRSIZE); }
+    void SetFunctionName(const char* functionName) { std::strncpy(m_functionName, functionName, TRIGGER_STRSIZE); }
     void Attach(Entity* pEntity) { m_pAttached = pEntity; }
 };
 

@@ -50,7 +50,7 @@ public:
         RenderElement(zIndex, dest), pFont(_pFont), color(g_graphicsModule.GetDrawColor())
     {
         text = new char[std::strlen(_text) + 1];
-        memcpy(text, _text, std::strlen(_text) + 1);
+        std::memcpy(text, _text, std::strlen(_text) + 1);
     }
 
     ~RenderElementText()

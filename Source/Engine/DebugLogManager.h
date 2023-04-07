@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdio>
+#include <cstdarg>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include "Engine/Types.h"
@@ -44,7 +45,7 @@ public:
     void ShutDown();
 
     void AddNote(s32 channel, s32 priority, const char* name, const char* fmt, ...);
-    void VAddNote(s32 channel, s32 priority, const char* name, const char* fmt, va_list vl);
+    void VAddNote(s32 channel, s32 priority, const char* name, const char* fmt, std::va_list vl);
 };
 
 inline DebugLogManager g_debugLogMgr;

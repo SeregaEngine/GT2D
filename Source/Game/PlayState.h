@@ -15,7 +15,7 @@ class PlayState final : public GameState
 public:
     PlayState(const char* scriptPath, s32 loadLocation) :
         GameState(GAME_STATE_PLAY), m_scriptPath(), m_loadLocation(loadLocation), m_world()
-        { strncpy(m_scriptPath, scriptPath, PLAYSTATE_PATH_STRSIZE); }
+        { std::strncpy(m_scriptPath, scriptPath, PLAYSTATE_PATH_STRSIZE); }
 
     virtual b32 OnEnter() override;
     virtual void OnExit() override;
