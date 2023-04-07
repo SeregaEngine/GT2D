@@ -19,8 +19,5 @@ void PauseState::Render()
     g_scriptModule.RenderMission(m_pScript);
     g_scriptModule.RenderMission(m_pPrevious);
     m_world.Render();
-    if (g_console.IsShown())
-    {
-        g_console.Render();
-    }
+    g_console.Render();
 }

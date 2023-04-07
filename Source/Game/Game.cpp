@@ -4,7 +4,7 @@
 #include "Game/PauseState.h"
 #include "Game/Game.h"
 
-b32 Game::StartUp()
+void Game::StartUp()
 {
     m_bRunning = true;
 
@@ -12,7 +12,6 @@ b32 Game::StartUp()
     m_lstState.Push(new PlayState(MAIN_MENU_PATH, 0));
 
     AddNote(PR_NOTE, "Module started");
-    return true;
 }
 
 void Game::ShutDown()

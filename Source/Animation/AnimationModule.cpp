@@ -2,13 +2,12 @@
 
 static constexpr i32f MAX_ANIMATIONS = 256;
 
-b32 AnimationModule::StartUp()
+void AnimationModule::StartUp()
 {
     m_aAnims = new Animation[MAX_ANIMATIONS];
     m_usedAnims = 0;
 
     AddNote(PR_NOTE, "Module started");
-    return true;
 }
 
 void AnimationModule::ShutDown()

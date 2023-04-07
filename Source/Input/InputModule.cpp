@@ -1,7 +1,7 @@
 #include "Engine/Console.h"
 #include "Input/InputModule.h"
 
-b32 InputModule::StartUp()
+void InputModule::StartUp()
 {
     m_keyState = SDL_GetKeyboardState(nullptr);
     m_bCapslock = false;
@@ -11,7 +11,6 @@ b32 InputModule::StartUp()
     m_mousePosY = 0;
 
     AddNote(PR_NOTE, "Module started");
-    return true;
 }
 
 void InputModule::ShutDown()

@@ -108,7 +108,7 @@ public:
     f32 m_cosLook[361];
 
 public:
-    b32 StartUp();
+    void StartUp();
     forceinline void ShutDown() {}
 
     forceinline static f32 DegToRad(f32 deg) noexcept

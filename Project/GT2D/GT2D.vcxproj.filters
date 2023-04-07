@@ -360,5 +360,8 @@
     <ClInclude Include="..\..\Source\Containers\List.h">
       <Filter>Containers</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Engine\Assert.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

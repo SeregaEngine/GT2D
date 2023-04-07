@@ -9,7 +9,7 @@ struct Music
     Mix_Music* pMusic;
 };
 
-b32 SoundModule::StartUp()
+void SoundModule::StartUp()
 {
     // Init sounds
     m_aSounds = new Sound[MAX_SOUNDS];
@@ -19,7 +19,6 @@ b32 SoundModule::StartUp()
     memset(m_aMusics, 0, MAX_MUSICS * sizeof(Music));
 
     AddNote(PR_NOTE, "Module started");
-    return true;
 }
 
 void SoundModule::ShutDown()

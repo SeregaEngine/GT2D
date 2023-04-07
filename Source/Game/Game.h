@@ -19,7 +19,7 @@ class Game final : public EngineModule
 public:
     Game() : EngineModule("Game", CHANNEL_GAME) {}
 
-    b32 StartUp();
+    void StartUp();
     void ShutDown();
 
     void Update(f32 dtTime);

@@ -1,7 +1,7 @@
 #include <cmath>
 #include "Math/Math.h"
 
-b32 Math::StartUp()
+void Math::StartUp()
 {
     // Sin/Cos look
     for (i32f i = 0; i < 361; ++i)
@@ -10,8 +10,6 @@ b32 Math::StartUp()
         m_sinLook[i] = sinf(angle);
         m_cosLook[i] = cosf(angle);
     }
-
-    return true;
 }
 
 s32 Math::FastDist2(s32 x, s32 y)

@@ -17,7 +17,7 @@ class AnimationModule final : public EngineModule
 public:
     AnimationModule() : EngineModule("AnimationModule", CHANNEL_ANIMATION) {}
 
-    b32 StartUp();
+    void StartUp();
     void ShutDown();
 
     const Animation* DefineAnimation(const Animation& anim);

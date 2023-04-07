@@ -15,7 +15,7 @@ class ScriptModule final : public EngineModule
 public:
     ScriptModule() : EngineModule("ScriptModule", CHANNEL_SCRIPT) {}
 
-    b32 StartUp();
+    void StartUp();
     void ShutDown();
 
     lua_State* EnterMission(const char* path, s32 location);

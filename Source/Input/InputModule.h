@@ -23,7 +23,7 @@ class InputModule final : public EngineModule
 public:
     InputModule() : EngineModule("InputModule", CHANNEL_INPUT) {}
 
-    b32 StartUp();
+    void StartUp();
     void ShutDown();
 
     b32 HandleEvents();

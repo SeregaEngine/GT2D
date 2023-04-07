@@ -15,7 +15,7 @@ class SoundModule final : public EngineModule
 public:
     SoundModule() : EngineModule("SoundModule", CHANNEL_SOUND) {}
 
-    b32 StartUp();
+    void StartUp();
     void ShutDown();
 
     Sound* DefineWAV(const char* fileName);

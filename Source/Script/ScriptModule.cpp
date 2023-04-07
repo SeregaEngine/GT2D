@@ -33,10 +33,9 @@ extern "C"
 static constexpr char MISSION_SAVER_PATH[] = "Scripts/Internal/Saver.lua";
 static constexpr char SCRIPT_SET_UP[] = "package.path = package.path .. \";Scripts/?.lua;Scripts/Internal/?.lua\"";
 
-b32 ScriptModule::StartUp()
+void ScriptModule::StartUp()
 {
     AddNote(PR_NOTE, "Module started");
-    return true;
 }
 
 void ScriptModule::ShutDown()

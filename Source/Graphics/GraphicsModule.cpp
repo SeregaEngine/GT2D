@@ -11,7 +11,7 @@ static constexpr i32f MAX_TEXTURES = 256;
 TTF_Font* GraphicsModule::s_pConsoleFont = nullptr;
 TTF_Font* GraphicsModule::s_pGameFont = nullptr;
 
-b32 GraphicsModule::StartUp(SDL_Window* pWindow, SDL_Renderer* pRenderer, s32 width, s32 height)
+void GraphicsModule::StartUp(SDL_Window* pWindow, SDL_Renderer* pRenderer, s32 width, s32 height)
 {
     // Defaults
     m_screenWidth = width;
@@ -41,7 +41,6 @@ b32 GraphicsModule::StartUp(SDL_Window* pWindow, SDL_Renderer* pRenderer, s32 wi
     SetWindowIcon();
 
     AddNote(PR_NOTE, "Module started");
-    return true;
 }
 
 void GraphicsModule::ShutDown()

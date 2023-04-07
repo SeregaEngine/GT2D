@@ -49,7 +49,7 @@ private:
 public:
     GraphicsModule() : EngineModule("GraphicsModule", CHANNEL_GRAPHICS) {}
 
-    b32 StartUp(SDL_Window* pWindow, SDL_Renderer* pRenderer, s32 width, s32 height);
+    void StartUp(SDL_Window* pWindow, SDL_Renderer* pRenderer, s32 width, s32 height);
     void ShutDown();
 
     void PrepareToRender();

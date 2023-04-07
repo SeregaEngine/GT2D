@@ -45,6 +45,11 @@ void Console::ShutDown()
 
 void Console::Render() const
 {
+    if (!IsShown())
+    {
+        return;
+    }
+
     // Draw console's background
     g_graphicsModule.SetDrawColor(0x00, 0x00, 0x00, 0xCC);
     SDL_Rect dest = { 0, 0, g_graphicsModule.GetScreenWidth(),

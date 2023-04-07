@@ -251,6 +251,7 @@
     <ClInclude Include="..\..\Source\AI\WaitTask.h" />
     <ClInclude Include="..\..\Source\Animation\AnimationModule.h" />
     <ClInclude Include="..\..\Source\Containers\List.h" />
+    <ClInclude Include="..\..\Source\Engine\Assert.h" />
     <ClInclude Include="..\..\Source\Engine\ClockManager.h" />
     <ClInclude Include="..\..\Source\Engine\CollisionManager.h" />
     <ClInclude Include="..\..\Source\Engine\Console.h" />

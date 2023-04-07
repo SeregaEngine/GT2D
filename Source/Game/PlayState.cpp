@@ -37,8 +37,5 @@ void PlayState::Render()
 {
     g_scriptModule.RenderMission(m_pScript);
     m_world.Render();
-    if (g_console.IsShown())
-    {
-        g_console.Render();
-    }
+    g_console.Render();
 }
