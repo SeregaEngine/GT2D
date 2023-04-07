@@ -1,24 +1,20 @@
-#ifndef RENDERELEMENT_H
-#define RENDERELEMENT_H
+#pragma once
 
-/* ====== INCLUDES ====== */
 #include <string.h>
-
 #include "SDL.h"
 #include "SDL_ttf.h"
-
 #include "Types.h"
 #include "GraphicsModule.h"
 #include "GTTexture.h"
 
-/* ====== STRUCTURES ====== */
 struct RenderElement
 {
     s32 zIndex;
     SDL_Rect dest;
 
     RenderElement(s32 _zIndex, const SDL_Rect& _dest) : zIndex(_zIndex), dest(_dest) {}
-    virtual ~RenderElement() {}
+    virtual ~RenderElement() = default;
+
     virtual void Render() = 0;
 };
 
@@ -29,8 +25,9 @@ struct RenderElementFrame final : public RenderElement
     f32 angle;
     SDL_RendererFlip flip;
 
-    RenderElementFrame(s32 _zIndex, const SDL_Rect& _dest, const GT_Texture* _pTexture, s32 _row, s32 _col, f32 _angle, SDL_RendererFlip _flip)
-        : RenderElement(_zIndex, _dest), pTexture(_pTexture), row(_row), col(_col), angle(_angle), flip(_flip) {}
+    RenderElementFrame(s32 _zIndex, const SDL_Rect& _dest, const GT_Texture* _pTexture, s32 _row, s32 _col, f32 _angle, SDL_RendererFlip _flip) :
+        RenderElement(_zIndex, _dest), pTexture(_pTexture), row(_row), col(_col), angle(_angle), flip(_flip) {}
+
     virtual void Render() override
     {
         // Find sprite
@@ -49,11 +46,20 @@ struct RenderElementText final : public RenderElement
     SDL_Color color;
 
 public:
-    RenderElementText(s32 zIndex, const SDL_Rect& dest, const char* _text, TTF_Font* _pFont)
-        : RenderElement(zIndex, dest), pFont(_pFont), color(g_graphicsModule.GetDrawColor())
-        { text = new char[strlen(_text) + 1]; memcpy(text, _text, strlen(_text) + 1); }
+    RenderElementText(s32 zIndex, const SDL_Rect& dest, const char* _text, TTF_Font* _pFont) :
+        RenderElement(zIndex, dest), pFont(_pFont), color(g_graphicsModule.GetDrawColor())
+    {
+        text = new char[strlen(_text) + 1];
+        memcpy(text, _text, strlen(_text) + 1);
+    }
 
-    ~RenderElementText() { if (text) delete[] text; }
+    ~RenderElementText()
+    {
+        if (text)
+        {
+            delete[] text;
+        }
+    }
 
     virtual void Render() override
     {
@@ -64,6 +70,7 @@ public:
             g_debugLogMgr.AddNote(CHANNEL_GRAPHICS, PR_WARNING, "RenderElementText", "Can't create surface: %s", TTF_GetError());
             return;
         }
+
         SDL_Texture* pTexture = SDL_CreateTextureFromSurface(g_graphicsModule.GetRenderer(), pSurface);
         if (!pTexture)
         {
@@ -88,8 +95,9 @@ struct RenderElementRect final : public RenderElement
     s32 action;
     SDL_Color color;
 
-    RenderElementRect(s32 zIndex, const SDL_Rect& dest, s32 _action)
-        : RenderElement(zIndex, dest), action(_action), color(g_graphicsModule.GetDrawColor()) {}
+    RenderElementRect(s32 zIndex, const SDL_Rect& dest, s32 _action) :
+        RenderElement(zIndex, dest), action(_action), color(g_graphicsModule.GetDrawColor()) {}
+
     virtual void Render() override
     {
         // Set render color
@@ -104,5 +112,3 @@ struct RenderElementRect final : public RenderElement
         }
     }
 };
-
-#endif // RENDERELEMENT_H

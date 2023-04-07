@@ -1,19 +1,15 @@
-#ifndef GRAPHICSMODULE_H_
-#define GRAPHICSMODULE_H_
+#pragma once
 
-/* ====== INCLUDES ====== */
 #include "SDL.h"
 #include "SDL_ttf.h"
-
 #include "Types.h"
 #include "GTMath.h"
 #include "EngineModule.h"
 #include "Camera.h"
 #include "TList.h"
 
-/* ====== DEFINES ====== */
-#define UNIT_SCREEN_WIDTH 128
-#define UNIT_SCREEN_HEIGHT 72
+static constexpr i32f UNIT_SCREEN_WIDTH = 128;
+static constexpr i32f UNIT_SCREEN_HEIGHT = 72;
 
 enum eRenderMode
 {
@@ -23,7 +19,6 @@ enum eRenderMode
     RENDER_MODE_DEBUG
 };
 
-/* ====== STRUCTURES ====== */
 struct RenderElement;
 struct GT_Texture;
 
@@ -32,6 +27,7 @@ class GraphicsModule final : public EngineModule
 public:
     static TTF_Font* s_pConsoleFont;
     static TTF_Font* s_pGameFont;
+
 private:
     s32 m_screenWidth;
     s32 m_screenHeight;
@@ -59,15 +55,13 @@ public:
     void PrepareToRender();
     void Render();
 
-    const GT_Texture* DefineTexture(const char* fileName, s32 spriteWidth, s32 spriteHeight); // Null on error
+    /** Null on error */
+    const GT_Texture* DefineTexture(const char* fileName, s32 spriteWidth, s32 spriteHeight);
     void UndefineTextures();
 
-    void SetDrawColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
-        { m_drawColor = { r, g, b, a }; }
+    void SetDrawColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a) { m_drawColor = { r, g, b, a }; }
 
-    void DrawFrame(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Rect& dstRect, 
-                   const GT_Texture* pTexture, s32 row, s32 col,
-                   f32 angle = 0.0f, SDL_RendererFlip flip = SDL_FLIP_NONE);
+    void DrawFrame(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Rect& dstRect, const GT_Texture* pTexture, s32 row, s32 col, f32 angle = 0.0f, SDL_RendererFlip flip = SDL_FLIP_NONE);
     void DrawText(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Rect& dstRect, const char* text, TTF_Font* pFont = s_pGameFont);
     void FillRect(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Rect& dstRect);
     void DrawRect(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Rect& dstRect);
@@ -76,7 +70,7 @@ public:
     s32 GetScreenHeight() const { return m_screenHeight; }
     Camera& GetCamera() { return m_camera; }
     const SDL_Color& GetDrawColor() const { return m_drawColor; }
-    SDL_Renderer* GetRenderer() { return m_pRenderer; }
+    SDL_Renderer* GetRenderer() const { return m_pRenderer; }
 
 private:
     void SetWindowIcon();
@@ -92,5 +86,3 @@ private:
 };
 
 inline GraphicsModule g_graphicsModule;
-
-#endif // GRAPHICSMODULE_H_

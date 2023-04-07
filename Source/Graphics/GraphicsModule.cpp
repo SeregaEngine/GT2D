@@ -1,26 +1,16 @@
-/* TODO
- * - At some point we could have need in texture ID to prevent texture copies in memory
- */
-
-/* ====== INCLUDES ====== */
 #include <stdio.h>
-
 #include "SDL_image.h"
-
 #include "GTMath.h"
 #include "GTUnit.h"
 #include "RenderElement.h"
 #include "GTTexture.h"
-
 #include "GraphicsModule.h"
 
-/* ====== DEFINES ====== */
-#define MAX_TEXTURES 256
+static constexpr i32f MAX_TEXTURES = 256;
 
 TTF_Font* GraphicsModule::s_pConsoleFont = nullptr;
 TTF_Font* GraphicsModule::s_pGameFont = nullptr;
 
-/* ====== METHODS ====== */
 b32 GraphicsModule::StartUp(SDL_Window* pWindow, SDL_Renderer* pRenderer, s32 width, s32 height)
 {
     // Defaults
@@ -41,8 +31,7 @@ b32 GraphicsModule::StartUp(SDL_Window* pWindow, SDL_Renderer* pRenderer, s32 wi
 
     // Allocate textures
     m_aTextures = new GT_Texture[MAX_TEXTURES];
-    for (i32f i = 0; i < MAX_TEXTURES; ++i)
-        m_aTextures[i].pTexture = nullptr;
+    memset(m_aTextures, 0, sizeof(GT_Texture) * MAX_TEXTURES);
 
     // Open console font
     s_pConsoleFont = TTF_OpenFont("Fonts/Cascadia.ttf", 48);
@@ -52,7 +41,6 @@ b32 GraphicsModule::StartUp(SDL_Window* pWindow, SDL_Renderer* pRenderer, s32 wi
     SetWindowIcon();
 
     AddNote(PR_NOTE, "Module started");
-
     return true;
 }
 
@@ -72,7 +60,9 @@ void GraphicsModule::ShutDown()
 
     // Free textures
     for (i32f i = 0; i < MAX_TEXTURES; ++i)
+    {
         SDL_DestroyTexture(m_aTextures[i].pTexture);
+    }
     delete[] m_aTextures;
 
     // Free render queues
@@ -172,7 +162,9 @@ void GraphicsModule::DrawFrame(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_R
     // Check and correct destination rectangle
     SDL_Rect dest = dstRect;
     if (!CheckAndCorrectDest(dest, bHUD))
+    {
         return;
+    }
 
     // Push element
     PushRenderElement(renderMode, new RenderElementFrame(zIndex, dest, pTexture, row, col, angle, flip));
@@ -183,7 +175,9 @@ void GraphicsModule::DrawText(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Re
     // Check and correct destination rectangle
     SDL_Rect dest = dstRect;
     if (!CheckAndCorrectDest(dest, bHUD))
+    {
         return;
+    }
 
     // Push element
     PushRenderElement(renderMode, new RenderElementText(zIndex, dest, text, pFont));
@@ -194,7 +188,9 @@ void GraphicsModule::FillRect(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Re
     // Check and correct destination rectangle
     SDL_Rect dest = dstRect;
     if (!CheckAndCorrectDest(dest, bHUD))
+    {
         return;
+    }
 
     // Push element
     PushRenderElement(renderMode, new RenderElementRect(zIndex, dest, RenderElementRect::ACTION_FILL));
@@ -205,7 +201,9 @@ void GraphicsModule::DrawRect(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Re
     // Check and correct destination rectangle
     SDL_Rect dest = dstRect;
     if (!CheckAndCorrectDest(dest, bHUD))
+    {
         return;
+    }
 
     // Push element
     PushRenderElement(renderMode, new RenderElementRect(zIndex, dest, RenderElementRect::ACTION_DRAW));
@@ -222,7 +220,9 @@ void GraphicsModule::RenderQueue(const TList<RenderElement*>& queue) const
 {
     auto end = queue.CEnd();
     for (auto it = queue.CBegin(); it != end; ++it)
+    {
         it->data->Render();
+    }
 }
 
 void GraphicsModule::CleanQueues()
@@ -237,7 +237,9 @@ void GraphicsModule::CleanQueue(TList<RenderElement*>& queue)
 {
     auto end = queue.End();
     for (auto it = queue.Begin(); it != end; ++it)
+    {
         delete it->data;
+    }
     queue.Clean();
 }
 
@@ -251,10 +253,10 @@ b32 GraphicsModule::CheckAndCorrectDest(SDL_Rect& dest, b32 bHUD)
     }
 
     // Clip if we can't see it on screen
-    if (dest.x + dest.w <= 0 || dest.y + dest.h <= 0 ||
-        dest.x >= m_screenWidth || dest.y >= m_screenHeight)
-        return false;
-    return true;
+    return !(
+        dest.x + dest.w <= 0 || dest.y + dest.h <= 0 ||
+        dest.x > m_screenWidth || dest.y > m_screenHeight
+    );
 }
 
 void GraphicsModule::PushRenderElement(s32 renderMode, RenderElement* pElement)
@@ -269,10 +271,11 @@ void GraphicsModule::PushRenderElement(s32 renderMode, RenderElement* pElement)
     default:
     {
         if (pElement)
+        {
             delete pElement;
+        }
         AddNote(PR_WARNING, "PushRenderElement: Unknown render mode %d", renderMode);
     } break;
-
     }
 }
 

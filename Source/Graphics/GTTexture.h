@@ -1,10 +1,7 @@
-#ifndef GTTEXTURE_H_
-#define GTTEXTURE_H_
+#pragma once
 
-/* ====== INCLUDES ====== */
 #include "Types.h"
 
-/* ====== STRUCTURES ====== */
 struct SDL_Texture;
 
 struct GT_Texture
@@ -13,5 +10,3 @@ struct GT_Texture
     s32 textureWidth, textureHeight;
     s32 spriteWidth, spriteHeight;
 };
-
-#endif // GTTEXTURE_H_
