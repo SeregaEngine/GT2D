@@ -149,8 +149,7 @@ void Actor::HandleActorState(f32 dtTime)
 void Actor::HandleAITasks()
 {
     auto it = m_lstTask.Begin();
-    auto end = m_lstTask.End();
-    if (it == end)
+    if (!it)
     {
         return;
     }
@@ -159,7 +158,7 @@ void Actor::HandleAITasks()
     it->data->Handle();
 
     // Handle other tasks and if they're done - delete them
-    for (++it; it != end; )
+    for (++it; it; )
     {
         it->data->Handle();
         if (it->data->GetStatus() != AITASK_INPROCESS)
@@ -301,8 +300,7 @@ void Actor::CommandAttack()
         );
 
         // Remove health from collided actors
-        auto end = lstActor.End();
-        for (auto it = lstActor.Begin(); it != end; ++it)
+        for (auto it = lstActor.Begin(); it; ++it)
         {
             static_cast<Actor*>(it->data)->AddHealth(-m_pWeapon->GetDamage());
         }

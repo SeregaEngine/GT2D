@@ -75,8 +75,7 @@ void World::HandleSwitchLocation()
 
 void World::UpdateEntities(f32 dtTime)
 {
-    auto end = m_lstEntity.End();
-    for (auto it = m_lstEntity.Begin(); it != end; ++it)
+    for (auto it = m_lstEntity.Begin(); it; ++it)
     {
         it->data->Update(dtTime);
     }
@@ -84,8 +83,7 @@ void World::UpdateEntities(f32 dtTime)
 
 void World::RemoveEntities()
 {
-    auto end = m_lstRemove.End();
-    for (auto it = m_lstRemove.Begin(); it != end; ++it)
+    for (auto it = m_lstRemove.Begin(); it; ++it)
     {
         // Remove from entity list
         m_lstEntity.Remove(it->data);

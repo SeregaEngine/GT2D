@@ -17,7 +17,11 @@ void Game::StartUp()
 void Game::ShutDown()
 {
     m_pCurrentState = nullptr;
-    m_lstState.Foreach([](auto pState) { pState->OnExit(); delete pState; });
+    m_lstState.Foreach([](auto pState)
+    {
+        pState->OnExit();
+        delete pState;
+    });
     m_lstState.Clean();
     m_lstRemove.Clean();
 
@@ -69,8 +73,7 @@ void Game::HandleNewState()
 
 void Game::RemoveStates()
 {
-    auto end = m_lstRemove.End();
-    for (auto it = m_lstRemove.Begin(); it != end; ++it)
+    for (auto it = m_lstRemove.Begin(); it; ++it)
     {
         m_lstState.Remove(it->data);
         it->data->OnExit();

@@ -11,8 +11,8 @@ private:
         T data;
         Item* pNext;
 
-        Item() : data(), pNext(nullptr) {}
-        Item(const T& _data, Item* _pNext) : data(_data), pNext(_pNext) {}
+        forceinline Item() : data(), pNext(nullptr) {}
+        forceinline Item(const T& _data, Item* _pNext) : data(_data), pNext(_pNext) {}
     };
 
 public:
@@ -20,27 +20,29 @@ public:
     {
         Item* pItem;
 
-        Iterator() : pItem(nullptr) {}
-        Iterator(Item* _pItem) : pItem(_pItem) {}
-        ~Iterator() {}
+        forceinline Iterator() : pItem(nullptr) {}
+        forceinline Iterator(Item* _pItem) : pItem(_pItem) {}
 
-        Iterator operator=(Item* _pItem) { pItem = _pItem; return *this; }
-        void operator++() { pItem = pItem->pNext; }
-        Iterator operator++(int) { pItem = pItem->pNext; return *this; }
+        forceinline operator bool() const { return pItem != nullptr; }
 
-        b32 operator==(Iterator it) { return pItem == it.pItem; }
-        b32 operator==(void* ptr) { return pItem == ptr; }
-        b32 operator!=(Iterator it) { return pItem != it.pItem; }
-        b32 operator!=(void* ptr) { return pItem != ptr; }
+        forceinline Iterator operator=(Item* _pItem) { pItem = _pItem; return *this; }
+        forceinline void operator++() { pItem = pItem->pNext; }
+        forceinline Iterator operator++(int) { pItem = pItem->pNext; return *this; }
 
-        Item* operator->() { return pItem; }
+        forceinline b32 operator==(Iterator it) { return pItem == it.pItem; }
+        forceinline b32 operator==(void* ptr) { return pItem == ptr; }
+        forceinline b32 operator!=(Iterator it) { return pItem != it.pItem; }
+        forceinline b32 operator!=(void* ptr) { return pItem != ptr; }
+
+        forceinline Item* operator->() { return pItem; }
     };
 
-    Item *m_pFirst, *m_pLast;
+    Item* m_pFirst;
+    Item* m_pLast;
 
 public:
     TList() : m_pFirst(nullptr), m_pLast(nullptr) {}
-    ~TList() { Clean(); }
+    forceinline ~TList() { Clean(); }
 
     static void Move(TList<T>& lstDest, TList<T>& lstSrc);
 
@@ -53,18 +55,23 @@ public:
     void Remove(const T& data);
     void Clean();
 
-    T& Front() { return m_pFirst->data; }
-    T& Back() { return m_pLast->data; }
-    b32 IsEmpty() const { return m_pFirst ? false : true; }
+    forceinline T& Front() { return m_pFirst->data; }
+    forceinline T& Back() { return m_pLast->data; }
+    forceinline b32 IsEmpty() const { return m_pFirst ? false : true; }
     b32 IsMember(const T& check) const;
 
     void Foreach(void (*fun)(T&, void*), void* userdata);
     void Foreach(void (*fun)(T&));
 
-    Iterator Begin() { return m_pFirst; }
-    Iterator End() { return nullptr; }
-    const Iterator CBegin() const { return m_pFirst; }
-    const Iterator CEnd() const { return nullptr; }
+    forceinline Iterator Begin() { return m_pFirst; }
+    forceinline Iterator End() { return nullptr; }
+    forceinline const Iterator CBegin() const { return m_pFirst; }
+    forceinline const Iterator CEnd() const { return nullptr; }
+
+    forceinline Iterator begin() { return m_pFirst; }
+    forceinline Iterator end() { return nullptr; }
+    forceinline const Iterator cbegin() const { return m_pFirst; }
+    forceinline const Iterator cend() const { return nullptr; }
 
 private:
     // No copy, no assignment. Use references instead

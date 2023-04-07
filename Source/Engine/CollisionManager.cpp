@@ -27,9 +27,8 @@ void CollisionManager::CheckCollision(const Vector2& vPoint, const FRect& hitBox
 
     // Try to find entities that lie on the rectangle
     auto& lstWorldEntity = g_game.GetWorld().GetEntityList();
-    auto end = lstWorldEntity.End();
 
-    for (auto it = lstWorldEntity.Begin(); it != end; ++it)
+    for (auto it = lstWorldEntity.Begin(); it; ++it)
     {
         if (it->data == pExcept || !it->data->m_bCollidable)
         {
@@ -65,9 +64,8 @@ void CollisionManager::CheckCollision(const Vector2& vPoint, const FRect& hitBox
 
     // Try to find entities that lie on the rectangle
     auto& lstWorldEntity = g_game.GetWorld().GetEntityList();
-    auto end = lstWorldEntity.End();
 
-    for (auto it = lstWorldEntity.Begin(); it != end; ++it)
+    for (auto it = lstWorldEntity.Begin(); it; ++it)
     {
         if (it->data == pExcept || !it->data->m_bCollidable || !predicate(it->data, userdata))
         {

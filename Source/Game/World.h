@@ -22,19 +22,19 @@ public:
     void ShutDown();
 
     void Update(f32 dtTime);
-    void Render() { m_lstEntity.Foreach([] (auto pEntity) { pEntity->Draw(); }); }
+    forceinline void Render() { m_lstEntity.Foreach([] (auto pEntity) { pEntity->Draw(); }); }
 
-    void SwitchLocation(s32 location) { m_switchLocation = location; }
-    void SetGroundBounds(SRect& rect) { m_groundBounds = rect; }
+    forceinline void SwitchLocation(s32 location) { m_switchLocation = location; }
+    forceinline void SetGroundBounds(SRect& rect) { m_groundBounds = rect; }
 
     void PushEntity(Entity* pEntity);
     void RemoveEntity(Entity* pEntity);
     void PushWeapon(Weapon* pWeapon);
 
-    const SRect& GetGroundBounds() const { return m_groundBounds; }
-    TList<Entity*>& GetEntityList() { return m_lstEntity; }
+    forceinline const SRect& GetGroundBounds() const { return m_groundBounds; }
+    forceinline TList<Entity*>& GetEntityList() { return m_lstEntity; }
 
-    b32 HasEntity(Entity* pEntity) { return pEntity ? m_lstEntity.IsMember(pEntity) : false; }
+    forceinline b32 HasEntity(Entity* pEntity) const { return pEntity ? m_lstEntity.IsMember(pEntity) : false; }
 
 private:
     void HandleSwitchLocation();
@@ -45,7 +45,7 @@ private:
     void CleanWeapons();
 };
 
-inline void World::PushEntity(Entity* pEntity)
+forceinline  void World::PushEntity(Entity* pEntity)
 {
     if (pEntity)
     {
@@ -53,7 +53,7 @@ inline void World::PushEntity(Entity* pEntity)
     }
 }
 
-inline void World::RemoveEntity(Entity* pEntity)
+forceinline  void World::RemoveEntity(Entity* pEntity)
 {
     if (pEntity)
     {
@@ -61,7 +61,7 @@ inline void World::RemoveEntity(Entity* pEntity)
     }
 }
 
-inline void World::PushWeapon(Weapon* pWeapon)
+forceinline  void World::PushWeapon(Weapon* pWeapon)
 {
     if (pWeapon)
     {

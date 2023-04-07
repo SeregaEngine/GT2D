@@ -234,8 +234,7 @@ void GraphicsModule::CleanQueues()
 
 void GraphicsModule::CleanQueue(TList<RenderElement*>& queue)
 {
-    auto end = queue.End();
-    for (auto it = queue.Begin(); it != end; ++it)
+    for (auto it = queue.Begin(); it; ++it)
     {
         delete it->data;
     }
@@ -280,18 +279,17 @@ void GraphicsModule::PushRenderElement(s32 renderMode, RenderElement* pElement)
 
 void GraphicsModule::PushStaticElement(TList<RenderElement*>& queue, RenderElement* pElement)
 {
-    auto end = queue.End();
     auto it = queue.Begin();
 
     // Check if there're nothing in queue
-    if (it == end)
+    if (!it)
     {
         queue.Push(pElement);
         return;
     }
 
     // Try to find place
-    for ( ; it != end; ++it)
+    for ( ; it; ++it)
     {
         if (pElement->zIndex <= it->data->zIndex)
         {
@@ -306,18 +304,17 @@ void GraphicsModule::PushStaticElement(TList<RenderElement*>& queue, RenderEleme
 
 void GraphicsModule::PushDynamicElement(TList<RenderElement*>& queue, RenderElement* pElement)
 {
-    auto end = queue.End();
     auto it = queue.Begin();
 
     // Check if there're nothing in queue
-    if (it == end)
+    if (!it)
     {
         queue.Push(pElement);
         return;
     }
 
     // Try to find place
-    for ( ; it != end; ++it)
+    for ( ; it; ++it)
     {
         if (pElement->dest.y <= it->data->dest.y)
         {

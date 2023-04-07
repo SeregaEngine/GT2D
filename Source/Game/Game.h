@@ -24,17 +24,27 @@ public:
 
     void Update(f32 dtTime);
     void Render() const;
-    void Stop() { m_bRunning = false; }
+    forceinline void Stop() { m_bRunning = false; }
 
-    void PushState(GameState* pState) { m_lstState.Push(pState); }
-    void PopState() { if (m_pCurrentState) m_lstRemove.Push(m_pCurrentState); }
-    void PopAllStates() { m_lstState.Foreach([](auto pState, auto pSelf) { static_cast<Game*>(pSelf)->m_lstRemove.Push(pState); }, this); }
-    void ChangeState(GameState* pState) { PopState(); PushState(pState); }
-    GameState* GetCurrentState() { return m_pCurrentState; }
+    forceinline void PushState(GameState* pState) { m_lstState.Push(pState); }
+    forceinline void PopState()
+    {
+        if (m_pCurrentState)
+        { 
+            m_lstRemove.Push(m_pCurrentState);
+        }
+    }
+    forceinline void PopAllStates() { m_lstState.Foreach([](auto pState, auto pSelf) { static_cast<Game*>(pSelf)->m_lstRemove.Push(pState); }, this); }
+    forceinline void ChangeState(GameState* pState)
+    {
+        PopState();
+        PushState(pState);
+    }
+    forceinline GameState* GetCurrentState() const { return m_pCurrentState; }
 
-    b32 Running() const { return m_bRunning; }
+    forceinline b32 Running() const { return m_bRunning; }
     World& GetWorld();
-    lua_State* GetScript() { return m_pCurrentState ? m_pCurrentState->GetScript() : nullptr; };
+    forceinline lua_State* GetScript() { return m_pCurrentState ? m_pCurrentState->GetScript() : nullptr; };
 
 private:
     void HandleNewState();

@@ -13,8 +13,7 @@ public:
     {
         auto& lstEntity = g_game.GetWorld().GetEntityList();
 
-        auto end = lstEntity.End();
-        for (auto it = lstEntity.Begin(); it != end; ++it)
+        for (auto it = lstEntity.Begin(); it; ++it)
         {
             if (it->data->GetType() == ENTITY_TYPE_DIALOG &&
                 static_cast<Dialog*>(it->data)->m_pAttached == pTarget &&
