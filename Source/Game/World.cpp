@@ -1,30 +1,26 @@
-/* ====== INCLUDES ====== */
 #include "GraphicsModule.h"
 #include "ScriptModule.h"
 #include "DamageManager.h"
 #include "Actor.h"
 #include "Weapon.h"
 #include "Game.h"
-
 #include "World.h"
 
-/* ====== DEFINES ====== */
-#define CAMERA_DEFAULT_X 0
-#define CAMERA_DEFAULT_Y 0
-#define CAMERA_BOUNDS_DEFAULT_X1 0
-#define CAMERA_BOUNDS_DEFAULT_Y1 0
-#define CAMERA_BOUNDS_DEFAULT_X2 ( g_graphicsModule.GetScreenWidth() - 1 )
-#define CAMERA_BOUNDS_DEFAULT_Y2 ( g_graphicsModule.GetScreenHeight() - 1 )
+static constexpr i32f CAMERA_DEFAULT_X = 0;
+static constexpr i32f CAMERA_DEFAULT_Y = 0;
 
-#define GROUND_BOUNDS_DEFAULT_X1 0
-#define GROUND_BOUNDS_DEFAULT_Y1 0
-#define GROUND_BOUNDS_DEFAULT_X2 ( g_graphicsModule.GetScreenWidth() - 1 )
-#define GROUND_BOUNDS_DEFAULT_Y2 ( g_graphicsModule.GetScreenHeight() - 1 )
+static constexpr i32f CAMERA_BOUNDS_DEFAULT_X1 = 0;
+static constexpr i32f CAMERA_BOUNDS_DEFAULT_Y1 = 0;
+#define CAMERA_BOUNDS_DEFAULT_X2 (g_graphicsModule.GetScreenWidth() - 1)
+#define CAMERA_BOUNDS_DEFAULT_Y2 (g_graphicsModule.GetScreenHeight() - 1)
 
-/* ====== METHODS ====== */
+static constexpr i32f GROUND_BOUNDS_DEFAULT_X1 = 0;
+static constexpr i32f GROUND_BOUNDS_DEFAULT_Y1 = 0;
+#define GROUND_BOUNDS_DEFAULT_X2 (g_graphicsModule.GetScreenWidth() - 1)
+#define GROUND_BOUNDS_DEFAULT_Y2 (g_graphicsModule.GetScreenHeight() - 1)
+
 void World::StartUp()
 {
-    // Defaults
     m_groundBounds = { GROUND_BOUNDS_DEFAULT_X1, GROUND_BOUNDS_DEFAULT_Y1,
                        GROUND_BOUNDS_DEFAULT_X2, GROUND_BOUNDS_DEFAULT_Y2 };
     m_switchLocation = -1;
@@ -51,17 +47,13 @@ void World::Update(f32 dtTime)
     RemoveEntities();
 }
 
-void World::Render()
-{
-    // Draw entities
-    m_lstEntity.Mapcar([](auto pEntity) { pEntity->Draw(); });
-}
-
 void World::HandleSwitchLocation()
 {
     // Check if we don't need to switch location
     if (m_switchLocation == -1)
+    {
         return;
+    }
 
     // Stop sounds and music
     g_soundModule.StopSoundsAndMusic();
@@ -71,18 +63,24 @@ void World::HandleSwitchLocation()
 
     // Save switchLocation value
     s32 location = m_switchLocation;
+
     // Call switch location function
     g_scriptModule.SwitchLocation(g_game.GetScript(), m_switchLocation);
+
     // If there're no another switch location request then set to -1
     if (m_switchLocation == location)
+    {
         m_switchLocation = -1;
+    }
 }
 
 void World::UpdateEntities(f32 dtTime)
 {
     auto end = m_lstEntity.End();
     for (auto it = m_lstEntity.Begin(); it != end; ++it)
+    {
         it->data->Update(dtTime);
+    }
 }
 
 void World::RemoveEntities()
@@ -104,7 +102,8 @@ void World::RemoveEntities()
 
 void World::CleanEntities()
 {
-    m_lstEntity.Mapcar([](auto pEntity) {
+    m_lstEntity.Mapcar([] (auto pEntity)
+    {
         pEntity->Clean();
         delete pEntity;
     });
@@ -114,7 +113,13 @@ void World::CleanEntities()
 
 void World::CleanWeapons()
 {
-    m_lstWeapon.Mapcar([](auto pWeapon) { if (pWeapon) delete pWeapon; });
+    m_lstWeapon.Mapcar([] (auto pWeapon)
+    {
+        if (pWeapon)
+        {
+            delete pWeapon;
+        }
+    });
     m_lstWeapon.Clean();
 }
 

@@ -22,7 +22,7 @@ public:
     void ShutDown();
 
     void Update(f32 dtTime);
-    void Render();
+    void Render() { m_lstEntity.Mapcar([] (auto pEntity) { pEntity->Draw(); }); }
 
     void SwitchLocation(s32 location) { m_switchLocation = location; }
     void SetGroundBounds(SRect& rect) { m_groundBounds = rect; }

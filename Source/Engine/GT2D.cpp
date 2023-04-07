@@ -20,10 +20,11 @@ static constexpr i32f DEFAULT_FPS = 60;
 static constexpr i32f DEFAULT_SCREEN_WIDTH = 1280;
 static constexpr i32f DEFAULT_SCREEN_HEIGHT = 720;
 
+static constexpr char WINDOW_TITLE[] =
 #ifdef _DEBUG
-    #define WINDOW_TITLE "GT2D"
+    "GT2D";
 #else
-    #define WINDOW_TITLE "Petrol: The Fastest"
+    "Petrol: The Fastest";
 #endif
 
 b32 GT2D::StartUp()
