@@ -1,16 +1,10 @@
-#ifndef INPUTMODULE_H_
-#define INPUTMODULE_H_
+#pragma once
 
-/* ====== INCLUDES ====== */
 #include "SDL.h"
-
 #include "Types.h"
 #include "EngineModule.h"
 #include "GraphicsModule.h"
 
-/* ====== DEFINES ====== */
-
-/* ====== STRUCTURES ====== */
 enum eMouseButton
 {
     GTM_LEFT   = SDL_BUTTON_LMASK,
@@ -25,6 +19,7 @@ class InputModule final : public EngineModule
 
     Uint32 m_mouseState;
     s32 m_mousePosX, m_mousePosY;
+
 public:
     InputModule() : EngineModule("InputModule", CHANNEL_INPUT) {}
 
@@ -34,11 +29,11 @@ public:
     b32 HandleEvents();
     void OnKeyDown(SDL_Event& e);
 
-    // Keyboard
+    /** Keyboard */
     b32 IsKeyDown_s(SDL_Scancode scan) const { return m_keyState[scan]; }
     b32 IsKeyDown(SDL_Keycode key) const { return m_keyState[SDL_GetScancodeFromKey(key)]; }
 
-    // Mouse
+    /** Mouse */
     b32 IsMouseDown(Uint32 key) const { return m_mouseState & key; }
 
     void GetMousePosition(s32& x, s32& y) const { x = m_mousePosX; y = m_mousePosY; }
@@ -48,4 +43,3 @@ public:
 
 inline InputModule g_inputModule;
 
-#endif // INPUTMODULE_H_

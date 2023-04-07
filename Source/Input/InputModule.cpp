@@ -1,12 +1,8 @@
-/* ====== INCLUDES ====== */
 #include "Console.h"
-
 #include "InputModule.h"
 
-/* ====== METHODS ====== */
 b32 InputModule::StartUp()
 {
-    // Defaults
     m_keyState = SDL_GetKeyboardState(nullptr);
     m_bCapslock = false;
 
@@ -15,7 +11,6 @@ b32 InputModule::StartUp()
     m_mousePosY = 0;
 
     AddNote(PR_NOTE, "Module started");
-
     return true;
 }
 
@@ -32,7 +27,6 @@ b32 InputModule::HandleEvents()
     {
         switch (e.type)
         {
-
         case SDL_QUIT:
         {
             AddNote(PR_NOTE, "SDL_QUIT event");
@@ -45,7 +39,6 @@ b32 InputModule::HandleEvents()
         } break;
 
         default: {} break;
-
         }
     }
 
@@ -68,20 +61,16 @@ void InputModule::OnKeyDown(SDL_Event& e)
     case SDLK_LSHIFT:
     case SDLK_LALT:
     case SDLK_LCTRL:
-    case SDLK_TAB:
-        return;
+    case SDLK_TAB: return;
 
-    default:
-        break;
+    default: break;
     }
 
-    // Toggle console
-    if (e.key.keysym.sym == SDLK_BACKQUOTE)
+    if (e.key.keysym.sym == SDLK_BACKQUOTE) // Toggle console
     {
         g_console.Toggle(!g_console.IsShown());
     }
-    // Send input to the console only if it's not backquote and it's shown
-    else if (g_console.IsShown())
+    else if (g_console.IsShown()) // Send input to the console only if it's not backquote and it's shown
     {
         // Check shift
         b32 bShift = IsKeyDown(SDLK_LSHIFT);
@@ -90,9 +79,13 @@ void InputModule::OnKeyDown(SDL_Event& e)
         if (e.key.keysym.sym >= 'a' && e.key.keysym.sym <= 'z')
         {
             if (m_bCapslock ^ bShift)
+            {
                 g_console.Input(e.key.keysym.sym + ('A' - 'a'));
+            }
             else
+            {
                 g_console.Input(e.key.keysym.sym);
+            }
             return;
         }
 

@@ -1,14 +1,10 @@
-#ifndef SCRIPTMODULE_H_
-#define SCRIPTMODULE_H_
+#pragma once
 
-/* ====== INCLUDES ====== */
 #include "EngineModule.h"
 
-/* ====== DEFINES ====== */
-#define MISSION_LOADER_PATH "Scripts/Internal/Loader.lua"
-#define MAIN_MENU_PATH "Scripts/MainMenu.lua"
+static constexpr char MISSION_LOADER_PATH[] = "Scripts/Internal/Loader.lua";
+static constexpr char MAIN_MENU_PATH[] = "Scripts/MainMenu.lua";
 
-/* ====== STRUCTURES ====== */
 class Entity;
 class Actor;
 class Trigger;
@@ -34,6 +30,7 @@ public:
     void CallTrigger(lua_State* pScript, const char* functionName, Trigger* pTrigger, Entity* pEntity);
 
     void Interpret(lua_State* pScript, const char* text);
+
 private:
     void DefineFunctions(lua_State* L);
     void DefineSymbols(lua_State* L);
@@ -42,16 +39,17 @@ private:
     static b32 LuaExpect(lua_State* L, const char* funName, s32 expect);
     b32 CheckLua(lua_State* L, s32 res);
 
-    /* Log */
+    /** Log */
     static s32 _GT_LOG(lua_State* L);
 
-    /* Lua */
+    /** Lua */
     static s32 _dostring(lua_State* L);
 
-    /* Window */
+    /** Window */
     static s32 _showCursor(lua_State* L);
 
-    /* Graphics */
+    /** Graphics */
+
     // Textures
     static s32 _defineTexture(lua_State* L);
 
@@ -69,29 +67,29 @@ private:
     static s32 _setCameraBounds(lua_State* L);
     static s32 _getCameraPosition(lua_State* L);
 
-    /* Sound */
+    /** Sound */
     static s32 _defineSound(lua_State* L);
     static s32 _playSound(lua_State* L);
     static s32 _playSoundLooped(lua_State* L);
     static s32 _stopAllSounds(lua_State* L);
 
-    /* Music */
+    /** Music */
     static s32 _defineMusic(lua_State* L);
     static s32 _playMusic(lua_State* L);
 
-    /* Input */
+    /** Input */
     static s32 _isKeyDown(lua_State* L);
     static s32 _isMouseDown(lua_State* L);
     static s32 _getMousePosition(lua_State* L);
 
-    // Console
+    /** Console */
     static s32 _isConsoleShown(lua_State* L);
     static s32 _cls(lua_State* L);
 
-    /* Animation */
+    /** Animation */
     static s32 _defineAnimation(lua_State* L);
 
-    /* Game */
+    /** Game */
     static s32 _getTicks(lua_State* L);
     static s32 _stopGame(lua_State* L);
     static s32 _switchMission(lua_State* L);
@@ -100,7 +98,7 @@ private:
     static s32 _resumeMission(lua_State* L);
     static s32 _exitToMainMenu(lua_State* L);
 
-    /* World */
+    /** World */
     static s32 _hostSwitchLocation(lua_State* L);
     static s32 _setGroundBounds(lua_State* L);
     static s32 _hasWorldEntity(lua_State* L);
@@ -210,5 +208,3 @@ private:
 };
 
 inline ScriptModule g_scriptModule;
-
-#endif // SCRIPTMODULE_H_

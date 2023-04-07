@@ -1,15 +1,9 @@
-/* TODO
- * - LuaNote -> AddNote where no lua
- */
-
-/* ====== INCLUDES ====== */
 extern "C"
 {
 #include "lua.h"
 #include "lauxlib.h"
 #include "lualib.h"
 }
-
 #include "GraphicsModule.h"
 #include "GTUnit.h"
 #include "SoundModule.h"
@@ -34,18 +28,14 @@ extern "C"
 #include "Car.h"
 #include "Trigger.h"
 #include "Dialog.h"
-
 #include "ScriptModule.h"
 
-/* ====== DEFINES ====== */
-#define MISSION_SAVER_PATH "Scripts/Internal/Saver.lua"
-#define SCRIPT_SET_UP "package.path = package.path .. \";Scripts/?.lua;Scripts/Internal/?.lua\""
+static constexpr char MISSION_SAVER_PATH[] = "Scripts/Internal/Saver.lua";
+static constexpr char SCRIPT_SET_UP[] = "package.path = package.path .. \";Scripts/?.lua;Scripts/Internal/?.lua\"";
 
-/* ====== METHODS ====== */
 b32 ScriptModule::StartUp()
 {
     AddNote(PR_NOTE, "Module started");
-
     return true;
 }
 
@@ -56,56 +46,40 @@ void ScriptModule::ShutDown()
 
 void ScriptModule::DefineFunctions(lua_State* L)
 {
-    /* Log */
     lua_register(L, "GT_LOG", _GT_LOG);
-
-    /* Lua */
     lua_register(L, "dostring", _dostring);
 
-    /* Window*/
-    lua_register(L, "showCursor", _showCursor);
-
-    /* Graphics */
-    // Textures
     lua_register(L, "defineTexture", _defineTexture);
-
-    // Draw
+    lua_register(L, "showCursor", _showCursor);
     lua_register(L, "setDrawColor", _setDrawColor);
     lua_register(L, "drawFrame", _drawFrame);
     lua_register(L, "drawText", _drawText);
     lua_register(L, "fillRect", _fillRect);
     lua_register(L, "drawRect", _drawRect);
 
-    // Camera
     lua_register(L, "attachCamera", _attachCamera);
     lua_register(L, "detachCamera", _detachCamera);
     lua_register(L, "setCameraPosition", _setCameraPosition);
     lua_register(L, "setCameraBounds", _setCameraBounds);
     lua_register(L, "getCameraPosition", _getCameraPosition);
 
-    /* Sound */
     lua_register(L, "defineSound", _defineSound);
     lua_register(L, "playSound", _playSound);
     lua_register(L, "playSoundLooped", _playSoundLooped);
     lua_register(L, "stopAllSounds", _stopAllSounds);
 
-    /* Music */
     lua_register(L, "defineMusic", _defineMusic);
     lua_register(L, "playMusic", _playMusic);
 
-    /* Input */
     lua_register(L, "isKeyDown", _isKeyDown);
     lua_register(L, "isMouseDown", _isMouseDown);
     lua_register(L, "getMousePosition", _getMousePosition);
 
-    // Console
     lua_register(L, "isConsoleShown", _isConsoleShown);
     lua_register(L, "cls", _cls);
 
-    /* Animation */
     lua_register(L, "defineAnimation", _defineAnimation);
 
-    /* Game */
     lua_register(L, "getTicks", _getTicks);
     lua_register(L, "stopGame", _stopGame);
     lua_register(L, "switchMission", _switchMission);
@@ -114,12 +88,10 @@ void ScriptModule::DefineFunctions(lua_State* L)
     lua_register(L, "resumeMission", _resumeMission);
     lua_register(L, "exitToMainMenu", _exitToMainMenu);
 
-    /* World */
     lua_register(L, "hostSwitchLocation", _hostSwitchLocation);
     lua_register(L, "setGroundBounds", _setGroundBounds);
     lua_register(L, "hasWorldEntity", _hasWorldEntity);
 
-    // Entities
     lua_register(L, "addEntity", _addEntity);
     lua_register(L, "removeEntity", _removeEntity);
     lua_register(L, "updateEntity", _updateEntity);
@@ -146,7 +118,6 @@ void ScriptModule::DefineFunctions(lua_State* L)
     lua_register(L, "setEntityTexture", _setEntityTexture);
     lua_register(L, "getEntityTexture", _getEntityTexture);
 
-    // Actor
     lua_register(L, "addActor", _addActor);
     lua_register(L, "setActorTeam", _setActorTeam);
     lua_register(L, "getActorTeam", _getActorTeam);
@@ -173,10 +144,8 @@ void ScriptModule::DefineFunctions(lua_State* L)
     lua_register(L, "playActorAnimLooped", _playActorAnimLooped);
     lua_register(L, "stopActorAnim", _stopActorAnim);
 
-    // Weapon
     lua_register(L, "defineWeapon", _defineWeapon);
 
-    // Car
     lua_register(L, "addCar", _addCar);
     lua_register(L, "turnCarLeft", _turnCarLeft);
     lua_register(L, "turnCarRight", _turnCarRight);
@@ -186,10 +155,8 @@ void ScriptModule::DefineFunctions(lua_State* L)
     lua_register(L, "putActorInCar", _putActorInCar);
     lua_register(L, "ejectActorFromCar", _ejectActorFromCar);
 
-    // Trigger
     lua_register(L, "addTrigger", _addTrigger);
 
-    // Dialog
     lua_register(L, "addDialog", _addDialog);
     lua_register(L, "runDialog", _runDialog);
     lua_register(L, "attachDialog", _attachDialog);
@@ -199,7 +166,6 @@ void ScriptModule::DefineFunctions(lua_State* L)
 
 void ScriptModule::DefineSymbols(lua_State* L)
 {
-    /* Log */
     lua_pushinteger(L, PR_NOTE);
     lua_setglobal(L, "PR_NOTE");
     lua_pushinteger(L, PR_WARNING);
@@ -207,7 +173,6 @@ void ScriptModule::DefineSymbols(lua_State* L)
     lua_pushinteger(L, PR_ERROR);
     lua_setglobal(L, "PR_ERROR");
 
-    /* Graphics */
     lua_pushinteger(L, UNIT_SCREEN_WIDTH);
     lua_setglobal(L, "SCREEN_WIDTH");
     lua_pushinteger(L, UNIT_SCREEN_HEIGHT);
@@ -222,8 +187,6 @@ void ScriptModule::DefineSymbols(lua_State* L)
     lua_pushinteger(L, RENDER_MODE_DEBUG);
     lua_setglobal(L, "RENDER_MODE_DEBUG");
 
-    /* Input */
-    // WASD/Arrows
     lua_pushinteger(L, SDLK_w);
     lua_setglobal(L, "GTK_W");
     lua_pushinteger(L, SDLK_a);
@@ -242,7 +205,6 @@ void ScriptModule::DefineSymbols(lua_State* L)
     lua_pushinteger(L, SDLK_RIGHT);
     lua_setglobal(L, "GTK_RIGHT");
 
-    // Some special symbols
     lua_pushinteger(L, SDLK_ESCAPE);
     lua_setglobal(L, "GTK_ESCAPE");
     lua_pushinteger(L, SDLK_RETURN);
@@ -250,7 +212,6 @@ void ScriptModule::DefineSymbols(lua_State* L)
     lua_pushinteger(L, SDLK_SPACE);
     lua_setglobal(L, "GTK_SPACE");
 
-    // Mouse
     lua_pushinteger(L, GTM_LEFT);
     lua_setglobal(L, "GTM_LEFT");
     lua_pushinteger(L, GTM_RIGHT);
@@ -258,7 +219,6 @@ void ScriptModule::DefineSymbols(lua_State* L)
     lua_pushinteger(L, GTM_MIDDLE);
     lua_setglobal(L, "GTM_MIDDLE");
 
-    /* Actor */
     lua_pushinteger(L, ACTOR_ANIMATION_IDLE);
     lua_setglobal(L, "ACTOR_ANIMATION_IDLE");
     lua_pushinteger(L, ACTOR_ANIMATION_HORIZONTAL);
@@ -274,7 +234,6 @@ void ScriptModule::DefineSymbols(lua_State* L)
     lua_pushinteger(L, ACTOR_TEAM_DEFAULT);
     lua_setglobal(L, "ACTOR_TEAM_DEFAULT");
 
-    /* AI */
     lua_pushinteger(L, GTC_IDLE);
     lua_setglobal(L, "GTC_IDLE");
     lua_pushinteger(L, GTC_TURN_LEFT);
@@ -387,7 +346,9 @@ lua_State* ScriptModule::EnterMission(const char* path, s32 location)
 void ScriptModule::ExitMission(lua_State* pScript)
 {
     if (pScript)
+    {
         lua_close(pScript);
+    }
 }
 
 void ScriptModule::SwitchLocation(lua_State* pScript, s32 location)
@@ -641,7 +602,9 @@ void ScriptModule::LuaNote(s32 priority, const char* fmt, ...)
 {
     va_list vl;
     va_start(vl, fmt);
+
     g_debugLogMgr.VAddNote(CHANNEL_SCRIPT, priority, "Lua", fmt, vl);
+
     va_end(vl);
 }
 
@@ -674,10 +637,14 @@ b32 ScriptModule::CheckLua(lua_State* L, s32 res)
 s32 ScriptModule::_GT_LOG(lua_State* L)
 {
     if (!LuaExpect(L, "GT_LOG", 2))
+    {
         return -1;
+    }
 
     if (lua_isinteger(L, 1) && lua_isstring(L, 2))
+    {
         LuaNote((s32)lua_tointeger(L, 1), lua_tostring(L, 2));
+    }
 
     return 0;
 }
@@ -685,7 +652,9 @@ s32 ScriptModule::_GT_LOG(lua_State* L)
 s32 ScriptModule::_dostring(lua_State* L)
 {
     if (!LuaExpect(L, "dostring", 1))
+    {
         return -1;
+    }
 
     if (luaL_dostring(L, lua_tostring(L, 1)) != 0)
     {
@@ -699,21 +668,29 @@ s32 ScriptModule::_dostring(lua_State* L)
 s32 ScriptModule::_showCursor(lua_State* L)
 {
     if (!LuaExpect(L, "showCursor", 0))
+    {
         return -1;
+    }
 
     SDL_ShowCursor(SDL_ENABLE);
-
     return 0;
 }
 
 s32 ScriptModule::_defineTexture(lua_State* L)
 {
     if (!LuaExpect(L, "defineTexture", 3))
+    {
         return -1;
+    }
 
-    lua_pushlightuserdata(L, (void*)g_graphicsModule.DefineTexture(lua_tostring(L, 1),
-                                                                   (s32)lua_tointeger(L, 2),
-                                                                   (s32)lua_tointeger(L, 3)));
+    lua_pushlightuserdata(
+        L,
+        (void*)g_graphicsModule.DefineTexture(
+            lua_tostring(L, 1),
+            (s32)lua_tointeger(L, 2),
+            (s32)lua_tointeger(L, 3)
+        )
+    );
 
     return 1;
 }
@@ -721,10 +698,14 @@ s32 ScriptModule::_defineTexture(lua_State* L)
 s32 ScriptModule::_setDrawColor(lua_State* L)
 {
     if (!LuaExpect(L, "setDrawColor", 4))
+    {
         return -1;
+    }
 
-    g_graphicsModule.SetDrawColor((u8)lua_tointeger(L, 1), (u8)lua_tointeger(L, 2),
-                                (u8)lua_tointeger(L, 3), (u8)lua_tointeger(L, 4));
+    g_graphicsModule.SetDrawColor(
+        (u8)lua_tointeger(L, 1), (u8)lua_tointeger(L, 2),
+        (u8)lua_tointeger(L, 3), (u8)lua_tointeger(L, 4)
+    );
 
     return 0;
 }
@@ -744,10 +725,15 @@ s32 ScriptModule::_drawFrame(lua_State* L)
         (s32)GTU::UnitToScreenX((f32)lua_tonumber(L, 6)),
         (s32)GTU::UnitToScreenY((f32)lua_tonumber(L, 7))
     };
+
     if (argsCount == 10)
+    {
         g_graphicsModule.DrawFrame((s32)lua_tointeger(L, 1), (s32)lua_tointeger(L, 2), (b32)lua_toboolean(L, 3), dest, (const GT_Texture*)lua_touserdata(L, 8), (s32)lua_tointeger(L, 9), (s32)lua_tointeger(L, 10));
+    }
     else
+    {
         g_graphicsModule.DrawFrame((s32)lua_tointeger(L, 1), (s32)lua_tointeger(L, 2), (b32)lua_toboolean(L, 3), dest, (const GT_Texture*)lua_touserdata(L, 8), (s32)lua_tointeger(L, 9), (s32)lua_tointeger(L, 10), (f32)lua_tonumber(L, 11), (SDL_RendererFlip)lua_tointeger(L, 12));
+    }
 
     return 0;
 }
@@ -755,7 +741,9 @@ s32 ScriptModule::_drawFrame(lua_State* L)
 s32 ScriptModule::_drawText(lua_State* L)
 {
     if (!LuaExpect(L, "drawText", 8))
+    {
         return -1;
+    }
 
     s32 renderMode = (s32)lua_tointeger(L, 1);
     s32 zIndex = (s32)lua_tointeger(L, 2);
@@ -769,14 +757,15 @@ s32 ScriptModule::_drawText(lua_State* L)
     const char* text = lua_tostring(L, 8);
 
     g_graphicsModule.DrawText(renderMode, zIndex, bHUD, dest, text);
-
     return 0;
 }
 
 s32 ScriptModule::_fillRect(lua_State* L)
 {
     if (!LuaExpect(L, "fillRect", 7))
+    {
         return -1;
+    }
 
     SDL_Rect dest = {
         (s32)GTU::UnitToScreenX((f32)lua_tonumber(L, 4)),
@@ -786,14 +775,15 @@ s32 ScriptModule::_fillRect(lua_State* L)
     };
 
     g_graphicsModule.FillRect((s32)lua_tointeger(L, 1), (s32)lua_tointeger(L, 2), (s32)lua_toboolean(L, 3), dest);
-
     return 0;
 }
 
 s32 ScriptModule::_drawRect(lua_State* L)
 {
     if (!LuaExpect(L, "drawRect", 7))
+    {
         return -1;
+    }
 
     SDL_Rect dest = {
         (s32)GTU::UnitToScreenX((f32)lua_tonumber(L, 4)),
@@ -809,38 +799,45 @@ s32 ScriptModule::_drawRect(lua_State* L)
 s32 ScriptModule::_attachCamera(lua_State* L)
 {
     if (!LuaExpect(L, "attachCamera", 1))
+    {
         return -1;
+    }
 
     g_graphicsModule.GetCamera().Attach( (Entity*)lua_touserdata(L, 1) );
-
     return 0;
 }
 
 s32 ScriptModule::_detachCamera(lua_State* L)
 {
     if (!LuaExpect(L, "detachCamera", 0))
+    {
         return -1;
+    }
 
     g_graphicsModule.GetCamera().Detach();
-
     return 0;
 }
 
 s32 ScriptModule::_setCameraPosition(lua_State* L)
 {
     if (!LuaExpect(L, "setCameraPosition", 2))
+    {
         return -1;
+    }
 
-    g_graphicsModule.GetCamera().SetPosition((s32)GTU::UnitToScreenX((f32)lua_tonumber(L, 1)),
-                                             (s32)GTU::UnitToScreenY((f32)lua_tonumber(L, 2)));
-
+    g_graphicsModule.GetCamera().SetPosition(
+        (s32)GTU::UnitToScreenX((f32)lua_tonumber(L, 1)),
+        (s32)GTU::UnitToScreenY((f32)lua_tonumber(L, 2))
+    );
     return 0;
 }
 
 s32 ScriptModule::_setCameraBounds(lua_State* L)
 {
     if (!LuaExpect(L, "setCameraBounds", 4))
+    {
         return -1;
+    }
 
     SRect rect;
     rect.x1 = (s32)( GTU::UnitToScreenX((f32)lua_tonumber(L, 1)) );
@@ -849,38 +846,41 @@ s32 ScriptModule::_setCameraBounds(lua_State* L)
     rect.y2 = rect.y1 + (s32)( GTU::UnitToScreenY((f32)lua_tonumber(L, 4)) ) - 1;
 
     g_graphicsModule.GetCamera().SetBounds(rect);
-
     return 0;
 }
 
 s32 ScriptModule::_getCameraPosition(lua_State* L)
 {
     if (!LuaExpect(L, "getCameraPosition", 0))
+    {
         return -1;
+    }
 
     s32 x, y;
     g_graphicsModule.GetCamera().GetPosition(x, y);
 
     lua_pushnumber(L, GTU::ScreenToUnitX((f32)x));
     lua_pushnumber(L, GTU::ScreenToUnitY((f32)y));
-
     return 2;
 }
 
 s32 ScriptModule::_hostSwitchLocation(lua_State* L)
 {
     if (!LuaExpect(L, "hostSwitchLocation", 1))
+    {
         return -1;
+    }
 
     g_game.GetWorld().SwitchLocation((s32)lua_tointeger(L, 1));
-
     return 0;
 }
 
 s32 ScriptModule::_setGroundBounds(lua_State* L)
 {
     if (!LuaExpect(L, "setGroundBounds", 4))
+    {
         return -1;
+    }
 
     SRect rect;
     rect.x1 = (s32)( GTU::UnitToScreenX((f32)lua_tonumber(L, 1)) );
@@ -889,106 +889,117 @@ s32 ScriptModule::_setGroundBounds(lua_State* L)
     rect.y2 = rect.y1 + (s32)( GTU::UnitToScreenY((f32)lua_tonumber(L, 4)) ) - 1,
 
     g_game.GetWorld().SetGroundBounds(rect);
-
     return 0;
 }
 
 s32 ScriptModule::_hasWorldEntity(lua_State* L)
 {
     if (!LuaExpect(L, "hasWorldEntity", 1))
+    {
         return -1;
+    }
 
     Entity* pEntity = (Entity*)lua_touserdata(L, 1);
     b32 bAvailable = g_game.GetWorld().HasEntity(pEntity);
-    lua_pushboolean(L, bAvailable);
 
+    lua_pushboolean(L, bAvailable);
     return 1;
 }
 
 s32 ScriptModule::_defineSound(lua_State* L)
 {
     if (!LuaExpect(L, "defineSound", 1))
+    {
         return -1;
+    }
 
     lua_pushlightuserdata(L, g_soundModule.DefineWAV(lua_tostring(L, 1)));
-
     return 1;
 }
 
 s32 ScriptModule::_playSound(lua_State* L)
 {
     if (!LuaExpect(L, "playSound", 1))
+    {
         return -1;
+    }
 
     g_soundModule.PlaySound( (GT_Sound*)lua_touserdata(L, 1) );
-
     return 0;
 }
 
 s32 ScriptModule::_playSoundLooped(lua_State* L)
 {
     if (!LuaExpect(L, "playSound", 1))
+    {
         return -1;
+    }
 
     g_soundModule.PlaySound((GT_Sound*)lua_touserdata(L, 1), true);
-
     return 0;
 }
 
 s32 ScriptModule::_stopAllSounds(lua_State* L)
 {
     if (!LuaExpect(L, "stopAllSounds", 0))
+    {
         return -1;
+    }
 
     g_soundModule.StopSounds();
-
     return 0;
 }
 
 s32 ScriptModule::_defineMusic(lua_State* L)
 {
     if (!LuaExpect(L, "defineMusic", 1))
+    {
         return -1;
+    }
 
     lua_pushlightuserdata(L, g_soundModule.DefineMusic(lua_tostring(L, 1)));
-
     return 1;
 }
 
 s32 ScriptModule::_playMusic(lua_State* L)
 {
     if (!LuaExpect(L, "playMusic", 1))
+    {
         return -1;
+    }
 
     g_soundModule.PlayMusic( (GT_Music*)lua_touserdata(L, 1) );
-
     return 0;
 }
 
 s32 ScriptModule::_isKeyDown(lua_State* L)
 {
     if (!LuaExpect(L, "isKeyDown", 1))
+    {
         return -1;
+    }
 
     lua_pushboolean(L, g_inputModule.IsKeyDown((SDL_Keycode)lua_tointeger(L, 1)));
-
     return 1;
 }
 
 s32 ScriptModule::_isMouseDown(lua_State* L)
 {
     if (!LuaExpect(L, "isMouseDown", 1))
+    {
         return -1;
+    }
 
     lua_pushboolean(L, g_inputModule.IsMouseDown((Uint32)lua_tointeger(L, 1)));
-
     return 1;
 }
 
 s32 ScriptModule::_getMousePosition(lua_State* L)
 {
     if (!LuaExpect(L, "getMousePosition", 0))
+    {
         return -1;
+    }
 
     // Get mouse screen position
     s32 x, y;
@@ -997,80 +1008,86 @@ s32 ScriptModule::_getMousePosition(lua_State* L)
     // Return
     lua_pushinteger(L, (lua_Integer)( GTU::ScreenToUnitX((f32)x) ));
     lua_pushinteger(L, (lua_Integer)( GTU::ScreenToUnitY((f32)y) ));
-
     return 2;
 }
 
 s32 ScriptModule::_isConsoleShown(lua_State* L)
 {
     lua_pushboolean(L, g_console.IsShown());
-
     return 1;
 }
 
 s32 ScriptModule::_cls(lua_State* L)
 {
     g_console.Clear();
-
     return 0;
 }
 
 s32 ScriptModule::_defineAnimation(lua_State* L)
 {
     if (!LuaExpect(L, "defineAnimation", 3))
+    {
         return -1;
+    }
 
     GT_Animation anim = { (s32)lua_tointeger(L, 1), (s32)lua_tointeger(L, 2), (f32)lua_tonumber(L, 3) };
     lua_pushlightuserdata(L, (void*)g_animModule.DefineAnimation(anim));
-
     return 1;
 }
 
 s32 ScriptModule::_getTicks(lua_State* L)
 {
     if (!LuaExpect(L, "getTicks", 0))
+    {
         return -1;
+    }
 
     lua_pushinteger(L, SDL_GetTicks());
-
     return 1;
 }
 
 s32 ScriptModule::_stopGame(lua_State* L)
 {
     if (!LuaExpect(L, "stopGame", 0))
+    {
         return -1;
+    }
 
     g_game.Stop();
-
     return 0;
 }
 
 s32 ScriptModule::_switchMission(lua_State* L)
 {
     if (!LuaExpect(L, "switchMission", 2))
+    {
         return -1;
+    }
 
     g_game.ChangeState(new PlayState(lua_tostring(L, 1), (s32)lua_tointeger(L, 2)));
-
     return 0;
 }
 
 s32 ScriptModule::_restartMission(lua_State* L)
 {
     if (!LuaExpect(L, "restartMission", 1))
+    {
         return -1;
+    }
 
-    g_game.ChangeState(new PlayState(static_cast<PlayState*>(
-        g_game.GetCurrentState())->GetScriptPath(), (s32)lua_tointeger(L, 1)));
-
+    g_game.ChangeState(new PlayState(
+        static_cast<PlayState*>(g_game.GetCurrentState())->GetScriptPath(),
+        (s32)lua_tointeger(L, 1))
+    );
     return 0;
 }
 
 s32 ScriptModule::_pauseMission(lua_State* L)
 {
     if (!LuaExpect(L, "pauseMission", 0))
+    {
         return -1;
+    }
 
     PlayState* pState = (PlayState*)g_game.GetCurrentState();
     g_game.PushState(new PauseState(pState->GetScript(), pState->GetWorld()));
@@ -1081,17 +1098,20 @@ s32 ScriptModule::_pauseMission(lua_State* L)
 s32 ScriptModule::_resumeMission(lua_State* L)
 {
     if (!LuaExpect(L, "resumeMission", 0))
+    {
         return -1;
+    }
 
     g_game.PopState();
-
     return 0;
 }
 
 s32 ScriptModule::_exitToMainMenu(lua_State* L)
 {
     if (!LuaExpect(L, "exitToMainMenu", 0))
+    {
         return -1;
+    }
 
     g_game.PopAllStates();
     g_game.PushState(new PlayState("Scripts/MainMenu.lua", 1));
@@ -1102,7 +1122,9 @@ s32 ScriptModule::_exitToMainMenu(lua_State* L)
 s32 ScriptModule::_addEntity(lua_State* L)
 {
     if (!LuaExpect(L, "addEntity", 5))
+    {
         return -1;
+    }
 
     // Init entity
     Entity* pEntity = new Entity();
@@ -1120,14 +1142,15 @@ s32 ScriptModule::_addEntity(lua_State* L)
 
     // Return pointer to lua
     lua_pushlightuserdata(L, pEntity);
-
     return 1;
 }
 
 s32 ScriptModule::_removeEntity(lua_State* L)
 {
     if (!LuaExpect(L, "removeEntity", 1))
+    {
         return -1;
+    }
 
     Entity* pEntity = (Entity*)lua_touserdata(L, 1);
     if (!pEntity)
@@ -1135,15 +1158,17 @@ s32 ScriptModule::_removeEntity(lua_State* L)
         LuaNote(PR_WARNING, "removeEntity() called with null entity");
         return -1;
     }
-    g_game.GetWorld().RemoveEntity(pEntity);
 
+    g_game.GetWorld().RemoveEntity(pEntity);
     return 0;
 }
 
 s32 ScriptModule::_updateEntity(lua_State* L)
 {
     if (!LuaExpect(L, "updateEntity", 2))
+    {
         return -1;
+    }
 
     Entity* pEntity = (Entity*)lua_touserdata(L, 1);
     if (pEntity)
@@ -1162,7 +1187,9 @@ s32 ScriptModule::_updateEntity(lua_State* L)
 s32 ScriptModule::_setEntityPosition(lua_State* L)
 {
     if (!LuaExpect(L, "setEntityPosition", 3))
+    {
         return -1;
+    }
 
     Entity* pEntity = (Entity*)lua_touserdata(L, 1);
     if (!pEntity)
@@ -1181,7 +1208,9 @@ s32 ScriptModule::_setEntityPosition(lua_State* L)
 s32 ScriptModule::_getEntityPosition(lua_State* L)
 {
     if (!LuaExpect(L, "getEntityPosition", 1))
+    {
         return -1;
+    }
 
     Entity* pEntity = (Entity*)lua_touserdata(L, 1);
     if (pEntity)
@@ -1202,7 +1231,9 @@ s32 ScriptModule::_getEntityPosition(lua_State* L)
 s32 ScriptModule::_setEntityVelocity(lua_State* L)
 {
     if (!LuaExpect(L, "setEntityVelocity", 3))
+    {
         return -1;
+    }
 
     Entity* pEntity = (Entity*)lua_touserdata(L, 1);
     if (!pEntity)
@@ -1221,7 +1252,9 @@ s32 ScriptModule::_setEntityVelocity(lua_State* L)
 s32 ScriptModule::_getEntityVelocity(lua_State* L)
 {
     if (!LuaExpect(L, "getEntityVelocity", 1))
+    {
         return -1;
+    }
 
     Entity* pEntity = (Entity*)lua_touserdata(L, 1);
     if (pEntity)
@@ -1242,7 +1275,9 @@ s32 ScriptModule::_getEntityVelocity(lua_State* L)
 s32 ScriptModule::_setEntityHitBox(lua_State* L)
 {
     if (!LuaExpect(L, "setEntityHitBox", 5))
+    {
         return -1;
+    }
 
     Entity* pEntity = (Entity*)lua_touserdata(L, 1);
     if (!pEntity)
@@ -1263,7 +1298,9 @@ s32 ScriptModule::_setEntityHitBox(lua_State* L)
 s32 ScriptModule::_getEntityHitBox(lua_State* L)
 {
     if (!LuaExpect(L, "getEntityHitBox", 1))
+    {
         return -1;
+    }
 
     Entity* pEntity = (Entity*)lua_touserdata(L, 1);
     if (!pEntity)
@@ -1284,7 +1321,9 @@ s32 ScriptModule::_getEntityHitBox(lua_State* L)
 s32 ScriptModule::_toggleEntityCollidable(lua_State* L)
 {
     if (!LuaExpect(L, "toggleEntityCollidable", 2))
+    {
         return -1;
+    }
 
     Entity* pEntity = (Entity*)lua_touserdata(L, 1);
     if (!pEntity)
@@ -1300,7 +1339,9 @@ s32 ScriptModule::_toggleEntityCollidable(lua_State* L)
 s32 ScriptModule::_getEntityCollidable(lua_State* L)
 {
     if (!LuaExpect(L, "getEntityCollidable", 1))
+    {
         return -1;
+    }
 
     Entity* pEntity = (Entity*)lua_touserdata(L, 1);
     if (!pEntity)
@@ -1316,7 +1357,9 @@ s32 ScriptModule::_getEntityCollidable(lua_State* L)
 s32 ScriptModule::_setEntityAnimFrame(lua_State* L)
 {
     if (!LuaExpect(L, "setEntityAnimFrame", 2))
+    {
         return -1;
+    }
 
     Entity* pEntity = (Entity*)lua_touserdata(L, 1);
     if (!pEntity)
@@ -1332,7 +1375,9 @@ s32 ScriptModule::_setEntityAnimFrame(lua_State* L)
 s32 ScriptModule::_getEntityAnimFrame(lua_State* L)
 {
     if (!LuaExpect(L, "getEntityAnimFrame", 1))
+    {
         return -1;
+    }
 
     Entity* pEntity = (Entity*)lua_touserdata(L, 1);
     if (pEntity)
@@ -1351,7 +1396,9 @@ s32 ScriptModule::_getEntityAnimFrame(lua_State* L)
 s32 ScriptModule::_setEntityAnimElapsed(lua_State* L)
 {
     if (!LuaExpect(L, "setEntityAnimElapsed", 2))
+    {
         return -1;
+    }
 
     Entity* pEntity = (Entity*)lua_touserdata(L, 1);
     if (!pEntity)
@@ -1367,7 +1414,9 @@ s32 ScriptModule::_setEntityAnimElapsed(lua_State* L)
 s32 ScriptModule::_getEntityAnimElapsed(lua_State* L)
 {
     if (!LuaExpect(L, "getEntityAnimElapsed", 1))
+    {
         return -1;
+    }
 
     Entity* pEntity = (Entity*)lua_touserdata(L, 1);
     if (pEntity)
@@ -1386,7 +1435,9 @@ s32 ScriptModule::_getEntityAnimElapsed(lua_State* L)
 s32 ScriptModule::_setEntityAnim(lua_State* L)
 {
     if (!LuaExpect(L, "setEntityAnim", 2))
+    {
         return -1;
+    }
 
     Entity* pEntity = (Entity*)lua_touserdata(L, 1);
     if (!pEntity)
@@ -1402,7 +1453,9 @@ s32 ScriptModule::_setEntityAnim(lua_State* L)
 s32 ScriptModule::_getEntityAnim(lua_State* L)
 {
     if (!LuaExpect(L, "getEntityAnim", 1))
+    {
         return -1;
+    }
 
     Entity* pEntity = (Entity*)lua_touserdata(L, 1);
     if (pEntity)
@@ -1421,7 +1474,9 @@ s32 ScriptModule::_getEntityAnim(lua_State* L)
 s32 ScriptModule::_setEntityRenderMode(lua_State* L)
 {
     if (!LuaExpect(L, "setEntityRenderMode", 2))
+    {
         return -1;
+    }
 
     Entity* pEntity = (Entity*)lua_touserdata(L, 1);
     if (!pEntity)
@@ -1437,7 +1492,9 @@ s32 ScriptModule::_setEntityRenderMode(lua_State* L)
 s32 ScriptModule::_getEntityRenderMode(lua_State* L)
 {
     if (!LuaExpect(L, "getEntityRenderMode", 1))
+    {
         return -1;
+    }
 
     Entity* pEntity = (Entity*)lua_touserdata(L, 1);
     if (pEntity)
@@ -1456,7 +1513,9 @@ s32 ScriptModule::_getEntityRenderMode(lua_State* L)
 s32 ScriptModule::_setEntityZIndex(lua_State* L)
 {
     if (!LuaExpect(L, "setEntityZIndex", 2))
+    {
         return -1;
+    }
 
     Entity* pEntity = (Entity*)lua_touserdata(L, 1);
     if (!pEntity)
@@ -1472,7 +1531,9 @@ s32 ScriptModule::_setEntityZIndex(lua_State* L)
 s32 ScriptModule::_getEntityZIndex(lua_State* L)
 {
     if (!LuaExpect(L, "getEntityZIndex", 1))
+    {
         return -1;
+    }
 
     Entity* pEntity = (Entity*)lua_touserdata(L, 1);
     if (pEntity)
@@ -1491,7 +1552,9 @@ s32 ScriptModule::_getEntityZIndex(lua_State* L)
 s32 ScriptModule::_toggleEntityHUD(lua_State* L)
 {
     if (!LuaExpect(L, "toggleEntityHUD", 2))
+    {
         return -1;
+    }
 
     Entity* pEntity = (Entity*)lua_touserdata(L, 1);
     if (!pEntity)
@@ -1507,7 +1570,9 @@ s32 ScriptModule::_toggleEntityHUD(lua_State* L)
 s32 ScriptModule::_getEntityHUD(lua_State* L)
 {
     if (!LuaExpect(L, "getEntityHUD", 1))
+    {
         return -1;
+    }
 
     Entity* pEntity = (Entity*)lua_touserdata(L, 1);
     if (pEntity)
@@ -1526,7 +1591,9 @@ s32 ScriptModule::_getEntityHUD(lua_State* L)
 s32 ScriptModule::_setEntityTexture(lua_State* L)
 {
     if (!LuaExpect(L, "setEntityTexture", 2))
+    {
         return -1;
+    }
 
     Entity* pEntity = (Entity*)lua_touserdata(L, 1);
     if (!pEntity)
@@ -1542,7 +1609,9 @@ s32 ScriptModule::_setEntityTexture(lua_State* L)
 s32 ScriptModule::_getEntityTexture(lua_State* L)
 {
     if (!LuaExpect(L, "getEntityTexture", 1))
+    {
         return -1;
+    }
 
     Entity* pEntity = (Entity*)lua_touserdata(L, 1);
     if (pEntity)
@@ -1561,13 +1630,16 @@ s32 ScriptModule::_getEntityTexture(lua_State* L)
 s32 ScriptModule::_addActor(lua_State* L)
 {
     if (!LuaExpect(L, "addActor", 5))
+    {
         return -1;
+    }
 
     // Init actor
     Actor* pActor = new Actor();
 
     Vector2 vPosition = { GTU::UnitToScreenX((f32)lua_tonumber(L, 1)),
                           GTU::UnitToScreenY((f32)lua_tonumber(L, 2)) };
+
     s32 width  = (s32)( GTU::UnitToScreenX((f32)lua_tonumber(L, 3)) );
     s32 height = (s32)( GTU::UnitToScreenY((f32)lua_tonumber(L, 4)) );
     GT_Texture* pTexture = (GT_Texture*)lua_touserdata(L, 5);
@@ -1579,14 +1651,15 @@ s32 ScriptModule::_addActor(lua_State* L)
 
     // Return pointer to lua
     lua_pushlightuserdata(L, pActor);
-
     return 1;
 }
 
 s32 ScriptModule::_setActorTeam(lua_State* L)
 {
     if (!LuaExpect(L, "setActorTeam", 2))
+    {
         return -1;
+    }
 
     Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
     if (pActor)
@@ -1605,7 +1678,9 @@ s32 ScriptModule::_setActorTeam(lua_State* L)
 s32 ScriptModule::_getActorTeam(lua_State* L)
 {
     if (!LuaExpect(L, "getActorTeam", 1))
+    {
         return -1;
+    }
 
     Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
     if (pActor)
@@ -1624,7 +1699,9 @@ s32 ScriptModule::_getActorTeam(lua_State* L)
 s32 ScriptModule::_setActorHealth(lua_State* L)
 {
     if (!LuaExpect(L, "setActorHealth", 2))
+    {
         return -1;
+    }
 
     Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
     if (pActor)
@@ -1643,7 +1720,9 @@ s32 ScriptModule::_setActorHealth(lua_State* L)
 s32 ScriptModule::_getActorHealth(lua_State* L)
 {
     if (!LuaExpect(L, "getActorHealth", 1))
+    {
         return -1;
+    }
 
     Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
     f32 health;
@@ -1665,7 +1744,9 @@ s32 ScriptModule::_getActorHealth(lua_State* L)
 s32 ScriptModule::_isActorAlive(lua_State* L)
 {
     if (!LuaExpect(L, "isActorAlive", 1))
+    {
         return -1;
+    }
 
     Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
     if (pActor)
@@ -1684,7 +1765,9 @@ s32 ScriptModule::_isActorAlive(lua_State* L)
 s32 ScriptModule::_toggleActorGodMode(lua_State* L)
 {
     if (!LuaExpect(L, "toggleActorGodMode", 2))
+    {
         return -1;
+    }
 
     Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
     if (pActor)
@@ -1703,7 +1786,9 @@ s32 ScriptModule::_toggleActorGodMode(lua_State* L)
 s32 ScriptModule::_isActorLookRight(lua_State* L)
 {
     if (!LuaExpect(L, "isActorLookRight", 1))
+    {
         return -1;
+    }
 
     Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
     if (pActor)
@@ -1722,7 +1807,9 @@ s32 ScriptModule::_isActorLookRight(lua_State* L)
 s32 ScriptModule::_turnActorLeft(lua_State* L)
 {
     if (!LuaExpect(L, "turnActorLeft", 1))
+    {
         return -1;
+    }
 
     Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
     if (pActor)
@@ -1741,7 +1828,9 @@ s32 ScriptModule::_turnActorLeft(lua_State* L)
 s32 ScriptModule::_turnActorRight(lua_State* L)
 {
     if (!LuaExpect(L, "turnActorRight", 1))
+    {
         return -1;
+    }
 
     Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
     if (pActor)
@@ -1760,7 +1849,9 @@ s32 ScriptModule::_turnActorRight(lua_State* L)
 s32 ScriptModule::_setActorSpeed(lua_State* L)
 {
     if (!LuaExpect(L, "setActorSpeed", 3))
+    {
         return -1;
+    }
 
     Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
     if (pActor)
@@ -1782,7 +1873,9 @@ s32 ScriptModule::_setActorSpeed(lua_State* L)
 s32 ScriptModule::_getActorSpeed(lua_State* L)
 {
     if (!LuaExpect(L, "getActorSpeed", 1))
+    {
         return -1;
+    }
 
     Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
     if (pActor)
@@ -1803,7 +1896,9 @@ s32 ScriptModule::_getActorSpeed(lua_State* L)
 s32 ScriptModule::_setActorState(lua_State* L)
 {
     if (!LuaExpect(L, "setActorState", 2))
+    {
         return -1;
+    }
 
     Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
     if (pActor)
@@ -1838,7 +1933,6 @@ s32 ScriptModule::_pushActorTask(lua_State* L)
     // Set task
     switch (lua_tointeger(L, 2))
     {
-
     case GTT_NONE:
     {
         pActor->RemoveTasks();
@@ -1963,7 +2057,6 @@ s32 ScriptModule::_pushActorTask(lua_State* L)
         LuaNote(PR_WARNING, "setActorTask(): undefined task given: %d", lua_tointeger(L, 2));
         return -1;
     } break;
-
     }
 
     return 0;
@@ -1972,7 +2065,9 @@ s32 ScriptModule::_pushActorTask(lua_State* L)
 s32 ScriptModule::_pushActorCommand(lua_State* L)
 {
     if (!LuaExpect(L, "pushActorCommand", 2))
+    {
         return -1;
+    }
 
     // Check for errors
     Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
@@ -1984,23 +2079,21 @@ s32 ScriptModule::_pushActorCommand(lua_State* L)
 
     // Push command
     pActor->PushCommand((s32)lua_tointeger(L, 2));
-
     return 0;
 }
 
 s32 ScriptModule::_checkActorCurrentTask(lua_State* L)
 {
     if (!LuaExpect(L, "checkActorCurrentTask", 1))
+    {
         return -1;
+    }
 
     Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
     if (pActor)
     {
         const GT_Task* pTask = pActor->GetCurrentTask();
-        if (pTask)
-            lua_pushinteger(L, pTask->GetStatus());
-        else
-            lua_pushinteger(L, GTT_NONE);
+        lua_pushinteger(L, pTask ? pTask->GetStatus() : GTT_NONE);
     }
     else
     {
@@ -2014,16 +2107,15 @@ s32 ScriptModule::_checkActorCurrentTask(lua_State* L)
 s32 ScriptModule::_getActorCurrentTask(lua_State* L)
 {
     if (!LuaExpect(L, "getActorCurrentTask", 1))
+    {
         return -1;
+    }
 
     Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
     if (pActor)
     {
         const GT_Task* pTask = pActor->GetCurrentTask();
-        if (pTask)
-            lua_pushinteger(L, pTask->GetID());
-        else
-            lua_pushinteger(L, GTT_NONE);
+        lua_pushinteger(L, pTask ? pTask->GetID() : GTT_NONE);
     }
     else
     {
@@ -2037,7 +2129,9 @@ s32 ScriptModule::_getActorCurrentTask(lua_State* L)
 s32 ScriptModule::_setActorDeathSound(lua_State* L)
 {
     if (!LuaExpect(L, "setActorDeathSound", 2))
+    {
         return -1;
+    }
 
     Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
     if (pActor)
@@ -2056,7 +2150,9 @@ s32 ScriptModule::_setActorDeathSound(lua_State* L)
 s32 ScriptModule::_setActorWeapon(lua_State* L)
 {
     if (!LuaExpect(L, "setActorWeapon", 2))
+    {
         return -1;
+    }
 
     Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
     if (pActor)
@@ -2075,7 +2171,9 @@ s32 ScriptModule::_setActorWeapon(lua_State* L)
 s32 ScriptModule::_setActorAttackRate(lua_State* L)
 {
     if (!LuaExpect(L, "setActorAttackRate", 2))
+    {
         return -1;
+    }
 
     Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
     if (pActor)
@@ -2094,7 +2192,9 @@ s32 ScriptModule::_setActorAttackRate(lua_State* L)
 s32 ScriptModule::_getActorAttackRate(lua_State* L)
 {
     if (!LuaExpect(L, "getActorAttackRate", 1))
+    {
         return -1;
+    }
 
     Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
     if (pActor)
@@ -2113,7 +2213,9 @@ s32 ScriptModule::_getActorAttackRate(lua_State* L)
 s32 ScriptModule::_setActorAnim(lua_State* L)
 {
     if (!LuaExpect(L, "setActorAnim", 3))
+    {
         return -1;
+    }
 
     Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
     if (pActor)
@@ -2132,7 +2234,9 @@ s32 ScriptModule::_setActorAnim(lua_State* L)
 s32 ScriptModule::_playActorAnimOnce(lua_State* L)
 {
     if (!LuaExpect(L, "playActorAnimOnce", 2))
+    {
         return -1;
+    }
 
     Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
     if (pActor)
@@ -2154,7 +2258,9 @@ s32 ScriptModule::_playActorAnimOnce(lua_State* L)
 s32 ScriptModule::_playActorAnimLooped(lua_State* L)
 {
     if (!LuaExpect(L, "playActorAnimLooped", 2))
+    {
         return -1;
+    }
 
     Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
     if (pActor)
@@ -2176,7 +2282,9 @@ s32 ScriptModule::_playActorAnimLooped(lua_State* L)
 s32 ScriptModule::_stopActorAnim(lua_State* L)
 {
     if (!LuaExpect(L, "stopActorAnim", 1))
+    {
         return -1;
+    }
 
     Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
     if (pActor)
@@ -2203,11 +2311,13 @@ s32 ScriptModule::_defineWeapon(lua_State* L)
 
     // Init weapon
     const GT_Animation* pAnim = (const GT_Animation*)lua_touserdata(L, 1);
+
     FRect hitBox;
     hitBox.x1 = -GTU::UnitToScreenX((f32)lua_tonumber(L, 2));
     hitBox.y1 = -GTU::UnitToScreenY((f32)lua_tonumber(L, 3));
     hitBox.x2 = -hitBox.x1;
     hitBox.y2 = -hitBox.y1;
+
     f32 damage = (f32)lua_tonumber(L, 4);
     s32 soundCount = argsCount - 4;
 
@@ -2233,7 +2343,9 @@ s32 ScriptModule::_defineWeapon(lua_State* L)
 s32 ScriptModule::_addCar(lua_State* L)
 {
     if (!LuaExpect(L, "addCar", 5))
+    {
         return -1;
+    }
 
     // Init car
     Vector2 vPosition = { GTU::UnitToScreenX((f32)lua_tonumber(L, 1)), GTU::UnitToScreenY((f32)lua_tonumber(L, 2)) };
@@ -2254,7 +2366,9 @@ s32 ScriptModule::_addCar(lua_State* L)
 s32 ScriptModule::_turnCarLeft(lua_State* L)
 {
     if (!LuaExpect(L, "turnCarLeft", 1))
+    {
         return -1;
+    }
 
     Car* pCar = (Car*)lua_touserdata(L, 1);
     if (!pCar)
@@ -2286,7 +2400,9 @@ s32 ScriptModule::_turnCarRight(lua_State* L)
 s32 ScriptModule::_setCarMaxSpeed(lua_State* L)
 {
     if (!LuaExpect(L, "setCarMaxSpeed", 3))
+    {
         return -1;
+    }
 
     Car* pCar = (Car*)lua_touserdata(L, 1);
     if (!pCar)
@@ -2305,7 +2421,9 @@ s32 ScriptModule::_setCarMaxSpeed(lua_State* L)
 s32 ScriptModule::_setCarAcceleration(lua_State* L)
 {
     if (!LuaExpect(L, "setCarAcceleration", 3))
+    {
         return -1;
+    }
 
     Car* pCar = (Car*)lua_touserdata(L, 1);
     if (!pCar)
@@ -2324,7 +2442,9 @@ s32 ScriptModule::_setCarAcceleration(lua_State* L)
 s32 ScriptModule::_setCarPlacePosition(lua_State* L)
 {
     if (!LuaExpect(L, "setCarPlacePosition", 4))
+    {
         return -1;
+    }
 
     Car* pCar = (Car*)lua_touserdata(L, 1);
     if (!pCar)
@@ -2343,7 +2463,9 @@ s32 ScriptModule::_setCarPlacePosition(lua_State* L)
 s32 ScriptModule::_putActorInCar(lua_State* L)
 {
     if (!LuaExpect(L, "putActorInCar", 3))
+    {
         return -1;
+    }
 
     Car* pCar = (Car*)lua_touserdata(L, 2);
     if (!pCar)
@@ -2359,7 +2481,9 @@ s32 ScriptModule::_putActorInCar(lua_State* L)
 s32 ScriptModule::_ejectActorFromCar(lua_State* L)
 {
     if (!LuaExpect(L, "ejectActorFromCar", 2))
+    {
         return -1;
+    }
 
     Car* pCar = (Car*)lua_touserdata(L, 1);
     if (!pCar)
@@ -2375,7 +2499,9 @@ s32 ScriptModule::_ejectActorFromCar(lua_State* L)
 s32 ScriptModule::_addTrigger(lua_State* L)
 {
     if (!LuaExpect(L, "addTrigger", 6))
+    {
         return -1;
+    }
 
     // Allocate trigger
     Trigger* pTrigger = new Trigger();
@@ -2415,7 +2541,9 @@ s32 ScriptModule::_addTrigger(lua_State* L)
 s32 ScriptModule::_addDialog(lua_State* L)
 {
     if (!LuaExpect(L, "addDialog", 6))
+    {
         return -1;
+    }
 
     // Params
     s32 width = (s32)GTU::UnitToScreenX((f32)lua_tonumber(L, 1));
@@ -2455,7 +2583,9 @@ s32 ScriptModule::_addDialog(lua_State* L)
 s32 ScriptModule::_runDialog(lua_State* L)
 {
     if (!LuaExpect(L, "runDialog", 1))
+    {
         return -1;
+    }
 
     Dialog* pDialog = (Dialog*)lua_touserdata(L, 1);
     if (!pDialog)
@@ -2471,7 +2601,9 @@ s32 ScriptModule::_runDialog(lua_State* L)
 s32 ScriptModule::_attachDialog(lua_State* L)
 {
     if (!LuaExpect(L, "attachDialog", 2))
+    {
         return -1;
+    }
 
     Dialog* pDialog = (Dialog*)lua_touserdata(L, 1);
     if (!pDialog)
@@ -2487,7 +2619,9 @@ s32 ScriptModule::_attachDialog(lua_State* L)
 s32 ScriptModule::_setDialogTime(lua_State* L)
 {
     if (!LuaExpect(L, "setDialogTime", 2))
+    {
         return -1;
+    }
 
     Dialog* pDialog = (Dialog*)lua_touserdata(L, 1);
     if (!pDialog)
@@ -2503,7 +2637,9 @@ s32 ScriptModule::_setDialogTime(lua_State* L)
 s32 ScriptModule::_setDialogText(lua_State* L)
 {
     if (!LuaExpect(L, "setDialogText", 2))
+    {
         return -1;
+    }
 
     Dialog* pDialog = (Dialog*)lua_touserdata(L, 1);
     if (!pDialog)

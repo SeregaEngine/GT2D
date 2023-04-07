@@ -1,38 +1,57 @@
-/* TODO
- * - Sin/CosLook(f32 angle) fast version
- */
+#pragma once
 
-#ifndef GTMATH_H_
-#define GTMATH_H_
-
-/* ====== INCLUDES ====== */
-#include <string.h> // memcpy/memset()
-#include <math.h>
-
+#include <cstring>
+#include <cmath>
 #include "Types.h"
 
-/* ====== DEFINES ====== */
 #ifndef __forceinline
 #define __forceinline inline
 #endif
 
-#define PI       3.141592654f
-#define PI2      6.283185307f
-#define PI_DIV_2 1.570796327f
-#define PI_DIV_4 0.785398163f
-#define PI_INV   0.318309886f
+static constexpr f32 PI       = 3.141592654f;
+static constexpr f32 PI2      = 6.283185307f;
+static constexpr f32 PI_DIV_2 = 1.570796327f;
+static constexpr f32 PI_DIV_4 = 0.785398163f;
+static constexpr f32 PI_INV   = 0.318309886f;
 
-#define DEG_TO_RAD(DEG) ((DEG) * PI/180)
-#define RAD_TO_DEG(RAD) ((RAD) * 180/PI)
+static constexpr f32 DEG_TO_RAD_MUL = PI / 180.0f;
+__forceinline static constexpr f32 DEG_TO_RAD(f32 deg) noexcept
+{
+    return deg * DEG_TO_RAD_MUL;
+}
 
-#define MAX(A, B) ((A) > (B) ? (A) : (B))
-#define MIN(A, B) ((A) < (B) ? (A) : (B))
-#define SWAP(A, B, T) { T = A; A = B; B = T; }
-#define RAND_RANGE(MIN, MAX) ( (MIN) + ( rand() % ((MAX) - (MIN) + 1)) )
+static constexpr f32 RAD_TO_DEG_MUL = 180.0f / PI;
+__forceinline static constexpr f32 RAD_TO_DEG(f32 rad) noexcept
+{
+    return rad * RAD_TO_DEG_MUL;
+}
 
-/* ====== STRUCTURES ====== */
+template<typename T>
+__forceinline static constexpr T MAX(T a, T b) noexcept
+{
+    return a > b ? a : b;
+}
 
-/* === Vector === */
+template<typename T>
+__forceinline static constexpr T MIN(T a, T b) noexcept
+{
+    return (a) < (b) ? (a) : (b);
+}
+
+template<typename T>
+__forceinline static constexpr void SWAP(T a, T b, T t) noexcept
+{
+    t = a;
+    a = b;
+    b = t;
+}
+
+template<typename T>
+__forceinline static constexpr T RAND_RANGE(T min, T max) noexcept
+{
+    return min + (rand() % (max - min + 1));
+}
+
 struct Vector2
 {
     union
@@ -49,7 +68,7 @@ struct Vector2
     Vector2(const Vector2& v) : x(v.x), y(v.y) {}
     ~Vector2() = default;
 
-    __forceinline Vector2 operator=(const Vector2& v) { x = v.x; y = v.y; return *this; }
+    __forceinline Vector2 operator=(const Vector2& v)  { x = v.x; y = v.y; return *this; }
     __forceinline Vector2 operator+=(const Vector2& v) { x += v.x; y += v.y; return *this; }
     __forceinline Vector2 operator-=(const Vector2& v) { x -= v.x; y -= v.y; return *this; }
 
@@ -61,10 +80,16 @@ struct Vector2
     __forceinline void Zero() { x = 0.0f; y = 0.0f; }
     __forceinline void Init(f32 _x, f32 _y) { x = _x; y = _y; }
     __forceinline f32 Length() const { return sqrtf(x*x + y*y); }
-    __forceinline Vector2 Normalize() { f32 len = Length(); x /= len; y /= len; return *this; }
+
+    __forceinline Vector2 Normalize()
+    {
+        f32 invLength = 1.0f / Length();
+        x *= invLength;
+        y *= invLength;
+        return *this;
+    }
 };
 
-/* === Polygon === */
 struct Poly2
 {
     Vector2* aVtx;
@@ -74,18 +99,22 @@ struct Poly2
     s32 color;
 };
 
-/* === Rectangle === */
 struct FRect
 {
     f32 x1, y1;
     f32 x2, y2;
 
     FRect() = default;
-    FRect(f32 _x1, f32 _y1, f32 _x2, f32 _y2)
-        : x1(_x1), y1(_y1), x2(_x2), y2(_y2) {}
+    FRect(f32 _x1, f32 _y1, f32 _x2, f32 _y2) :
+        x1(_x1), y1(_y1), x2(_x2), y2(_y2) {}
 
-    FRect operator=(const FRect& rect) {
-        x1 = rect.x1; y1 = rect.y1; x2 = rect.x2; y2 = rect.y2; return *this;
+    __forceinline FRect operator=(const FRect& rect)
+    {
+        x1 = rect.x1;
+        y1 = rect.y1;
+        x2 = rect.x2;
+        y2 = rect.y2;
+        return *this;
     }
 };
 
@@ -94,34 +123,36 @@ struct SRect
     s32 x1, y1;
     s32 x2, y2;
 
-    SRect()
-        : x1(0), y1(0), x2(0), y2(0) {}
-    SRect(s32 _x1, s32 _y1, s32 _x2, s32 _y2)
-        : x1(_x1), y1(_y1), x2(_x2), y2(_y2) {}
-    SRect operator=(const SRect& rect) {
-        x1 = rect.x1; y1 = rect.y1; x2 = rect.x2; y2 = rect.y2; return *this;
+    SRect() :
+        x1(0), y1(0), x2(0), y2(0) {}
+    SRect(s32 _x1, s32 _y1, s32 _x2, s32 _y2) :
+        x1(_x1), y1(_y1), x2(_x2), y2(_y2) {}
+
+    __forceinline SRect operator=(const SRect& rect)
+    {
+        x1 = rect.x1;
+        y1 = rect.y1;
+        x2 = rect.x2;
+        y2 = rect.y2;
+        return *this;
     }
 };
 
-/* ====== LIBRARY NAMESPACE ====== */
 namespace GTM
 {
-    /* === Variables === */
+    /** Variables */
     inline f32 g_sinLook[361];
     inline f32 g_cosLook[361];
 
-    /* === Functions === */
+    /** Functions */
     extern b32 StartUp();
-    extern void ShutDown();
+    static void ShutDown() {}
 
-    // Fast distance functions returns distance between zero point and xy/xyz point
+    /** @DEPRECATED */
     extern s32 FastDist2(s32 x, s32 y);
 
-    /* Polygon */
     extern void TranslatePoly2(Poly2* poly, f32 dx, f32 dy);
     extern void RotatePoly2(Poly2* poly, s32 angle);
     extern void ScalePoly2(Poly2* poly, f32 scaleX, f32 scaleY);
     extern b32 FindBoxPoly2(const Poly2* poly, f32& minX, f32& minY, f32& maxX, f32& maxY);
 };
-
-#endif // GTMATH_H_
