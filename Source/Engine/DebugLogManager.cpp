@@ -103,17 +103,17 @@ void DebugLogManager::StartUp()
     // Open all log files
     std::filesystem::create_directory(DIR_LOGS);
 
-    hLogFull = fopen(FILENAME_LOGFULL, "w");
+    hLogFull = std::fopen(FILENAME_LOGFULL, "w");
     ShipAssert(hLogFull);
 
-    if ( nullptr == (hLogMgr = fopen(FILENAME_DEBUGLOGMANAGER, "w")) )  AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
-    if ( nullptr == (hGT2D = fopen(FILENAME_GT2D, "w")) )               AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
-    if ( nullptr == (hGraphics = fopen(FILENAME_GRAPHICSMODULE, "w")) ) AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
-    if ( nullptr == (hInput = fopen(FILENAME_INPUTMODULE, "w")) )       AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
-    if ( nullptr == (hSound = fopen(FILENAME_SOUNDMODULE, "w")) )       AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
-    if ( nullptr == (hAnim = fopen(FILENAME_ANIMATIONMODULE, "w")) )    AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
-    if ( nullptr == (hScript = fopen(FILENAME_SCRIPTMODULE, "w")) )     AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
-    if ( nullptr == (hGame = fopen(FILENAME_GAME, "w")) )               AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
+    if ( nullptr == (hLogMgr = std::fopen(FILENAME_DEBUGLOGMANAGER, "w")) )  AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
+    if ( nullptr == (hGT2D = std::fopen(FILENAME_GT2D, "w")) )               AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
+    if ( nullptr == (hGraphics = std::fopen(FILENAME_GRAPHICSMODULE, "w")) ) AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
+    if ( nullptr == (hInput = std::fopen(FILENAME_INPUTMODULE, "w")) )       AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
+    if ( nullptr == (hSound = std::fopen(FILENAME_SOUNDMODULE, "w")) )       AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
+    if ( nullptr == (hAnim = std::fopen(FILENAME_ANIMATIONMODULE, "w")) )    AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
+    if ( nullptr == (hScript = std::fopen(FILENAME_SCRIPTMODULE, "w")) )     AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
+    if ( nullptr == (hGame = std::fopen(FILENAME_GAME, "w")) )               AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
 
     AddNote(CHANNEL_LOGMGR, PR_NOTE, "DebugLogManager", "Manager started");
 }
@@ -123,15 +123,15 @@ void DebugLogManager::ShutDown()
     AddNote(CHANNEL_LOGMGR, PR_NOTE, "DebugLogManager", "Manager shut down");
 
     // Close log files
-    fclose(hLogFull);
-    fclose(hLogMgr);
-    fclose(hGT2D);
-    fclose(hGraphics);
-    fclose(hInput);
-    fclose(hSound);
-    fclose(hAnim);
-    fclose(hScript);
-    fclose(hGame);
+    std::fclose(hLogFull);
+    std::fclose(hLogMgr);
+    std::fclose(hGT2D);
+    std::fclose(hGraphics);
+    std::fclose(hInput);
+    std::fclose(hSound);
+    std::fclose(hAnim);
+    std::fclose(hScript);
+    std::fclose(hGame);
 
     // Detach consoles
     g_console.ShutDown();
@@ -142,7 +142,7 @@ void DebugLogManager::ShutDown()
 
 void DebugLogManager::VAddNote(s32 channel, s32 priority, const char* name, const char* fmt, std::va_list vl)
 {
-    FILE* hFile;
+    std::FILE* hFile;
     const char* priorityName = "";
     WORD noteColor = 0;
 
@@ -234,15 +234,15 @@ void DebugLogManager::VAddNote(s32 channel, s32 priority, const char* name, cons
 
     // Get note prefix
     char notePrefix[NOTE_PREFIX_BUFSIZE];
-    snprintf(notePrefix, NOTE_PREFIX_BUFSIZE, "<%s> %s", name, priorityName);
+    std::snprintf(notePrefix, NOTE_PREFIX_BUFSIZE, "<%s> %s", name, priorityName);
 
     // Get note message
     char noteMessage[NOTE_MESSAGE_BUFSIZE];
-    vsnprintf(noteMessage, NOTE_MESSAGE_BUFSIZE, fmt, vl);
+    std::vsnprintf(noteMessage, NOTE_MESSAGE_BUFSIZE, fmt, vl);
 
     // Get final note
     char noteFinal[NOTE_FINAL_BUFSIZE];
-    snprintf(noteFinal, NOTE_FINAL_BUFSIZE, "%s: %s\n", notePrefix, noteMessage);
+    std::snprintf(noteFinal, NOTE_FINAL_BUFSIZE, "%s: %s\n", notePrefix, noteMessage);
     size_t noteLength = std::strlen(noteFinal);
 
     // Output
@@ -258,8 +258,8 @@ void DebugLogManager::VAddNote(s32 channel, s32 priority, const char* name, cons
     }
 
     // Flush stuff
-    fflush(hLogFull);
-    fflush(hFile);
+    std::fflush(hLogFull);
+    std::fflush(hFile);
 }
 
 void DebugLogManager::AddNote(s32 channel, s32 priority, const char* name, const char* fmt, ...)

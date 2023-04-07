@@ -29,16 +29,16 @@ enum eDebugLogPriority
 class DebugLogManager
 {
     HANDLE hConsole;
-    FILE* hLogFull;
+    std::FILE* hLogFull;
 
-    FILE* hLogMgr;
-    FILE* hGT2D;
-    FILE* hGraphics;
-    FILE* hInput;
-    FILE* hSound;
-    FILE* hAnim;
-    FILE* hScript;
-    FILE* hGame;
+    std::FILE* hLogMgr;
+    std::FILE* hGT2D;
+    std::FILE* hGraphics;
+    std::FILE* hInput;
+    std::FILE* hSound;
+    std::FILE* hAnim;
+    std::FILE* hScript;
+    std::FILE* hGame;
 
 public:
     void StartUp();
