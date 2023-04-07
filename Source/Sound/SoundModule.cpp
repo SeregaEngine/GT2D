@@ -1,37 +1,24 @@
-/* ====== TODO ======
- * - Loop sounds
- * - Fade out music
- */
-
-/* ====== INCLUDES ====== */
 #include "GTSound.h"
-
 #include "SoundModule.h"
 
-/* ====== DEFINES ====== */
-#define MAX_SOUNDS 256
-#define MAX_MUSICS 256
+static constexpr i32f MAX_SOUNDS = 256;
+static constexpr i32f MAX_MUSICS = 256;
 
-/* ====== STRUCTURES ====== */
 struct GT_Music
 {
     Mix_Music* pMusic;
 };
 
-/* ====== METHODS ====== */
 b32 SoundModule::StartUp()
 {
     // Init sounds
     m_aSounds = new GT_Sound[MAX_SOUNDS];
-    for (i32f i = 0; i < MAX_SOUNDS; ++i)
-        m_aSounds[i].pSound = nullptr;
+    memset(m_aSounds, 0, MAX_SOUNDS * sizeof(GT_Sound));
 
     m_aMusics = new GT_Music[MAX_MUSICS];
-    for (i32f i = 0; i < MAX_MUSICS; ++i)
-        m_aMusics[i].pMusic = nullptr;
+    memset(m_aMusics, 0, MAX_MUSICS * sizeof(GT_Music));
 
     AddNote(PR_NOTE, "Module started");
-
     return true;
 }
 
@@ -139,7 +126,8 @@ b32 SoundModule::PlayMusic(GT_Music* pMusic)
 {
     if (pMusic)
     {
-        Mix_PlayMusic(pMusic->pMusic, 65535); // Play 65535 times
+        // @NOTE: 65535 it's like infinite loop, i don't think it's possible to reach this limit...
+        Mix_PlayMusic(pMusic->pMusic, 65535);
         return true;
     }
     else

@@ -1,15 +1,7 @@
-/* TODO
- * - Remake with doubly linked list
- * - RemoveIf() that delete everything with given function
- */
+#pragma once
 
-#ifndef LIST_H_
-#define LIST_H_
-
-/* ====== INCLUDES ====== */
 #include "Types.h"
 
-/* ====== STRUCTURES ====== */
 template<class T>
 class TList
 {
@@ -21,7 +13,6 @@ private:
 
         Item() : data(), pNext(nullptr) {}
         Item(T& _data, Item* _pNext) : data(_data), pNext(_pNext) {}
-        ~Item() {}
     };
 
 public:
@@ -67,20 +58,20 @@ public:
     b32 IsEmpty() const { return m_pFirst ? false : true; }
     b32 IsMember(const T& check) const;
 
-    void Mapcar(void (*fun)(T, void*), void* userdata); // It's just iterator, not mapcar at all...
+    void Mapcar(void (*fun)(T, void*), void* userdata); // @TODO: -> Foreach
     void Mapcar(void (*fun)(T));
 
     Iterator Begin() { return m_pFirst; }
     Iterator End() { return nullptr; }
     const Iterator CBegin() const { return m_pFirst; }
     const Iterator CEnd() const { return nullptr; }
+
 private:
     // No copy, no assignment. Use references instead
     TList(TList<T>& lst) = delete;
     void operator=(TList<T>& lst) = delete;
 };
 
-/* ====== METHODS ====== */
 template<class T>
 inline void TList<T>::Move(TList<T>& lstDest, TList<T>& lstSrc)
 {
@@ -98,7 +89,9 @@ inline void TList<T>::Push(T data)
     Item* pTemp = new Item(data, m_pFirst);
     m_pFirst = pTemp;
     if (!m_pLast)
+    {
         m_pLast = m_pFirst;
+    }
 }
 
 template<class T>
@@ -106,11 +99,15 @@ inline void TList<T>::PushBack(T data)
 {
     Item* pTemp = new Item(data, nullptr);
     if (m_pLast)
+    {
         m_pLast->pNext = pTemp;
+    }
     m_pLast = pTemp;
 
     if (!m_pFirst)
+    {
         m_pFirst = m_pLast;
+    }
 }
 
 template<class T>
@@ -144,7 +141,9 @@ template<class T>
 inline void TList<T>::Pop()
 {
     if (!m_pFirst)
+    {
         return;
+    }
 
     if (m_pLast == m_pFirst)
     {
@@ -163,7 +162,9 @@ template<class T>
 inline void TList<T>::PopBack()
 {
     if (!m_pFirst)
+    {
         return;
+    }
 
     if (m_pFirst == m_pLast)
     {
@@ -224,23 +225,29 @@ template<class T>
 inline void TList<T>::Mapcar(void (*fun)(T, void*), void* userdata)
 {
     for (Item* pTemp = m_pFirst; pTemp; pTemp = pTemp->pNext)
+    {
         fun(pTemp->data, userdata);
+    }
 }
 
 template<class T>
 inline void TList<T>::Mapcar(void (*fun)(T))
 {
     for (Item* pTemp = m_pFirst; pTemp; pTemp = pTemp->pNext)
+    {
         fun(pTemp->data);
+    }
 }
 
 template<class T>
 inline b32 TList<T>::IsMember(const T& check) const
 {
     for (Item* pTemp = m_pFirst; pTemp; pTemp = pTemp->pNext)
+    {
         if (pTemp->data == check)
+        {
             return true;
+        }
+    }
     return false;
 }
-
-#endif // LIST_H_
