@@ -1,16 +1,15 @@
-#ifndef CAR_H_
-#define CAR_H_
+#pragma once
 
-/* ====== INCLUDES ====== */
 #include "Actor.h"
 
-/* ====== DEFINES ====== */
-#define MAX_CAR_PLACES 4
-
-/* ====== STRUCTURES ====== */
 class Car final : public Entity
 {
+private:
+    static constexpr i32f MAX_CAR_PLACES = 4;
+
+private:
     Actor* m_aPlaces[MAX_CAR_PLACES];
+
 public:
     Vector2 m_aPlacePositions[MAX_CAR_PLACES];
 
@@ -23,6 +22,7 @@ public:
 
     void PutActor(Actor* pActor, s32 place);
     void EjectActor(s32 place);
+
 private:
     void HandleVelocity(f32 dtTime);
     void HandlePosition(f32 dtTime) { m_vPosition += m_vVelocity * dtTime; }
@@ -31,5 +31,3 @@ private:
 
     void HandleActor(s32 place);
 };
-
-#endif // CAR_H_

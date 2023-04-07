@@ -1,33 +1,11 @@
-/* ====== INCLUDES ====== */
 #include "Game.h"
 #include "InputModule.h"
 #include "CollisionManager.h"
 #include "DamageManager.h"
 #include "GTUnit.h"
 #include "Weapon.h"
-
 #include "Actor.h"
 
-/* ====== DEFINES ====== */
-#define ACTOR_DEFAULT_HEALTH 100.0f
-
-#define ACTOR_DEFAULT_UNIT_SPEED_X 0.035f
-#define ACTOR_DEFAULT_UNIT_SPEED_Y 0.01f
-
-#define ACTOR_DEFAULT_ATTACK_RATE (1000.0f / 6.0f)
-
-/* ====== VARIABLES ====== */
-static const GT_Animation s_aActorAnims[] =
-{
-    { 0, 2, 1000.0f / 1.0f },
-    { 1, 5, 1000.0f / 12.5f },
-    { 2, 3, 1000.0f / 6.0f },
-    { 3, 3, 1000.0f / 6.0f },
-    { 0, 2, 1000.0f / 1.0f },
-    { 0, 2, 1000.0f / 1.0f },
-};
-
-/* ====== METHODS ====== */
 void Actor::Init(const Vector2& vPosition, s32 width, s32 height, const GT_Texture* pTexture)
 {
     Entity::Init(vPosition, width, height, pTexture);
@@ -53,7 +31,15 @@ void Actor::Init(const Vector2& vPosition, s32 width, s32 height, const GT_Textu
 
     // Init default actor animations
     for (i32f i = 0; i < MAX_ACTOR_ANIMATIONS; ++i)
-        m_aActorAnims[i] = &s_aActorAnims[i];
+    {
+        m_aActorAnims[i] = &DEFAULT_ACTOR_ANIMS[i];
+    }
+}
+
+void Actor::Clean()
+{
+    Entity::Clean();
+    RemoveTasks();
 }
 
 void Actor::Update(f32 dtTime)
@@ -75,45 +61,77 @@ void Actor::Update(f32 dtTime)
     HandleAnimation(dtTime);
 }
 
+void Actor::AddHealth(f32 diff)
+{
+    if (!m_bGodMode)
+    {
+        m_health += diff;
+    }
+}
+
+void Actor::PushTask(GT_Task* pTask)
+{
+    if (pTask)
+    {
+        m_lstTask.Push(pTask);
+    }
+}
+
+void Actor::RemoveTasks()
+{
+    m_lstTask.Mapcar([] (auto pTask) { delete pTask; });
+    m_lstTask.Clean();
+}
+
 b32 Actor::HandleDeath()
 {
-    if (m_health <= 0)
+    if (m_health > 0)
     {
-        // If we already handled our death
-        if (m_actorState == ACTOR_STATE_DEAD)
-            return true;
+        return false;
+    }
 
-        // Play sound, init animation
-        if (m_pDeathSound)
-            g_soundModule.PlaySound(m_pDeathSound);
-        m_animFrame = 0;
-        m_animElapsed = 0.0f;
-
-        // Set state
-        m_actorState = ACTOR_STATE_DEAD;
-
+    // If we already handled our death
+    if (m_actorState == ACTOR_STATE_DEAD)
+    {
         return true;
     }
-    return false;
+
+    // Play sound
+    if (m_pDeathSound)
+    {
+        g_soundModule.PlaySound(m_pDeathSound);
+    }
+
+    // Init animation
+    m_animFrame = 0;
+    m_animElapsed = 0.0f;
+
+    // Set state
+    m_actorState = ACTOR_STATE_DEAD;
+
+    return true;
 }
 
 void Actor::HandleActorState(f32 dtTime)
 {
     switch (m_actorState)
     {
-
     case ACTOR_STATE_MOVE:
     {
         // Idle if we don't move
         if (!m_vVelocity.x && !m_vVelocity.y)
+        {
             m_actorState = ACTOR_STATE_IDLE;
+        }
     } break;
 
     case ACTOR_STATE_ATTACK:
     {
         // Idle if we don't attack too long
         if (m_animElapsed >= m_pAnim->frameDuration)
+        {
             m_actorState = ACTOR_STATE_IDLE;
+        }
     } break;
 
     case ACTOR_STATE_ANIMATE_ONCE:
@@ -121,11 +139,12 @@ void Actor::HandleActorState(f32 dtTime)
         // If we ended
         if (!m_pAnim || (m_animFrame >= m_pAnim->count - 1 &&
                          m_animElapsed + dtTime >= m_pAnim->frameDuration))
+        {
             m_actorState = ACTOR_STATE_AFTER_ANIMATION;
+        }
     } break;
 
     default: {} break;
-
     }
 }
 
@@ -134,7 +153,9 @@ void Actor::HandleAITasks()
     auto it = m_lstTask.Begin();
     auto end = m_lstTask.End();
     if (it == end)
+    {
         return;
+    }
 
     // Handle first task, don't delete it
     it->data->Handle();
@@ -168,17 +189,15 @@ void Actor::HandleAICommand(f32 dtTime)
         s32 cmd = m_lstCommand.Front();
         switch (cmd)
         {
-        case GTC_IDLE: CommandIdle(); break;
-
-        case GTC_TURN_LEFT: CommandTurnLeft(); break;
+        case GTC_IDLE:       CommandIdle(); break;
+        case GTC_TURN_LEFT:  CommandTurnLeft(); break;
         case GTC_TURN_RIGHT: CommandTurnRight(); break;
+        case GTC_ATTACK:     CommandAttack(); break;
 
         case GTC_MOVE_UP:
         case GTC_MOVE_LEFT:
         case GTC_MOVE_DOWN:
         case GTC_MOVE_RIGHT: CommandMove(cmd, dtTime); break;
-
-        case GTC_ATTACK: CommandAttack(); break;
 
         default: break;
         }
@@ -203,6 +222,7 @@ void Actor::HandleAICommand(f32 dtTime)
             }
         }
     }
+
     m_vPosition = vNewPosition;
 }
 
@@ -219,12 +239,14 @@ void Actor::CommandMove(s32 cmd, f32 dtTime)
     }
 
     if (m_actorState == ACTOR_STATE_IDLE || m_actorState == ACTOR_STATE_AFTER_ANIMATION)
+    {
         m_actorState = ACTOR_STATE_MOVE;
+    }
 }
 
 void Actor::CommandAttack()
 {
-    /* We use animations to detect on which state of attack we are */
+    // NOTE: We use animations to detect on which state of attack we are
 
     b32 bHit = false;
 
@@ -236,7 +258,9 @@ void Actor::CommandAttack()
             m_animElapsed = 0.0f;
             ++m_animFrame;
             if (m_animFrame >= m_pAnim->count)
+            {
                 m_animFrame = 0;
+            }
 
             bHit = true;
         }
@@ -263,7 +287,9 @@ void Actor::HandleAnimation(f32 dtTime)
 {
     // Check if default animations aren't initialized
     if (!m_aActorAnims[ACTOR_ANIMATION_IDLE])
+    {
         return;
+    }
 
     // Set default animation if we don't have
     if (!m_pAnim)
@@ -272,7 +298,9 @@ void Actor::HandleAnimation(f32 dtTime)
         m_animFrame = 0;
         m_animElapsed = 0.0f;
         if (!m_bLookRight)
+        {
             m_flip = SDL_FLIP_HORIZONTAL;
+        }
         return;
     }
 
@@ -281,14 +309,24 @@ void Actor::HandleAnimation(f32 dtTime)
 
     switch (m_actorState)
     {
-    case ACTOR_STATE_IDLE: AnimateIdle(); break;
+    case ACTOR_STATE_IDLE:            AnimateIdle(); break;
     case ACTOR_STATE_AFTER_ANIMATION: AnimateAfterAnimation(); return;
-    case ACTOR_STATE_MOVE: AnimateMove(); break;
-    case ACTOR_STATE_ATTACK: AnimateAttack(); return;
-    case ACTOR_STATE_DEAD: if (AnimateDead()) return; else break;
-    case ACTOR_STATE_INCAR: AnimateInCar(); break;
+    case ACTOR_STATE_MOVE:            AnimateMove(); break;
+    case ACTOR_STATE_ATTACK:          AnimateAttack(); return;
+    case ACTOR_STATE_INCAR:           AnimateInCar(); break;
 
-    default: m_flip = m_bLookRight ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL; break;
+    case ACTOR_STATE_DEAD:
+    {
+        if (AnimateDead())
+        {
+            return;
+        }
+    } break;
+
+    default:
+    {
+        m_flip = m_bLookRight ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL;
+    } break;
     }
 
     // Update frame
@@ -300,7 +338,9 @@ void Actor::HandleAnimation(f32 dtTime)
 
     // Loop animation and reset new animations with smaller count
     if (m_animFrame >= m_pAnim->count)
+    {
         m_animFrame = 0;
+    }
 }
 
 void Actor::AnimateIdle()
@@ -369,9 +409,7 @@ b32 Actor::AnimateDead()
     m_pAnim = m_aActorAnims[ACTOR_ANIMATION_DEAD];
 
     // Check if we done
-    if (m_animFrame == m_pAnim->count - 1)
-        return true;
-    return false;
+    return m_animFrame == m_pAnim->count - 1;
 }
 
 void Actor::AnimateInCar()

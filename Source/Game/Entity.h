@@ -1,16 +1,8 @@
-/* TODO
- * - Make :1 flags from b32
- * - Delete useless functions for public class members
- */
+#pragma once
 
-#ifndef ENTITY_H_
-#define ENTITY_H_
-
-/* ====== INCLUDES ====== */
 #include "GraphicsModule.h"
 #include "AnimationModule.h"
 
-/* ====== DEFINES ====== */
 enum eEntityType
 {
     ENTITY_TYPE_ENTITY = 0,
@@ -20,11 +12,11 @@ enum eEntityType
     ENTITY_TYPE_DIALOG,
 };
 
-/* ====== STRUCTURES ====== */
 class Entity
 {
 protected:
     s32 m_type;
+
 public:
     Vector2 m_vPosition;
     Vector2 m_vVelocity;
@@ -35,8 +27,7 @@ public:
     f32 m_angle;
     SDL_RendererFlip m_flip;
 
-    FRect m_hitBox; // Relative to entity position
-    b32 m_bCollidable;
+    FRect m_hitBox; /** Relative to entity position */
 
     s32 m_animFrame;
     f32 m_animElapsed;
@@ -44,10 +35,13 @@ public:
 
     s32 m_renderMode;
     s32 m_zIndex;
-    b32 m_bHUD;
     const GT_Texture* m_pTexture;
+
+    b32 m_bCollidable : 1;
+    b32 m_bHUD : 1;
+
 public:
-    virtual ~Entity() {}
+    virtual ~Entity() = default;
 
     virtual void Init(const Vector2& vPosition, s32 width, s32 height, const GT_Texture* pTexture);
     virtual void Clean() {}
@@ -57,5 +51,3 @@ public:
 
     s32 GetType() const { return m_type; }
 };
-
-#endif // ENTITY_H_

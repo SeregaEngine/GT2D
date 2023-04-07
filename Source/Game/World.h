@@ -1,14 +1,9 @@
-#ifndef WORLD_H_
-#define WORLD_H_
+#pragma once
 
-/* ====== INCLUDES ====== */
 #include "EngineModule.h"
 #include "Entity.h"
 #include "TList.h"
 
-/* ====== DEFINES ====== */
-
-/* ====== STRUCTURES ====== */
 class Weapon;
 
 class World final : EngineModule
@@ -32,14 +27,15 @@ public:
     void SwitchLocation(s32 location) { m_switchLocation = location; }
     void SetGroundBounds(SRect& rect) { m_groundBounds = rect; }
 
-    void PushEntity(Entity* pEntity) { if (pEntity) m_lstEntity.Push(pEntity); }
-    void RemoveEntity(Entity* pEntity) { if (pEntity) m_lstRemove.Push(pEntity); }
-    void PushWeapon(Weapon* pWeapon) { if (pWeapon) m_lstWeapon.Push(pWeapon); }
+    void PushEntity(Entity* pEntity);
+    void RemoveEntity(Entity* pEntity);
+    void PushWeapon(Weapon* pWeapon);
 
     const SRect& GetGroundBounds() const { return m_groundBounds; }
     TList<Entity*>& GetEntityList() { return m_lstEntity; }
 
     b32 HasEntity(Entity* pEntity) { return pEntity ? m_lstEntity.IsMember(pEntity) : false; }
+
 private:
     void HandleSwitchLocation();
     void UpdateEntities(f32 dtTime);
@@ -49,4 +45,27 @@ private:
     void CleanWeapons();
 };
 
-#endif // WORLD_H_
+inline void World::PushEntity(Entity* pEntity)
+{
+    if (pEntity)
+    {
+        m_lstEntity.Push(pEntity);
+    }
+}
+
+inline void World::RemoveEntity(Entity* pEntity)
+{
+    if (pEntity)
+    {
+        m_lstRemove.Push(pEntity);
+    }
+}
+
+inline void World::PushWeapon(Weapon* pWeapon)
+{
+    if (pWeapon)
+    {
+        m_lstWeapon.Push(pWeapon);
+    }
+}
+

@@ -1,10 +1,7 @@
-/* ====== INCLUDES ====== */
 #include "GraphicsModule.h"
 #include "GTUnit.h"
-
 #include "Entity.h"
 
-/* ====== METHODS ====== */
 void Entity::Init(const Vector2& vPosition, s32 width, s32 height, const GT_Texture* pTexture)
 {
     m_type = ENTITY_TYPE_ENTITY;
@@ -41,8 +38,12 @@ void Entity::Draw()
     };
 
     if (m_pAnim)
+    {
         g_graphicsModule.DrawFrame(m_renderMode, m_zIndex, m_bHUD, dstRect, m_pTexture, m_pAnim->row, m_animFrame, m_angle, m_flip);
+    }
     else
+    {
         g_graphicsModule.DrawFrame(m_renderMode, m_zIndex, m_bHUD, dstRect, m_pTexture, 0, m_animFrame, m_angle, m_flip);
+    }
 }
 

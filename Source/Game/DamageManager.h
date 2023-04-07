@@ -1,10 +1,7 @@
-#ifndef DAMAGEMANAGER_H_
-#define DAMAGEMANAGER_H_
+#pragma once
 
-/* ====== INCLUDES ====== */
 #include "EngineModule.h"
 
-/* ====== STRUCTURES ====== */
 class Actor;
 
 class DamageManager final : public EngineModule
@@ -19,5 +16,3 @@ public:
 };
 
 inline DamageManager g_damageMgr;
-
-#endif // DAMAGEMANAGER_H_

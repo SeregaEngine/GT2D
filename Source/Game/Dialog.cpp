@@ -1,17 +1,13 @@
-/* ====== INCLUDES ====== */
 #include "Game.h"
 #include "Actor.h"
 #include "GTUnit.h"
-
 #include "Dialog.h"
 
-/* ====== DEFINES ====== */
 #define DIALOG_TEXT_MARGIN_LEFT ((f32)m_width / 20.0f)
 #define DIALOG_TEXT_MARGIN_TOP  ((f32)m_height / 15.0f)
 #define DIALOG_LINE_WIDTH       ((f32)m_width - DIALOG_TEXT_MARGIN_LEFT * 2.0f)
 #define DIALOG_LINE_HEIGHT      (((f32)m_height - DIALOG_TEXT_MARGIN_TOP * 3.0f) / (f32)DIALOG_STRING_HEIGHT)
 
-/* ====== METHODS ====== */
 void Dialog::Init(const Vector2& vPosition, s32 width, s32 height, const GT_Texture* pTexture)
 {
     Entity::Init(vPosition, width, height, pTexture);
@@ -21,7 +17,6 @@ void Dialog::Init(const Vector2& vPosition, s32 width, s32 height, const GT_Text
     m_renderMode = RENDER_MODE_FOREGROUND;
     m_zIndex = 0;
 
-    // Defaults
     m_pAttached = nullptr;
     m_time = 0.0f;
     m_bRunning = false;
@@ -32,7 +27,9 @@ void Dialog::Update(f32 dtTime)
 {
     // Return if we're not running
     if (!m_bRunning)
+    {
         return;
+    }
 
     // Check time and attached entity
     if (m_time <= 0.0f || !g_game.GetWorld().HasEntity(m_pAttached))
@@ -49,7 +46,9 @@ void Dialog::Update(f32 dtTime)
 void Dialog::Draw()
 {
     if (!m_bRunning)
+    {
         return;
+    }
 
     // Update position
     HandlePosition();
@@ -76,9 +75,11 @@ void Dialog::Draw()
         m_text[tempIndex] = 0;
 
         // Draw this string line
-        g_graphicsModule.DrawText(m_renderMode, m_zIndex + 1, false,
-                                  dest, &m_text[tempIndex - DIALOG_STRING_WIDTH],
-                                  GraphicsModule::s_pGameFont);
+        g_graphicsModule.DrawText(
+            m_renderMode, m_zIndex + 1, false,
+              dest, &m_text[tempIndex - DIALOG_STRING_WIDTH],
+              GraphicsModule::s_pGameFont
+        );
 
         // Recover string
         m_text[tempIndex] = temp;
@@ -107,7 +108,9 @@ void Dialog::SetText(const char* text)
                 // Try get next word
                 text = NextWord(text);
                 if (!*text)
+                {
                     break;
+                }
                 
                 // If we need space between words
                 if (j > 0)

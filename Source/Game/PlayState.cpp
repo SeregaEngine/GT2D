@@ -1,23 +1,16 @@
-/* TODO
- */
-
-/* ====== INCLUDES ====== */
 #include "SoundModule.h"
 #include "ScriptModule.h"
 #include "Console.h"
-
 #include "PlayState.h"
 
-/* ====== METHODS ====== */
 b32 PlayState::OnEnter()
 {
     m_bEntered = true; // Mark that we been in OnEnter() once
 
     m_world.StartUp();
-    if (nullptr == (m_pScript = g_scriptModule.EnterMission(m_scriptPath, m_loadLocation)))
-        return false;
+    m_pScript = g_scriptModule.EnterMission(m_scriptPath, m_loadLocation);
 
-    return true;
+    return m_pScript != nullptr;
 }
 
 void PlayState::OnExit()
@@ -45,5 +38,7 @@ void PlayState::Render()
     g_scriptModule.RenderMission(m_pScript);
     m_world.Render();
     if (g_console.IsShown())
+    {
         g_console.Render();
+    }
 }

@@ -1,16 +1,12 @@
-/* ====== INCLUDES ====== */
 #include "Game.h"
-
 #include "Car.h"
 
-/* ====== METHODS ====== */
 void Car::Init(const Vector2& vPosition, s32 width, s32 height, const GT_Texture* pTexture)
 {
     Entity::Init(vPosition, width, height, pTexture);
     m_type = ENTITY_TYPE_CAR;
     m_renderMode = RENDER_MODE_FOREGROUND;
 
-    // Defaults
     for (i32f i = 0; i < MAX_CAR_PLACES; ++i)
     {
         m_aPlaces[i] = nullptr;
@@ -33,9 +29,13 @@ void Car::PutActor(Actor* pActor, s32 place)
 {
     // Check place and eject previous actor from it
     if (place < 0 || place >= 4)
+    {
         place = 0;
+    }
     if (m_aPlaces[place])
+    {
         EjectActor(place);
+    }
 
     // Place actor and set params
     m_aPlaces[place] = pActor;
@@ -67,7 +67,9 @@ void Car::HandleVelocity(f32 dtTime)
     {
         m_vVelocity.x = m_vMaxSpeed.x;
         if (m_vAcceleration.x < 0)
+        {
             m_vVelocity.x = -m_vVelocity.x;
+        }
     }
 
     // Y
@@ -75,14 +77,18 @@ void Car::HandleVelocity(f32 dtTime)
     {
         m_vVelocity.y = m_vMaxSpeed.y;
         if (m_vAcceleration.y < 0)
+        {
             m_vVelocity.y = -m_vVelocity.y;
+        }
     }
 }
 
 void Car::HandleAnimation(f32 dtTime)
 {
     if (!m_pAnim)
+    {
         return;
+    }
 
     // Update frames
     if (m_animElapsed >= m_pAnim->frameDuration)
@@ -91,7 +97,9 @@ void Car::HandleAnimation(f32 dtTime)
         ++m_animFrame;
 
         if (m_animFrame >= m_pAnim->count)
+        {
             m_animFrame = 0;
+        }
     }
 
     // Update timer
@@ -104,12 +112,18 @@ void Car::HandleActors()
     for (i32f i = 0; i < MAX_CAR_PLACES; ++i)
     {
         if (!m_aPlaces[i])
+        {
             continue;
+        }
 
         if (g_game.GetWorld().HasEntity(m_aPlaces[i]))
+        {
             HandleActor(i);
+        }
         else
+        {
             m_aPlaces[i] = nullptr;
+        }
     }
 }
 
@@ -123,9 +137,13 @@ void Car::HandleActor(s32 place)
 
     // zIndex
     if (m_flip == SDL_FLIP_NONE)
+    {
         m_aPlaces[place]->m_zIndex = m_zIndex-1 - (place % 2 == 0 ? 1 : 0);
+    }
     else
+    {
         m_aPlaces[place]->m_zIndex = m_zIndex-1 - (place % 2 == 0 ? 0 : 1);
+    }
 
     // Flip
     m_aPlaces[place]->m_flip = m_flip;

@@ -1,22 +1,17 @@
-/* ====== INCLUDES ====== */
 #include "GraphicsModule.h"
 #include "ScriptModule.h"
 #include "PlayState.h"
 #include "PauseState.h"
-
 #include "Game.h"
 
-/* ====== METHODS====== */
 b32 Game::StartUp()
 {
-    // Defaults
     m_bRunning = true;
 
     m_pCurrentState = nullptr;
     m_lstState.Push(new PlayState(MAIN_MENU_PATH, 0));
 
     AddNote(PR_NOTE, "Module started");
-
     return true;
 }
 
@@ -35,14 +30,18 @@ void Game::Update(f32 dtTime)
     RemoveStates();
     HandleNewState();
     if (m_pCurrentState)
+    {
         m_pCurrentState->Update(dtTime);
+    }
 }
 
 void Game::Render() const
 {
     g_graphicsModule.PrepareToRender();
     if (m_pCurrentState)
+    {
         m_pCurrentState->Render();
+    }
     g_graphicsModule.Render();
 }
 
@@ -86,7 +85,11 @@ World& Game::GetWorld()
 {
     s32 id = m_pCurrentState->GetID();
     if (id == GAME_STATE_PLAY)
+    {
         return static_cast<PlayState*>(m_pCurrentState)->GetWorld();
+    }
     else
+    {
         return static_cast<PauseState*>(m_pCurrentState)->GetWorld();
+    }
 }

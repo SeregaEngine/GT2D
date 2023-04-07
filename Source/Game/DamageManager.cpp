@@ -1,15 +1,11 @@
-/* ====== INCLUDES ====== */
 #include "Actor.h"
 #include "Weapon.h"
 #include "CollisionManager.h"
-
 #include "DamageManager.h"
 
-/* ====== METHODS ====== */
 b32 DamageManager::StartUp()
 {
     AddNote(PR_NOTE, "Manager started");
-
     return true;
 }
 
@@ -29,16 +25,26 @@ void DamageManager::HandleAttack(const Actor* pAttacker)
 
     // Get collided actors with this hit
     TList<Entity*> lstActor;
-    g_collisionMgr.CheckCollision(vPoint, pWeapon->GetHitBox(), [](auto pEntity, auto pActor) -> b32 {
-        if (pEntity->GetType() == ENTITY_TYPE_ACTOR &&
-            (static_cast<Actor*>(pActor)->m_actorTeam == ACTOR_TEAM_DEFAULT ||
-             static_cast<Actor*>(pActor)->m_actorTeam != static_cast<Actor*>(pEntity)->m_actorTeam))
-            return true;
-        return false;
-    }, (void*)pAttacker, lstActor, pAttacker);
+    g_collisionMgr.CheckCollision(
+        vPoint,
+        pWeapon->GetHitBox(),
+        [] (auto pEntity, auto pAttackerUserdata) -> b32
+        {
+            Actor* pActor = (Actor*)pEntity;
+            Actor* pAttacker = (Actor*)pAttackerUserdata;
+            return
+                pEntity->GetType() == ENTITY_TYPE_ACTOR &&
+                (pActor->m_actorTeam == ACTOR_TEAM_DEFAULT || pActor->m_actorTeam != pAttacker->m_actorTeam);
+        },
+        (void*)pAttacker,
+        lstActor,
+        pAttacker
+    );
 
     // Remove health from collided actors
     auto end = lstActor.End();
     for (auto it = lstActor.Begin(); it != end; ++it)
+    {
         static_cast<Actor*>(it->data)->AddHealth(-pWeapon->GetDamage());
+    }
 }
