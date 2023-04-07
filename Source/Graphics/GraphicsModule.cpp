@@ -1,7 +1,6 @@
 #include <cstdio>
 #include "SDL_image.h"
 #include "Math/Math.h"
-#include "Graphics/Unit.h"
 #include "Graphics/RenderElement.h"
 #include "Graphics/Texture.h"
 #include "Graphics/GraphicsModule.h"
@@ -19,8 +18,12 @@ void GraphicsModule::StartUp(SDL_Window* pWindow, SDL_Renderer* pRenderer, s32 w
 
     m_camera.GetPosition(m_cameraX, m_cameraY);
 
-    // Set global unitX/Y
-    GTU::SetUnitXY(m_screenWidth / (f32)UNIT_SCREEN_WIDTH, m_screenHeight / (f32)UNIT_SCREEN_HEIGHT);
+    // Compute unit stuff
+    m_pixelsPerUnitX = m_screenWidth / (f32)UNIT_SCREEN_WIDTH;
+    m_invPixelsPerUnitX = 1.0f / m_pixelsPerUnitX;
+
+    m_pixelsPerUnitY = m_screenHeight / (f32)UNIT_SCREEN_HEIGHT;
+    m_invPixelsPerUnitY = 1.0f / m_pixelsPerUnitY;
 
     // SDL
     m_pWindow = pWindow;

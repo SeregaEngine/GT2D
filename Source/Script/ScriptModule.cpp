@@ -4,7 +4,6 @@ extern "C"
 #include "lauxlib.h"
 #include "lualib.h"
 }
-#include "Graphics/Unit.h"
 #include "Graphics/GraphicsModule.h"
 #include "Sound/SoundModule.h"
 #include "Input/InputModule.h"
@@ -719,10 +718,10 @@ s32 ScriptModule::_drawFrame(lua_State* L)
     }
 
     SDL_Rect dest = {
-        (s32)GTU::UnitToScreenX((f32)lua_tonumber(L, 4)),
-        (s32)GTU::UnitToScreenY((f32)lua_tonumber(L, 5)),
-        (s32)GTU::UnitToScreenX((f32)lua_tonumber(L, 6)),
-        (s32)GTU::UnitToScreenY((f32)lua_tonumber(L, 7))
+        (s32)g_graphicsModule.UnitsToPixelsX((f32)lua_tonumber(L, 4)),
+        (s32)g_graphicsModule.UnitsToPixelsY((f32)lua_tonumber(L, 5)),
+        (s32)g_graphicsModule.UnitsToPixelsX((f32)lua_tonumber(L, 6)),
+        (s32)g_graphicsModule.UnitsToPixelsY((f32)lua_tonumber(L, 7))
     };
 
     if (argsCount == 10)
@@ -748,10 +747,10 @@ s32 ScriptModule::_drawText(lua_State* L)
     s32 zIndex = (s32)lua_tointeger(L, 2);
     b32 bHUD = (b32)lua_toboolean(L, 3);
     SDL_Rect dest = {
-        (s32)GTU::UnitToScreenX((f32)lua_tonumber(L, 4)),
-        (s32)GTU::UnitToScreenY((f32)lua_tonumber(L, 5)),
-        (s32)GTU::UnitToScreenX((f32)lua_tonumber(L, 6)),
-        (s32)GTU::UnitToScreenY((f32)lua_tonumber(L, 7))
+        (s32)g_graphicsModule.UnitsToPixelsX((f32)lua_tonumber(L, 4)),
+        (s32)g_graphicsModule.UnitsToPixelsY((f32)lua_tonumber(L, 5)),
+        (s32)g_graphicsModule.UnitsToPixelsX((f32)lua_tonumber(L, 6)),
+        (s32)g_graphicsModule.UnitsToPixelsY((f32)lua_tonumber(L, 7))
     };
     const char* text = lua_tostring(L, 8);
 
@@ -767,10 +766,10 @@ s32 ScriptModule::_fillRect(lua_State* L)
     }
 
     SDL_Rect dest = {
-        (s32)GTU::UnitToScreenX((f32)lua_tonumber(L, 4)),
-        (s32)GTU::UnitToScreenY((f32)lua_tonumber(L, 5)),
-        (s32)GTU::UnitToScreenX((f32)lua_tonumber(L, 6)),
-        (s32)GTU::UnitToScreenY((f32)lua_tonumber(L, 7))
+        (s32)g_graphicsModule.UnitsToPixelsX((f32)lua_tonumber(L, 4)),
+        (s32)g_graphicsModule.UnitsToPixelsY((f32)lua_tonumber(L, 5)),
+        (s32)g_graphicsModule.UnitsToPixelsX((f32)lua_tonumber(L, 6)),
+        (s32)g_graphicsModule.UnitsToPixelsY((f32)lua_tonumber(L, 7))
     };
 
     g_graphicsModule.FillRect((s32)lua_tointeger(L, 1), (s32)lua_tointeger(L, 2), (s32)lua_toboolean(L, 3), dest);
@@ -785,10 +784,10 @@ s32 ScriptModule::_drawRect(lua_State* L)
     }
 
     SDL_Rect dest = {
-        (s32)GTU::UnitToScreenX((f32)lua_tonumber(L, 4)),
-        (s32)GTU::UnitToScreenY((f32)lua_tonumber(L, 5)),
-        (s32)GTU::UnitToScreenX((f32)lua_tonumber(L, 6)),
-        (s32)GTU::UnitToScreenY((f32)lua_tonumber(L, 7))
+        (s32)g_graphicsModule.UnitsToPixelsX((f32)lua_tonumber(L, 4)),
+        (s32)g_graphicsModule.UnitsToPixelsY((f32)lua_tonumber(L, 5)),
+        (s32)g_graphicsModule.UnitsToPixelsX((f32)lua_tonumber(L, 6)),
+        (s32)g_graphicsModule.UnitsToPixelsY((f32)lua_tonumber(L, 7))
     };
 
     g_graphicsModule.DrawRect((s32)lua_tointeger(L, 1), (s32)lua_tointeger(L, 2), (s32)lua_toboolean(L, 3), dest);
@@ -825,8 +824,8 @@ s32 ScriptModule::_setCameraPosition(lua_State* L)
     }
 
     g_graphicsModule.GetCamera().SetPosition(
-        (s32)GTU::UnitToScreenX((f32)lua_tonumber(L, 1)),
-        (s32)GTU::UnitToScreenY((f32)lua_tonumber(L, 2))
+        (s32)g_graphicsModule.UnitsToPixelsX((f32)lua_tonumber(L, 1)),
+        (s32)g_graphicsModule.UnitsToPixelsY((f32)lua_tonumber(L, 2))
     );
     return 0;
 }
@@ -839,10 +838,10 @@ s32 ScriptModule::_setCameraBounds(lua_State* L)
     }
 
     SRect rect;
-    rect.x1 = (s32)( GTU::UnitToScreenX((f32)lua_tonumber(L, 1)) );
-    rect.y1 = (s32)( GTU::UnitToScreenY((f32)lua_tonumber(L, 2)) );
-    rect.x2 = rect.x1 + (s32)( GTU::UnitToScreenX((f32)lua_tonumber(L, 3)) ) - 1;
-    rect.y2 = rect.y1 + (s32)( GTU::UnitToScreenY((f32)lua_tonumber(L, 4)) ) - 1;
+    rect.x1 = (s32)( g_graphicsModule.UnitsToPixelsX((f32)lua_tonumber(L, 1)) );
+    rect.y1 = (s32)( g_graphicsModule.UnitsToPixelsY((f32)lua_tonumber(L, 2)) );
+    rect.x2 = rect.x1 + (s32)( g_graphicsModule.UnitsToPixelsX((f32)lua_tonumber(L, 3)) ) - 1;
+    rect.y2 = rect.y1 + (s32)( g_graphicsModule.UnitsToPixelsY((f32)lua_tonumber(L, 4)) ) - 1;
 
     g_graphicsModule.GetCamera().SetBounds(rect);
     return 0;
@@ -858,8 +857,8 @@ s32 ScriptModule::_getCameraPosition(lua_State* L)
     s32 x, y;
     g_graphicsModule.GetCamera().GetPosition(x, y);
 
-    lua_pushnumber(L, GTU::ScreenToUnitX((f32)x));
-    lua_pushnumber(L, GTU::ScreenToUnitY((f32)y));
+    lua_pushnumber(L, g_graphicsModule.PixelsToUnitsX((f32)x));
+    lua_pushnumber(L, g_graphicsModule.PixelsToUnitsY((f32)y));
     return 2;
 }
 
@@ -882,10 +881,10 @@ s32 ScriptModule::_setGroundBounds(lua_State* L)
     }
 
     SRect rect;
-    rect.x1 = (s32)( GTU::UnitToScreenX((f32)lua_tonumber(L, 1)) );
-    rect.y1 = (s32)( GTU::UnitToScreenY((f32)lua_tonumber(L, 2)) );
-    rect.x2 = rect.x1 + (s32)( GTU::UnitToScreenX((f32)lua_tonumber(L, 3)) ) - 1;
-    rect.y2 = rect.y1 + (s32)( GTU::UnitToScreenY((f32)lua_tonumber(L, 4)) ) - 1,
+    rect.x1 = (s32)( g_graphicsModule.UnitsToPixelsX((f32)lua_tonumber(L, 1)) );
+    rect.y1 = (s32)( g_graphicsModule.UnitsToPixelsY((f32)lua_tonumber(L, 2)) );
+    rect.x2 = rect.x1 + (s32)( g_graphicsModule.UnitsToPixelsX((f32)lua_tonumber(L, 3)) ) - 1;
+    rect.y2 = rect.y1 + (s32)( g_graphicsModule.UnitsToPixelsY((f32)lua_tonumber(L, 4)) ) - 1,
 
     g_game.GetWorld().SetGroundBounds(rect);
     return 0;
@@ -1005,8 +1004,8 @@ s32 ScriptModule::_getMousePosition(lua_State* L)
     g_inputModule.GetMousePosition(x, y);
 
     // Return
-    lua_pushinteger(L, (lua_Integer)( GTU::ScreenToUnitX((f32)x) ));
-    lua_pushinteger(L, (lua_Integer)( GTU::ScreenToUnitY((f32)y) ));
+    lua_pushinteger(L, (lua_Integer)( g_graphicsModule.PixelsToUnitsX((f32)x) ));
+    lua_pushinteger(L, (lua_Integer)( g_graphicsModule.PixelsToUnitsY((f32)y) ));
     return 2;
 }
 
@@ -1128,10 +1127,10 @@ s32 ScriptModule::_addEntity(lua_State* L)
     // Init entity
     Entity* pEntity = new Entity();
 
-    Vector2 vPosition = { GTU::UnitToScreenX((f32)lua_tonumber(L, 1)),
-                          GTU::UnitToScreenY((f32)lua_tonumber(L, 2)) };
-    s32 width  = (s32)( GTU::UnitToScreenX((f32)lua_tonumber(L, 3)) );
-    s32 height = (s32)( GTU::UnitToScreenY((f32)lua_tonumber(L, 4)) );
+    Vector2 vPosition = { g_graphicsModule.UnitsToPixelsX((f32)lua_tonumber(L, 1)),
+                          g_graphicsModule.UnitsToPixelsY((f32)lua_tonumber(L, 2)) };
+    s32 width  = (s32)( g_graphicsModule.UnitsToPixelsX((f32)lua_tonumber(L, 3)) );
+    s32 height = (s32)( g_graphicsModule.UnitsToPixelsY((f32)lua_tonumber(L, 4)) );
     Texture* pTexture = (Texture*)lua_touserdata(L, 5);
 
     pEntity->Init(vPosition, width, height, pTexture);
@@ -1197,8 +1196,8 @@ s32 ScriptModule::_setEntityPosition(lua_State* L)
         return -1;
     }
     pEntity->m_vPosition = {
-        GTU::UnitToScreenX((f32)lua_tonumber(L, 2)),
-        GTU::UnitToScreenY((f32)lua_tonumber(L, 3))
+        g_graphicsModule.UnitsToPixelsX((f32)lua_tonumber(L, 2)),
+        g_graphicsModule.UnitsToPixelsY((f32)lua_tonumber(L, 3))
     };
 
     return 0;
@@ -1214,8 +1213,8 @@ s32 ScriptModule::_getEntityPosition(lua_State* L)
     Entity* pEntity = (Entity*)lua_touserdata(L, 1);
     if (pEntity)
     {
-        lua_pushnumber(L, GTU::ScreenToUnitX(pEntity->m_vPosition.x));
-        lua_pushnumber(L, GTU::ScreenToUnitY(pEntity->m_vPosition.y));
+        lua_pushnumber(L, g_graphicsModule.PixelsToUnitsX(pEntity->m_vPosition.x));
+        lua_pushnumber(L, g_graphicsModule.PixelsToUnitsY(pEntity->m_vPosition.y));
     }
     else
     {
@@ -1241,8 +1240,8 @@ s32 ScriptModule::_setEntityVelocity(lua_State* L)
         return -1;
     }
     pEntity->m_vVelocity = {
-        GTU::UnitToScreenX((f32)lua_tonumber(L, 2)),
-        GTU::UnitToScreenY((f32)lua_tonumber(L, 3))
+        g_graphicsModule.UnitsToPixelsX((f32)lua_tonumber(L, 2)),
+        g_graphicsModule.UnitsToPixelsY((f32)lua_tonumber(L, 3))
     };
 
     return 0;
@@ -1258,8 +1257,8 @@ s32 ScriptModule::_getEntityVelocity(lua_State* L)
     Entity* pEntity = (Entity*)lua_touserdata(L, 1);
     if (pEntity)
     {
-        lua_pushnumber(L, GTU::ScreenToUnitX(pEntity->m_vVelocity.x));
-        lua_pushnumber(L, GTU::ScreenToUnitY(pEntity->m_vVelocity.y));
+        lua_pushnumber(L, g_graphicsModule.PixelsToUnitsX(pEntity->m_vVelocity.x));
+        lua_pushnumber(L, g_graphicsModule.PixelsToUnitsY(pEntity->m_vVelocity.y));
     }
     else
     {
@@ -1285,10 +1284,10 @@ s32 ScriptModule::_setEntityHitBox(lua_State* L)
         return -1;
     }
     pEntity->m_hitBox = {
-        GTU::UnitToScreenX((f32)lua_tonumber(L, 2)),
-        GTU::UnitToScreenY((f32)lua_tonumber(L, 3)),
-        GTU::UnitToScreenX((f32)lua_tonumber(L, 4)),
-        GTU::UnitToScreenY((f32)lua_tonumber(L, 5)),
+        g_graphicsModule.UnitsToPixelsX((f32)lua_tonumber(L, 2)),
+        g_graphicsModule.UnitsToPixelsY((f32)lua_tonumber(L, 3)),
+        g_graphicsModule.UnitsToPixelsX((f32)lua_tonumber(L, 4)),
+        g_graphicsModule.UnitsToPixelsY((f32)lua_tonumber(L, 5)),
     };
 
     return 0;
@@ -1309,10 +1308,10 @@ s32 ScriptModule::_getEntityHitBox(lua_State* L)
     }
 
     const FRect& hitBox = pEntity->m_hitBox;
-    lua_pushnumber(L, GTU::ScreenToUnitX(hitBox.x1));
-    lua_pushnumber(L, GTU::ScreenToUnitY(hitBox.y1));
-    lua_pushnumber(L, GTU::ScreenToUnitX(hitBox.x2));
-    lua_pushnumber(L, GTU::ScreenToUnitY(hitBox.y2));
+    lua_pushnumber(L, g_graphicsModule.PixelsToUnitsX(hitBox.x1));
+    lua_pushnumber(L, g_graphicsModule.PixelsToUnitsY(hitBox.y1));
+    lua_pushnumber(L, g_graphicsModule.PixelsToUnitsX(hitBox.x2));
+    lua_pushnumber(L, g_graphicsModule.PixelsToUnitsY(hitBox.y2));
 
     return 4;
 }
@@ -1636,11 +1635,11 @@ s32 ScriptModule::_addActor(lua_State* L)
     // Init actor
     Actor* pActor = new Actor();
 
-    Vector2 vPosition = { GTU::UnitToScreenX((f32)lua_tonumber(L, 1)),
-                          GTU::UnitToScreenY((f32)lua_tonumber(L, 2)) };
+    Vector2 vPosition = { g_graphicsModule.UnitsToPixelsX((f32)lua_tonumber(L, 1)),
+                          g_graphicsModule.UnitsToPixelsY((f32)lua_tonumber(L, 2)) };
 
-    s32 width  = (s32)( GTU::UnitToScreenX((f32)lua_tonumber(L, 3)) );
-    s32 height = (s32)( GTU::UnitToScreenY((f32)lua_tonumber(L, 4)) );
+    s32 width  = (s32)( g_graphicsModule.UnitsToPixelsX((f32)lua_tonumber(L, 3)) );
+    s32 height = (s32)( g_graphicsModule.UnitsToPixelsY((f32)lua_tonumber(L, 4)) );
     Texture* pTexture = (Texture*)lua_touserdata(L, 5);
 
     pActor->Init(vPosition, width, height, pTexture);
@@ -1856,8 +1855,8 @@ s32 ScriptModule::_setActorSpeed(lua_State* L)
     if (pActor)
     {
         pActor->m_vSpeed = {
-            GTU::UnitToScreenX((f32)lua_tonumber(L, 2)),
-            GTU::UnitToScreenY((f32)lua_tonumber(L, 3)),
+            g_graphicsModule.UnitsToPixelsX((f32)lua_tonumber(L, 2)),
+            g_graphicsModule.UnitsToPixelsY((f32)lua_tonumber(L, 3)),
         };
     }
     else
@@ -1879,8 +1878,8 @@ s32 ScriptModule::_getActorSpeed(lua_State* L)
     Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
     if (pActor)
     {
-        lua_pushnumber(L, GTU::ScreenToUnitX(pActor->m_vSpeed.x));
-        lua_pushnumber(L, GTU::ScreenToUnitY(pActor->m_vSpeed.y));
+        lua_pushnumber(L, g_graphicsModule.PixelsToUnitsX(pActor->m_vSpeed.x));
+        lua_pushnumber(L, g_graphicsModule.PixelsToUnitsY(pActor->m_vSpeed.y));
     }
     else
     {
@@ -1944,8 +1943,8 @@ s32 ScriptModule::_pushActorTask(lua_State* L)
 
     case AITASK_GOTO:
     {
-        Vector2 vDestination = { GTU::UnitToScreenX((f32)lua_tonumber(L, 3)),
-                                 GTU::UnitToScreenY((f32)lua_tonumber(L, 4))};
+        Vector2 vDestination = { g_graphicsModule.UnitsToPixelsX((f32)lua_tonumber(L, 3)),
+                                 g_graphicsModule.UnitsToPixelsY((f32)lua_tonumber(L, 4))};
         pActor->PushTask(new GotoTask(pActor, vDestination));
     } break;
 
@@ -2312,8 +2311,8 @@ s32 ScriptModule::_defineWeapon(lua_State* L)
     const Animation* pAnim = (const Animation*)lua_touserdata(L, 1);
 
     FRect hitBox;
-    hitBox.x1 = -GTU::UnitToScreenX((f32)lua_tonumber(L, 2));
-    hitBox.y1 = -GTU::UnitToScreenY((f32)lua_tonumber(L, 3));
+    hitBox.x1 = -g_graphicsModule.UnitsToPixelsX((f32)lua_tonumber(L, 2));
+    hitBox.y1 = -g_graphicsModule.UnitsToPixelsY((f32)lua_tonumber(L, 3));
     hitBox.x2 = -hitBox.x1;
     hitBox.y2 = -hitBox.y1;
 
@@ -2347,9 +2346,9 @@ s32 ScriptModule::_addCar(lua_State* L)
     }
 
     // Init car
-    Vector2 vPosition = { GTU::UnitToScreenX((f32)lua_tonumber(L, 1)), GTU::UnitToScreenY((f32)lua_tonumber(L, 2)) };
-    s32 width = (s32)GTU::UnitToScreenX((f32)lua_tonumber(L, 3));
-    s32 height = (s32)GTU::UnitToScreenY((f32)lua_tonumber(L, 4));
+    Vector2 vPosition = { g_graphicsModule.UnitsToPixelsX((f32)lua_tonumber(L, 1)), g_graphicsModule.UnitsToPixelsY((f32)lua_tonumber(L, 2)) };
+    s32 width = (s32)g_graphicsModule.UnitsToPixelsX((f32)lua_tonumber(L, 3));
+    s32 height = (s32)g_graphicsModule.UnitsToPixelsY((f32)lua_tonumber(L, 4));
     const Texture* pTexture = (const Texture*)lua_touserdata(L, 5);
 
     Car* pCar = new Car();
@@ -2410,8 +2409,8 @@ s32 ScriptModule::_setCarMaxSpeed(lua_State* L)
         return -1;
     }
     pCar->m_vMaxSpeed = {
-        GTU::UnitToScreenX((f32)lua_tonumber(L, 2)),
-        GTU::UnitToScreenY((f32)lua_tonumber(L, 3))
+        g_graphicsModule.UnitsToPixelsX((f32)lua_tonumber(L, 2)),
+        g_graphicsModule.UnitsToPixelsY((f32)lua_tonumber(L, 3))
     };
 
     return 0;
@@ -2431,8 +2430,8 @@ s32 ScriptModule::_setCarAcceleration(lua_State* L)
         return -1;
     }
     pCar->m_vAcceleration = {
-        GTU::UnitToScreenX((f32)lua_tonumber(L, 2)),
-        GTU::UnitToScreenY((f32)lua_tonumber(L, 3))
+        g_graphicsModule.UnitsToPixelsX((f32)lua_tonumber(L, 2)),
+        g_graphicsModule.UnitsToPixelsY((f32)lua_tonumber(L, 3))
     };
 
     return 0;
@@ -2452,8 +2451,8 @@ s32 ScriptModule::_setCarPlacePosition(lua_State* L)
         return -1;
     }
     pCar->m_aPlacePositions[lua_tointeger(L, 2)] = {
-        GTU::UnitToScreenX((f32)lua_tonumber(L, 3)),
-        GTU::UnitToScreenY((f32)lua_tonumber(L, 4))
+        g_graphicsModule.UnitsToPixelsX((f32)lua_tonumber(L, 3)),
+        g_graphicsModule.UnitsToPixelsY((f32)lua_tonumber(L, 4))
     };
 
     return 0;
@@ -2506,10 +2505,10 @@ s32 ScriptModule::_addTrigger(lua_State* L)
     Trigger* pTrigger = new Trigger();
 
     // Init trigger
-    Vector2 vPosition = { GTU::UnitToScreenX((f32)lua_tonumber(L, 1)),
-                          GTU::UnitToScreenY((f32)lua_tonumber(L, 2)) };
-    s32 width  = (s32)( GTU::UnitToScreenX((f32)lua_tonumber(L, 3)) );
-    s32 height = (s32)( GTU::UnitToScreenY((f32)lua_tonumber(L, 4)) );
+    Vector2 vPosition = { g_graphicsModule.UnitsToPixelsX((f32)lua_tonumber(L, 1)),
+                          g_graphicsModule.UnitsToPixelsY((f32)lua_tonumber(L, 2)) };
+    s32 width  = (s32)( g_graphicsModule.UnitsToPixelsX((f32)lua_tonumber(L, 3)) );
+    s32 height = (s32)( g_graphicsModule.UnitsToPixelsY((f32)lua_tonumber(L, 4)) );
     
     Actor* pActor;
     if (lua_istable(L, 5))
@@ -2545,8 +2544,8 @@ s32 ScriptModule::_addDialog(lua_State* L)
     }
 
     // Params
-    s32 width = (s32)GTU::UnitToScreenX((f32)lua_tonumber(L, 1));
-    s32 height = (s32)GTU::UnitToScreenX((f32)lua_tonumber(L, 2));
+    s32 width = (s32)g_graphicsModule.UnitsToPixelsX((f32)lua_tonumber(L, 1));
+    s32 height = (s32)g_graphicsModule.UnitsToPixelsX((f32)lua_tonumber(L, 2));
     const char* text = lua_tostring(L, 3);
     f32 time = (f32)lua_tonumber(L, 4) * 1000.0f;
     

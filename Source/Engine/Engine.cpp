@@ -148,9 +148,6 @@ s32 Engine::Run()
 
         g_game.Update(g_clockMgr.ComputeDelta());
         g_game.Render();
-
-        // NOTE: Now we use VSync instead of clock synchronization
-        // g_clockMgr.Sync();
     }
 
     ShutDown();

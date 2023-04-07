@@ -1,5 +1,4 @@
 #include "Graphics/GraphicsModule.h"
-#include "Graphics/Unit.h"
 #include "Game/Entity.h"
 
 void Entity::Init(const Vector2& vPosition, s32 width, s32 height, const Texture* pTexture)
@@ -15,8 +14,8 @@ void Entity::Init(const Vector2& vPosition, s32 width, s32 height, const Texture
     m_angle = 0.0f;
     m_flip = SDL_FLIP_NONE;
 
-    f32 fWidthDiv2 = (f32)width/2.0f - GTU::UnitToScreenX(1.0f); 
-    f32 fHeightDiv2 = (f32)height/2.0f - GTU::UnitToScreenY(1.0f);
+    f32 fWidthDiv2 = (f32)width/2.0f - g_graphicsModule.UnitsToPixelsX(1.0f); 
+    f32 fHeightDiv2 = (f32)height/2.0f - g_graphicsModule.UnitsToPixelsY(1.0f);
     m_hitBox = { -fWidthDiv2, -fHeightDiv2, fWidthDiv2, fHeightDiv2 };
     m_bCollidable = true;
 

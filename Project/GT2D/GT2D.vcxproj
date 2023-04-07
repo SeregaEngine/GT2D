@@ -196,7 +196,6 @@
     <ClCompile Include="..\..\Source\Game\World.cpp" />
     <ClCompile Include="..\..\Source\Graphics\Camera.cpp" />
     <ClCompile Include="..\..\Source\Graphics\GraphicsModule.cpp" />
-    <ClCompile Include="..\..\Source\Graphics\Unit.cpp" />
     <ClCompile Include="..\..\Source\Input\InputModule.cpp" />
     <ClCompile Include="..\..\Source\Main\main.cpp" />
     <ClCompile Include="..\..\Source\Math\Math.cpp" />
@@ -274,7 +273,6 @@
     <ClInclude Include="..\..\Source\Graphics\Camera.h" />
     <ClInclude Include="..\..\Source\Graphics\GraphicsModule.h" />
     <ClInclude Include="..\..\Source\Graphics\Texture.h" />
-    <ClInclude Include="..\..\Source\Graphics\Unit.h" />
     <ClInclude Include="..\..\Source\Graphics\RenderElement.h" />
     <ClInclude Include="..\..\Source\Input\InputModule.h" />
     <ClInclude Include="..\..\Source\Math\Math.h" />

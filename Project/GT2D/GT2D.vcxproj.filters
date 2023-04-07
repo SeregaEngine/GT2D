@@ -80,9 +80,6 @@
     <ClCompile Include="..\..\Source\Graphics\GraphicsModule.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Graphics\Unit.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Input\InputModule.cpp">
       <Filter>Input</Filter>
     </ClCompile>
@@ -259,9 +256,6 @@
       <Filter>Graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Graphics\GraphicsModule.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Graphics\Unit.h">
       <Filter>Graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Input\InputModule.h">

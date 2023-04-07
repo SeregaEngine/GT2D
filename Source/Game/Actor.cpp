@@ -1,5 +1,4 @@
 #include "Input/InputModule.h"
-#include "Graphics/Unit.h"
 #include "Engine/CollisionManager.h"
 #include "Game/Game.h"
 #include "Game/Weapon.h"
@@ -14,8 +13,8 @@ void Actor::Init(const Vector2& vPosition, s32 width, s32 height, const Texture*
     m_actorState = ACTOR_STATE_IDLE;
     m_actorTeam = ACTOR_TEAM_DEFAULT;
 
-    m_vSpeed = { GTU::UnitToScreenX(ACTOR_DEFAULT_UNIT_SPEED_X),
-                 GTU::UnitToScreenY(ACTOR_DEFAULT_UNIT_SPEED_Y) };
+    m_vSpeed = { g_graphicsModule.UnitsToPixelsX(ACTOR_DEFAULT_UNIT_SPEED_X),
+                 g_graphicsModule.UnitsToPixelsY(ACTOR_DEFAULT_UNIT_SPEED_Y) };
 
     m_health = ACTOR_DEFAULT_HEALTH;
     m_bLookRight = true;
@@ -245,7 +244,7 @@ void Actor::CommandMove(s32 cmd, f32 dtTime)
 
 void Actor::CommandAttack()
 {
-    // NOTE: We use animations to detect on which state of attack we are
+    // @NOTE: We use animations to detect on which state of attack we are
 
     b32 bHit = false;
 

@@ -22,12 +22,6 @@ public:
         return m_dtTime;
     }
 
-    void Sync() const
-    {
-        while (SDL_GetTicks() - m_startTime < m_msSyncDelay)
-            {}
-    }
-
     f32 GetDelta() const { return m_dtTime; };
 };
 
