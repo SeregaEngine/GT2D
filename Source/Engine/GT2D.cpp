@@ -87,14 +87,10 @@ b32 GT2D::StartUp()
     }
 
     { // Start up engine`s modules
-        if (!GTM::StartUp())
-        {
-            return false;
-        }
-
         s32 width, height;
         SDL_GetWindowSize(m_pWindow, &width, &height);
 
+        if (!g_math.StartUp()) return false;
         if (!g_graphicsModule.StartUp(m_pWindow, m_pRenderer, width, height)) return false;
         if (!g_inputModule.StartUp())  return false;
         if (!g_soundModule.StartUp())  return false;
@@ -106,8 +102,6 @@ b32 GT2D::StartUp()
     }
 
     AddNote(PR_NOTE, "Engine started successfully\n");
-
-    // Success
     return true;
 }
 
@@ -124,7 +118,7 @@ void GT2D::ShutDown()
         g_soundModule.ShutDown();
         g_inputModule.ShutDown();
         g_graphicsModule.ShutDown();
-        GTM::ShutDown();
+        g_math.ShutDown();
     }
 
     AddNote(PR_NOTE, "Engine modules shut down");

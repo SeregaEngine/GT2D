@@ -5,50 +5,6 @@
 #include "Engine/Types.h"
 #include "Engine/Platform.h"
 
-static constexpr f32 PI       = 3.141592654f;
-static constexpr f32 PI2      = 6.283185307f;
-static constexpr f32 PI_DIV_2 = 1.570796327f;
-static constexpr f32 PI_DIV_4 = 0.785398163f;
-static constexpr f32 PI_INV   = 0.318309886f;
-
-static constexpr f32 DEG_TO_RAD_MUL = PI / 180.0f;
-forceinline static constexpr f32 DEG_TO_RAD(f32 deg) noexcept
-{
-    return deg * DEG_TO_RAD_MUL;
-}
-
-static constexpr f32 RAD_TO_DEG_MUL = 180.0f / PI;
-forceinline static constexpr f32 RAD_TO_DEG(f32 rad) noexcept
-{
-    return rad * RAD_TO_DEG_MUL;
-}
-
-template<typename T>
-forceinline static constexpr T MAX(T a, T b) noexcept
-{
-    return a > b ? a : b;
-}
-
-template<typename T>
-forceinline static constexpr T MIN(T a, T b) noexcept
-{
-    return (a) < (b) ? (a) : (b);
-}
-
-template<typename T>
-forceinline static constexpr void SWAP(T a, T b, T t) noexcept
-{
-    t = a;
-    a = b;
-    b = t;
-}
-
-template<typename T>
-forceinline static constexpr T RAND_RANGE(T min, T max) noexcept
-{
-    return min + (rand() % (max - min + 1));
-}
-
 struct Vector2
 {
     union
@@ -135,21 +91,69 @@ struct SRect
     }
 };
 
-namespace GTM
+class Math
 {
-    /** Variables */
-    inline f32 g_sinLook[361];
-    inline f32 g_cosLook[361];
+public:
+    static constexpr f32 PI       = 3.141592654f;
+    static constexpr f32 PI2      = 6.283185307f;
+    static constexpr f32 PI_DIV_2 = 1.570796327f;
+    static constexpr f32 PI_DIV_4 = 0.785398163f;
+    static constexpr f32 PI_INV   = 0.318309886f;
 
-    /** Functions */
-    extern b32 StartUp();
-    forceinline static void ShutDown() {}
+    static constexpr f32 DEG_TO_RAD_MUL = PI / 180.0f;
+    static constexpr f32 RAD_TO_DEG_MUL = 180.0f / PI;
+
+public:
+    f32 m_sinLook[361];
+    f32 m_cosLook[361];
+
+public:
+    b32 StartUp();
+    forceinline void ShutDown() {}
+
+    forceinline static f32 DegToRad(f32 deg) noexcept
+    {
+        return deg * DEG_TO_RAD_MUL;
+    }
+
+    forceinline static f32 RadToDeg(f32 rad) noexcept
+    {
+        return rad * RAD_TO_DEG_MUL;
+    }
+
+    template<typename T>
+    forceinline static T Max(T a, T b) noexcept
+    {
+        return a > b ? a : b;
+    }
+
+    template<typename T>
+    forceinline static T Min(T a, T b) noexcept
+    {
+        return (a) < (b) ? (a) : (b);
+    }
+
+    template<typename T>
+    forceinline static void Swap(T a, T b, T t) noexcept
+    {
+        t = a;
+        a = b;
+        b = t;
+    }
+
+    template<typename T>
+    forceinline static T RandRange(T min, T max) noexcept
+    {
+        return min + (rand() % (max - min + 1));
+    }
 
     /** @DEPRECATED */
-    extern s32 FastDist2(s32 x, s32 y);
+    static s32 FastDist2(s32 x, s32 y);
 
-    extern void TranslatePoly2(Poly2* poly, f32 dx, f32 dy);
-    extern void RotatePoly2(Poly2* poly, s32 angle);
-    extern void ScalePoly2(Poly2* poly, f32 scaleX, f32 scaleY);
-    extern b32 FindBoxPoly2(const Poly2* poly, f32& minX, f32& minY, f32& maxX, f32& maxY);
+    static void TranslatePoly2(Poly2* poly, f32 dx, f32 dy);
+    static void RotatePoly2(Poly2* poly, s32 angle);
+    static void ScalePoly2(Poly2* poly, f32 scaleX, f32 scaleY);
+    static b32 FindBoxPoly2(const Poly2* poly, f32& minX, f32& minY, f32& maxX, f32& maxY);
 };
+
+inline Math g_math;
