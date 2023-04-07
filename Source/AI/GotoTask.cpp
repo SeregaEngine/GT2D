@@ -1,7 +1,7 @@
-#include "DebugLogManager.h"
-#include "Actor.h"
-#include "GTUnit.h"
-#include "GotoTask.h"
+#include "Engine/DebugLogManager.h"
+#include "Game/Actor.h"
+#include "Graphics/GTUnit.h"
+#include "AI/GotoTask.h"
 
 static constexpr f32 ERROR_MULTIPLIER = 10.0f;
 

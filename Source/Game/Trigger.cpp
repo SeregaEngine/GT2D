@@ -1,8 +1,8 @@
-#include "Game.h"
-#include "CollisionManager.h"
-#include "ScriptModule.h"
-#include "TList.h"
-#include "Trigger.h"
+#include "Engine/CollisionManager.h"
+#include "Script/ScriptModule.h"
+#include "Containers/List.h"
+#include "Game/Game.h"
+#include "Game/Trigger.h"
 
 void Trigger::Init(const Vector2& vPosition, s32 width, s32 height, const GT_Texture* pTexture)
 {

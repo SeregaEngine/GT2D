@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Game.h"
-#include "ScriptModule.h"
+#include "Game/Game.h"
+#include "Script/ScriptModule.h"
 
 class Actor;
 

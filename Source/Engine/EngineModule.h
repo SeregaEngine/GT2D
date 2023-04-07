@@ -1,7 +1,8 @@
 #pragma once
 
-#include "Types.h"
-#include "DebugLogManager.h"
+#include "Engine/Types.h"
+#include "Engine/Platform.h"
+#include "Engine/DebugLogManager.h"
 
 class EngineModule
 {

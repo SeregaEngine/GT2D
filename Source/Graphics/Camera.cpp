@@ -1,6 +1,6 @@
-#include "Entity.h"
-#include "Game.h"
-#include "Camera.h"
+#include "Game/Entity.h"
+#include "Game/Game.h"
+#include "Graphics/Camera.h"
 
 void Camera::Detach()
 {

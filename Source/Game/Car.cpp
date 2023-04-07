@@ -1,5 +1,5 @@
-#include "Game.h"
-#include "Car.h"
+#include "Game/Game.h"
+#include "Game/Car.h"
 
 void Car::Init(const Vector2& vPosition, s32 width, s32 height, const GT_Texture* pTexture)
 {

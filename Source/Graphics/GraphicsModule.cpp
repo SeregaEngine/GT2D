@@ -1,10 +1,10 @@
-#include <stdio.h>
+#include <cstdio>
 #include "SDL_image.h"
-#include "GTMath.h"
-#include "GTUnit.h"
-#include "RenderElement.h"
-#include "GTTexture.h"
-#include "GraphicsModule.h"
+#include "Math/GTMath.h"
+#include "Graphics/GTUnit.h"
+#include "Graphics/RenderElement.h"
+#include "Graphics/GTTexture.h"
+#include "Graphics/GraphicsModule.h"
 
 static constexpr i32f MAX_TEXTURES = 256;
 

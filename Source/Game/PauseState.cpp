@@ -1,6 +1,6 @@
-#include "ScriptModule.h"
-#include "Console.h"
-#include "PauseState.h"
+#include "Script/ScriptModule.h"
+#include "Engine/Console.h"
+#include "Game/PauseState.h"
 
 b32 PauseState::OnEnter()
 {

@@ -1,5 +1,5 @@
-#include <math.h>
-#include "GTMath.h"
+#include <cmath>
+#include "Math/GTMath.h"
 
 b32 GTM::StartUp()
 {

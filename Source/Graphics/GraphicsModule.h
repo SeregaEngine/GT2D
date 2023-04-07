@@ -2,11 +2,11 @@
 
 #include "SDL.h"
 #include "SDL_ttf.h"
-#include "Types.h"
-#include "GTMath.h"
-#include "EngineModule.h"
-#include "Camera.h"
-#include "TList.h"
+#include "Math/GTMath.h"
+#include "Containers/List.h"
+#include "Engine/Types.h"
+#include "Engine/EngineModule.h"
+#include "Graphics/Camera.h"
 
 static constexpr i32f UNIT_SCREEN_WIDTH = 128;
 static constexpr i32f UNIT_SCREEN_HEIGHT = 72;

@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Types.h"
-#include "EngineModule.h"
-#include "GameState.h"
-#include "PlayState.h"
-#include "World.h"
+#include "Engine/Types.h"
+#include "Engine/EngineModule.h"
+#include "Game/GameState.h"
+#include "Game/PlayState.h"
+#include "Game/World.h"
 
 struct lua_State;
 

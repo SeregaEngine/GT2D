@@ -1,5 +1,5 @@
-#include "Game.h"
-#include "CollisionManager.h"
+#include "Game/Game.h"
+#include "Engine/CollisionManager.h"
 
 b32 CollisionManager::StartUp()
 {

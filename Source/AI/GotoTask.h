@@ -1,7 +1,7 @@
 #pragma once
 
-#include "GTTask.h"
-#include "GTMath.h"
+#include "AI/GTTask.h"
+#include "Math/GTMath.h"
 
 class GotoTask final : public GT_Task
 {

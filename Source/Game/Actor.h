@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Entity.h"
-#include "GTState.h"
-#include "GTTask.h"
-#include "GTCommand.h"
+#include "Game/Entity.h"
+#include "AI/GTState.h"
+#include "AI/GTTask.h"
+#include "AI/GTCommand.h"
 
 enum eActorState
 {

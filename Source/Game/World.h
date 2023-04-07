@@ -1,8 +1,8 @@
 #pragma once
 
-#include "EngineModule.h"
-#include "Entity.h"
-#include "TList.h"
+#include "Engine/EngineModule.h"
+#include "Game/Entity.h"
+#include "Containers/List.h"
 
 class Weapon;
 

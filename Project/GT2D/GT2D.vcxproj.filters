@@ -33,17 +33,14 @@
     <Filter Include="Sound">
       <UniqueIdentifier>{09796700-019a-43cd-8351-8893ae9a7589}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Templates">
-      <UniqueIdentifier>{47d28868-7a62-443b-b532-1ea079f9fb1a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Lua Scripts">
       <UniqueIdentifier>{cf39e093-c64c-4501-b65d-a7ade6640ad8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Collision">
-      <UniqueIdentifier>{94605afb-2e90-4d46-a2ed-ad0b0af2d03a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Lua Scripts\Internal">
       <UniqueIdentifier>{de0a1849-d55d-4ecc-9b5f-0f5db44bbb8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Containers">
+      <UniqueIdentifier>{47d28868-7a62-443b-b532-1ea079f9fb1a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -101,12 +98,6 @@
     <ClCompile Include="..\..\Source\AI\GotoTask.cpp">
       <Filter>AI</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\main.cpp">
-      <Filter>Main</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Collision\CollisionManager.cpp">
-      <Filter>Collision</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Game\Trigger.cpp">
       <Filter>Game</Filter>
     </ClCompile>
@@ -136,6 +127,12 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Game\PauseState.cpp">
       <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Main\main.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Engine\CollisionManager.cpp">
+      <Filter>Engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -282,9 +279,6 @@
     <ClInclude Include="..\..\Source\Sound\SoundModule.h">
       <Filter>Sound</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Templates\TList.h">
-      <Filter>Templates</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\AI\GTCommand.h">
       <Filter>AI</Filter>
     </ClInclude>
@@ -293,9 +287,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\AI\GotoTask.h">
       <Filter>AI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Collision\CollisionManager.h">
-      <Filter>Collision</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Game\Trigger.h">
       <Filter>Game</Filter>
@@ -365,6 +356,15 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Game\PauseState.h">
       <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Engine\Platform.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Engine\CollisionManager.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Containers\List.h">
+      <Filter>Containers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

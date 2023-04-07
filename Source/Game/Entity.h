@@ -1,7 +1,7 @@
 #pragma once
 
-#include "GraphicsModule.h"
-#include "AnimationModule.h"
+#include "Graphics/GraphicsModule.h"
+#include "Animation/AnimationModule.h"
 
 enum eEntityType
 {

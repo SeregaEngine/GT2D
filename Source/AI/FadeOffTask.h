@@ -1,8 +1,8 @@
 #pragma once
 
-#include "GTTask.h"
-#include "GraphicsModule.h"
-#include "ClockManager.h"
+#include "AI/GTTask.h"
+#include "Graphics/GraphicsModule.h"
+#include "Engine/ClockManager.h"
 
 class FadeOffTask final : public GT_Task
 {

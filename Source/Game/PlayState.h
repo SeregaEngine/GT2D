@@ -1,7 +1,7 @@
 #pragma once
 
-#include "GameState.h"
-#include "World.h"
+#include "Game/GameState.h"
+#include "Game/World.h"
 
 static constexpr i32f PLAYSTATE_PATH_STRSIZE = 32;
 

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Types.h"
-#include "SoundModule.h"
-#include "GTSound.h"
+#include "Engine/Types.h"
+#include "Sound/SoundModule.h"
+#include "Sound/GTSound.h"
 
 class GT_SoundPack
 {

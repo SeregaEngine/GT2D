@@ -1,8 +1,8 @@
 #pragma once
 
-#include "GTMath.h"
-#include "TList.h"
-#include "EngineModule.h"
+#include "Math/GTMath.h"
+#include "Containers/List.h"
+#include "Engine/EngineModule.h"
 
 class Entity;
 

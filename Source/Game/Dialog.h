@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Actor.h"
+#include "Game/Actor.h"
 
 static constexpr i32f DIALOG_STRING_WIDTH  = 20;
 static constexpr i32f DIALOG_STRING_HEIGHT = 5;

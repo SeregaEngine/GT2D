@@ -1,8 +1,8 @@
 #include <cmath>
-#include "Game.h"
-#include "Actor.h"
-#include "CollisionManager.h"
-#include "GotoEntityTask.h"
+#include "Game/Game.h"
+#include "Game/Actor.h"
+#include "Engine/CollisionManager.h"
+#include "AI/GotoEntityTask.h"
 
 static constexpr f32 ERROR_MULTIPLIER = 10.0f;
 static constexpr f32 DECISION_RATIO_XY = 4.0f;

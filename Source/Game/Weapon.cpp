@@ -1,4 +1,4 @@
-#include "Weapon.h"
+#include "Game/Weapon.h"
 
 void Weapon::Init(const GT_Animation* pAttackAnim, s32 soundCount, FRect hitBox, f32 damage)
 {

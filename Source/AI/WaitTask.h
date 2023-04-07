@@ -1,7 +1,7 @@
 #pragma once
 
 #include "SDL.h"
-#include "GTTask.h"
+#include "AI/GTTask.h"
 
 class WaitTask final : public GT_Task
 {

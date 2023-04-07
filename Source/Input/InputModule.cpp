@@ -1,5 +1,5 @@
-#include "Console.h"
-#include "InputModule.h"
+#include "Engine/Console.h"
+#include "Input/InputModule.h"
 
 b32 InputModule::StartUp()
 {

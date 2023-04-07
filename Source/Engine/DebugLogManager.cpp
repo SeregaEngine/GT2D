@@ -2,8 +2,8 @@
 #include <cerrno>
 #include <cstdarg>
 #include <filesystem>
-#include "Console.h"
-#include "DebugLogManager.h"
+#include "Engine/Console.h"
+#include "Engine/DebugLogManager.h"
 
 static constexpr i32f NOTE_PREFIX_BUFSIZE  = 64;
 static constexpr i32f NOTE_MESSAGE_BUFSIZE = 512;

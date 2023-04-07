@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GTTask.h"
+#include "AI/GTTask.h"
 
 class KillTask final : public GT_Task
 {

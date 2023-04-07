@@ -1,9 +1,9 @@
 #pragma once
 
 #include "SDL.h"
-#include "Types.h"
-#include "EngineModule.h"
-#include "GraphicsModule.h"
+#include "Engine/Types.h"
+#include "Engine/EngineModule.h"
+#include "Graphics/GraphicsModule.h"
 
 enum eMouseButton
 {

@@ -1,8 +1,8 @@
-#include "GraphicsModule.h"
-#include "ScriptModule.h"
-#include "PlayState.h"
-#include "PauseState.h"
-#include "Game.h"
+#include "Graphics/GraphicsModule.h"
+#include "Script/ScriptModule.h"
+#include "Game/PlayState.h"
+#include "Game/PauseState.h"
+#include "Game/Game.h"
 
 b32 Game::StartUp()
 {

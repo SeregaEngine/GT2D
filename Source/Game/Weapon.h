@@ -1,9 +1,9 @@
 #pragma once
 
-#include <stdlib.h>
-#include "AnimationModule.h"
-#include "GTSoundPack.h"
-#include "GTMath.h"
+#include <cstdlib>
+#include "Animation/AnimationModule.h"
+#include "Sound/GTSoundPack.h"
+#include "Math/GTMath.h"
 
 class Weapon
 {

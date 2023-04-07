@@ -1,8 +1,8 @@
-#include <string.h>
-#include "GraphicsModule.h"
-#include "ScriptModule.h"
-#include "Game.h"
-#include "Console.h"
+#include <cstring>
+#include "Graphics/GraphicsModule.h"
+#include "Script/ScriptModule.h"
+#include "Game/Game.h"
+#include "Engine/Console.h"
 
 static constexpr i32f CONSOLE_STRING_WIDTH = 80;
 static constexpr i32f CONSOLE_STRING_HEIGHT = 15;

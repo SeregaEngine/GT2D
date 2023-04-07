@@ -1,12 +1,8 @@
-#ifndef GT2D_H_
-#define GT2D_H_
+#pragma once
 
-/* ====== INCLUDES ====== */
 #include "SDL.h"
+#include "Engine/EngineModule.h"
 
-#include "EngineModule.h"
-
-/* ====== STRUCTURES ====== */
 class GT2D : public EngineModule
 {
 public:
@@ -19,6 +15,7 @@ public:
 private:
     SDL_Window* m_pWindow;
     SDL_Renderer* m_pRenderer;
+
 public:
     GT2D() :
         EngineModule("GT2D", CHANNEL_GT2D),
@@ -31,5 +28,3 @@ public:
 };
 
 inline GT2D g_GT2D;
-
-#endif // GT2D_H_

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "WaitTask.h"
-#include "Actor.h"
+#include "AI/WaitTask.h"
+#include "Game/Actor.h"
 
 struct GT_Animation;
 

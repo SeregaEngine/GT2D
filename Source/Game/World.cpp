@@ -1,10 +1,10 @@
-#include "GraphicsModule.h"
-#include "ScriptModule.h"
-#include "DamageManager.h"
-#include "Actor.h"
-#include "Weapon.h"
-#include "Game.h"
-#include "World.h"
+#include "Graphics/GraphicsModule.h"
+#include "Script/ScriptModule.h"
+#include "Game/DamageManager.h"
+#include "Game/Actor.h"
+#include "Game/Weapon.h"
+#include "Game/Game.h"
+#include "Game/World.h"
 
 static constexpr i32f CAMERA_DEFAULT_X = 0;
 static constexpr i32f CAMERA_DEFAULT_Y = 0;

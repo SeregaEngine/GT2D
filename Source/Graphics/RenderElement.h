@@ -1,11 +1,11 @@
 #pragma once
 
-#include <string.h>
+#include <cstring>
 #include "SDL.h"
 #include "SDL_ttf.h"
-#include "Types.h"
-#include "GraphicsModule.h"
-#include "GTTexture.h"
+#include "Engine/Types.h"
+#include "Graphics/GraphicsModule.h"
+#include "Graphics/GTTexture.h"
 
 struct RenderElement
 {

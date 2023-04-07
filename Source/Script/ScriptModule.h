@@ -1,6 +1,6 @@
 #pragma once
 
-#include "EngineModule.h"
+#include "Engine/EngineModule.h"
 
 static constexpr char MISSION_LOADER_PATH[] = "Scripts/Internal/Loader.lua";
 static constexpr char MAIN_MENU_PATH[] = "Scripts/MainMenu.lua";

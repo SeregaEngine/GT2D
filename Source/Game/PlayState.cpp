@@ -1,7 +1,7 @@
-#include "SoundModule.h"
-#include "ScriptModule.h"
-#include "Console.h"
-#include "PlayState.h"
+#include "Sound/SoundModule.h"
+#include "Script/ScriptModule.h"
+#include "Engine/Console.h"
+#include "Game/PlayState.h"
 
 b32 PlayState::OnEnter()
 {

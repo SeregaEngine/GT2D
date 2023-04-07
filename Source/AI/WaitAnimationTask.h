@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Actor.h"
+#include "Game/Actor.h"
 
 struct GT_Animation;
 

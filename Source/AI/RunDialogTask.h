@@ -1,7 +1,7 @@
 #pragma once
 
-#include "GTTask.h"
-#include "Dialog.h"
+#include "AI/GTTask.h"
+#include "Game/Dialog.h"
 
 class RunDialogTask final : public GT_Task
 {

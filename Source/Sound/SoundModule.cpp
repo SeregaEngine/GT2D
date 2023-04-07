@@ -1,5 +1,5 @@
-#include "GTSound.h"
-#include "SoundModule.h"
+#include "Sound/GTSound.h"
+#include "Sound/SoundModule.h"
 
 static constexpr i32f MAX_SOUNDS = 256;
 static constexpr i32f MAX_MUSICS = 256;

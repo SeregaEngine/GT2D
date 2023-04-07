@@ -1,5 +1,5 @@
-#include "DebugLogManager.h"
-#include "EngineModule.h"
+#include "Engine/DebugLogManager.h"
+#include "Engine/EngineModule.h"
 
 void EngineModule::AddNote(s32 priority, const char* fmt, ...) const
 {

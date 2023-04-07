@@ -1,7 +1,7 @@
-#include "Game.h"
-#include "Actor.h"
-#include "GTUnit.h"
-#include "Dialog.h"
+#include "Graphics/GTUnit.h"
+#include "Game/Game.h"
+#include "Game/Actor.h"
+#include "Game/Dialog.h"
 
 #define DIALOG_TEXT_MARGIN_LEFT ((f32)m_width / 20.0f)
 #define DIALOG_TEXT_MARGIN_TOP  ((f32)m_height / 15.0f)

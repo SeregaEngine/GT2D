@@ -2,11 +2,8 @@
 
 #include <cstring>
 #include <cmath>
-#include "Types.h"
-
-#ifndef __forceinline
-#define __forceinline inline
-#endif
+#include "Engine/Types.h"
+#include "Engine/Platform.h"
 
 static constexpr f32 PI       = 3.141592654f;
 static constexpr f32 PI2      = 6.283185307f;
@@ -15,31 +12,31 @@ static constexpr f32 PI_DIV_4 = 0.785398163f;
 static constexpr f32 PI_INV   = 0.318309886f;
 
 static constexpr f32 DEG_TO_RAD_MUL = PI / 180.0f;
-__forceinline static constexpr f32 DEG_TO_RAD(f32 deg) noexcept
+forceinline static constexpr f32 DEG_TO_RAD(f32 deg) noexcept
 {
     return deg * DEG_TO_RAD_MUL;
 }
 
 static constexpr f32 RAD_TO_DEG_MUL = 180.0f / PI;
-__forceinline static constexpr f32 RAD_TO_DEG(f32 rad) noexcept
+forceinline static constexpr f32 RAD_TO_DEG(f32 rad) noexcept
 {
     return rad * RAD_TO_DEG_MUL;
 }
 
 template<typename T>
-__forceinline static constexpr T MAX(T a, T b) noexcept
+forceinline static constexpr T MAX(T a, T b) noexcept
 {
     return a > b ? a : b;
 }
 
 template<typename T>
-__forceinline static constexpr T MIN(T a, T b) noexcept
+forceinline static constexpr T MIN(T a, T b) noexcept
 {
     return (a) < (b) ? (a) : (b);
 }
 
 template<typename T>
-__forceinline static constexpr void SWAP(T a, T b, T t) noexcept
+forceinline static constexpr void SWAP(T a, T b, T t) noexcept
 {
     t = a;
     a = b;
@@ -47,7 +44,7 @@ __forceinline static constexpr void SWAP(T a, T b, T t) noexcept
 }
 
 template<typename T>
-__forceinline static constexpr T RAND_RANGE(T min, T max) noexcept
+forceinline static constexpr T RAND_RANGE(T min, T max) noexcept
 {
     return min + (rand() % (max - min + 1));
 }
@@ -63,25 +60,25 @@ struct Vector2
         };
     };
 
-    Vector2() = default;
-    Vector2(f32 _x, f32 _y) : x(_x), y(_y) {}
-    Vector2(const Vector2& v) : x(v.x), y(v.y) {}
-    ~Vector2() = default;
+    forceinline Vector2() = default;
+    forceinline Vector2(f32 _x, f32 _y) : x(_x), y(_y) {}
+    forceinline Vector2(const Vector2& v) : x(v.x), y(v.y) {}
+    forceinline ~Vector2() = default;
 
-    __forceinline Vector2 operator=(const Vector2& v)  { x = v.x; y = v.y; return *this; }
-    __forceinline Vector2 operator+=(const Vector2& v) { x += v.x; y += v.y; return *this; }
-    __forceinline Vector2 operator-=(const Vector2& v) { x -= v.x; y -= v.y; return *this; }
+    forceinline Vector2 operator=(const Vector2& v)  { x = v.x; y = v.y; return *this; }
+    forceinline Vector2 operator+=(const Vector2& v) { x += v.x; y += v.y; return *this; }
+    forceinline Vector2 operator-=(const Vector2& v) { x -= v.x; y -= v.y; return *this; }
 
-    __forceinline Vector2 operator+(const Vector2& v) const { return { x + v.x, y + v.y }; }
-    __forceinline Vector2 operator-(const Vector2& v) const { return { x - v.x, y - v.y }; }
-    __forceinline Vector2 operator*(const Vector2& v) const { return { x * v.x, y * v.y }; }
-    __forceinline Vector2 operator*(f32 scalar) const { return { x * scalar, y * scalar }; }
+    forceinline Vector2 operator+(const Vector2& v) const { return { x + v.x, y + v.y }; }
+    forceinline Vector2 operator-(const Vector2& v) const { return { x - v.x, y - v.y }; }
+    forceinline Vector2 operator*(const Vector2& v) const { return { x * v.x, y * v.y }; }
+    forceinline Vector2 operator*(f32 scalar) const { return { x * scalar, y * scalar }; }
 
-    __forceinline void Zero() { x = 0.0f; y = 0.0f; }
-    __forceinline void Init(f32 _x, f32 _y) { x = _x; y = _y; }
-    __forceinline f32 Length() const { return sqrtf(x*x + y*y); }
+    forceinline void Zero() { x = 0.0f; y = 0.0f; }
+    forceinline void Init(f32 _x, f32 _y) { x = _x; y = _y; }
+    forceinline f32 Length() const { return sqrtf(x*x + y*y); }
 
-    __forceinline Vector2 Normalize()
+    forceinline Vector2 Normalize()
     {
         f32 invLength = 1.0f / Length();
         x *= invLength;
@@ -104,11 +101,11 @@ struct FRect
     f32 x1, y1;
     f32 x2, y2;
 
-    FRect() = default;
-    FRect(f32 _x1, f32 _y1, f32 _x2, f32 _y2) :
+    forceinline FRect() = default;
+    forceinline FRect(f32 _x1, f32 _y1, f32 _x2, f32 _y2) :
         x1(_x1), y1(_y1), x2(_x2), y2(_y2) {}
 
-    __forceinline FRect operator=(const FRect& rect)
+    forceinline FRect operator=(const FRect& rect)
     {
         x1 = rect.x1;
         y1 = rect.y1;
@@ -123,12 +120,12 @@ struct SRect
     s32 x1, y1;
     s32 x2, y2;
 
-    SRect() :
+    forceinline SRect() :
         x1(0), y1(0), x2(0), y2(0) {}
-    SRect(s32 _x1, s32 _y1, s32 _x2, s32 _y2) :
+    forceinline SRect(s32 _x1, s32 _y1, s32 _x2, s32 _y2) :
         x1(_x1), y1(_y1), x2(_x2), y2(_y2) {}
 
-    __forceinline SRect operator=(const SRect& rect)
+    forceinline SRect operator=(const SRect& rect)
     {
         x1 = rect.x1;
         y1 = rect.y1;
@@ -146,7 +143,7 @@ namespace GTM
 
     /** Functions */
     extern b32 StartUp();
-    static void ShutDown() {}
+    forceinline static void ShutDown() {}
 
     /** @DEPRECATED */
     extern s32 FastDist2(s32 x, s32 y);

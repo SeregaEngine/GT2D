@@ -1,8 +1,8 @@
 #pragma once
 
-#include "ScriptModule.h"
-#include "World.h"
-#include "GameState.h"
+#include "Script/ScriptModule.h"
+#include "Game/World.h"
+#include "Game/GameState.h"
 
 class PauseState : public GameState
 {

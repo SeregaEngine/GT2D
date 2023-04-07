@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GTMath.h"
+#include "Math/GTMath.h"
 
 class Entity;
 

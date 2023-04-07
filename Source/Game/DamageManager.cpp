@@ -1,7 +1,7 @@
-#include "Actor.h"
-#include "Weapon.h"
-#include "CollisionManager.h"
-#include "DamageManager.h"
+#include "Game/Actor.h"
+#include "Game/Weapon.h"
+#include "Engine/CollisionManager.h"
+#include "Game/DamageManager.h"
 
 b32 DamageManager::StartUp()
 {

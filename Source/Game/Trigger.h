@@ -1,7 +1,7 @@
 #pragma once
 
-#include <string.h>
-#include "Entity.h"
+#include <cstring>
+#include "Game/Entity.h"
 
 static constexpr i32f TRIGGER_STRSIZE = 32;
 

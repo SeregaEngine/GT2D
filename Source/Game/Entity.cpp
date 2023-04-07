@@ -1,6 +1,6 @@
-#include "GraphicsModule.h"
-#include "GTUnit.h"
-#include "Entity.h"
+#include "Graphics/GraphicsModule.h"
+#include "Graphics/GTUnit.h"
+#include "Game/Entity.h"
 
 void Entity::Init(const Vector2& vPosition, s32 width, s32 height, const GT_Texture* pTexture)
 {

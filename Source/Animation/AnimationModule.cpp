@@ -1,4 +1,4 @@
-#include "AnimationModule.h"
+#include "Animation/AnimationModule.h"
 
 static constexpr i32f MAX_ANIMATIONS = 256;
 
@@ -8,7 +8,6 @@ b32 AnimationModule::StartUp()
     m_usedAnims = 0;
 
     AddNote(PR_NOTE, "Module started");
-
     return true;
 }
 

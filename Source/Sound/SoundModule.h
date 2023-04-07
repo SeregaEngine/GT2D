@@ -1,8 +1,8 @@
 #pragma once
 
 #include "SDL_mixer.h"
-#include "Types.h"
-#include "EngineModule.h"
+#include "Engine/Types.h"
+#include "Engine/EngineModule.h"
 
 struct GT_Sound;
 struct GT_Music;

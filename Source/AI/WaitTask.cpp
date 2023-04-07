@@ -1,5 +1,5 @@
-#include "ClockManager.h"
-#include "WaitTask.h"
+#include "Engine/ClockManager.h"
+#include "AI/WaitTask.h"
 
 void WaitTask::Handle()
 {

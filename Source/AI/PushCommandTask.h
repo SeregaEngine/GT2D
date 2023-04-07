@@ -1,7 +1,7 @@
 #pragma once
 
-#include "GTTask.h"
-#include "Actor.h"
+#include "AI/GTTask.h"
+#include "Game/Actor.h"
 
 class PushCommandTask final : public GT_Task
 {

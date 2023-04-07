@@ -1,10 +1,10 @@
-#include "Game.h"
-#include "InputModule.h"
-#include "CollisionManager.h"
-#include "DamageManager.h"
-#include "GTUnit.h"
-#include "Weapon.h"
-#include "Actor.h"
+#include "Input/InputModule.h"
+#include "Graphics/GTUnit.h"
+#include "Engine/CollisionManager.h"
+#include "Game/Game.h"
+#include "Game/DamageManager.h"
+#include "Game/Weapon.h"
+#include "Game/Actor.h"
 
 void Actor::Init(const Vector2& vPosition, s32 width, s32 height, const GT_Texture* pTexture)
 {

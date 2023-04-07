@@ -1,8 +1,8 @@
 #pragma once
 
-#include "GTTask.h"
-#include "Dialog.h"
-#include "Game.h"
+#include "AI/GTTask.h"
+#include "Game/Dialog.h"
+#include "Game/Game.h"
 
 class WaitTalkingTask final : public GT_Task
 {

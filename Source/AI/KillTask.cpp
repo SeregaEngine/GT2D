@@ -1,8 +1,8 @@
-#include <stdlib.h>
-#include "Game.h"
-#include "Actor.h"
-#include "CollisionManager.h"
-#include "KillTask.h"
+#include <cstdlib>
+#include "Game/Game.h"
+#include "Game/Actor.h"
+#include "Engine/CollisionManager.h"
+#include "AI/KillTask.h"
 
 static constexpr i32f ERROR_RATE = 300;
 
