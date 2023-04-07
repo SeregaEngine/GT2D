@@ -1,7 +1,5 @@
-#ifndef GTCOMMAND_H_
-#define GTCOMMAND_H_
+#pragma once
 
-/* ====== DEFINES ====== */
 enum eGTCommand
 {
     GTC_IDLE = 0,
@@ -13,5 +11,3 @@ enum eGTCommand
     GTC_MOVE_RIGHT,
     GTC_ATTACK,
 };
-
-#endif // GTCOMMAND_H_

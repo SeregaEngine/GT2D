@@ -1,10 +1,7 @@
-#ifndef GTTASK_H_
-#define GTTASK_H_
+#pragma once
 
-/* ====== INCLUDES ====== */
-#include <Types.h>
+#include "Types.h"
 
-/* ====== DEFINES ====== */
 enum eGT_TaskStatus
 {
     GTT_INPROCESS = 1,
@@ -33,24 +30,24 @@ enum eGT_TaskID
     GTT_PUSH_COMMAND,
 };
 
-/* ====== STRUCTURES ====== */
 class Actor;
 
-// Tasks send commands to Actors
+/**
+ * Tasks send commands to Actors
+ */
 class GT_Task
 {
 protected:
     Actor* m_pActor;
     s32 m_id;
     s32 m_status;
+
 public:
     GT_Task(Actor* pActor, s32 id) : m_pActor(pActor), m_id(id), m_status(GTT_INPROCESS) {}
-    virtual ~GT_Task() {}
+    virtual ~GT_Task() = default;
 
     s32 GetID() const { return m_id; }
     s32 GetStatus() const { return m_status; }
 
-    virtual void Handle() = 0;
+    virtual void Handle() {}
 };
-
-#endif // GTTASK_H_

@@ -1,21 +1,18 @@
-/* ====== INCLUDES ====== */
-#include <math.h>
-
+#include <cmath>
 #include "Game.h"
 #include "Actor.h"
 #include "CollisionManager.h"
-
 #include "GotoEntityTask.h"
 
-/* ====== DEFINES ====== */
-#define ERROR_MULTIPLIER 10.0f
-#define DECISION_RATIO_XY 4.0f
+static constexpr f32 ERROR_MULTIPLIER = 10.0f;
+static constexpr f32 DECISION_RATIO_XY = 4.0f;
 
-/* ====== METHODS ====== */
 void GotoEntityTask::Handle()
 {
     if (m_status != GTT_INPROCESS)
+    {
         return;
+    }
 
     if (IsDone())
     {
@@ -35,15 +32,15 @@ void GotoEntityTask::Handle()
 b32 GotoEntityTask::IsDone()
 {
     TList<Entity*> lstEntity;
-    g_collisionMgr.CheckCollision(m_pActor->m_vPosition, m_pActor->m_hitBox, [](auto pEntity, auto userdata) -> b32 {
-        if (pEntity == (Entity*)userdata)
-            return true;
-        return false;
-    }, m_pEntity, lstEntity);
+    g_collisionMgr.CheckCollision(
+        m_pActor->m_vPosition,
+        m_pActor->m_hitBox,
+        [] (auto pEntity, auto userdata) -> b32 { return pEntity == (Entity*)userdata; },
+        m_pEntity,
+        lstEntity
+    );
 
-    if (lstEntity.IsEmpty())
-        return false;
-    return true;
+    return !lstEntity.IsEmpty();
 }
 
 void GotoEntityTask::HandleActor()
@@ -74,15 +71,23 @@ void GotoEntityTask::HandleActor()
 void GotoEntityTask::MoveX(const Vector2& vActor, const Vector2& vEntity, const Vector2& vError)
 {
     if (vEntity.x < vActor.x - vError.x)
+    {
         m_pActor->PushCommand(GTC_MOVE_LEFT);
+    }
     else if (vEntity.x > vActor.x + vError.x)
+    {
         m_pActor->PushCommand(GTC_MOVE_RIGHT);
+    }
 }
 
 void GotoEntityTask::MoveY(const Vector2& vActor, const Vector2& vEntity, const Vector2& vError)
 {
     if (vEntity.y < vActor.y - vError.y)
+    {
         m_pActor->PushCommand(GTC_MOVE_UP);
+    }
     else if (vEntity.y > vActor.y + vError.y)
+    {
         m_pActor->PushCommand(GTC_MOVE_DOWN);
+    }
 }

@@ -1,31 +1,38 @@
-#ifndef ANIMATEFORTASK_H_
-#define ANIMATEFORTASK_H_
+#pragma once
 
-/* ====== INCLUDES ====== */
 #include "WaitTask.h"
 #include "Actor.h"
 
-/* ====== STRUCTURES ====== */
 struct GT_Animation;
 
 class AnimateForTask final : public GT_Task
 {
     WaitTask* m_pWaitTask;
+
 public:
-    AnimateForTask(Actor* pActor, const GT_Animation* pAnim, f32 wait)
-        : GT_Task(pActor, GTT_ANIMATE_FOR), m_pWaitTask(new WaitTask(pActor, wait))
+    AnimateForTask(Actor* pActor, const GT_Animation* pAnim, f32 wait) :
+        GT_Task(pActor, GTT_ANIMATE_FOR), m_pWaitTask(new WaitTask(pActor, wait))
     {
         pActor->m_pAnim = pAnim ? pAnim : pActor->m_aActorAnims[ACTOR_ANIMATION_IDLE];
         pActor->m_animFrame = 0;
         pActor->m_animElapsed = 0.0f;
         pActor->m_actorState = ACTOR_STATE_ANIMATE_LOOPED;
     }
-    ~AnimateForTask() { if (m_pWaitTask) delete m_pWaitTask; }
+
+    ~AnimateForTask()
+    {
+        if (m_pWaitTask)
+        {
+            delete m_pWaitTask;
+        }
+    }
 
     virtual void Handle() override
     {
         if (m_status != GTT_INPROCESS)
+        {
             return;
+        }
 
         m_pWaitTask->Handle();
 
@@ -37,5 +44,3 @@ public:
         }
     }
 };
-
-#endif // ANIMATEFORTASK_H_

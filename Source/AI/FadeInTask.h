@@ -1,17 +1,15 @@
-#ifndef FADEINTASK_H_
-#define FADEINTASK_H_
+#pragma once
 
-/* ====== INCLUDES ====== */
 #include "GTTask.h"
 #include "GraphicsModule.h"
 #include "ClockManager.h"
 
-/* ====== STRUCTURES ====== */
 class FadeInTask final : public GT_Task
 {
     f32 m_alpha;
     f32 m_alphaPerMs;
     SDL_Rect m_destRect;
+
 public:
     FadeInTask(Actor* pActor, f32 duration) :
         GT_Task(pActor, GTT_FADE_IN), m_alpha(255.0f), m_alphaPerMs(255.0f/duration),
@@ -20,7 +18,9 @@ public:
     virtual void Handle() override
     {
         if (m_status != GTT_INPROCESS)
+        {
             return;
+        }
 
         if (m_alpha < 0.0f)
         {
@@ -33,5 +33,3 @@ public:
         m_alpha -= m_alphaPerMs * g_clockMgr.GetDelta();
     }
 };
-
-#endif // FADEINTASK_H_

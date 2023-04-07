@@ -1,18 +1,15 @@
-#ifndef WAITTALKINGTASK_H_
-#define WAITTALKINGTASK_H_
+#pragma once
 
-/* ====== INCLUDES ====== */
 #include "GTTask.h"
 #include "Dialog.h"
 #include "Game.h"
 
-/* ====== STRUCTURES ====== */
 class WaitTalkingTask final : public GT_Task
 {
     Dialog* m_pDialog;
+
 public:
-    WaitTalkingTask(Actor* pActor, Actor* pTarget)
-        : GT_Task(pActor, GTT_WAIT_TALKING), m_pDialog(nullptr)
+    WaitTalkingTask(Actor* pActor, Actor* pTarget) : GT_Task(pActor, GTT_WAIT_TALKING), m_pDialog(nullptr)
     {
         auto& lstEntity = g_game.GetWorld().GetEntityList();
 
@@ -29,17 +26,22 @@ public:
         }
 
         if (!m_pDialog)
+        {
             m_status = GTT_DONE;
+        }
     }
 
     virtual void Handle() override
     {
         if (m_status != GTT_INPROCESS)
+        {
             return;
+        }
 
         if (!g_game.GetWorld().HasEntity(m_pDialog))
+        {
             m_status = GTT_DONE;
+        }
     }
 };
 
-#endif // WAITDIALOGTASK_H_
