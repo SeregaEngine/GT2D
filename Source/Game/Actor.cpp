@@ -2,7 +2,6 @@
 #include "Graphics/GTUnit.h"
 #include "Engine/CollisionManager.h"
 #include "Game/Game.h"
-#include "Game/DamageManager.h"
 #include "Game/Weapon.h"
 #include "Game/Actor.h"
 
@@ -279,7 +278,35 @@ void Actor::CommandAttack()
     if (bHit && m_pWeapon)
     {
         m_pWeapon->PlaySound();
-        g_damageMgr.HandleAttack(this);
+
+        // Get point for the hit registration
+        Vector2 vPoint = m_vPosition;
+        vPoint.x += m_bLookRight ? m_pWeapon->GetHitBox().x2 : m_pWeapon->GetHitBox().x1;
+
+        // Get collided actors with this hit
+        TList<Entity*> lstActor;
+        g_collisionMgr.CheckCollision(
+            vPoint,
+            m_pWeapon->GetHitBox(),
+            [] (auto pEntity, auto pAttackerUserdata) -> b32
+            {
+                Actor* pActor = (Actor*)pEntity;
+                Actor* pAttacker = (Actor*)pAttackerUserdata;
+                return
+                    pEntity->GetType() == ENTITY_TYPE_ACTOR &&
+                    (pActor->m_actorTeam == ACTOR_TEAM_DEFAULT || pActor->m_actorTeam != pAttacker->m_actorTeam);
+            },
+            this,
+            lstActor,
+            this
+        );
+
+        // Remove health from collided actors
+        auto end = lstActor.End();
+        for (auto it = lstActor.Begin(); it != end; ++it)
+        {
+            static_cast<Actor*>(it->data)->AddHealth(-m_pWeapon->GetDamage());
+        }
     }
 }
 

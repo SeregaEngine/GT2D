@@ -104,9 +104,6 @@
     <ClCompile Include="..\..\Source\Engine\Console.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Game\DamageManager.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Game\Weapon.cpp">
       <Filter>Game</Filter>
     </ClCompile>
@@ -293,9 +290,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Engine\Console.h">
       <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Game\DamageManager.h">
-      <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Game\Weapon.h">
       <Filter>Game</Filter>

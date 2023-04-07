@@ -8,7 +8,6 @@
 #include "Sound/SoundModule.h"
 #include "Animation/AnimationModule.h"
 #include "Script/ScriptModule.h"
-#include "Game/DamageManager.h"
 #include "Game/Game.h"
 #include "Engine/DebugLogManager.h"
 #include "Engine/Console.h"
@@ -103,7 +102,6 @@ b32 GT2D::StartUp()
         if (!g_scriptModule.StartUp()) return false;
         if (!g_game.StartUp())         return false;
         if (!g_collisionMgr.StartUp()) return false;
-        if (!g_damageMgr.StartUp())    return false;
         if (!g_clockMgr.StartUp(DEFAULT_FPS))  return false;
     }
 
@@ -119,7 +117,6 @@ void GT2D::ShutDown()
 
     { // Shut down engine's modules
         g_clockMgr.ShutDown();
-        g_damageMgr.ShutDown();
         g_collisionMgr.ShutDown();
         g_game.ShutDown();
         g_scriptModule.ShutDown();
