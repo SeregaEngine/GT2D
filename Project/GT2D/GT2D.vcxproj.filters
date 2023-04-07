@@ -56,7 +56,7 @@
     <ClCompile Include="..\..\Source\Engine\EngineModule.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Engine\GT2D.cpp">
+    <ClCompile Include="..\..\Source\Engine\Engine.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Game\Actor.cpp">
@@ -231,7 +231,7 @@
     <ClInclude Include="..\..\Source\Engine\EngineModule.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Engine\GT2D.h">
+    <ClInclude Include="..\..\Source\Engine\Engine.h">
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Engine\Types.h">

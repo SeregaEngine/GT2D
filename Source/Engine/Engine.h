@@ -3,7 +3,7 @@
 #include "SDL.h"
 #include "Engine/EngineModule.h"
 
-class GT2D : public EngineModule
+class Engine final : public EngineModule
 {
 public:
     enum eExitCode
@@ -17,14 +17,14 @@ private:
     SDL_Renderer* m_pRenderer;
 
 public:
-    GT2D() :
+    Engine() :
         EngineModule("GT2D", CHANNEL_GT2D),
         m_pWindow(nullptr), m_pRenderer(nullptr) {}
-    ~GT2D() {}
+    ~Engine() {}
 
     b32 StartUp();
     void ShutDown();
     s32 Run();
 };
 
-inline GT2D g_GT2D;
+inline Engine g_engine;

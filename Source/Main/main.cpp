@@ -1,15 +1,15 @@
 #include "SDL.h"
-#include "Engine/GT2D.h"
+#include "Engine/Engine.h"
 
 int main(int argc, char** argv)
 {
-    if (!g_GT2D.StartUp())
+    if (!g_engine.StartUp())
     {
-        return GT2D::EC_ERROR;
+        return Engine::EC_ERROR;
     }
 
-    s32 exitCode = g_GT2D.Run();
+    s32 exitCode = g_engine.Run();
 
-    g_GT2D.ShutDown();
+    g_engine.ShutDown();
     return exitCode;
 }

@@ -13,7 +13,7 @@
 #include "Engine/Console.h"
 #include "Engine/ClockManager.h"
 #include "Engine/CollisionManager.h"
-#include "Engine/GT2D.h"
+#include "Engine/Engine.h"
 
 static constexpr i32f DEFAULT_FPS = 60;
 static constexpr i32f DEFAULT_SCREEN_WIDTH = 1280;
@@ -26,7 +26,7 @@ static constexpr char WINDOW_TITLE[] =
     "Petrol: The Fastest";
 #endif
 
-b32 GT2D::StartUp()
+b32 Engine::StartUp()
 {
     // Start up log manager
     if (!g_debugLogMgr.StartUp())
@@ -105,7 +105,7 @@ b32 GT2D::StartUp()
     return true;
 }
 
-void GT2D::ShutDown()
+void Engine::ShutDown()
 {
     AddNote(PR_NOTE, "Engine shut down");
 
@@ -139,7 +139,7 @@ void GT2D::ShutDown()
     g_debugLogMgr.ShutDown();
 }
 
-s32 GT2D::Run()
+s32 Engine::Run()
 {
     while (g_game.Running())
     {
