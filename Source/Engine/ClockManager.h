@@ -10,7 +10,7 @@ class ClockManager
     u32 m_msSyncDelay;
 
 public:
-    b32 StartUp(s32 fps);
+    void StartUp(s32 fps);
     void ShutDown() {}
 
     f32 ComputeDelta()

@@ -4,6 +4,7 @@
 #include <filesystem>
 #include "Engine/Console.h"
 #include "Engine/DebugLogManager.h"
+#include "Engine/Assert.h"
 
 static constexpr i32f NOTE_PREFIX_BUFSIZE  = 64;
 static constexpr i32f NOTE_MESSAGE_BUFSIZE = 512;
@@ -87,38 +88,34 @@ enum ePriorityColor
     PRIORITY_COLOR_NOTE      = 0,
 };
 
-b32 DebugLogManager::StartUp()
+void DebugLogManager::StartUp()
 {
 #ifdef _DEBUG
     // Allocate windows console
-    if (!AllocConsole())
-    {
-        return false;
-    }
+    b32 bRes = AllocConsole();
+    DebugAssert(bRes);
     hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 #endif
 
     // Start up engine's console
-    if (!g_console.StartUp())
-    {
-        return false;
-    }
+    g_console.StartUp();
 
     // Open all log files
     std::filesystem::create_directory(DIR_LOGS);
 
-    if ( nullptr == (hLogFull = fopen(FILENAME_LOGFULL, "w")) ) return false;
-    if ( nullptr == (hLogMgr = fopen(FILENAME_DEBUGLOGMANAGER, "w")) ) AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
-    if ( nullptr == (hGT2D = fopen(FILENAME_GT2D, "w")) ) AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
+    hLogFull = fopen(FILENAME_LOGFULL, "w");
+    ShipAssert(hLogFull);
+
+    if ( nullptr == (hLogMgr = fopen(FILENAME_DEBUGLOGMANAGER, "w")) )  AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
+    if ( nullptr == (hGT2D = fopen(FILENAME_GT2D, "w")) )               AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
     if ( nullptr == (hGraphics = fopen(FILENAME_GRAPHICSMODULE, "w")) ) AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
-    if ( nullptr == (hInput = fopen(FILENAME_INPUTMODULE, "w")) ) AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
-    if ( nullptr == (hSound = fopen(FILENAME_SOUNDMODULE, "w")) ) AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
-    if ( nullptr == (hAnim = fopen(FILENAME_ANIMATIONMODULE, "w")) ) AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
-    if ( nullptr == (hScript = fopen(FILENAME_SCRIPTMODULE, "w")) ) AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
-    if ( nullptr == (hGame = fopen(FILENAME_GAME, "w")) ) AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
+    if ( nullptr == (hInput = fopen(FILENAME_INPUTMODULE, "w")) )       AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
+    if ( nullptr == (hSound = fopen(FILENAME_SOUNDMODULE, "w")) )       AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
+    if ( nullptr == (hAnim = fopen(FILENAME_ANIMATIONMODULE, "w")) )    AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
+    if ( nullptr == (hScript = fopen(FILENAME_SCRIPTMODULE, "w")) )     AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
+    if ( nullptr == (hGame = fopen(FILENAME_GAME, "w")) )               AddNote(CHANNEL_LOGMGR, PR_WARNING, "DebugLogManager", "Can't open log file: %s", strerror(errno));
 
     AddNote(CHANNEL_LOGMGR, PR_NOTE, "DebugLogManager", "Manager started");
-    return true;
 }
 
 void DebugLogManager::ShutDown()

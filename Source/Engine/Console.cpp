@@ -14,7 +14,7 @@ static constexpr i32f LAST_BUFSIZE = CONSOLE_STRING_WIDTH + 1;
 
 static constexpr char CONSOLE_PROMPT[] = "> ";
 
-b32 Console::StartUp()
+void Console::StartUp()
 {
     // Allocate and init buffer
     m_buffer = new u8[CONSOLE_BUFSIZE];
@@ -29,8 +29,6 @@ b32 Console::StartUp()
     m_bShown = false;
     m_lastInputPosition = m_currentInput;
     m_lastCursorPosition = m_cursorPosition;
-
-    return true;
 }
 
 void Console::ShutDown()

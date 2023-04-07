@@ -13,6 +13,7 @@
 #include "Engine/Console.h"
 #include "Engine/ClockManager.h"
 #include "Engine/CollisionManager.h"
+#include "Engine/Assert.h"
 #include "Engine/Engine.h"
 
 static constexpr i32f DEFAULT_FPS = 60;
@@ -26,19 +27,17 @@ static constexpr char WINDOW_TITLE[] =
     "Petrol: The Fastest";
 #endif
 
-b32 Engine::StartUp()
+void Engine::StartUp()
 {
     // Start up log manager
-    if (!g_debugLogMgr.StartUp())
-    {
-        return false;
-    }
+    g_debugLogMgr.StartUp();
 
     { // Init all SDL stuff
-        if (0 != SDL_Init(SDL_INIT_EVERYTHING))
+        s32 res = SDL_Init(SDL_INIT_EVERYTHING);
+        if (res != 0)
         {
             AddNote(PR_ERROR, "Error on SDL initialization: %s", SDL_GetError());
-            return false;
+            AssertNoEntry();
         }
 
         // Create window
@@ -54,14 +53,14 @@ b32 Engine::StartUp()
                             windowFlags)) )
         {
             AddNote(PR_ERROR, "Error on creating window: %s", SDL_GetError());
-            return false;
+            AssertNoEntry();
         }
 
         // Create renderer
         if ( nullptr == (m_pRenderer = SDL_CreateRenderer(m_pWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC)) )
         {
             AddNote(PR_ERROR, "Error on creating renderer: %s", SDL_GetError());
-            return false;
+            AssertNoEntry();
         }
         SDL_SetRenderDrawBlendMode(m_pRenderer, SDL_BLENDMODE_BLEND);
 
@@ -69,20 +68,20 @@ b32 Engine::StartUp()
         if (~IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)
         {
             AddNote(PR_ERROR, "Error on SDL Image initialization: %s", IMG_GetError());
-            return false;
+            AssertNoEntry();
         }
 
         // Init SDL Mixer
         if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
         {
             AddNote(PR_ERROR, "Error on SDL Mixer initialization: %s", Mix_GetError());
-            return false;
+            AssertNoEntry();
         }
 
         if (0 != TTF_Init())
         {
             AddNote(PR_ERROR, "%s", TTF_GetError());
-            return false;
+            AssertNoEntry();
         }
     }
 
@@ -90,19 +89,18 @@ b32 Engine::StartUp()
         s32 width, height;
         SDL_GetWindowSize(m_pWindow, &width, &height);
 
-        if (!g_math.StartUp()) return false;
-        if (!g_graphicsModule.StartUp(m_pWindow, m_pRenderer, width, height)) return false;
-        if (!g_inputModule.StartUp())  return false;
-        if (!g_soundModule.StartUp())  return false;
-        if (!g_animModule.StartUp())   return false;
-        if (!g_scriptModule.StartUp()) return false;
-        if (!g_game.StartUp())         return false;
-        if (!g_collisionMgr.StartUp()) return false;
-        if (!g_clockMgr.StartUp(DEFAULT_FPS))  return false;
+        g_math.StartUp();
+        g_graphicsModule.StartUp(m_pWindow, m_pRenderer, width, height);
+        g_inputModule.StartUp();
+        g_soundModule.StartUp();
+        g_animModule.StartUp();
+        g_scriptModule.StartUp();
+        g_game.StartUp();
+        g_collisionMgr.StartUp();
+        g_clockMgr.StartUp(DEFAULT_FPS);
     }
 
     AddNote(PR_NOTE, "Engine started successfully\n");
-    return true;
 }
 
 void Engine::ShutDown()
@@ -154,6 +152,8 @@ s32 Engine::Run()
         // NOTE: Now we use VSync instead of clock synchronization
         // g_clockMgr.Sync();
     }
+
+    ShutDown();
 
     return EC_OK;
 }

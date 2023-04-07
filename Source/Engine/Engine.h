@@ -22,7 +22,7 @@ public:
         m_pWindow(nullptr), m_pRenderer(nullptr) {}
     ~Engine() {}
 
-    b32 StartUp();
+    void StartUp();
     void ShutDown();
     s32 Run();
 };

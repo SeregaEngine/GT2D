@@ -40,7 +40,7 @@ class DebugLogManager
     FILE* hGame;
 
 public:
-    b32 StartUp();
+    void StartUp();
     void ShutDown();
 
     void AddNote(s32 channel, s32 priority, const char* name, const char* fmt, ...);

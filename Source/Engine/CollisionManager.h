@@ -11,7 +11,7 @@ class CollisionManager final : public EngineModule
 public:
     CollisionManager() : EngineModule("CollisionManager", CHANNEL_GAME) {}
 
-    b32 StartUp();
+    void StartUp();
     void ShutDown();
 
     b32 IsOnGround(const Vector2& vPoint, const FRect& hitBox) const;

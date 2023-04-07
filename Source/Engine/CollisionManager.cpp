@@ -1,10 +1,9 @@
 #include "Game/Game.h"
 #include "Engine/CollisionManager.h"
 
-b32 CollisionManager::StartUp()
+void CollisionManager::StartUp()
 {
     AddNote(PR_NOTE, "Module started");
-    return true;
 }
 
 void CollisionManager::ShutDown()
