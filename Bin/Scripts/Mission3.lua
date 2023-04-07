@@ -328,7 +328,7 @@ function L1.defineCutscenes()
                 { Serega, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Hey, what is going on?", 4, Serega, Textures["DialogSquare"]) },
                 { Serega, true, AITASK_WAIT, 250 },
 
-                { Blank, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Alpha one, we have situation at Malholland drive, need backup", 8, Blank, Textures["DialogSquare"]) },
+                { Blank, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Alpha one, we have situation at Malholland Drive, need backup", 8, Blank, Textures["DialogSquare"]) },
                 { Blank, true, AITASK_WAIT, 250 },
                 { Blank, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Do you copy?", 3, Blank, Textures["DialogSquare"]) },
                 { Blank, true, AITASK_WAIT, 250 },

@@ -28,7 +28,7 @@ public:
 
     void PushState(GameState* pState) { m_lstState.Push(pState); }
     void PopState() { if (m_pCurrentState) m_lstRemove.Push(m_pCurrentState); }
-    void PopAllStates() { m_lstState.Mapcar([](auto pState, auto pSelf) { static_cast<Game*>(pSelf)->m_lstRemove.Push(pState); }, this); }
+    void PopAllStates() { m_lstState.Foreach([](auto pState, auto pSelf) { static_cast<Game*>(pSelf)->m_lstRemove.Push(pState); }, this); }
     void ChangeState(GameState* pState) { PopState(); PushState(pState); }
     GameState* GetCurrentState() { return m_pCurrentState; }
 

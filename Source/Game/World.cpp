@@ -101,7 +101,7 @@ void World::RemoveEntities()
 
 void World::CleanEntities()
 {
-    m_lstEntity.Mapcar([] (auto pEntity)
+    m_lstEntity.Foreach([] (auto pEntity)
     {
         pEntity->Clean();
         delete pEntity;
@@ -112,7 +112,7 @@ void World::CleanEntities()
 
 void World::CleanWeapons()
 {
-    m_lstWeapon.Mapcar([] (auto pWeapon)
+    m_lstWeapon.Foreach([] (auto pWeapon)
     {
         if (pWeapon)
         {

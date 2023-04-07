@@ -77,7 +77,7 @@ void Actor::PushTask(AITask* pTask)
 
 void Actor::RemoveTasks()
 {
-    m_lstTask.Mapcar([] (auto pTask) { delete pTask; });
+    m_lstTask.Foreach([] (auto pTask) { delete pTask; });
     m_lstTask.Clean();
 }
 

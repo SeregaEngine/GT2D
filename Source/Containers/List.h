@@ -12,7 +12,7 @@ private:
         Item* pNext;
 
         Item() : data(), pNext(nullptr) {}
-        Item(T& _data, Item* _pNext) : data(_data), pNext(_pNext) {}
+        Item(const T& _data, Item* _pNext) : data(_data), pNext(_pNext) {}
     };
 
 public:
@@ -44,9 +44,9 @@ public:
 
     static void Move(TList<T>& lstDest, TList<T>& lstSrc);
 
-    void Push(T data);
-    void PushBack(T data);
-    void PushBefore(Iterator& beforeIterator, T data);
+    void Push(const T& data);
+    void PushBack(const T& data);
+    void PushBefore(Iterator& beforeIterator, const T& data);
 
     void Pop();
     void PopBack();
@@ -58,8 +58,8 @@ public:
     b32 IsEmpty() const { return m_pFirst ? false : true; }
     b32 IsMember(const T& check) const;
 
-    void Mapcar(void (*fun)(T, void*), void* userdata); // @TODO: -> Foreach
-    void Mapcar(void (*fun)(T));
+    void Foreach(void (*fun)(T&, void*), void* userdata);
+    void Foreach(void (*fun)(T&));
 
     Iterator Begin() { return m_pFirst; }
     Iterator End() { return nullptr; }
@@ -84,7 +84,7 @@ inline void TList<T>::Move(TList<T>& lstDest, TList<T>& lstSrc)
 }
 
 template<class T>
-inline void TList<T>::Push(T data)
+inline void TList<T>::Push(const T& data)
 {
     Item* pTemp = new Item(data, m_pFirst);
     m_pFirst = pTemp;
@@ -95,7 +95,7 @@ inline void TList<T>::Push(T data)
 }
 
 template<class T>
-inline void TList<T>::PushBack(T data)
+inline void TList<T>::PushBack(const T& data)
 {
     Item* pTemp = new Item(data, nullptr);
     if (m_pLast)
@@ -111,7 +111,7 @@ inline void TList<T>::PushBack(T data)
 }
 
 template<class T>
-inline void TList<T>::PushBefore(Iterator& beforeIterator, T data)
+inline void TList<T>::PushBefore(Iterator& beforeIterator, const T& data)
 {
     // Push front if beforeIterator item is our first item
     if (beforeIterator.pItem == m_pFirst)
@@ -222,7 +222,7 @@ inline void TList<T>::Clean()
 }
 
 template<class T>
-inline void TList<T>::Mapcar(void (*fun)(T, void*), void* userdata)
+inline void TList<T>::Foreach(void (*fun)(T&, void*), void* userdata)
 {
     for (Item* pTemp = m_pFirst; pTemp; pTemp = pTemp->pNext)
     {
@@ -231,7 +231,7 @@ inline void TList<T>::Mapcar(void (*fun)(T, void*), void* userdata)
 }
 
 template<class T>
-inline void TList<T>::Mapcar(void (*fun)(T))
+inline void TList<T>::Foreach(void (*fun)(T&))
 {
     for (Item* pTemp = m_pFirst; pTemp; pTemp = pTemp->pNext)
     {

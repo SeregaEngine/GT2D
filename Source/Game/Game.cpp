@@ -17,7 +17,7 @@ void Game::StartUp()
 void Game::ShutDown()
 {
     m_pCurrentState = nullptr;
-    m_lstState.Mapcar([](auto pState) { pState->OnExit(); delete pState; });
+    m_lstState.Foreach([](auto pState) { pState->OnExit(); delete pState; });
     m_lstState.Clean();
     m_lstRemove.Clean();
 
