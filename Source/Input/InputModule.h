@@ -46,6 +46,6 @@ public:
     s32 GetMousePosY() const { return m_mousePosY; }
 };
 
-extern InputModule g_inputModule;
+inline InputModule g_inputModule;
 
 #endif // INPUTMODULE_H_

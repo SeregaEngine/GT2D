@@ -19,7 +19,7 @@ void Dialog::Init(const Vector2& vPosition, s32 width, s32 height, const GT_Text
     m_bCollidable = false;
 
     m_renderMode = RENDER_MODE_FOREGROUND;
-    m_zIndex = 0; // TODO(sean) Think about this default z-index
+    m_zIndex = 0;
 
     // Defaults
     m_pAttached = nullptr;

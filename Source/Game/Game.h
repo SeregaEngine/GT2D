@@ -42,6 +42,6 @@ private:
     void RemoveStates();
 };
 
-extern Game g_game;
+inline Game g_game;
 
 #endif // GAME_H_

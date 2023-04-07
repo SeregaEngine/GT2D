@@ -19,6 +19,6 @@ public:
     void Sync() const;
 };
 
-extern ClockManager g_clockMgr;
+inline ClockManager g_clockMgr;
 
 #endif // CLOCKMANAGER_H_

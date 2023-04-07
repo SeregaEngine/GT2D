@@ -34,9 +34,6 @@
 # define WINDOW_TITLE "Petrol: The Fastest"
 #endif
 
-/* ====== VARIABLES ====== */
-GT2D g_GT2D;
-
 /* ====== METHODS ====== */
 b32 GT2D::StartUp()
 {
@@ -174,7 +171,7 @@ s32 GT2D::Run()
         g_game.Update(g_clockMgr.ComputeDelta());
         g_game.Render();
 
-        // We use VSync instead of clock synchronization
+        // NOTE: Now we use VSync instead of clock synchronization
         // g_clockMgr.Sync();
     }
 

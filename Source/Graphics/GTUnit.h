@@ -6,8 +6,8 @@
 namespace GTU
 {
     /* ====== INTERNAL VARIABLES ====== */
-    extern f32 s_unitX; // Pixels per unit
-    extern f32 s_unitY;
+    inline f32 s_unitX = 0.0f; // Pixels per unit
+    inline f32 s_unitY = 0.0f;
 
     /* ====== FUNCTIONS ====== */
     __forceinline void UnitToScreen(f32& x, f32& y) { x *= s_unitX; y *= s_unitY; }

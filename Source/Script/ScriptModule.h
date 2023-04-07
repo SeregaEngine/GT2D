@@ -2,11 +2,6 @@
 #define SCRIPTMODULE_H_
 
 /* ====== INCLUDES ====== */
-extern "C"
-{
-#include "lua.h"
-}
-
 #include "EngineModule.h"
 
 /* ====== DEFINES ====== */
@@ -17,6 +12,7 @@ extern "C"
 class Entity;
 class Actor;
 class Trigger;
+struct lua_State;
 
 class ScriptModule final : public EngineModule
 {
@@ -213,6 +209,6 @@ private:
     static s32 _setDialogText(lua_State* L);
 };
 
-extern ScriptModule g_scriptModule;
+inline ScriptModule g_scriptModule;
 
 #endif // SCRIPTMODULE_H_

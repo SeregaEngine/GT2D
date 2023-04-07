@@ -3,9 +3,6 @@
 
 #include "ClockManager.h"
 
-/* ====== VARIABLES ====== */
-ClockManager g_clockMgr;
-
 /* ====== METHODS ====== */
 b32 ClockManager::StartUp(s32 fps)
 {

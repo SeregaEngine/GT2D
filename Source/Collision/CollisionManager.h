@@ -26,6 +26,6 @@ public:
                         TList<Entity*>& lstEntity, const Entity* pExcept = nullptr) const;
 };
 
-extern CollisionManager g_collisionMgr;
+inline CollisionManager g_collisionMgr;
 
 #endif // COLLISIONMANAGER_H_

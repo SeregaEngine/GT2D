@@ -37,6 +37,6 @@ public:
     void StopSoundsAndMusic() { StopSounds(); StopMusic(); }
 };
 
-extern SoundModule g_soundModule;
+inline SoundModule g_soundModule;
 
 #endif // SOUNDMODULE_H_

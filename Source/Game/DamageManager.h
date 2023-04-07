@@ -18,6 +18,6 @@ public:
     void HandleAttack(const Actor* pAttacker);
 };
 
-extern DamageManager g_damageMgr;
+inline DamageManager g_damageMgr;
 
 #endif // DAMAGEMANAGER_H_

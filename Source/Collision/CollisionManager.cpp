@@ -3,9 +3,6 @@
 
 #include "CollisionManager.h"
 
-/* ====== GLOBALS ====== */
-CollisionManager g_collisionMgr;
-
 /* ====== METHODS ====== */
 b32 CollisionManager::StartUp()
 {

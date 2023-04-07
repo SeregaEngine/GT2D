@@ -54,6 +54,6 @@ public:
     void VAddNote(s32 channel, s32 priority, const char* name, const char* fmt, va_list vl);
 };
 
-extern DebugLogManager g_debugLogMgr;
+inline DebugLogManager g_debugLogMgr;
 
 #endif // DEBUGLOGMANAGER_H_

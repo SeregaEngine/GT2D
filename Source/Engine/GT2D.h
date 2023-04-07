@@ -30,6 +30,6 @@ public:
     s32 Run();
 };
 
-extern GT2D g_GT2D;
+inline GT2D g_GT2D;
 
 #endif // GT2D_H_

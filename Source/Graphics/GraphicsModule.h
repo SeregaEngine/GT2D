@@ -91,6 +91,6 @@ private:
     void PushDynamicElement(TList<RenderElement*>& queue, RenderElement* pElement);
 };
 
-extern GraphicsModule g_graphicsModule;
+inline GraphicsModule g_graphicsModule;
 
 #endif // GRAPHICSMODULE_H_

@@ -6,9 +6,6 @@
 
 #include "Game.h"
 
-/* ====== VARIABLES ====== */
-Game g_game;
-
 /* ====== METHODS====== */
 b32 Game::StartUp()
 {

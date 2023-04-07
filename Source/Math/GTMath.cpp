@@ -3,10 +3,6 @@
 
 #include "GTMath.h"
 
-/* ====== VARIABLES ====== */
-f32 GTM::g_sinLook[361];
-f32 GTM::g_cosLook[361];
-
 /* ====== METHODS ====== */
 b32 GTM::StartUp()
 {

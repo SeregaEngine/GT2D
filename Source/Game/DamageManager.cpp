@@ -5,9 +5,6 @@
 
 #include "DamageManager.h"
 
-/* ====== VARIABLES ====== */
-DamageManager g_damageMgr;
-
 /* ====== METHODS ====== */
 b32 DamageManager::StartUp()
 {

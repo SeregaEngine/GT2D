@@ -39,6 +39,6 @@ private:
     void Reset();
 };
 
-extern Console g_console;
+inline Console g_console;
 
 #endif // CONSOLE_H_

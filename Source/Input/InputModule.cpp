@@ -3,9 +3,6 @@
 
 #include "InputModule.h"
 
-/* ====== VARIABLES ====== */
-InputModule g_inputModule;
-
 /* ====== METHODS ====== */
 b32 InputModule::StartUp()
 {

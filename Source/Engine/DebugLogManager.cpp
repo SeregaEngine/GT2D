@@ -18,9 +18,6 @@
 
 #include "DebugLogManager.h"
 
-/* ====== VARIABLES ====== */
-DebugLogManager g_debugLogMgr;
-
 /* ====== DEFINES ====== */
 #define NOTE_PREFIX_BUFSIZE  64
 #define NOTE_MESSAGE_BUFSIZE 512

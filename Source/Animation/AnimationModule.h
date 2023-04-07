@@ -28,6 +28,6 @@ public:
     void UndefineAnimations() { m_usedAnims = 0; }
 };
 
-extern AnimationModule g_animModule;
+inline AnimationModule g_animModule;
 
 #endif // ANIMATIONMODULE_H_

@@ -18,9 +18,6 @@ struct GT_Music
     Mix_Music* pMusic;
 };
 
-/* ====== VARIABLES ====== */
-SoundModule g_soundModule;
-
 /* ====== METHODS ====== */
 b32 SoundModule::StartUp()
 {

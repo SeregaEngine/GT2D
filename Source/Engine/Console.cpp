@@ -22,9 +22,6 @@
 
 static const char s_consolePrompt[] = "> ";
 
-/* ====== VARIABLES ====== */
-Console g_console;
-
 /* ====== METHODS ====== */
 b32 Console::StartUp()
 {

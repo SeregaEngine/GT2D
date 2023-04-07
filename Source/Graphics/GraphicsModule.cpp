@@ -17,9 +17,6 @@
 /* ====== DEFINES ====== */
 #define MAX_TEXTURES 256
 
-/* ====== VARIABLES ====== */
-GraphicsModule g_graphicsModule;
-
 TTF_Font* GraphicsModule::s_pConsoleFont = nullptr;
 TTF_Font* GraphicsModule::s_pGameFont = nullptr;
 

@@ -4,9 +4,6 @@
 /* ====== DEFINES ====== */
 #define MAX_ANIMATIONS 256
 
-/* ====== VARIABLES ====== */
-AnimationModule g_animModule;
-
 /* ====== METHODS ====== */
 b32 AnimationModule::StartUp()
 {

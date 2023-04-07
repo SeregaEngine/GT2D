@@ -5,6 +5,7 @@
 /* ====== INCLUDES ====== */
 extern "C"
 {
+#include "lua.h"
 #include "lauxlib.h"
 #include "lualib.h"
 }
@@ -39,9 +40,6 @@ extern "C"
 /* ====== DEFINES ====== */
 #define MISSION_SAVER_PATH "Scripts/Internal/Saver.lua"
 #define SCRIPT_SET_UP "package.path = package.path .. \";Scripts/?.lua;Scripts/Internal/?.lua\""
-
-/* ====== VARIABLES ====== */
-ScriptModule g_scriptModule;
 
 /* ====== METHODS ====== */
 b32 ScriptModule::StartUp()
