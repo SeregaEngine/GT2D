@@ -113,12 +113,12 @@ function defineCutscenes()
     States.scene1 = Cutscene.new(
         function(TActor)
             return {
-                { Player, true, GTT_FADE_IN, 5000 },
-                { Player, true, GTT_WAIT, 1000 },
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "It's the end.", 5, Player, Textures["DialogSquare"]) },
-                { Player, true, GTT_WAIT, 250 },
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "I'll back to my family soon...", 6, Player, Textures["DialogSquare"]) },
-                { Player, true, GTT_WAIT, 2000 },
+                { Player, true, AITASK_FADE_IN, 5000 },
+                { Player, true, AITASK_WAIT, 1000 },
+                { Player, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "It's the end.", 5, Player, Textures["DialogSquare"]) },
+                { Player, true, AITASK_WAIT, 250 },
+                { Player, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "I'll back to my family soon...", 6, Player, Textures["DialogSquare"]) },
+                { Player, true, AITASK_WAIT, 2000 },
             }
         end,
         function(TActor)
@@ -131,7 +131,7 @@ function defineCutscenes()
             Sounds["PoliceThrottling"]:play()
             Sounds["PoliceSiren"]:play()
             return {
-                { Player, true, GTT_WAIT, 2000 },
+                { Player, true, AITASK_WAIT, 2000 },
             }
         end,
         function(TActor)
@@ -145,7 +145,7 @@ function defineCutscenes()
             PoliceCar:setPosition(X + GW_LOCATION*1.5, 60)
             PoliceCar:setMaxSpeed(0.04, 0.01)
             return {
-                { Player, true, GTT_WAIT, 7500 },
+                { Player, true, AITASK_WAIT, 7500 },
             }
         end,
         function(TActor)
@@ -157,12 +157,12 @@ function defineCutscenes()
         function(TActor)
             PoliceCar:setMaxSpeed(0.030, 0.01)
             return {
-                { Serega, true, GTT_WAIT, 250 },
-                { Serega, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Petrol, stop the car right now!", 3, Serega, Textures["DialogSquare"]) },
-                { Serega, true, GTT_WAIT, 250 },
+                { Serega, true, AITASK_WAIT, 250 },
+                { Serega, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Petrol, stop the car right now!", 3, Serega, Textures["DialogSquare"]) },
+                { Serega, true, AITASK_WAIT, 250 },
 
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Shit, man...", 2, Player, Textures["DialogSquare"]) },
-                { Player, true, GTT_WAIT, 2500 },
+                { Player, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Shit, man...", 2, Player, Textures["DialogSquare"]) },
+                { Player, true, AITASK_WAIT, 2500 },
             }
         end,
         function(TActor)
@@ -174,8 +174,8 @@ function defineCutscenes()
         function(TActor)
             Dodge:setMaxSpeed(0.027, 0.01)
             return {
-                { Player, true, GTT_WAIT, 3000 },
-                { Player, true, GTT_FADE_OFF, 500 },
+                { Player, true, AITASK_WAIT, 3000 },
+                { Player, true, AITASK_FADE_OFF, 500 },
             }
         end,
         function(TActor)
@@ -190,7 +190,7 @@ function defineCutscenes()
             Sounds["Crash"]:play()
             Musics["End"]:play()
             return {
-                { Player, true, GTT_WAIT, 6000 },
+                { Player, true, AITASK_WAIT, 6000 },
             }
         end,
         function(TActor)
@@ -216,8 +216,8 @@ function defineCutscenes()
             John:setPosition(X - 40, 54)
 
             return {
-                { Player, true, GTT_FADE_IN, 2000 },
-                { Player, true, GTT_WAIT, 2500 },
+                { Player, true, AITASK_FADE_IN, 2000 },
+                { Player, true, AITASK_WAIT, 2500 },
             }
         end,
         function(TActor)
@@ -229,12 +229,12 @@ function defineCutscenes()
         function(TActor)
             local X,Y = Player:getPosition()
             return {
-                { Serega, false, GTT_GOTO, X - 12, Y + 3 },
-                { John, true, GTT_GOTO, X - 7, Y + 1 },
-                { Serega, true, GTT_WAIT, 1000 },
-                { John, false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "God bless you..", 6, John, Textures["DialogSquare"]) },
-                { John, true, GTT_WAIT, 3500 },
-                { John, true, GTT_FADE_OFF, 20000 },
+                { Serega, false, AITASK_GOTO, X - 12, Y + 3 },
+                { John, true, AITASK_GOTO, X - 7, Y + 1 },
+                { Serega, true, AITASK_WAIT, 1000 },
+                { John, false, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "God bless you..", 6, John, Textures["DialogSquare"]) },
+                { John, true, AITASK_WAIT, 3500 },
+                { John, true, AITASK_FADE_OFF, 20000 },
             }
         end,
         function(TActor)

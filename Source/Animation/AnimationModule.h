@@ -2,7 +2,7 @@
 
 #include "Engine/EngineModule.h"
 
-struct GT_Animation
+struct Animation
 {
     s32 row;
     s32 count;
@@ -11,7 +11,7 @@ struct GT_Animation
 
 class AnimationModule final : public EngineModule
 {
-    GT_Animation* m_aAnims;
+    Animation* m_aAnims;
     s32 m_usedAnims;
 
 public:
@@ -20,7 +20,7 @@ public:
     b32 StartUp();
     void ShutDown();
 
-    const GT_Animation* DefineAnimation(const GT_Animation& anim);
+    const Animation* DefineAnimation(const Animation& anim);
     void UndefineAnimations() { m_usedAnims = 0; }
 };
 

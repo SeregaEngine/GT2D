@@ -4,7 +4,7 @@ static constexpr i32f MAX_ANIMATIONS = 256;
 
 b32 AnimationModule::StartUp()
 {
-    m_aAnims = new GT_Animation[MAX_ANIMATIONS];
+    m_aAnims = new Animation[MAX_ANIMATIONS];
     m_usedAnims = 0;
 
     AddNote(PR_NOTE, "Module started");
@@ -18,7 +18,7 @@ void AnimationModule::ShutDown()
     AddNote(PR_NOTE, "Module shut down");
 }
 
-const GT_Animation* AnimationModule::DefineAnimation(const GT_Animation& anim)
+const Animation* AnimationModule::DefineAnimation(const Animation& anim)
 {
     if (m_usedAnims >= MAX_ANIMATIONS)
     {

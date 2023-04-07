@@ -4,13 +4,13 @@
 #include "Engine/Types.h"
 #include "Engine/EngineModule.h"
 
-struct GT_Sound;
-struct GT_Music;
+struct Sound;
+struct Music;
 
 class SoundModule final : public EngineModule
 {
-    GT_Sound* m_aSounds;
-    GT_Music* m_aMusics;
+    Sound* m_aSounds;
+    Music* m_aMusics;
 
 public:
     SoundModule() : EngineModule("SoundModule", CHANNEL_SOUND) {}
@@ -18,15 +18,15 @@ public:
     b32 StartUp();
     void ShutDown();
 
-    GT_Sound* DefineWAV(const char* fileName);
-    GT_Music* DefineMusic(const char* fileName);
+    Sound* DefineWAV(const char* fileName);
+    Music* DefineMusic(const char* fileName);
 
     void UndefineSounds();
     void UndefineMusics();
     void UndefineResources() { UndefineSounds(); UndefineMusics(); }
 
-    b32 PlaySound(GT_Sound* pSound, b32 bLoop = false);
-    b32 PlayMusic(GT_Music* pMusic);
+    b32 PlaySound(Sound* pSound, b32 bLoop = false);
+    b32 PlayMusic(Music* pMusic);
     void StopSounds() { Mix_HaltChannel(-1); }
     void StopMusic() { Mix_HaltMusic(); }
     void StopSoundsAndMusic() { StopSounds(); StopMusic(); }

@@ -1,9 +1,9 @@
 #include <cstdio>
 #include "SDL_image.h"
-#include "Math/GTMath.h"
-#include "Graphics/GTUnit.h"
+#include "Math/Math.h"
+#include "Graphics/Unit.h"
 #include "Graphics/RenderElement.h"
-#include "Graphics/GTTexture.h"
+#include "Graphics/Texture.h"
 #include "Graphics/GraphicsModule.h"
 
 static constexpr i32f MAX_TEXTURES = 256;
@@ -30,8 +30,8 @@ b32 GraphicsModule::StartUp(SDL_Window* pWindow, SDL_Renderer* pRenderer, s32 wi
     m_drawColor = { 0x00, 0x00, 0x00, 0xFF };
 
     // Allocate textures
-    m_aTextures = new GT_Texture[MAX_TEXTURES];
-    memset(m_aTextures, 0, sizeof(GT_Texture) * MAX_TEXTURES);
+    m_aTextures = new Texture[MAX_TEXTURES];
+    memset(m_aTextures, 0, sizeof(Texture) * MAX_TEXTURES);
 
     // Open console font
     s_pConsoleFont = TTF_OpenFont("Fonts/Cascadia.ttf", 48);
@@ -96,10 +96,10 @@ void GraphicsModule::Render()
     CleanQueues();
 }
 
-const GT_Texture* GraphicsModule::DefineTexture(const char* fileName, s32 spriteWidth, s32 spriteHeight)
+const Texture* GraphicsModule::DefineTexture(const char* fileName, s32 spriteWidth, s32 spriteHeight)
 {
     // Try to find free slot
-    GT_Texture* pFree = nullptr;
+    Texture* pFree = nullptr;
     for (i32f i = 0; i < MAX_TEXTURES; ++i)
     {
         if (!m_aTextures[i].pTexture)
@@ -151,7 +151,7 @@ void GraphicsModule::UndefineTextures()
     }
 }
 
-void GraphicsModule::DrawFrame(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Rect& dstRect, const GT_Texture* pTexture, s32 row, s32 col, f32 angle, SDL_RendererFlip flip)
+void GraphicsModule::DrawFrame(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Rect& dstRect, const Texture* pTexture, s32 row, s32 col, f32 angle, SDL_RendererFlip flip)
 {
     if (!pTexture)
     {

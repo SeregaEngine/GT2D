@@ -5,19 +5,19 @@
 
 class Actor;
 
-class GT_State
+class AIState
 {
-    static constexpr i32f GT_STATE_STRSIZE = 32;
+    static constexpr i32f AIState_STRSIZE = 32;
 
 private:
     Actor* m_pActor;
-    char m_functionName[GT_STATE_STRSIZE];
+    char m_functionName[AIState_STRSIZE];
 
 public:
-    GT_State() : m_functionName("") {}
+    AIState() : m_functionName("") {}
 
     void SetActor(Actor* pActor) { m_pActor = pActor; }
-    void SetFunctionName(const char* functionName) { strncpy(m_functionName, functionName, GT_STATE_STRSIZE); }
+    void SetFunctionName(const char* functionName) { strncpy(m_functionName, functionName, AIState_STRSIZE); }
     const char* GetFunctionName() const { return m_functionName; }
 
     void Handle()

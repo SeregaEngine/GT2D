@@ -2,7 +2,7 @@
 #include "SDL_image.h"
 #include "SDL_mixer.h"
 #include "SDL_ttf.h"
-#include "Math/GTMath.h"
+#include "Math/Math.h"
 #include "Graphics/GraphicsModule.h"
 #include "Input/InputModule.h"
 #include "Sound/SoundModule.h"

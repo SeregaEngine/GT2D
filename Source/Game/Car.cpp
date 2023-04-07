@@ -1,7 +1,7 @@
 #include "Game/Game.h"
 #include "Game/Car.h"
 
-void Car::Init(const Vector2& vPosition, s32 width, s32 height, const GT_Texture* pTexture)
+void Car::Init(const Vector2& vPosition, s32 width, s32 height, const Texture* pTexture)
 {
     Entity::Init(vPosition, width, height, pTexture);
     m_type = ENTITY_TYPE_CAR;

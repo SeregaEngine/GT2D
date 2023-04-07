@@ -4,7 +4,7 @@ extern "C"
 #include "lauxlib.h"
 #include "lualib.h"
 }
-#include "Graphics/GTUnit.h"
+#include "Graphics/Unit.h"
 #include "Graphics/GraphicsModule.h"
 #include "Sound/SoundModule.h"
 #include "Input/InputModule.h"
@@ -234,56 +234,56 @@ void ScriptModule::DefineSymbols(lua_State* L)
     lua_pushinteger(L, ACTOR_TEAM_DEFAULT);
     lua_setglobal(L, "ACTOR_TEAM_DEFAULT");
 
-    lua_pushinteger(L, GTC_IDLE);
-    lua_setglobal(L, "GTC_IDLE");
-    lua_pushinteger(L, GTC_TURN_LEFT);
-    lua_setglobal(L, "GTC_TURN_LEFT");
-    lua_pushinteger(L, GTC_TURN_RIGHT);
-    lua_setglobal(L, "GTC_TURN_RIGHT");
-    lua_pushinteger(L, GTC_MOVE_UP);
-    lua_setglobal(L, "GTC_MOVE_UP");
-    lua_pushinteger(L, GTC_MOVE_LEFT);
-    lua_setglobal(L, "GTC_MOVE_LEFT");
-    lua_pushinteger(L, GTC_MOVE_DOWN);
-    lua_setglobal(L, "GTC_MOVE_DOWN");
-    lua_pushinteger(L, GTC_MOVE_RIGHT);
-    lua_setglobal(L, "GTC_MOVE_RIGHT");
-    lua_pushinteger(L, GTC_ATTACK);
-    lua_setglobal(L, "GTC_ATTACK");
+    lua_pushinteger(L, AICMD_IDLE);
+    lua_setglobal(L, "AICMD_IDLE");
+    lua_pushinteger(L, AICMD_TURN_LEFT);
+    lua_setglobal(L, "AICMD_TURN_LEFT");
+    lua_pushinteger(L, AICMD_TURN_RIGHT);
+    lua_setglobal(L, "AICMD_TURN_RIGHT");
+    lua_pushinteger(L, AICMD_MOVE_UP);
+    lua_setglobal(L, "AICMD_MOVE_UP");
+    lua_pushinteger(L, AICMD_MOVE_LEFT);
+    lua_setglobal(L, "AICMD_MOVE_LEFT");
+    lua_pushinteger(L, AICMD_MOVE_DOWN);
+    lua_setglobal(L, "AICMD_MOVE_DOWN");
+    lua_pushinteger(L, AICMD_MOVE_RIGHT);
+    lua_setglobal(L, "AICMD_MOVE_RIGHT");
+    lua_pushinteger(L, AICMD_ATTACK);
+    lua_setglobal(L, "AICMD_ATTACK");
 
-    lua_pushinteger(L, GTT_NONE);
-    lua_setglobal(L, "GTT_NONE");
-    lua_pushinteger(L, GTT_INPROCESS);
-    lua_setglobal(L, "GTT_INPROCESS");
-    lua_pushinteger(L, GTT_IMPOSSIBLE);
-    lua_setglobal(L, "GTT_IMPOSSIBLE");
-    lua_pushinteger(L, GTT_DONE);
-    lua_setglobal(L, "GTT_DONE");
+    lua_pushinteger(L, AITASK_NONE);
+    lua_setglobal(L, "AITASK_NONE");
+    lua_pushinteger(L, AITASK_INPROCESS);
+    lua_setglobal(L, "AITASK_INPROCESS");
+    lua_pushinteger(L, AITASK_IMPOSSIBLE);
+    lua_setglobal(L, "AITASK_IMPOSSIBLE");
+    lua_pushinteger(L, AITASK_DONE);
+    lua_setglobal(L, "AITASK_DONE");
 
-    lua_pushinteger(L, GTT_WAIT);
-    lua_setglobal(L, "GTT_WAIT");
-    lua_pushinteger(L, GTT_GOTO);
-    lua_setglobal(L, "GTT_GOTO");
-    lua_pushinteger(L, GTT_GOTO_ENTITY);
-    lua_setglobal(L, "GTT_GOTO_ENTITY");
-    lua_pushinteger(L, GTT_KILL);
-    lua_setglobal(L, "GTT_KILL");
-    lua_pushinteger(L, GTT_ANIMATE_FOR);
-    lua_setglobal(L, "GTT_ANIMATE_FOR");
-    lua_pushinteger(L, GTT_WAIT_ANIMATION);
-    lua_setglobal(L, "GTT_WAIT_ANIMATION");
-    lua_pushinteger(L, GTT_WAIT_DIALOG);
-    lua_setglobal(L, "GTT_WAIT_DIALOG");
-    lua_pushinteger(L, GTT_WAIT_TALKING);
-    lua_setglobal(L, "GTT_WAIT_TALKING");
-    lua_pushinteger(L, GTT_RUN_DIALOG);
-    lua_setglobal(L, "GTT_RUN_DIALOG");
-    lua_pushinteger(L, GTT_FADE_IN);
-    lua_setglobal(L, "GTT_FADE_IN");
-    lua_pushinteger(L, GTT_FADE_OFF);
-    lua_setglobal(L, "GTT_FADE_OFF");
-    lua_pushinteger(L, GTT_PUSH_COMMAND);
-    lua_setglobal(L, "GTT_PUSH_COMMAND");
+    lua_pushinteger(L, AITASK_WAIT);
+    lua_setglobal(L, "AITASK_WAIT");
+    lua_pushinteger(L, AITASK_GOTO);
+    lua_setglobal(L, "AITASK_GOTO");
+    lua_pushinteger(L, AITASK_GOTO_ENTITY);
+    lua_setglobal(L, "AITASK_GOTO_ENTITY");
+    lua_pushinteger(L, AITASK_KILL);
+    lua_setglobal(L, "AITASK_KILL");
+    lua_pushinteger(L, AITASK_ANIMATE_FOR);
+    lua_setglobal(L, "AITASK_ANIMATE_FOR");
+    lua_pushinteger(L, AITASK_WAIT_ANIMATION);
+    lua_setglobal(L, "AITASK_WAIT_ANIMATION");
+    lua_pushinteger(L, AITASK_WAIT_DIALOG);
+    lua_setglobal(L, "AITASK_WAIT_DIALOG");
+    lua_pushinteger(L, AITASK_WAIT_TALKING);
+    lua_setglobal(L, "AITASK_WAIT_TALKING");
+    lua_pushinteger(L, AITASK_RUN_DIALOG);
+    lua_setglobal(L, "AITASK_RUN_DIALOG");
+    lua_pushinteger(L, AITASK_FADE_IN);
+    lua_setglobal(L, "AITASK_FADE_IN");
+    lua_pushinteger(L, AITASK_FADE_OFF);
+    lua_setglobal(L, "AITASK_FADE_OFF");
+    lua_pushinteger(L, AITASK_PUSH_COMMAND);
+    lua_setglobal(L, "AITASK_PUSH_COMMAND");
 }
 
 lua_State* ScriptModule::EnterMission(const char* path, s32 location)
@@ -728,11 +728,11 @@ s32 ScriptModule::_drawFrame(lua_State* L)
 
     if (argsCount == 10)
     {
-        g_graphicsModule.DrawFrame((s32)lua_tointeger(L, 1), (s32)lua_tointeger(L, 2), (b32)lua_toboolean(L, 3), dest, (const GT_Texture*)lua_touserdata(L, 8), (s32)lua_tointeger(L, 9), (s32)lua_tointeger(L, 10));
+        g_graphicsModule.DrawFrame((s32)lua_tointeger(L, 1), (s32)lua_tointeger(L, 2), (b32)lua_toboolean(L, 3), dest, (const Texture*)lua_touserdata(L, 8), (s32)lua_tointeger(L, 9), (s32)lua_tointeger(L, 10));
     }
     else
     {
-        g_graphicsModule.DrawFrame((s32)lua_tointeger(L, 1), (s32)lua_tointeger(L, 2), (b32)lua_toboolean(L, 3), dest, (const GT_Texture*)lua_touserdata(L, 8), (s32)lua_tointeger(L, 9), (s32)lua_tointeger(L, 10), (f32)lua_tonumber(L, 11), (SDL_RendererFlip)lua_tointeger(L, 12));
+        g_graphicsModule.DrawFrame((s32)lua_tointeger(L, 1), (s32)lua_tointeger(L, 2), (b32)lua_toboolean(L, 3), dest, (const Texture*)lua_touserdata(L, 8), (s32)lua_tointeger(L, 9), (s32)lua_tointeger(L, 10), (f32)lua_tonumber(L, 11), (SDL_RendererFlip)lua_tointeger(L, 12));
     }
 
     return 0;
@@ -924,7 +924,7 @@ s32 ScriptModule::_playSound(lua_State* L)
         return -1;
     }
 
-    g_soundModule.PlaySound( (GT_Sound*)lua_touserdata(L, 1) );
+    g_soundModule.PlaySound( (Sound*)lua_touserdata(L, 1) );
     return 0;
 }
 
@@ -935,7 +935,7 @@ s32 ScriptModule::_playSoundLooped(lua_State* L)
         return -1;
     }
 
-    g_soundModule.PlaySound((GT_Sound*)lua_touserdata(L, 1), true);
+    g_soundModule.PlaySound((Sound*)lua_touserdata(L, 1), true);
     return 0;
 }
 
@@ -968,7 +968,7 @@ s32 ScriptModule::_playMusic(lua_State* L)
         return -1;
     }
 
-    g_soundModule.PlayMusic( (GT_Music*)lua_touserdata(L, 1) );
+    g_soundModule.PlayMusic( (Music*)lua_touserdata(L, 1) );
     return 0;
 }
 
@@ -1030,7 +1030,7 @@ s32 ScriptModule::_defineAnimation(lua_State* L)
         return -1;
     }
 
-    GT_Animation anim = { (s32)lua_tointeger(L, 1), (s32)lua_tointeger(L, 2), (f32)lua_tonumber(L, 3) };
+    Animation anim = { (s32)lua_tointeger(L, 1), (s32)lua_tointeger(L, 2), (f32)lua_tonumber(L, 3) };
     lua_pushlightuserdata(L, (void*)g_animModule.DefineAnimation(anim));
     return 1;
 }
@@ -1133,7 +1133,7 @@ s32 ScriptModule::_addEntity(lua_State* L)
                           GTU::UnitToScreenY((f32)lua_tonumber(L, 2)) };
     s32 width  = (s32)( GTU::UnitToScreenX((f32)lua_tonumber(L, 3)) );
     s32 height = (s32)( GTU::UnitToScreenY((f32)lua_tonumber(L, 4)) );
-    GT_Texture* pTexture = (GT_Texture*)lua_touserdata(L, 5);
+    Texture* pTexture = (Texture*)lua_touserdata(L, 5);
 
     pEntity->Init(vPosition, width, height, pTexture);
 
@@ -1445,7 +1445,7 @@ s32 ScriptModule::_setEntityAnim(lua_State* L)
         LuaNote(PR_WARNING, "setEntityAnim(): function called with null entity");
         return -1;
     }
-    pEntity->m_pAnim = (const GT_Animation*)lua_touserdata(L, 2);
+    pEntity->m_pAnim = (const Animation*)lua_touserdata(L, 2);
 
     return 0;
 }
@@ -1601,7 +1601,7 @@ s32 ScriptModule::_setEntityTexture(lua_State* L)
         LuaNote(PR_WARNING, "setEntityTexture(): function called with null entity");
         return -1;
     }
-    pEntity->m_pTexture = (const GT_Texture*)lua_touserdata(L, 2);
+    pEntity->m_pTexture = (const Texture*)lua_touserdata(L, 2);
 
     return 0;
 }
@@ -1642,7 +1642,7 @@ s32 ScriptModule::_addActor(lua_State* L)
 
     s32 width  = (s32)( GTU::UnitToScreenX((f32)lua_tonumber(L, 3)) );
     s32 height = (s32)( GTU::UnitToScreenY((f32)lua_tonumber(L, 4)) );
-    GT_Texture* pTexture = (GT_Texture*)lua_touserdata(L, 5);
+    Texture* pTexture = (Texture*)lua_touserdata(L, 5);
 
     pActor->Init(vPosition, width, height, pTexture);
 
@@ -1933,24 +1933,24 @@ s32 ScriptModule::_pushActorTask(lua_State* L)
     // Set task
     switch (lua_tointeger(L, 2))
     {
-    case GTT_NONE:
+    case AITASK_NONE:
     {
         pActor->RemoveTasks();
     } break;
 
-    case GTT_WAIT:
+    case AITASK_WAIT:
     {
         pActor->PushTask(new WaitTask(pActor, (f32)lua_tointeger(L, 3)));
     } break;
 
-    case GTT_GOTO:
+    case AITASK_GOTO:
     {
         Vector2 vDestination = { GTU::UnitToScreenX((f32)lua_tonumber(L, 3)),
                                  GTU::UnitToScreenY((f32)lua_tonumber(L, 4))};
         pActor->PushTask(new GotoTask(pActor, vDestination));
     } break;
 
-    case GTT_GOTO_ENTITY:
+    case AITASK_GOTO_ENTITY:
     {
         if (lua_istable(L, 3))
         {
@@ -1960,14 +1960,14 @@ s32 ScriptModule::_pushActorTask(lua_State* L)
         }
         else
         {
-            GT_Task* pWait = new WaitTask(pActor, 0.0f);
+            AITask* pWait = new WaitTask(pActor, 0.0f);
             pWait->Handle();
             pActor->PushTask(pWait);
-            LuaNote(PR_WARNING, "pushActorTask(): GTT_GOTO_ENTITY called with null entity");
+            LuaNote(PR_WARNING, "pushActorTask(): AITASK_GOTO_ENTITY called with null entity");
         }
     } break;
 
-    case GTT_KILL:
+    case AITASK_KILL:
     {
         if (lua_istable(L, 3))
         {
@@ -1978,21 +1978,21 @@ s32 ScriptModule::_pushActorTask(lua_State* L)
         else
         {
             pActor->PushTask(new KillTask(pActor, nullptr));
-            LuaNote(PR_WARNING, "pushActorTask(): GTT_KILL called with null entity");
+            LuaNote(PR_WARNING, "pushActorTask(): AITASK_KILL called with null entity");
         }
     } break;
 
-    case GTT_ANIMATE_FOR:
+    case AITASK_ANIMATE_FOR:
     {
-        pActor->PushTask(new AnimateForTask(pActor, (const GT_Animation*)lua_touserdata(L, 3), (f32)lua_tonumber(L, 4)));
+        pActor->PushTask(new AnimateForTask(pActor, (const Animation*)lua_touserdata(L, 3), (f32)lua_tonumber(L, 4)));
     } break;
 
-    case GTT_WAIT_ANIMATION:
+    case AITASK_WAIT_ANIMATION:
     {
-        pActor->PushTask(new WaitAnimationTask(pActor, (const GT_Animation*)lua_touserdata(L, 3)));
+        pActor->PushTask(new WaitAnimationTask(pActor, (const Animation*)lua_touserdata(L, 3)));
     } break;
 
-    case GTT_WAIT_DIALOG:
+    case AITASK_WAIT_DIALOG:
     {
         if (lua_istable(L, 3))
         {
@@ -2003,11 +2003,11 @@ s32 ScriptModule::_pushActorTask(lua_State* L)
         else
         {
             pActor->PushTask(new WaitDialogTask(pActor, nullptr));
-            LuaNote(PR_WARNING, "pushActorTask(): GTT_WAIT_DIALOG called with null dialog");
+            LuaNote(PR_WARNING, "pushActorTask(): AITASK_WAIT_DIALOG called with null dialog");
         }
     } break;
 
-    case GTT_WAIT_TALKING:
+    case AITASK_WAIT_TALKING:
     {
         if (lua_istable(L, 3))
         {
@@ -2018,11 +2018,11 @@ s32 ScriptModule::_pushActorTask(lua_State* L)
         else
         {
             pActor->PushTask(new WaitTalkingTask(pActor, nullptr));
-            LuaNote(PR_WARNING, "pushActorTask(): GTT_WAIT_TALKING called with null actor");
+            LuaNote(PR_WARNING, "pushActorTask(): AITASK_WAIT_TALKING called with null actor");
         }
     } break;
 
-    case GTT_RUN_DIALOG:
+    case AITASK_RUN_DIALOG:
     {
         if (lua_istable(L, 3))
         {
@@ -2033,21 +2033,21 @@ s32 ScriptModule::_pushActorTask(lua_State* L)
         else
         {
             pActor->PushTask(new RunDialogTask(pActor, nullptr));
-            LuaNote(PR_WARNING, "pushActorTask(): GTT_RUN_DIALOG called with null dialog");
+            LuaNote(PR_WARNING, "pushActorTask(): AITASK_RUN_DIALOG called with null dialog");
         }
     } break;
 
-    case GTT_FADE_IN:
+    case AITASK_FADE_IN:
     {
         pActor->PushTask(new FadeInTask(pActor, (f32)lua_tonumber(L, 3)));
     } break;
 
-    case GTT_FADE_OFF:
+    case AITASK_FADE_OFF:
     {
         pActor->PushTask(new FadeOffTask(pActor, (f32)lua_tonumber(L, 3)));
     } break;
 
-    case GTT_PUSH_COMMAND:
+    case AITASK_PUSH_COMMAND:
     {
         pActor->PushTask(new PushCommandTask(pActor, (s32)lua_tointeger(L, 3)));
     } break;
@@ -2092,8 +2092,8 @@ s32 ScriptModule::_checkActorCurrentTask(lua_State* L)
     Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
     if (pActor)
     {
-        const GT_Task* pTask = pActor->GetCurrentTask();
-        lua_pushinteger(L, pTask ? pTask->GetStatus() : GTT_NONE);
+        const AITask* pTask = pActor->GetCurrentTask();
+        lua_pushinteger(L, pTask ? pTask->GetStatus() : AITASK_NONE);
     }
     else
     {
@@ -2114,8 +2114,8 @@ s32 ScriptModule::_getActorCurrentTask(lua_State* L)
     Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
     if (pActor)
     {
-        const GT_Task* pTask = pActor->GetCurrentTask();
-        lua_pushinteger(L, pTask ? pTask->GetID() : GTT_NONE);
+        const AITask* pTask = pActor->GetCurrentTask();
+        lua_pushinteger(L, pTask ? pTask->GetID() : AITASK_NONE);
     }
     else
     {
@@ -2136,7 +2136,7 @@ s32 ScriptModule::_setActorDeathSound(lua_State* L)
     Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
     if (pActor)
     {
-        pActor->m_pDeathSound = (GT_Sound*)lua_touserdata(L, 2);
+        pActor->m_pDeathSound = (Sound*)lua_touserdata(L, 2);
     }
     else
     {
@@ -2220,7 +2220,7 @@ s32 ScriptModule::_setActorAnim(lua_State* L)
     Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
     if (pActor)
     {
-        pActor->m_aActorAnims[lua_tointeger(L, 2)] = (const GT_Animation*)lua_touserdata(L, 3);
+        pActor->m_aActorAnims[lua_tointeger(L, 2)] = (const Animation*)lua_touserdata(L, 3);
     }
     else
     {
@@ -2241,7 +2241,7 @@ s32 ScriptModule::_playActorAnimOnce(lua_State* L)
     Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
     if (pActor)
     {
-        pActor->m_pAnim = (const GT_Animation*)lua_touserdata(L, 2);
+        pActor->m_pAnim = (const Animation*)lua_touserdata(L, 2);
         pActor->m_animFrame = 0;
         pActor->m_animElapsed = 0.0f;
         pActor->m_actorState = ACTOR_STATE_ANIMATE_ONCE;
@@ -2265,7 +2265,7 @@ s32 ScriptModule::_playActorAnimLooped(lua_State* L)
     Actor* pActor = static_cast<Actor*>(lua_touserdata(L, 1));
     if (pActor)
     {
-        pActor->m_pAnim = (const GT_Animation*)lua_touserdata(L, 2);
+        pActor->m_pAnim = (const Animation*)lua_touserdata(L, 2);
         pActor->m_animFrame = 0;
         pActor->m_animElapsed = 0.0f;
         pActor->m_actorState = ACTOR_STATE_ANIMATE_LOOPED;
@@ -2310,7 +2310,7 @@ s32 ScriptModule::_defineWeapon(lua_State* L)
     }
 
     // Init weapon
-    const GT_Animation* pAnim = (const GT_Animation*)lua_touserdata(L, 1);
+    const Animation* pAnim = (const Animation*)lua_touserdata(L, 1);
 
     FRect hitBox;
     hitBox.x1 = -GTU::UnitToScreenX((f32)lua_tonumber(L, 2));
@@ -2325,11 +2325,11 @@ s32 ScriptModule::_defineWeapon(lua_State* L)
     Weapon* pWeapon = new Weapon(pAnim, soundCount, hitBox, damage);
 
     // Init weapon's soundpack
-    GT_Sound** aSounds = pWeapon->GetSoundPack().GetSounds();
+    Sound** aSounds = pWeapon->GetSoundPack().GetSounds();
     for (i32f i = 0; i < soundCount; ++i)
     {
         lua_getfield(L, i + 5, "Pointer");
-        aSounds[i] = (GT_Sound*)lua_touserdata(L, -1);
+        aSounds[i] = (Sound*)lua_touserdata(L, -1);
         lua_pop(L, 1);
     }
 
@@ -2351,7 +2351,7 @@ s32 ScriptModule::_addCar(lua_State* L)
     Vector2 vPosition = { GTU::UnitToScreenX((f32)lua_tonumber(L, 1)), GTU::UnitToScreenY((f32)lua_tonumber(L, 2)) };
     s32 width = (s32)GTU::UnitToScreenX((f32)lua_tonumber(L, 3));
     s32 height = (s32)GTU::UnitToScreenY((f32)lua_tonumber(L, 4));
-    const GT_Texture* pTexture = (const GT_Texture*)lua_touserdata(L, 5);
+    const Texture* pTexture = (const Texture*)lua_touserdata(L, 5);
 
     Car* pCar = new Car();
     pCar->Init(vPosition, width, height, pTexture);
@@ -2564,7 +2564,7 @@ s32 ScriptModule::_addDialog(lua_State* L)
         LuaNote(PR_ERROR, "addDialog() called with null actor");
     }
 
-    const GT_Texture* pTexture = (const GT_Texture*)lua_touserdata(L, 6);
+    const Texture* pTexture = (const Texture*)lua_touserdata(L, 6);
 
     // Allocate and init dialog
     Dialog* pDialog = new Dialog();

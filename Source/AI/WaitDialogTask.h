@@ -1,14 +1,14 @@
 #pragma once
 
-#include "AI/GTTask.h"
+#include "AI/AITask.h"
 #include "Game/Dialog.h"
 
-class WaitDialogTask final : public GT_Task
+class WaitDialogTask final : public AITask
 {
     Dialog* m_pDialog;
 
 public:
-    WaitDialogTask(Actor* pActor, Dialog* pDialog) : GT_Task(pActor, GTT_WAIT_DIALOG), m_pDialog(pDialog)
+    WaitDialogTask(Actor* pActor, Dialog* pDialog) : AITask(pActor, AITASK_WAIT_DIALOG), m_pDialog(pDialog)
     {
         if (m_pDialog)
         {
@@ -18,14 +18,14 @@ public:
 
     virtual void Handle() override
     {
-        if (m_status != GTT_INPROCESS)
+        if (m_status != AITASK_INPROCESS)
         {
             return;
         }
 
         if (!g_game.GetWorld().HasEntity(m_pDialog))
         {
-            m_status = GTT_DONE;
+            m_status = AITASK_DONE;
         }
     }
 };

@@ -109,38 +109,38 @@ function L1.defineCutscenes()
 
             -- We use Player for Anthony's tasks to prevent canceling Anthony's tasks
             return {
-                { Player, false, GTT_FADE_IN, 3000.0 },
-                { Zhenek, false, GTT_GOTO, 70, GROUND_Y + GROUND_HEIGHT/2.5 },
-                { Player, true, GTT_GOTO, 87.5, GROUND_Y + GROUND_HEIGHT/2 },
+                { Player, false, AITASK_FADE_IN, 3000.0 },
+                { Zhenek, false, AITASK_GOTO, 70, GROUND_Y + GROUND_HEIGHT/2.5 },
+                { Player, true, AITASK_GOTO, 87.5, GROUND_Y + GROUND_HEIGHT/2 },
 
-                { Zhenek, true, GTT_WAIT, 500.0 },
-                { Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Wassup Anthony", 2, Zhenek, Textures["DialogSquare"]) },
-                { Zhenek, true, GTT_WAIT, 250.0 },
+                { Zhenek, true, AITASK_WAIT, 500.0 },
+                { Zhenek, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Wassup Anthony", 2, Zhenek, Textures["DialogSquare"]) },
+                { Zhenek, true, AITASK_WAIT, 250.0 },
 
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Sup man", 2, Anthony, Textures["DialogSquare"]) },
-                { Player, true, GTT_WAIT, 250.0 },
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "I thought you guys died", 4, Anthony, Textures["DialogSquare"]) },
-                { Player, true, GTT_WAIT, 250.0 },
+                { Player, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Sup man", 2, Anthony, Textures["DialogSquare"]) },
+                { Player, true, AITASK_WAIT, 250.0 },
+                { Player, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "I thought you guys died", 4, Anthony, Textures["DialogSquare"]) },
+                { Player, true, AITASK_WAIT, 250.0 },
 
-                { Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Maybe next time", 3, Zhenek, Textures["DialogSquare"]) },
-                { Zhenek, true, GTT_WAIT, 250.0 },
+                { Zhenek, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Maybe next time", 3, Zhenek, Textures["DialogSquare"]) },
+                { Zhenek, true, AITASK_WAIT, 250.0 },
 
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "So", 2, Player, Textures["DialogSquare"]) },
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "What's next?", 4, Player, Textures["DialogSquare"]) },
-                { Player, true, GTT_WAIT, 250.0 },
+                { Player, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "So", 2, Player, Textures["DialogSquare"]) },
+                { Player, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "What's next?", 4, Player, Textures["DialogSquare"]) },
+                { Player, true, AITASK_WAIT, 250.0 },
 
-                { Zhenek, false, GTT_PUSH_COMMAND, GTC_TURN_RIGHT },
-                { Zhenek, true, GTT_WAIT, 250.0 },
+                { Zhenek, false, AITASK_PUSH_COMMAND, AICMD_TURN_RIGHT },
+                { Zhenek, true, AITASK_WAIT, 250.0 },
 
-                { Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "We got the wheels, but we need engine for your baby", 6, Zhenek, Textures["DialogSquare"]) },
-                { Zhenek, true, GTT_WAIT, 250.0 },
-                { Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "It's really hard to find familiar engine like yours", 6, Zhenek, Textures["DialogSquare"]) },
-                { Zhenek, true, GTT_WAIT, 250.0 },
+                { Zhenek, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "We got the wheels, but we need engine for your baby", 6, Zhenek, Textures["DialogSquare"]) },
+                { Zhenek, true, AITASK_WAIT, 250.0 },
+                { Zhenek, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "It's really hard to find familiar engine like yours", 6, Zhenek, Textures["DialogSquare"]) },
+                { Zhenek, true, AITASK_WAIT, 250.0 },
 
-                { Zhenek, false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Our next goal is sport car in Texas.", 6, Zhenek, Textures["DialogSquare"]) },
-                { Zhenek, true, GTT_WAIT, 1000.0 },
-                { Zhenek, true, GTT_FADE_OFF, 4000.0 },
-                { Zhenek, false, GTT_FADE_IN, 0.0 },
+                { Zhenek, false, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Our next goal is sport car in Texas.", 6, Zhenek, Textures["DialogSquare"]) },
+                { Zhenek, true, AITASK_WAIT, 1000.0 },
+                { Zhenek, true, AITASK_FADE_OFF, 4000.0 },
+                { Zhenek, false, AITASK_FADE_IN, 0.0 },
             }
         end,
         function(TActor)
@@ -163,15 +163,15 @@ function L1.defineCutscenes()
             GarageBlueprint.DayTime = GarageBlueprint.Day
 
             return {
-                { Player, false, GTT_FADE_IN, 4000.0 },
-                { Player, false, GTT_PUSH_COMMAND, GTC_TURN_LEFT },
-                { Player, true, GTT_ANIMATE_FOR, Anims["PlayerSleep"], 3000.0 },
-                { Player, true, GTT_WAIT_ANIMATION, Anims["PlayerWakeUp"] },
-                { Player, false, GTT_PUSH_COMMAND, GTC_TURN_LEFT },
-                { Player, false, GTT_PUSH_COMMAND, GTC_IDLE },
+                { Player, false, AITASK_FADE_IN, 4000.0 },
+                { Player, false, AITASK_PUSH_COMMAND, AICMD_TURN_LEFT },
+                { Player, true, AITASK_ANIMATE_FOR, Anims["PlayerSleep"], 3000.0 },
+                { Player, true, AITASK_WAIT_ANIMATION, Anims["PlayerWakeUp"] },
+                { Player, false, AITASK_PUSH_COMMAND, AICMD_TURN_LEFT },
+                { Player, false, AITASK_PUSH_COMMAND, AICMD_IDLE },
 
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Where is my car?", 4, Player, Textures["DialogSquare"]) },
-                { Player, false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "What the fuck is going on", 4, Player, Textures["DialogSquare"]) },
+                { Player, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Where is my car?", 4, Player, Textures["DialogSquare"]) },
+                { Player, false, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "What the fuck is going on", 4, Player, Textures["DialogSquare"]) },
             }
         end,
         function(TActor)
@@ -185,9 +185,9 @@ function L1.defineCutscenes()
         function(TActor)
             IsPlayerControllable = false
             return {
-                { Player, false, GTT_GOTO, GROUND_WIDTH*2, GROUND_Y + GROUND_HEIGHT },
-                { Player, true, GTT_FADE_OFF, 1500.0 },
-                { Player, false, GTT_FADE_IN, 0.0 }, -- Black screen on last frame
+                { Player, false, AITASK_GOTO, GROUND_WIDTH*2, GROUND_Y + GROUND_HEIGHT },
+                { Player, true, AITASK_FADE_OFF, 1500.0 },
+                { Player, false, AITASK_FADE_IN, 0.0 }, -- Black screen on last frame
             }
         end,
         function(TActor)
@@ -283,22 +283,22 @@ function L2.defineCutscenes()
             IsPlayerControllable = false
 
             return {
-                { Player, false, GTT_FADE_IN, 5000.0 },
-                { Player, false, GTT_GOTO, 70, 52 },
-                { Player, false, GTT_PUSH_COMMAND, GTC_TURN_LEFT },
+                { Player, false, AITASK_FADE_IN, 5000.0 },
+                { Player, false, AITASK_GOTO, 70, 52 },
+                { Player, false, AITASK_PUSH_COMMAND, AICMD_TURN_LEFT },
 
-                { Zhenek, true, GTT_WAIT, 1000.0 },
-                { Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Yeah, man, we can do this", 4, Zhenek, Textures["DialogSquare"]) },
-                { Zhenek, true, GTT_WAIT, 250.0 },
+                { Zhenek, true, AITASK_WAIT, 1000.0 },
+                { Zhenek, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Yeah, man, we can do this", 4, Zhenek, Textures["DialogSquare"]) },
+                { Zhenek, true, AITASK_WAIT, 250.0 },
 
-                { Anthony, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Deal, bro", 3, Anthony, Textures["DialogSquare"]) },
-                { Anthony, true, GTT_WAIT, 250.0 },
+                { Anthony, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Deal, bro", 3, Anthony, Textures["DialogSquare"]) },
+                { Anthony, true, AITASK_WAIT, 250.0 },
 
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "What the fuck guys?", 4, Player, Textures["DialogSquare"]) },
-                { Player, true, GTT_WAIT, 500.0 },
+                { Player, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "What the fuck guys?", 4, Player, Textures["DialogSquare"]) },
+                { Player, true, AITASK_WAIT, 500.0 },
 
-                { Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Yo you're woke up", 3, Zhenek, Textures["DialogSquare"]) },
-                { Zhenek, true, GTT_WAIT, 250.0 },
+                { Zhenek, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Yo you're woke up", 3, Zhenek, Textures["DialogSquare"]) },
+                { Zhenek, true, AITASK_WAIT, 250.0 },
             }
         end,
         function(TActor)
@@ -316,20 +316,20 @@ function L2.defineCutscenes()
             local PX, PY = Pickup:getPosition()
 
             return {
-                { Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "We just tested your new wheels", 4, Zhenek, Textures["DialogSquare"]) },
-                { Zhenek, true, GTT_WAIT, 250.0 },
+                { Zhenek, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "We just tested your new wheels", 4, Zhenek, Textures["DialogSquare"]) },
+                { Zhenek, true, AITASK_WAIT, 250.0 },
 
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Ok-ok..", 2, Player, Textures["DialogSquare"]) },
-                { Player, true, GTT_WAIT, 500.0 },
+                { Player, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Ok-ok..", 2, Player, Textures["DialogSquare"]) },
+                { Player, true, AITASK_WAIT, 500.0 },
 
-                { Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Are you ready for Texas?!", 4, Zhenek, Textures["DialogSquare"]) },
-                { Zhenek, true, GTT_WAIT, 250.0 },
+                { Zhenek, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Are you ready for Texas?!", 4, Zhenek, Textures["DialogSquare"]) },
+                { Zhenek, true, AITASK_WAIT, 250.0 },
 
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Ughh.. let's go", 3, Player, Textures["DialogSquare"]) },
-                { Player, true, GTT_WAIT, 500.0 },
-                { Player, false, GTT_GOTO, PX+5, PY-5 },
-                { Zhenek, true, GTT_GOTO, PX, PY-5 },
-                { Zhenek, true, GTT_WAIT, 250.0 },
+                { Player, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Ughh.. let's go", 3, Player, Textures["DialogSquare"]) },
+                { Player, true, AITASK_WAIT, 500.0 },
+                { Player, false, AITASK_GOTO, PX+5, PY-5 },
+                { Zhenek, true, AITASK_GOTO, PX, PY-5 },
+                { Zhenek, true, AITASK_WAIT, 250.0 },
             }
         end,
         function(TActor)
@@ -345,7 +345,7 @@ function L2.defineCutscenes()
             Pickup:putActor(Player, 1)
 
             return {
-                { Player, true, GTT_WAIT, 1000.0 },
+                { Player, true, AITASK_WAIT, 1000.0 },
             }
         end,
         function(TActor)
@@ -358,7 +358,7 @@ function L2.defineCutscenes()
             Sounds["StartEngine"]:play()
 
             return {
-                { Player, true, GTT_WAIT, 2500.0 },
+                { Player, true, AITASK_WAIT, 2500.0 },
             }
         end,
         function(TActor)
@@ -372,8 +372,8 @@ function L2.defineCutscenes()
             Pickup:setAcceleration(0.0001, 0)
 
             return {
-                { Player, true, GTT_FADE_OFF, 5000.0 },
-                { Player, false, GTT_FADE_IN, 0.0 },
+                { Player, true, AITASK_FADE_OFF, 5000.0 },
+                { Player, false, AITASK_FADE_IN, 0.0 },
             }
         end,
         function(TActor)

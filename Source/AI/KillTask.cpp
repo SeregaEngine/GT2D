@@ -8,20 +8,20 @@ static constexpr i32f ERROR_RATE = 300;
 
 void KillTask::Handle()
 {
-    if (m_status != GTT_INPROCESS)
+    if (m_status != AITASK_INPROCESS)
     {
         return;
     }
 
     if (IsDone())
     {
-        m_status = GTT_DONE;
+        m_status = AITASK_DONE;
         return;
     }
 
     if (!IsPossible())
     {
-        m_status = GTT_IMPOSSIBLE;
+        m_status = AITASK_IMPOSSIBLE;
         return;
     }
 
@@ -62,6 +62,6 @@ void KillTask::HandleActor()
 
     if (m_pActor->m_animElapsed - (f32)(rand() % ERROR_RATE) > m_pActor->m_attackRate)
     {
-        m_pActor->PushCommand(GTC_ATTACK);
+        m_pActor->PushCommand(AICMD_ATTACK);
     }
 }

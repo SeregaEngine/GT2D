@@ -18,7 +18,7 @@ function Cutscene.new(funInit, funEnd)
         end
         local Actions = Cutscene.All[ID].Actions
 
-        while Stage == 0 or Stage > #Actions or not Actions[Stage][2] or Actions[Stage][1]:checkCurrentTask() == GTT_DONE do
+        while Stage == 0 or Stage > #Actions or not Actions[Stage][2] or Actions[Stage][1]:checkCurrentTask() == AITASK_DONE do
             Cutscene.All[ID].Stage = Cutscene.All[ID].Stage + 1
             Stage = Cutscene.All[ID].Stage
 

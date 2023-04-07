@@ -1,0 +1,13 @@
+#pragma once
+
+enum eAICommand
+{
+    AICMD_IDLE = 0,
+    AICMD_TURN_LEFT,
+    AICMD_TURN_RIGHT,
+    AICMD_MOVE_UP,
+    AICMD_MOVE_LEFT,
+    AICMD_MOVE_DOWN,
+    AICMD_MOVE_RIGHT,
+    AICMD_ATTACK,
+};

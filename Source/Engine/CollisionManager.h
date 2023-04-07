@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Math/GTMath.h"
+#include "Math/Math.h"
 #include "Containers/List.h"
 #include "Engine/EngineModule.h"
 

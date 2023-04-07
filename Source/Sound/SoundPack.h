@@ -2,22 +2,22 @@
 
 #include "Engine/Types.h"
 #include "Sound/SoundModule.h"
-#include "Sound/GTSound.h"
+#include "Sound/Sound.h"
 
-class GT_SoundPack
+class SoundPack
 {
-    GT_Sound** m_aSounds;
+    Sound** m_aSounds;
     s32 m_count;
 
 public:
-    GT_SoundPack() : m_aSounds(nullptr), m_count(0) {}
-    GT_SoundPack(s32 count) :
-        m_aSounds(count > 0 ? new GT_Sound*[count] : nullptr), m_count(count)
+    SoundPack() : m_aSounds(nullptr), m_count(0) {}
+    SoundPack(s32 count) :
+        m_aSounds(count > 0 ? new Sound*[count] : nullptr), m_count(count)
     {
-        memset(m_aSounds, 0, count * sizeof(GT_Sound*));
+        memset(m_aSounds, 0, count * sizeof(Sound*));
     }
 
-    ~GT_SoundPack()
+    ~SoundPack()
     {
         if (m_aSounds)
         {
@@ -25,7 +25,7 @@ public:
         }
     }
 
-    GT_Sound** GetSounds() { return m_aSounds; }
+    Sound** GetSounds() const { return m_aSounds; }
     s32 GetCount() const { return m_count; }
 
     void Allocate(s32 count)
@@ -33,7 +33,7 @@ public:
         Clean();
         if (count > 0)
         {
-            m_aSounds = new GT_Sound*[count];
+            m_aSounds = new Sound*[count];
             for (i32f i = 0; i < count; ++i)
             {
                 m_aSounds[i] = nullptr;

@@ -225,9 +225,9 @@ function L1.defineCutscenes()
     States.playerKilledCutscene = Cutscene.new(
         function(TActor)
             return {
-                { TActor, true, GTT_WAIT, 500.0 },
-                { TActor, true, GTT_FADE_OFF, 1000.0 },
-                { TActor, false, GTT_FADE_IN, 0.0 },
+                { TActor, true, AITASK_WAIT, 500.0 },
+                { TActor, true, AITASK_FADE_OFF, 1000.0 },
+                { TActor, false, AITASK_FADE_IN, 0.0 },
             }
         end,
         function(TActor)
@@ -241,9 +241,9 @@ function L1.defineCutscenes()
             Sounds["CarDoorClose"]:play()
 
             return {
-                { Player, false, GTT_FADE_IN, 3500.0 },
-                { Player, true, GTT_WAIT, 1000 },
-                { Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "See you later", 2, Zhenek, Textures["DialogSquare"]) },
+                { Player, false, AITASK_FADE_IN, 3500.0 },
+                { Player, true, AITASK_WAIT, 1000 },
+                { Zhenek, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "See you later", 2, Zhenek, Textures["DialogSquare"]) },
             }
         end,
         function(TActor)
@@ -259,18 +259,18 @@ function L1.defineCutscenes()
             Mex1:toggleGodMode(true)
 
             return {
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Hey, what're you doing?", 5, Player, Textures["DialogSquare"]) },
-                { Player, true, GTT_WAIT, 250.0 },
+                { Player, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Hey, what're you doing?", 5, Player, Textures["DialogSquare"]) },
+                { Player, true, AITASK_WAIT, 250.0 },
 
-                { Mex1, false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "It's not your busisness, cabron", 4, Mex1, Textures["DialogSquare"]) },
-                { Mex1, true, GTT_WAIT, 3500.0 },
-                { Mex1, false, GTT_PUSH_COMMAND, GTC_TURN_LEFT },
-                { Mex1, true, GTT_PUSH_COMMAND, GTC_IDLE },
+                { Mex1, false, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "It's not your busisness, cabron", 4, Mex1, Textures["DialogSquare"]) },
+                { Mex1, true, AITASK_WAIT, 3500.0 },
+                { Mex1, false, AITASK_PUSH_COMMAND, AICMD_TURN_LEFT },
+                { Mex1, true, AITASK_PUSH_COMMAND, AICMD_IDLE },
             }
         end,
         function(TActor)
             TActor:setState("playerFightMex")
-            Mex1:pushTask(GTT_NONE)
+            Mex1:pushTask(AITASK_NONE)
             Mex1:setState("killPlayer")
             Mex1:toggleGodMode(false)
         end
@@ -287,29 +287,29 @@ function L1.defineCutscenes()
             end
 
             return {
-                { Player, false, GTT_GOTO, GW_LOCATION*2.5, GROUND_Y + GROUND_HEIGHT/4},
-                { MoreMex[3], false, GTT_GOTO, GW_LOCATION * 2.75, GROUND_Y + GROUND_HEIGHT/6 },
-                { MoreMex[2], false, GTT_GOTO, GW_LOCATION * 2.75, GROUND_Y + GROUND_HEIGHT/1.8 },
-                { MoreMex[1], false, GTT_GOTO, GW_LOCATION * 2.65, GROUND_Y + GROUND_HEIGHT/3 },
+                { Player, false, AITASK_GOTO, GW_LOCATION*2.5, GROUND_Y + GROUND_HEIGHT/4},
+                { MoreMex[3], false, AITASK_GOTO, GW_LOCATION * 2.75, GROUND_Y + GROUND_HEIGHT/6 },
+                { MoreMex[2], false, AITASK_GOTO, GW_LOCATION * 2.75, GROUND_Y + GROUND_HEIGHT/1.8 },
+                { MoreMex[1], false, AITASK_GOTO, GW_LOCATION * 2.65, GROUND_Y + GROUND_HEIGHT/3 },
 
-                { MoreMex[1], true, GTT_WAIT, 2500.0 },
-                { MoreMex[1], true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Well, well, look at there..", 5, MoreMex[1], Textures["DialogSquare"]) },
+                { MoreMex[1], true, AITASK_WAIT, 2500.0 },
+                { MoreMex[1], true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Well, well, look at there..", 5, MoreMex[1], Textures["DialogSquare"]) },
 
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Shit...", 2, Player, Textures["DialogSquare"]) },
-                { Player, true, GTT_WAIT, 250.0 },
+                { Player, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Shit...", 2, Player, Textures["DialogSquare"]) },
+                { Player, true, AITASK_WAIT, 250.0 },
 
-                { MoreMex[1], true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "What are you doing on my block?", 5, MoreMex[1], Textures["DialogSquare"]) },
-                { MoreMex[1], true, GTT_WAIT, 250.0 },
+                { MoreMex[1], true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "What are you doing on my block?", 5, MoreMex[1], Textures["DialogSquare"]) },
+                { MoreMex[1], true, AITASK_WAIT, 250.0 },
 
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Guys, i don't have problems", 4, Player, Textures["DialogSquare"]) },
-                { Player, true, GTT_WAIT, 250.0 },
+                { Player, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Guys, i don't have problems", 4, Player, Textures["DialogSquare"]) },
+                { Player, true, AITASK_WAIT, 250.0 },
 
-                { MoreMex[1], false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Gimme all your money, now!", 5, MoreMex[1], Textures["DialogSquare"]) },
-                { MoreMex[1], true, GTT_WAIT, 1500.0 },
+                { MoreMex[1], false, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Gimme all your money, now!", 5, MoreMex[1], Textures["DialogSquare"]) },
+                { MoreMex[1], true, AITASK_WAIT, 1500.0 },
 
-                { MoreMex[3], false, GTT_GOTO, GW_LOCATION * 1.8, GROUND_Y + 1 },
-                { MoreMex[2], false, GTT_GOTO, GW_LOCATION * 3.2, GROUND_Y + 1 },
-                { MoreMex[2], false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Police...", 1, MoreMex[2], Textures["DialogSquare"]) },
+                { MoreMex[3], false, AITASK_GOTO, GW_LOCATION * 1.8, GROUND_Y + 1 },
+                { MoreMex[2], false, AITASK_GOTO, GW_LOCATION * 3.2, GROUND_Y + 1 },
+                { MoreMex[2], false, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Police...", 1, MoreMex[2], Textures["DialogSquare"]) },
             }
         end,
         function(TActor)
@@ -323,24 +323,24 @@ function L1.defineCutscenes()
             PoliceCar:setAcceleration(-0.00009, 0)
 
             return {
-                { Player, true, GTT_WAIT, 3500 },
+                { Player, true, AITASK_WAIT, 3500 },
 
-                { Serega, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Hey, what is going on?", 4, Serega, Textures["DialogSquare"]) },
-                { Serega, true, GTT_WAIT, 250 },
+                { Serega, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Hey, what is going on?", 4, Serega, Textures["DialogSquare"]) },
+                { Serega, true, AITASK_WAIT, 250 },
 
-                { Blank, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Alpha one, we have situation at Malholland drive, need backup", 8, Blank, Textures["DialogSquare"]) },
-                { Blank, true, GTT_WAIT, 250 },
-                { Blank, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Do you copy?", 3, Blank, Textures["DialogSquare"]) },
-                { Blank, true, GTT_WAIT, 250 },
+                { Blank, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Alpha one, we have situation at Malholland drive, need backup", 8, Blank, Textures["DialogSquare"]) },
+                { Blank, true, AITASK_WAIT, 250 },
+                { Blank, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Do you copy?", 3, Blank, Textures["DialogSquare"]) },
+                { Blank, true, AITASK_WAIT, 250 },
 
-                { Serega, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Loud and clear, Base. We'll be there in 2 minutes.", 6, Serega, Textures["DialogSquare"]) },
-                { Serega, true, GTT_WAIT, 250 },
+                { Serega, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Loud and clear, Base. We'll be there in 2 minutes.", 6, Serega, Textures["DialogSquare"]) },
+                { Serega, true, AITASK_WAIT, 250 },
 
-                { John, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "We are too busy to help this bald guy", 4, John, Textures["DialogSquare"]) },
-                { John, true, GTT_WAIT, 250 },
+                { John, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "We are too busy to help this bald guy", 4, John, Textures["DialogSquare"]) },
+                { John, true, AITASK_WAIT, 250 },
 
-                { Serega, false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Right", 3, Serega, Textures["DialogSquare"]) },
-                { Serega, true, GTT_WAIT, 250 },
+                { Serega, false, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Right", 3, Serega, Textures["DialogSquare"]) },
+                { Serega, true, AITASK_WAIT, 250 },
             }
         end,
         function(TActor)
@@ -348,7 +348,7 @@ function L1.defineCutscenes()
             PoliceCar:setAcceleration(-0.00002, 0)
             Sounds["PoliceStart"]:play()
 
-            MoreMex[1]:pushTask(GTT_NONE)
+            MoreMex[1]:pushTask(AITASK_NONE)
             MoreMex[1]:toggleCollidable(true)
             MoreMex[1]:setState("killPlayer")
 
@@ -361,15 +361,15 @@ function L1.defineCutscenes()
         function(TActor)
             MoreMex[2]:toggleCollidable(false)
             return {
-                { MoreMex[2], false, GTT_GOTO, GW_LOCATION * 2.75, GROUND_Y + 1 },
-                { MoreMex[2], true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Come to me, baby", 1, MoreMex[2], Textures["DialogSquare"]) },
-                { MoreMex[2], true, GTT_WAIT, 250.0 },
+                { MoreMex[2], false, AITASK_GOTO, GW_LOCATION * 2.75, GROUND_Y + 1 },
+                { MoreMex[2], true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Come to me, baby", 1, MoreMex[2], Textures["DialogSquare"]) },
+                { MoreMex[2], true, AITASK_WAIT, 250.0 },
 
-                { Player, false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Don't call mommy when i kick your ass", 4, Player, Textures["DialogSquare"]) },
+                { Player, false, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Don't call mommy when i kick your ass", 4, Player, Textures["DialogSquare"]) },
             }
         end,
         function(TActor)
-            MoreMex[2]:pushTask(GTT_NONE)
+            MoreMex[2]:pushTask(AITASK_NONE)
             MoreMex[2]:toggleCollidable(true)
             MoreMex[2]:setState("killPlayer")
             TActor:setState("moreMexFight2")
@@ -380,12 +380,12 @@ function L1.defineCutscenes()
         function(TActor)
             MoreMex[3]:toggleCollidable(false)
             return {
-                { MoreMex[3], false, GTT_GOTO, GW_LOCATION * 2.25, GROUND_Y + 1 },
-                { MoreMex[3], true, GTT_WAIT, 1000.0 },
+                { MoreMex[3], false, AITASK_GOTO, GW_LOCATION * 2.25, GROUND_Y + 1 },
+                { MoreMex[3], true, AITASK_WAIT, 1000.0 },
             }
         end,
         function(TActor)
-            MoreMex[3]:pushTask(GTT_NONE)
+            MoreMex[3]:pushTask(AITASK_NONE)
             MoreMex[3]:toggleCollidable(true)
             MoreMex[3]:setState("killPlayer")
             TActor:setState("moreMexFight3")
@@ -398,9 +398,9 @@ function L1.defineCutscenes()
             Player:toggleCollidable(false)
 
             return {
-                { Player, false, GTT_GOTO, GROUND_WIDTH * 2, GROUND_Y + 1 },
-                { Player, true, GTT_FADE_OFF, 2000.0 },
-                { Player, false, GTT_FADE_IN, 0 },
+                { Player, false, AITASK_GOTO, GROUND_WIDTH * 2, GROUND_Y + 1 },
+                { Player, true, AITASK_FADE_OFF, 2000.0 },
+                { Player, false, AITASK_FADE_IN, 0 },
             }
         end,
         function(TActor)
@@ -415,19 +415,19 @@ function L1.defineStates()
         local Task = TActor:getCurrentTask()
         local Status = TActor:checkCurrentTask()
 
-        if Task == GTT_NONE then
-            TActor:pushTask(GTT_GOTO_ENTITY, Player)
-        elseif Status == GTT_INPROCESS then
+        if Task == AITASK_NONE then
+            TActor:pushTask(AITASK_GOTO_ENTITY, Player)
+        elseif Status == AITASK_INPROCESS then
             return
-        elseif Status == GTT_DONE then
-            if Task == GTT_GOTO_ENTITY then
-                TActor:pushTask(GTT_KILL, Player)
-            elseif Task == GTT_KILL then
+        elseif Status == AITASK_DONE then
+            if Task == AITASK_GOTO_ENTITY then
+                TActor:pushTask(AITASK_KILL, Player)
+            elseif Task == AITASK_KILL then
                 TActor:setState("playerKilledCutscene")
             end
-        elseif Status == GTT_IMPOSSIBLE then
-            if Task == GTT_KILL then
-                TActor:pushTask(GTT_GOTO_ENTITY, Player)
+        elseif Status == AITASK_IMPOSSIBLE then
+            if Task == AITASK_KILL then
+                TActor:pushTask(AITASK_GOTO_ENTITY, Player)
             else
                 TActor:setState("") -- Just do nothing on strange error
             end
@@ -571,9 +571,9 @@ function L2.defineCutscenes()
     States.playerKilledCutscene = Cutscene.new(
         function(TActor)
             return {
-                { TActor, true, GTT_WAIT, 500.0 },
-                { TActor, true, GTT_FADE_OFF, 1000.0 },
-                { TActor, false, GTT_FADE_IN, 0.0 },
+                { TActor, true, AITASK_WAIT, 500.0 },
+                { TActor, true, AITASK_FADE_OFF, 1000.0 },
+                { TActor, false, AITASK_FADE_IN, 0.0 },
             }
         end,
         function(TActor)
@@ -587,31 +587,31 @@ function L2.defineCutscenes()
             Stranger:turnLeft()
 
             return {
-                { Player, false, GTT_FADE_IN, 3500 },
-                { Player, true, GTT_WAIT, 1000 },
+                { Player, false, AITASK_FADE_IN, 3500 },
+                { Player, true, AITASK_WAIT, 1000 },
 
-                { Vlassanov, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "..and I told her that I am the son of an oil magnate", 6, Vlassanov, Textures["DialogSquare"]) },
-                { Vlassanov, true, GTT_WAIT, 250 },
+                { Vlassanov, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "..and I told her that I am the son of an oil magnate", 6, Vlassanov, Textures["DialogSquare"]) },
+                { Vlassanov, true, AITASK_WAIT, 250 },
 
-                { Stranger, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "That's how we roll, man", 4, Stranger, Textures["DialogSquare"]) },
-                { Stranger, true, GTT_WAIT, 250 },
+                { Stranger, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "That's how we roll, man", 4, Stranger, Textures["DialogSquare"]) },
+                { Stranger, true, AITASK_WAIT, 250 },
 
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "I think they have keys", 4, Player, Textures["DialogSquare"]) },
-                { Player, true, GTT_WAIT, 250 },
+                { Player, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "I think they have keys", 4, Player, Textures["DialogSquare"]) },
+                { Player, true, AITASK_WAIT, 250 },
 
-                { Stranger, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Wait, who is this guy?", 4, Stranger, Textures["DialogSquare"]) },
-                { Stranger, true, GTT_WAIT, 250 },
+                { Stranger, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Wait, who is this guy?", 4, Stranger, Textures["DialogSquare"]) },
+                { Stranger, true, AITASK_WAIT, 250 },
 
-                { Vlassanov, true, GTT_PUSH_COMMAND, GTC_TURN_LEFT },
-                { Vlassanov, true, GTT_WAIT, 250 },
-                { Vlassanov, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Let's show him where is his place", 6, Vlassanov, Textures["DialogSquare"]) },
-                { Vlassanov, true, GTT_WAIT, 250 },
+                { Vlassanov, true, AITASK_PUSH_COMMAND, AICMD_TURN_LEFT },
+                { Vlassanov, true, AITASK_WAIT, 250 },
+                { Vlassanov, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Let's show him where is his place", 6, Vlassanov, Textures["DialogSquare"]) },
+                { Vlassanov, true, AITASK_WAIT, 250 },
 
-                { Player, false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Fuck..", 1.5, Player, Textures["DialogSquare"]) },
-                { Player, true, GTT_WAIT, 500 },
+                { Player, false, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Fuck..", 1.5, Player, Textures["DialogSquare"]) },
+                { Player, true, AITASK_WAIT, 500 },
 
-                { Vlassanov, false, GTT_NONE },
-                { Stranger, false, GTT_NONE },
+                { Vlassanov, false, AITASK_NONE },
+                { Stranger, false, AITASK_NONE },
             }
         end,
         function(TActor)
@@ -628,9 +628,9 @@ function L2.defineCutscenes()
             IsPlayerControllable = false
 
             return {
-                { Player, false, GTT_GOTO, -50, GROUND_Y },
-                { Player, true, GTT_FADE_OFF, 2500 },
-                { Player, false, GTT_FADE_IN, 0 },
+                { Player, false, AITASK_GOTO, -50, GROUND_Y },
+                { Player, true, AITASK_FADE_OFF, 2500 },
+                { Player, false, AITASK_FADE_IN, 0 },
             }
         end,
         function(TActor)
@@ -664,19 +664,19 @@ function L2.defineStates()
         local Task = TActor:getCurrentTask()
         local Status = TActor:checkCurrentTask()
 
-        if Task == GTT_NONE then
-            TActor:pushTask(GTT_GOTO_ENTITY, Player)
-        elseif Status == GTT_INPROCESS then
+        if Task == AITASK_NONE then
+            TActor:pushTask(AITASK_GOTO_ENTITY, Player)
+        elseif Status == AITASK_INPROCESS then
             return
-        elseif Status == GTT_DONE then
-            if Task == GTT_GOTO_ENTITY then
-                TActor:pushTask(GTT_KILL, Player)
-            elseif Task == GTT_KILL then
+        elseif Status == AITASK_DONE then
+            if Task == AITASK_GOTO_ENTITY then
+                TActor:pushTask(AITASK_KILL, Player)
+            elseif Task == AITASK_KILL then
                 TActor:setState("playerKilledCutscene")
             end
-        elseif Status == GTT_IMPOSSIBLE then
-            if Task == GTT_KILL then
-                TActor:pushTask(GTT_GOTO_ENTITY, Player)
+        elseif Status == AITASK_IMPOSSIBLE then
+            if Task == AITASK_KILL then
+                TActor:pushTask(AITASK_GOTO_ENTITY, Player)
             else
                 TActor:setState("") -- Just do nothing on strange error
             end
@@ -781,16 +781,16 @@ function L3.defineCutscenes()
             local X,Y = Trash:getPosition()
 
             return {
-                { Player, false, GTT_GOTO, GROUND_WIDTH - 30, GROUND_Y },
-                { Player, true, GTT_FADE_IN, 2000 },
+                { Player, false, AITASK_GOTO, GROUND_WIDTH - 30, GROUND_Y },
+                { Player, true, AITASK_FADE_IN, 2000 },
 
-                { Zhenek, true, GTT_WAIT, 500 },
-                { Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Come on, Petrol! Sit in the car", 4, Zhenek, Textures["DialogSquare"]) },
+                { Zhenek, true, AITASK_WAIT, 500 },
+                { Zhenek, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Come on, Petrol! Sit in the car", 4, Zhenek, Textures["DialogSquare"]) },
 
-                { Player, true, GTT_WAIT, 500 },
-                { Player, false, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Man.. how you did this", 4, Player, Textures["DialogSquare"]) },
-                { Player, true, GTT_WAIT, 100 },
-                { Player, true, GTT_GOTO, X, Y },
+                { Player, true, AITASK_WAIT, 500 },
+                { Player, false, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Man.. how you did this", 4, Player, Textures["DialogSquare"]) },
+                { Player, true, AITASK_WAIT, 100 },
+                { Player, true, AITASK_GOTO, X, Y },
             }
         end,
         function(TActor)
@@ -806,19 +806,19 @@ function L3.defineCutscenes()
             Pickup:setAcceleration(-0.0001, 0)
 
             return {
-                { Serega, false, GTT_GOTO, GROUND_WIDTH + 10, GROUND_Y },
-                { John, true, GTT_GOTO, GROUND_WIDTH - 50, GROUND_Y + 1 },
-                { John, false, GTT_RUN_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Like in the old days, yeah?", 2, John, Textures["DialogSquare"]) },
+                { Serega, false, AITASK_GOTO, GROUND_WIDTH + 10, GROUND_Y },
+                { John, true, AITASK_GOTO, GROUND_WIDTH - 50, GROUND_Y + 1 },
+                { John, false, AITASK_RUN_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Like in the old days, yeah?", 2, John, Textures["DialogSquare"]) },
 
-                { John, true, GTT_GOTO, GROUND_WIDTH, GROUND_Y + 1 },
-                { John, false, GTT_GOTO, GROUND_WIDTH + 10, GROUND_Y + 1 },
-                { John, true, GTT_FADE_OFF, 1000 },
-                { John, true, GTT_FADE_IN, 1000 },
+                { John, true, AITASK_GOTO, GROUND_WIDTH, GROUND_Y + 1 },
+                { John, false, AITASK_GOTO, GROUND_WIDTH + 10, GROUND_Y + 1 },
+                { John, true, AITASK_FADE_OFF, 1000 },
+                { John, true, AITASK_FADE_IN, 1000 },
 
-                { Blank, true, GTT_WAIT, 250, },
-                { Blank, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Hey, what's going on", 4, Blank, Textures["DialogSquare"]) },
-                { Blank, true, GTT_WAIT, 250, },
-                { Blank, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "It's my territory, cabrons", 6, Blank, Textures["DialogSquare"]) },
+                { Blank, true, AITASK_WAIT, 250, },
+                { Blank, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Hey, what's going on", 4, Blank, Textures["DialogSquare"]) },
+                { Blank, true, AITASK_WAIT, 250, },
+                { Blank, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "It's my territory, cabrons", 6, Blank, Textures["DialogSquare"]) },
             }
         end,
         function(TActor)
@@ -830,7 +830,7 @@ function L3.defineCutscenes()
     States.scene3 = Cutscene.new(
         function(TActor)
             return {
-                { Blank, true, GTT_WAIT, 500 },
+                { Blank, true, AITASK_WAIT, 500 },
             }
         end,
         function(TActor)
@@ -842,7 +842,7 @@ function L3.defineCutscenes()
     States.scene4 = Cutscene.new(
         function(TActor)
             return {
-                { Blank, true, GTT_WAIT, 100 },
+                { Blank, true, AITASK_WAIT, 100 },
             }
         end,
         function(TActor)
@@ -854,9 +854,9 @@ function L3.defineCutscenes()
     States.scene5 = Cutscene.new(
         function(TActor)
             return {
-                { Blank, true, GTT_WAIT, 750 },
-                { Blank, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Shit... man", 2, Blank, Textures["DialogSquare"]) },
-                { Blank, true, GTT_WAIT, 100 },
+                { Blank, true, AITASK_WAIT, 750 },
+                { Blank, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Shit... man", 2, Blank, Textures["DialogSquare"]) },
+                { Blank, true, AITASK_WAIT, 100 },
             }
         end,
         function(TActor)
@@ -868,8 +868,8 @@ function L3.defineCutscenes()
     States.scene6 = Cutscene.new(
         function(TActor)
             return {
-                { Blank, true, GTT_WAIT, 250 },
-                { Blank, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Come on", 2, Blank, Textures["DialogSquare"]) },
+                { Blank, true, AITASK_WAIT, 250 },
+                { Blank, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Come on", 2, Blank, Textures["DialogSquare"]) },
             }
         end,
         function(TActor)
@@ -881,7 +881,7 @@ function L3.defineCutscenes()
     States.scene7 = Cutscene.new(
         function(TActor)
             return {
-                { Blank, true, GTT_WAIT, 250 },
+                { Blank, true, AITASK_WAIT, 250 },
             }
         end,
         function(TActor)
@@ -893,7 +893,7 @@ function L3.defineCutscenes()
     States.scene8 = Cutscene.new(
         function(TActor)
             return {
-                { Blank, true, GTT_WAIT, 350 },
+                { Blank, true, AITASK_WAIT, 350 },
             }
         end,
         function(TActor)
@@ -905,7 +905,7 @@ function L3.defineCutscenes()
     States.scene9 = Cutscene.new(
         function(TActor)
             return {
-                { Blank, true, GTT_WAIT, 650 },
+                { Blank, true, AITASK_WAIT, 650 },
             }
         end,
         function(TActor)
@@ -917,7 +917,7 @@ function L3.defineCutscenes()
     States.scene10 = Cutscene.new(
         function(TActor)
             return {
-                { Blank, true, GTT_WAIT, 1000 },
+                { Blank, true, AITASK_WAIT, 1000 },
             }
         end,
         function(TActor)
@@ -929,8 +929,8 @@ function L3.defineCutscenes()
     States.scene11 = Cutscene.new(
         function(TActor)
             return {
-                { Blank, true, GTT_FADE_OFF, 2500 },
-                { Blank, false, GTT_FADE_IN, 0 },
+                { Blank, true, AITASK_FADE_OFF, 2500 },
+                { Blank, false, AITASK_FADE_IN, 0 },
             }
         end,
         function(TActor)

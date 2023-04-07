@@ -18,7 +18,7 @@ private:
     char m_text[DIALOG_BUFSIZE];
 
 public:
-    virtual void Init(const Vector2& vPosition, s32 width, s32 height, const GT_Texture* pTexture) override;
+    virtual void Init(const Vector2& vPosition, s32 width, s32 height, const Texture* pTexture) override;
     virtual void Update(f32 dtTime) override;
     virtual void Draw() override;
 

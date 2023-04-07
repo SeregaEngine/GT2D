@@ -1,9 +1,9 @@
 #pragma once
 
 #include "Game/Entity.h"
-#include "AI/GTState.h"
-#include "AI/GTTask.h"
-#include "AI/GTCommand.h"
+#include "AI/AIState.h"
+#include "AI/AITask.h"
+#include "AI/AICommand.h"
 
 enum eActorState
 {
@@ -37,7 +37,7 @@ enum eActorTeam
 };
 
 class Weapon;
-struct GT_Sound;
+struct Sound;
 
 class Actor final : public Entity
 {
@@ -47,7 +47,7 @@ private:
     static constexpr f32 ACTOR_DEFAULT_UNIT_SPEED_Y = 0.01f;
     static constexpr f32 ACTOR_DEFAULT_ATTACK_RATE = 1000.0f / 6.0f;
 
-    static constexpr GT_Animation DEFAULT_ACTOR_ANIMS[] =
+    static constexpr Animation DEFAULT_ACTOR_ANIMS[] =
     {
         { 0, 2, 1000.0f / 1.0f },  // Idle
         { 1, 5, 1000.0f / 12.5f }, // Horizontal locomotion
@@ -68,34 +68,34 @@ public:
     b32 m_bGodMode;
     b32 m_bLookRight;
 
-    GT_Sound* m_pDeathSound;
+    Sound* m_pDeathSound;
 
     f32 m_attackRate;
     const Weapon* m_pWeapon;
 
 private:
     /** AI stuff */
-    GT_State m_state;
-    TList<GT_Task*> m_lstTask;
+    AIState m_state;
+    TList<AITask*> m_lstTask;
     TList<s32> m_lstCommand;
 
 public:
     /** Animations */
-    const GT_Animation* m_aActorAnims[MAX_ACTOR_ANIMATIONS];
+    const Animation* m_aActorAnims[MAX_ACTOR_ANIMATIONS];
 
 public:
-    virtual void Init(const Vector2& vPosition, s32 width, s32 height, const GT_Texture* pTexture) override;
+    virtual void Init(const Vector2& vPosition, s32 width, s32 height, const Texture* pTexture) override;
     virtual void Clean() override;
     virtual void Update(f32 dtTime) override;
 
     void AddHealth(f32 diff);
 
     void SetState(const char* functionName) { m_state.SetFunctionName(functionName); }
-    const GT_State& GetState() const { return m_state; }
+    const AIState& GetState() const { return m_state; }
 
-    void PushTask(GT_Task* pTask);
+    void PushTask(AITask* pTask);
     void RemoveTasks();
-    const GT_Task* GetCurrentTask() { return m_lstTask.IsEmpty() ? nullptr : m_lstTask.Front(); }
+    const AITask* GetCurrentTask() { return m_lstTask.IsEmpty() ? nullptr : m_lstTask.Front(); }
 
     void PushCommand(s32 enumCmd) { m_lstCommand.Push(enumCmd); }
 

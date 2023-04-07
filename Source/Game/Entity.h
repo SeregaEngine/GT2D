@@ -31,11 +31,11 @@ public:
 
     s32 m_animFrame;
     f32 m_animElapsed;
-    const GT_Animation* m_pAnim;
+    const Animation* m_pAnim;
 
     s32 m_renderMode;
     s32 m_zIndex;
-    const GT_Texture* m_pTexture;
+    const Texture* m_pTexture;
 
     b32 m_bCollidable : 1;
     b32 m_bHUD : 1;
@@ -43,7 +43,7 @@ public:
 public:
     virtual ~Entity() = default;
 
-    virtual void Init(const Vector2& vPosition, s32 width, s32 height, const GT_Texture* pTexture);
+    virtual void Init(const Vector2& vPosition, s32 width, s32 height, const Texture* pTexture);
     virtual void Clean() {}
 
     virtual void Update(f32 dtTime) {}

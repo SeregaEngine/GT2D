@@ -9,20 +9,20 @@ static constexpr f32 DECISION_RATIO_XY = 4.0f;
 
 void GotoEntityTask::Handle()
 {
-    if (m_status != GTT_INPROCESS)
+    if (m_status != AITASK_INPROCESS)
     {
         return;
     }
 
     if (IsDone())
     {
-        m_status = GTT_DONE;
+        m_status = AITASK_DONE;
         return;
     }
 
     if (!g_game.GetWorld().HasEntity(m_pEntity))
     {
-        m_status = GTT_IMPOSSIBLE;
+        m_status = AITASK_IMPOSSIBLE;
         return;
     }
 
@@ -72,11 +72,11 @@ void GotoEntityTask::MoveX(const Vector2& vActor, const Vector2& vEntity, const 
 {
     if (vEntity.x < vActor.x - vError.x)
     {
-        m_pActor->PushCommand(GTC_MOVE_LEFT);
+        m_pActor->PushCommand(AICMD_MOVE_LEFT);
     }
     else if (vEntity.x > vActor.x + vError.x)
     {
-        m_pActor->PushCommand(GTC_MOVE_RIGHT);
+        m_pActor->PushCommand(AICMD_MOVE_RIGHT);
     }
 }
 
@@ -84,10 +84,10 @@ void GotoEntityTask::MoveY(const Vector2& vActor, const Vector2& vEntity, const 
 {
     if (vEntity.y < vActor.y - vError.y)
     {
-        m_pActor->PushCommand(GTC_MOVE_UP);
+        m_pActor->PushCommand(AICMD_MOVE_UP);
     }
     else if (vEntity.y > vActor.y + vError.y)
     {
-        m_pActor->PushCommand(GTC_MOVE_DOWN);
+        m_pActor->PushCommand(AICMD_MOVE_DOWN);
     }
 }

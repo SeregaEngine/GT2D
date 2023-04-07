@@ -2,7 +2,7 @@
 
 #include "SDL.h"
 #include "SDL_ttf.h"
-#include "Math/GTMath.h"
+#include "Math/Math.h"
 #include "Containers/List.h"
 #include "Engine/Types.h"
 #include "Engine/EngineModule.h"
@@ -20,7 +20,7 @@ enum eRenderMode
 };
 
 struct RenderElement;
-struct GT_Texture;
+struct Texture;
 
 class GraphicsModule final : public EngineModule
 {
@@ -39,7 +39,7 @@ private:
     SDL_Renderer* m_pRenderer;
 
     SDL_Color m_drawColor;
-    GT_Texture* m_aTextures;
+    Texture* m_aTextures;
 
     TList<RenderElement*> m_queueBackground;
     TList<RenderElement*> m_queueDynamic;
@@ -56,12 +56,12 @@ public:
     void Render();
 
     /** Null on error */
-    const GT_Texture* DefineTexture(const char* fileName, s32 spriteWidth, s32 spriteHeight);
+    const Texture* DefineTexture(const char* fileName, s32 spriteWidth, s32 spriteHeight);
     void UndefineTextures();
 
     void SetDrawColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a) { m_drawColor = { r, g, b, a }; }
 
-    void DrawFrame(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Rect& dstRect, const GT_Texture* pTexture, s32 row, s32 col, f32 angle = 0.0f, SDL_RendererFlip flip = SDL_FLIP_NONE);
+    void DrawFrame(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Rect& dstRect, const Texture* pTexture, s32 row, s32 col, f32 angle = 0.0f, SDL_RendererFlip flip = SDL_FLIP_NONE);
     void DrawText(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Rect& dstRect, const char* text, TTF_Font* pFont = s_pGameFont);
     void FillRect(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Rect& dstRect);
     void DrawRect(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Rect& dstRect);

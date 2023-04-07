@@ -80,13 +80,13 @@
     <ClCompile Include="..\..\Source\Graphics\GraphicsModule.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Graphics\GTUnit.cpp">
+    <ClCompile Include="..\..\Source\Graphics\Unit.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Input\InputModule.cpp">
       <Filter>Input</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Math\GTMath.cpp">
+    <ClCompile Include="..\..\Source\Math\Math.cpp">
       <Filter>Math</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Script\ScriptModule.cpp">
@@ -261,13 +261,13 @@
     <ClInclude Include="..\..\Source\Graphics\GraphicsModule.h">
       <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Graphics\GTUnit.h">
+    <ClInclude Include="..\..\Source\Graphics\Unit.h">
       <Filter>Graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Input\InputModule.h">
       <Filter>Input</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Math\GTMath.h">
+    <ClInclude Include="..\..\Source\Math\Math.h">
       <Filter>Math</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Script\ScriptModule.h">
@@ -276,10 +276,10 @@
     <ClInclude Include="..\..\Source\Sound\SoundModule.h">
       <Filter>Sound</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\AI\GTCommand.h">
+    <ClInclude Include="..\..\Source\AI\AICommand.h">
       <Filter>AI</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\AI\GTTask.h">
+    <ClInclude Include="..\..\Source\AI\AITask.h">
       <Filter>AI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\AI\GotoTask.h">
@@ -294,10 +294,10 @@
     <ClInclude Include="..\..\Source\Game\Weapon.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Sound\GTSound.h">
+    <ClInclude Include="..\..\Source\Sound\Sound.h">
       <Filter>Sound</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Sound\GTSoundPack.h">
+    <ClInclude Include="..\..\Source\Sound\SoundPack.h">
       <Filter>Sound</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\AI\GotoEntityTask.h">
@@ -309,7 +309,7 @@
     <ClInclude Include="..\..\Source\Graphics\RenderElement.h">
       <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Graphics\GTTexture.h">
+    <ClInclude Include="..\..\Source\Graphics\Texture.h">
       <Filter>Graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Game\Dialog.h">
@@ -342,7 +342,7 @@
     <ClInclude Include="..\..\Source\AI\RunDialogTask.h">
       <Filter>AI</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\AI\GTState.h">
+    <ClInclude Include="..\..\Source\AI\AIState.h">
       <Filter>AI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\AI\WaitTalkingTask.h">

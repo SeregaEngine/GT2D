@@ -1,10 +1,10 @@
 #pragma once
 
-#include "AI/GTTask.h"
+#include "AI/AITask.h"
 #include "Graphics/GraphicsModule.h"
 #include "Engine/ClockManager.h"
 
-class FadeInTask final : public GT_Task
+class FadeInTask final : public AITask
 {
     f32 m_alpha;
     f32 m_alphaPerMs;
@@ -12,19 +12,19 @@ class FadeInTask final : public GT_Task
 
 public:
     FadeInTask(Actor* pActor, f32 duration) :
-        GT_Task(pActor, GTT_FADE_IN), m_alpha(255.0f), m_alphaPerMs(255.0f/duration),
+        AITask(pActor, AITASK_FADE_IN), m_alpha(255.0f), m_alphaPerMs(255.0f/duration),
         m_destRect({ 0, 0, g_graphicsModule.GetScreenWidth(), g_graphicsModule.GetScreenHeight() }) {}
 
     virtual void Handle() override
     {
-        if (m_status != GTT_INPROCESS)
+        if (m_status != AITASK_INPROCESS)
         {
             return;
         }
 
         if (m_alpha < 0.0f)
         {
-            m_status = GTT_DONE;
+            m_status = AITASK_DONE;
             return;
         }
 

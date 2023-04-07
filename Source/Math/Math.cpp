@@ -1,5 +1,5 @@
 #include <cmath>
-#include "Math/GTMath.h"
+#include "Math/Math.h"
 
 b32 Math::StartUp()
 {

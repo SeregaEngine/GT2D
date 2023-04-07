@@ -47,30 +47,30 @@ function defineCutscenes()
     States.scene1 = Cutscene.new(
         function(TActor)
             return {
-                { Serega, false, GTT_FADE_IN, 5000 },
+                { Serega, false, AITASK_FADE_IN, 5000 },
 
-                { Serega, false, GTT_GOTO, 80, GROUND_Y },
-                { John, true, GTT_GOTO, 94, GROUND_Y+1 },
+                { Serega, false, AITASK_GOTO, 80, GROUND_Y },
+                { John, true, AITASK_GOTO, 94, GROUND_Y+1 },
 
-                { Serega, true, GTT_WAIT, 250 },
-                { Serega, false, GTT_PUSH_COMMAND, GTC_TURN_RIGHT },
-                { Serega, true, GTT_WAIT, 250 },
+                { Serega, true, AITASK_WAIT, 250 },
+                { Serega, false, AITASK_PUSH_COMMAND, AICMD_TURN_RIGHT },
+                { Serega, true, AITASK_WAIT, 250 },
 
-                { Serega, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "They've already hit the road..", 6, Serega, Textures["DialogSquare"]) },
-                { Serega, true, GTT_WAIT, 250 },
+                { Serega, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "They've already hit the road..", 6, Serega, Textures["DialogSquare"]) },
+                { Serega, true, AITASK_WAIT, 250 },
 
-                { John, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Don't worry, we'll catch 'em up", 5, John, Textures["DialogSquare"]) },
-                { John, true, GTT_WAIT, 250 },
+                { John, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Don't worry, we'll catch 'em up", 5, John, Textures["DialogSquare"]) },
+                { John, true, AITASK_WAIT, 250 },
 
-                { Serega, false, GTT_PUSH_COMMAND, GTC_TURN_LEFT },
-                { Serega, true, GTT_WAIT, 250 },
-                { Serega, false, GTT_GOTO, -100, GROUND_Y },
+                { Serega, false, AITASK_PUSH_COMMAND, AICMD_TURN_LEFT },
+                { Serega, true, AITASK_WAIT, 250 },
+                { Serega, false, AITASK_GOTO, -100, GROUND_Y },
 
-                { John, true, GTT_WAIT, 250 },
-                { John, false, GTT_GOTO, -100, GROUND_Y+1 },
-                { John, true, GTT_WAIT, 250 },
-                { John, true, GTT_FADE_OFF, 2000 },
-                { John, false, GTT_FADE_IN, 0 },
+                { John, true, AITASK_WAIT, 250 },
+                { John, false, AITASK_GOTO, -100, GROUND_Y+1 },
+                { John, true, AITASK_WAIT, 250 },
+                { John, true, AITASK_FADE_OFF, 2000 },
+                { John, false, AITASK_FADE_IN, 0 },
             }
         end,
         function(TActor)

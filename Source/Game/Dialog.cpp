@@ -1,4 +1,4 @@
-#include "Graphics/GTUnit.h"
+#include "Graphics/Unit.h"
 #include "Game/Game.h"
 #include "Game/Actor.h"
 #include "Game/Dialog.h"
@@ -8,7 +8,7 @@
 #define DIALOG_LINE_WIDTH       ((f32)m_width - DIALOG_TEXT_MARGIN_LEFT * 2.0f)
 #define DIALOG_LINE_HEIGHT      (((f32)m_height - DIALOG_TEXT_MARGIN_TOP * 3.0f) / (f32)DIALOG_STRING_HEIGHT)
 
-void Dialog::Init(const Vector2& vPosition, s32 width, s32 height, const GT_Texture* pTexture)
+void Dialog::Init(const Vector2& vPosition, s32 width, s32 height, const Texture* pTexture)
 {
     Entity::Init(vPosition, width, height, pTexture);
     m_type = ENTITY_TYPE_DIALOG;

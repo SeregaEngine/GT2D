@@ -81,16 +81,16 @@ function defineCutscenes()
     States.riding = Cutscene.new(
         function(TActor)
             return {
-                { Player, true, GTT_FADE_IN, 15000.0 },
+                { Player, true, AITASK_FADE_IN, 15000.0 },
 
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Family is the best thing in life...", 4, Player, Textures["DialogSquare"]) },
-                { Player, true, GTT_WAIT, 1000.0 },
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Sometimes we spend not as much time as we would like to at least see them.", 6, Player, Textures["DialogSquare"]) },
-                { Player, true, GTT_WAIT, 750.0 },
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "But from now..", 2, Player, Textures["DialogSquare"]) },
-                { Player, true, GTT_WAIT, 250.0 },
-                { Player, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "..everything will change", 4, Player, Textures["DialogSquare"]) },
-                { Player, true, GTT_WAIT, 2000.0 },
+                { Player, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Family is the best thing in life...", 4, Player, Textures["DialogSquare"]) },
+                { Player, true, AITASK_WAIT, 1000.0 },
+                { Player, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Sometimes we spend not as much time as we would like to at least see them.", 6, Player, Textures["DialogSquare"]) },
+                { Player, true, AITASK_WAIT, 750.0 },
+                { Player, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "But from now..", 2, Player, Textures["DialogSquare"]) },
+                { Player, true, AITASK_WAIT, 250.0 },
+                { Player, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "..everything will change", 4, Player, Textures["DialogSquare"]) },
+                { Player, true, AITASK_WAIT, 2000.0 },
             }
         end,
         function(TActor)
@@ -104,8 +104,8 @@ function defineCutscenes()
             Sounds["Crush"]:play()
             Dodge:setAcceleration(-1, 1)
             return {
-                { Player, true, GTT_WAIT, 500.0 },
-                { Player, true, GTT_FADE_OFF, 5000.0 },
+                { Player, true, AITASK_WAIT, 500.0 },
+                { Player, true, AITASK_FADE_OFF, 5000.0 },
             }
         end,
         function(TActor)
@@ -117,7 +117,7 @@ function defineCutscenes()
     States.crushed = Cutscene.new(
         function(TActor)
             return {
-                { Player, true, GTT_WAIT, 10000.0 },
+                { Player, true, AITASK_WAIT, 10000.0 },
             }
         end,
         function(TActor)

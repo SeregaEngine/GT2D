@@ -1,13 +1,13 @@
 #pragma once
 
-#include "AI/GTTask.h"
+#include "AI/AITask.h"
 
-class KillTask final : public GT_Task
+class KillTask final : public AITask
 {
     Actor* m_pTarget;
 
 public:
-    KillTask(Actor* pActor, Actor* pTarget) : GT_Task(pActor, GTT_KILL), m_pTarget(pTarget) {}
+    KillTask(Actor* pActor, Actor* pTarget) : AITask(pActor, AITASK_KILL), m_pTarget(pTarget) {}
 
     virtual void Handle() override;
 

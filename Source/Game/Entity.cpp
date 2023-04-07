@@ -1,8 +1,8 @@
 #include "Graphics/GraphicsModule.h"
-#include "Graphics/GTUnit.h"
+#include "Graphics/Unit.h"
 #include "Game/Entity.h"
 
-void Entity::Init(const Vector2& vPosition, s32 width, s32 height, const GT_Texture* pTexture)
+void Entity::Init(const Vector2& vPosition, s32 width, s32 height, const Texture* pTexture)
 {
     m_type = ENTITY_TYPE_ENTITY;
 

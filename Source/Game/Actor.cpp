@@ -1,11 +1,11 @@
 #include "Input/InputModule.h"
-#include "Graphics/GTUnit.h"
+#include "Graphics/Unit.h"
 #include "Engine/CollisionManager.h"
 #include "Game/Game.h"
 #include "Game/Weapon.h"
 #include "Game/Actor.h"
 
-void Actor::Init(const Vector2& vPosition, s32 width, s32 height, const GT_Texture* pTexture)
+void Actor::Init(const Vector2& vPosition, s32 width, s32 height, const Texture* pTexture)
 {
     Entity::Init(vPosition, width, height, pTexture);
     m_type = ENTITY_TYPE_ACTOR;
@@ -68,7 +68,7 @@ void Actor::AddHealth(f32 diff)
     }
 }
 
-void Actor::PushTask(GT_Task* pTask)
+void Actor::PushTask(AITask* pTask)
 {
     if (pTask)
     {
@@ -163,9 +163,9 @@ void Actor::HandleAITasks()
     for (++it; it != end; )
     {
         it->data->Handle();
-        if (it->data->GetStatus() != GTT_INPROCESS)
+        if (it->data->GetStatus() != AITASK_INPROCESS)
         {
-            GT_Task* pRemove = it->data;
+            AITask* pRemove = it->data;
             ++it;
             m_lstTask.Remove(pRemove);
             delete pRemove;
@@ -188,15 +188,15 @@ void Actor::HandleAICommand(f32 dtTime)
         s32 cmd = m_lstCommand.Front();
         switch (cmd)
         {
-        case GTC_IDLE:       CommandIdle(); break;
-        case GTC_TURN_LEFT:  CommandTurnLeft(); break;
-        case GTC_TURN_RIGHT: CommandTurnRight(); break;
-        case GTC_ATTACK:     CommandAttack(); break;
+        case AICMD_IDLE:       CommandIdle(); break;
+        case AICMD_TURN_LEFT:  CommandTurnLeft(); break;
+        case AICMD_TURN_RIGHT: CommandTurnRight(); break;
+        case AICMD_ATTACK:     CommandAttack(); break;
 
-        case GTC_MOVE_UP:
-        case GTC_MOVE_LEFT:
-        case GTC_MOVE_DOWN:
-        case GTC_MOVE_RIGHT: CommandMove(cmd, dtTime); break;
+        case AICMD_MOVE_UP:
+        case AICMD_MOVE_LEFT:
+        case AICMD_MOVE_DOWN:
+        case AICMD_MOVE_RIGHT: CommandMove(cmd, dtTime); break;
 
         default: break;
         }
@@ -229,10 +229,10 @@ void Actor::CommandMove(s32 cmd, f32 dtTime)
 {
     switch (cmd)
     {
-    case GTC_MOVE_UP:    m_vVelocity.y -= m_vSpeed.y * dtTime; break;
-    case GTC_MOVE_LEFT:  m_vVelocity.x -= m_vSpeed.x * dtTime; break;
-    case GTC_MOVE_DOWN:  m_vVelocity.y += m_vSpeed.y * dtTime; break;
-    case GTC_MOVE_RIGHT: m_vVelocity.x += m_vSpeed.x * dtTime; break;
+    case AICMD_MOVE_UP:    m_vVelocity.y -= m_vSpeed.y * dtTime; break;
+    case AICMD_MOVE_LEFT:  m_vVelocity.x -= m_vSpeed.x * dtTime; break;
+    case AICMD_MOVE_DOWN:  m_vVelocity.y += m_vSpeed.y * dtTime; break;
+    case AICMD_MOVE_RIGHT: m_vVelocity.x += m_vSpeed.x * dtTime; break;
 
     default: break;
     }

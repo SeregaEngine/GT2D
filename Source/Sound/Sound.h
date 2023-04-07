@@ -2,7 +2,7 @@
 
 struct Mix_Chunk;
 
-struct GT_Sound
+struct Sound
 {
     Mix_Chunk* pSound;
 };

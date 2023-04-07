@@ -5,7 +5,7 @@
 #include "SDL_ttf.h"
 #include "Engine/Types.h"
 #include "Graphics/GraphicsModule.h"
-#include "Graphics/GTTexture.h"
+#include "Graphics/Texture.h"
 
 struct RenderElement
 {
@@ -20,12 +20,12 @@ struct RenderElement
 
 struct RenderElementFrame final : public RenderElement
 {
-    const GT_Texture* pTexture;
+    const Texture* pTexture;
     s32 row, col;
     f32 angle;
     SDL_RendererFlip flip;
 
-    RenderElementFrame(s32 _zIndex, const SDL_Rect& _dest, const GT_Texture* _pTexture, s32 _row, s32 _col, f32 _angle, SDL_RendererFlip _flip) :
+    RenderElementFrame(s32 _zIndex, const SDL_Rect& _dest, const Texture* _pTexture, s32 _row, s32 _col, f32 _angle, SDL_RendererFlip _flip) :
         RenderElement(_zIndex, _dest), pTexture(_pTexture), row(_row), col(_col), angle(_angle), flip(_flip) {}
 
     virtual void Render() override

@@ -17,7 +17,7 @@ public:
     Vector2 m_vAcceleration;
 
 public:
-    virtual void Init(const Vector2& vPosition, s32 width, s32 height, const GT_Texture* pTexture) override;
+    virtual void Init(const Vector2& vPosition, s32 width, s32 height, const Texture* pTexture) override;
     virtual void Update(f32 dtTime) override;
 
     void PutActor(Actor* pActor, s32 place);

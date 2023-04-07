@@ -1,16 +1,16 @@
 #pragma once
 
-#include "AI/GTTask.h"
+#include "AI/AITask.h"
 
 class Entity;
 
-class GotoEntityTask final : public GT_Task
+class GotoEntityTask final : public AITask
 {
     Entity* m_pEntity;
 
 public:
     GotoEntityTask(Actor* pActor, Entity* pEntity) :
-        GT_Task(pActor, GTT_GOTO_ENTITY), m_pEntity(pEntity) {}
+        AITask(pActor, AITASK_GOTO_ENTITY), m_pEntity(pEntity) {}
 
     virtual void Handle() override;
 

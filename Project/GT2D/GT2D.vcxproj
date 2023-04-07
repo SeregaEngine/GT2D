@@ -90,7 +90,7 @@
     <OutDir>..\..\Bin\</OutDir>
     <IntDir>..\..\Build\</IntDir>
     <TargetName>GT2D</TargetName>
-    <IncludePath>$(SolutionDir)..\..\Source\Collision;$(SolutionDir)..\..\Source\Templates;$(SolutionDir)..\..\Source\Sound;$(SolutionDir)..\..\Source\Script;$(SolutionDir)..\..\Source\Math;$(SolutionDir)..\..\Source\Input;$(SolutionDir)..\..\Source\Graphics;$(SolutionDir)..\..\Source\Game;$(SolutionDir)..\..\Source\Engine;$(SolutionDir)..\..\Source\Animation;$(SolutionDir)..\..\Source\AI;$(SolutionDir)..\..\ThirdParty\Lua\Include;$(SolutionDir)..\..\ThirdParty\SDL\Include;$(IncludePath);$(SolutionDir)..\..\Source</IncludePath>
+    <IncludePath>$(SolutionDir)..\..\ThirdParty\Lua\Include;$(SolutionDir)..\..\ThirdParty\SDL\Include;$(IncludePath);$(SolutionDir)..\..\Source</IncludePath>
     <LibraryPath>$(SolutionDir)..\..\ThirdParty\Lua\Libs\;$(SolutionDir)..\..\ThirdParty\SDL\Libs;$(LibraryPath)</LibraryPath>
     <SourcePath>$(SourcePath);$(SolutionDir)..\..\Source</SourcePath>
   </PropertyGroup>
@@ -98,7 +98,7 @@
     <OutDir>..\..\Bin\</OutDir>
     <IntDir>..\..\Build\</IntDir>
     <TargetName>GT2D</TargetName>
-    <IncludePath>$(SolutionDir)..\..\Source\Collision;$(SolutionDir)..\..\Source\Templates;$(SolutionDir)..\..\Source\Sound;$(SolutionDir)..\..\Source\Script;$(SolutionDir)..\..\Source\Math;$(SolutionDir)..\..\Source\Input;$(SolutionDir)..\..\Source\Graphics;$(SolutionDir)..\..\Source\Game;$(SolutionDir)..\..\Source\Engine;$(SolutionDir)..\..\Source\Animation;$(SolutionDir)..\..\Source\AI;$(SolutionDir)..\..\ThirdParty\Lua\Include;$(SolutionDir)..\..\ThirdParty\SDL\Include;$(IncludePath);$(SolutionDir)..\..\Source</IncludePath>
+    <IncludePath>$(SolutionDir)..\..\ThirdParty\Lua\Include;$(SolutionDir)..\..\ThirdParty\SDL\Include;$(IncludePath);$(SolutionDir)..\..\Source</IncludePath>
     <LibraryPath>$(SolutionDir)..\..\ThirdParty\Lua\Libs\;$(SolutionDir)..\..\ThirdParty\SDL\Libs;$(LibraryPath)</LibraryPath>
     <SourcePath>$(SourcePath);$(SolutionDir)..\..\Source</SourcePath>
   </PropertyGroup>
@@ -196,10 +196,10 @@
     <ClCompile Include="..\..\Source\Game\World.cpp" />
     <ClCompile Include="..\..\Source\Graphics\Camera.cpp" />
     <ClCompile Include="..\..\Source\Graphics\GraphicsModule.cpp" />
-    <ClCompile Include="..\..\Source\Graphics\GTUnit.cpp" />
+    <ClCompile Include="..\..\Source\Graphics\Unit.cpp" />
     <ClCompile Include="..\..\Source\Input\InputModule.cpp" />
     <ClCompile Include="..\..\Source\Main\main.cpp" />
-    <ClCompile Include="..\..\Source\Math\GTMath.cpp" />
+    <ClCompile Include="..\..\Source\Math\Math.cpp" />
     <ClCompile Include="..\..\Source\Script\ScriptModule.cpp" />
     <ClCompile Include="..\..\Source\Sound\SoundModule.cpp" />
   </ItemGroup>
@@ -239,9 +239,9 @@
     <ClInclude Include="..\..\Source\AI\FadeOffTask.h" />
     <ClInclude Include="..\..\Source\AI\GotoEntityTask.h" />
     <ClInclude Include="..\..\Source\AI\GotoTask.h" />
-    <ClInclude Include="..\..\Source\AI\GTCommand.h" />
-    <ClInclude Include="..\..\Source\AI\GTState.h" />
-    <ClInclude Include="..\..\Source\AI\GTTask.h" />
+    <ClInclude Include="..\..\Source\AI\AICommand.h" />
+    <ClInclude Include="..\..\Source\AI\AIState.h" />
+    <ClInclude Include="..\..\Source\AI\AITask.h" />
     <ClInclude Include="..\..\Source\AI\KillTask.h" />
     <ClInclude Include="..\..\Source\AI\PushCommandTask.h" />
     <ClInclude Include="..\..\Source\AI\RunDialogTask.h" />
@@ -272,14 +272,14 @@
     <ClInclude Include="..\..\Source\Game\World.h" />
     <ClInclude Include="..\..\Source\Graphics\Camera.h" />
     <ClInclude Include="..\..\Source\Graphics\GraphicsModule.h" />
-    <ClInclude Include="..\..\Source\Graphics\GTTexture.h" />
-    <ClInclude Include="..\..\Source\Graphics\GTUnit.h" />
+    <ClInclude Include="..\..\Source\Graphics\Texture.h" />
+    <ClInclude Include="..\..\Source\Graphics\Unit.h" />
     <ClInclude Include="..\..\Source\Graphics\RenderElement.h" />
     <ClInclude Include="..\..\Source\Input\InputModule.h" />
-    <ClInclude Include="..\..\Source\Math\GTMath.h" />
+    <ClInclude Include="..\..\Source\Math\Math.h" />
     <ClInclude Include="..\..\Source\Script\ScriptModule.h" />
-    <ClInclude Include="..\..\Source\Sound\GTSound.h" />
-    <ClInclude Include="..\..\Source\Sound\GTSoundPack.h" />
+    <ClInclude Include="..\..\Source\Sound\Sound.h" />
+    <ClInclude Include="..\..\Source\Sound\SoundPack.h" />
     <ClInclude Include="..\..\Source\Sound\SoundModule.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,16 +1,16 @@
 #pragma once
 
-#include "AI/GTTask.h"
-#include "Math/GTMath.h"
+#include "AI/AITask.h"
+#include "Math/Math.h"
 
-class GotoTask final : public GT_Task
+class GotoTask final : public AITask
 {
     Vector2 m_vDestination;
     b32 m_bCompletedX, m_bCompletedY;
 
 public:
     GotoTask(Actor* pActor, const Vector2& vDestination) :
-        GT_Task(pActor, GTT_GOTO), m_vDestination(vDestination),
+        AITask(pActor, AITASK_GOTO), m_vDestination(vDestination),
         m_bCompletedX(false), m_bCompletedY(false) {}
 
     virtual void Handle() override;

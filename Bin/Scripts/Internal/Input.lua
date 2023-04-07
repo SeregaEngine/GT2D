@@ -29,15 +29,15 @@ function Input.defaultHandle()
 
     -- Handle Player's behaviour
     if Player and IsPlayerControllable then
-        if Input.isKeyDown(GTK_W) then Player:pushCommand(GTC_MOVE_UP) end
-        if Input.isKeyDown(GTK_A) then Player:pushCommand(GTC_MOVE_LEFT) end
-        if Input.isKeyDown(GTK_S) then Player:pushCommand(GTC_MOVE_DOWN) end
-        if Input.isKeyDown(GTK_D) then Player:pushCommand(GTC_MOVE_RIGHT) end
+        if Input.isKeyDown(GTK_W) then Player:pushCommand(AICMD_MOVE_UP) end
+        if Input.isKeyDown(GTK_A) then Player:pushCommand(AICMD_MOVE_LEFT) end
+        if Input.isKeyDown(GTK_S) then Player:pushCommand(AICMD_MOVE_DOWN) end
+        if Input.isKeyDown(GTK_D) then Player:pushCommand(AICMD_MOVE_RIGHT) end
 
         -- Player have to press space many times to attack
         local IsSpaceDown = Input.isKeyDown(GTK_SPACE)
         if IsSpaceDown and CanAttack then
-            Player:pushCommand(GTC_ATTACK)
+            Player:pushCommand(AICMD_ATTACK)
             CanAttack = false
         elseif not IsSpaceDown then
             CanAttack = true

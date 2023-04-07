@@ -1,6 +1,6 @@
 #include "Game/Weapon.h"
 
-void Weapon::Init(const GT_Animation* pAttackAnim, s32 soundCount, FRect hitBox, f32 damage)
+void Weapon::Init(const Animation* pAttackAnim, s32 soundCount, FRect hitBox, f32 damage)
 {
     m_pAttackAnim = pAttackAnim;
     m_soundPack.Allocate(soundCount);

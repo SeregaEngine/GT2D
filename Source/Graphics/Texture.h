@@ -4,7 +4,7 @@
 
 struct SDL_Texture;
 
-struct GT_Texture
+struct Texture
 {
     SDL_Texture* pTexture;
     s32 textureWidth, textureHeight;

@@ -117,10 +117,10 @@ function GarageBlueprint._defineCutscenes()
 	States._takeInstruments = Cutscene.new(
 		function(TActor)
 			return {
-				{ Anthony, true, GTT_GOTO, 63, 47.5 },
-				{ Anthony, true, GTT_ANIMATE_FOR, Anims["TakeInstruments"], math.random(2000, 5000) },
-				{ Anthony, true, GTT_PUSH_COMMAND, GTC_MOVE_IDLE },
-				{ Anthony, true, GTT_WAIT, 500.0 },
+				{ Anthony, true, AITASK_GOTO, 63, 47.5 },
+				{ Anthony, true, AITASK_ANIMATE_FOR, Anims["TakeInstruments"], math.random(2000, 5000) },
+				{ Anthony, true, AITASK_PUSH_COMMAND, AICMD_MOVE_IDLE },
+				{ Anthony, true, AITASK_WAIT, 500.0 },
 			}
 		end,
 		function(TActor)
@@ -135,11 +135,11 @@ function GarageBlueprint._defineCutscenes()
 	States._repairCar = Cutscene.new(
 		function(TActor)
 			return {
-				{ Anthony, true, GTT_GOTO, 25, 53 },
-				{ Anthony, true, GTT_PUSH_COMMAND, GTC_TURN_RIGHT },
-				{ Anthony, true, GTT_ANIMATE_FOR, Anims["RepairCar"], math.random(5000, 15000) },
-				{ Anthony, true, GTT_PUSH_COMMAND, GTC_MOVE_IDLE },
-				{ Anthony, true, GTT_WAIT, 500.0 },
+				{ Anthony, true, AITASK_GOTO, 25, 53 },
+				{ Anthony, true, AITASK_PUSH_COMMAND, AICMD_TURN_RIGHT },
+				{ Anthony, true, AITASK_ANIMATE_FOR, Anims["RepairCar"], math.random(5000, 15000) },
+				{ Anthony, true, AITASK_PUSH_COMMAND, AICMD_MOVE_IDLE },
+				{ Anthony, true, AITASK_WAIT, 500.0 },
 			}
 		end,
 		function(TActor)
@@ -152,17 +152,17 @@ function GarageBlueprint._defineCutscenes()
 			local Res = math.random(1, 2)
 			if Res == 1 then
 				return {
-					{ Anthony, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Sometimes i want to change my job", 4, Anthony, Textures["DialogSquare"]) },
-					{ Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Your problems.", 3, Zhenek, Textures["DialogSquare"]) },
-					{ Anthony, true, GTT_WAIT, 1000 }
+					{ Anthony, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Sometimes i want to change my job", 4, Anthony, Textures["DialogSquare"]) },
+					{ Zhenek, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Your problems.", 3, Zhenek, Textures["DialogSquare"]) },
+					{ Anthony, true, AITASK_WAIT, 1000 }
 				}
 			elseif Res == 2 then
 				return {
-					{ Anthony, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "How you doing, bruh?", 4, Anthony, Textures["DialogSquare"]) },
-					{ Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Can..", 1.5, Zhenek, Textures["DialogSquare"]) },
-					{ Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "You..", 1.5, Zhenek, Textures["DialogSquare"]) },
-					{ Zhenek, true, GTT_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Feel my heaaaart", 5, Zhenek, Textures["DialogSquare"]) },
-					{ Anthony, true, GTT_WAIT, 1000 }
+					{ Anthony, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "How you doing, bruh?", 4, Anthony, Textures["DialogSquare"]) },
+					{ Zhenek, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Can..", 1.5, Zhenek, Textures["DialogSquare"]) },
+					{ Zhenek, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "You..", 1.5, Zhenek, Textures["DialogSquare"]) },
+					{ Zhenek, true, AITASK_WAIT_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Feel my heaaaart", 5, Zhenek, Textures["DialogSquare"]) },
+					{ Anthony, true, AITASK_WAIT, 1000 }
 				}
 			end
 		end,

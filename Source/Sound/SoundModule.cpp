@@ -1,10 +1,10 @@
-#include "Sound/GTSound.h"
+#include "Sound/Sound.h"
 #include "Sound/SoundModule.h"
 
 static constexpr i32f MAX_SOUNDS = 256;
 static constexpr i32f MAX_MUSICS = 256;
 
-struct GT_Music
+struct Music
 {
     Mix_Music* pMusic;
 };
@@ -12,11 +12,11 @@ struct GT_Music
 b32 SoundModule::StartUp()
 {
     // Init sounds
-    m_aSounds = new GT_Sound[MAX_SOUNDS];
-    memset(m_aSounds, 0, MAX_SOUNDS * sizeof(GT_Sound));
+    m_aSounds = new Sound[MAX_SOUNDS];
+    memset(m_aSounds, 0, MAX_SOUNDS * sizeof(Sound));
 
-    m_aMusics = new GT_Music[MAX_MUSICS];
-    memset(m_aMusics, 0, MAX_MUSICS * sizeof(GT_Music));
+    m_aMusics = new Music[MAX_MUSICS];
+    memset(m_aMusics, 0, MAX_MUSICS * sizeof(Music));
 
     AddNote(PR_NOTE, "Module started");
     return true;
@@ -32,7 +32,7 @@ void SoundModule::ShutDown()
     AddNote(PR_NOTE, "Module shut down");
 }
 
-GT_Sound* SoundModule::DefineWAV(const char* fileName)
+Sound* SoundModule::DefineWAV(const char* fileName)
 {
     for (i32f i = 0; i < MAX_SOUNDS; ++i)
     {
@@ -53,7 +53,7 @@ GT_Sound* SoundModule::DefineWAV(const char* fileName)
     return nullptr;
 }
 
-GT_Music* SoundModule::DefineMusic(const char* fileName)
+Music* SoundModule::DefineMusic(const char* fileName)
 {
     for (i32f i = 0; i < MAX_MUSICS; ++i)
     {
@@ -108,7 +108,7 @@ void SoundModule::UndefineMusics()
     }
 }
 
-b32 SoundModule::PlaySound(GT_Sound* pSound, b32 bLoop)
+b32 SoundModule::PlaySound(Sound* pSound, b32 bLoop)
 {
     if (pSound)
     {
@@ -122,7 +122,7 @@ b32 SoundModule::PlaySound(GT_Sound* pSound, b32 bLoop)
     }
 }
 
-b32 SoundModule::PlayMusic(GT_Music* pMusic)
+b32 SoundModule::PlayMusic(Music* pMusic)
 {
     if (pMusic)
     {
