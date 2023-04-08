@@ -1,7 +1,7 @@
 GT2D and Petrol: The Fastest license (modified version of zlib license)
 =======================================================================
 
-Copyright (C) 2022 Sergey Nikonov (17seannnn@gmail.com)
+Copyright (C) 2022 Sergey Nikonov
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
