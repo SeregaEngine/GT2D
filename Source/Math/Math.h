@@ -30,7 +30,7 @@ struct Vector2
     forceinline Vector2 operator*(const Vector2& v) const { return { x * v.x, y * v.y }; }
     forceinline Vector2 operator*(f32 scalar) const { return { x * scalar, y * scalar }; }
 
-    forceinline void Zero() { x = 0.0f; y = 0.0f; }
+    forceinline void Zero() { x = y = 0.0f; }
     forceinline void Init(f32 _x, f32 _y) { x = _x; y = _y; }
     forceinline f32 Length() const { return sqrtf(x*x + y*y); }
 

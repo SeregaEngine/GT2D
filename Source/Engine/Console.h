@@ -23,8 +23,8 @@ public:
 
     void Render() const;
 
-    void Toggle(b32 bToggle) { m_bShown = bToggle; }
-    b32 IsShown() const { return m_bShown; }
+    forceinline void Toggle(b32 bToggle) { m_bShown = bToggle; }
+    forceinline b32 IsShown() const { return m_bShown; }
 
     void Print(const char* text);
     void Input(i32f ch);

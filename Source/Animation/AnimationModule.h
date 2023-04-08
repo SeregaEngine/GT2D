@@ -21,7 +21,7 @@ public:
     void ShutDown();
 
     const Animation* DefineAnimation(const Animation& anim);
-    void UndefineAnimations() { m_usedAnims = 0; }
+    forceinline void UndefineAnimations() { m_usedAnims = 0; }
 };
 
 inline AnimationModule g_animModule;

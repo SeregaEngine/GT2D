@@ -90,26 +90,26 @@ public:
 
     void AddHealth(f32 diff);
 
-    void SetState(const char* functionName) { m_state.SetFunctionName(functionName); }
-    const AIState& GetState() const { return m_state; }
+    forceinline void SetState(const char* functionName) { m_state.SetFunctionName(functionName); }
+    forceinline const AIState& GetState() const { return m_state; }
 
     void PushTask(AITask* pTask);
     void RemoveTasks();
-    const AITask* GetCurrentTask() { return m_lstTask.IsEmpty() ? nullptr : m_lstTask.Front(); }
+    forceinline const AITask* GetCurrentTask() { return m_lstTask.IsEmpty() ? nullptr : m_lstTask.Front(); }
 
-    void PushCommand(s32 enumCmd) { m_lstCommand.Push(enumCmd); }
+    forceinline void PushCommand(s32 enumCmd) { m_lstCommand.Push(enumCmd); }
 
 private:
     b32 HandleDeath();
     void HandleActorState(f32 dtTime);
 
-    void HandleAIState() { m_state.Handle(); }
+    forceinline void HandleAIState() { m_state.Handle(); }
     void HandleAITasks();
     void HandleAICommand(f32 dtTime);
 
-    void CommandIdle() { m_actorState = ACTOR_STATE_IDLE; }
-    void CommandTurnLeft() { m_bLookRight = false; }
-    void CommandTurnRight() { m_bLookRight = true; }
+    forceinline void CommandIdle() { m_actorState = ACTOR_STATE_IDLE; }
+    forceinline void CommandTurnLeft() { m_bLookRight = false; }
+    forceinline void CommandTurnRight() { m_bLookRight = true; }
     void CommandMove(s32 cmd, f32 dtTime);
     void CommandAttack();
 

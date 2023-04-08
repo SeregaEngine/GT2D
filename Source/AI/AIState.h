@@ -7,18 +7,18 @@ class Actor;
 
 class AIState
 {
-    static constexpr i32f AIState_STRSIZE = 32;
+    static constexpr i32f AISTATE_STRSIZE = 32;
 
 private:
     Actor* m_pActor;
-    char m_functionName[AIState_STRSIZE];
+    char m_functionName[AISTATE_STRSIZE];
 
 public:
     AIState() : m_functionName("") {}
 
-    void SetActor(Actor* pActor) { m_pActor = pActor; }
-    void SetFunctionName(const char* functionName) { std::strncpy(m_functionName, functionName, AIState_STRSIZE); }
-    const char* GetFunctionName() const { return m_functionName; }
+    forceinline void SetActor(Actor* pActor) { m_pActor = pActor; }
+    forceinline void SetFunctionName(const char* functionName) { std::strncpy(m_functionName, functionName, AISTATE_STRSIZE); }
+    forceinline const char* GetFunctionName() const { return m_functionName; }
 
     void Handle()
     {

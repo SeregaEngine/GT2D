@@ -28,12 +28,12 @@ void KillTask::Handle()
     HandleActor();
 }
 
-b32 KillTask::IsDone()
+b32 KillTask::IsDone() const
 {
     return !g_game.GetWorld().HasEntity(m_pTarget) || m_pTarget->m_actorState == ACTOR_STATE_DEAD;
 }
 
-b32 KillTask::IsPossible()
+b32 KillTask::IsPossible() const
 {
     // Check if we are near the target
     TList<Entity*> lstEntity;

@@ -46,8 +46,8 @@ public:
     AITask(Actor* pActor, s32 id) : m_pActor(pActor), m_id(id), m_status(AITASK_INPROCESS) {}
     virtual ~AITask() = default;
 
-    s32 GetID() const { return m_id; }
-    s32 GetStatus() const { return m_status; }
+    forceinline s32 GetID() const { return m_id; }
+    forceinline s32 GetStatus() const { return m_status; }
 
     virtual void Handle() {}
 };

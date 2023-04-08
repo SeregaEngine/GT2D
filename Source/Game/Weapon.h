@@ -21,14 +21,14 @@ public:
 
     void Init(const Animation* pAttackAnim, s32 soundCount, FRect hitBox, f32 damage);
 
-    const Animation* GetAnimation() const { return m_pAttackAnim; }
-    SoundPack& GetSoundPack() { return m_soundPack; }
-    const FRect& GetHitBox() const { return m_hitBox; }
-    f32 GetDamage() const { return m_damage; }
+    forceinline const Animation* GetAnimation() const { return m_pAttackAnim; }
+    forceinline SoundPack& GetSoundPack() { return m_soundPack; }
+    forceinline const FRect& GetHitBox() const { return m_hitBox; }
+    forceinline f32 GetDamage() const { return m_damage; }
 
-    void SetAnimation(const Animation* pAttackAnim) { m_pAttackAnim = pAttackAnim; }
-    void SetHitBox(const FRect& hitBox) { m_hitBox = hitBox; }
-    void SetDamage(f32 damage) { m_damage = damage; }
+    forceinline void SetAnimation(const Animation* pAttackAnim) { m_pAttackAnim = pAttackAnim; }
+    forceinline void SetHitBox(const FRect& hitBox) { m_hitBox = hitBox; }
+    forceinline void SetDamage(f32 damage) { m_damage = damage; }
 
     void PlaySound() const;
     void PlaySound(i32f index) const;

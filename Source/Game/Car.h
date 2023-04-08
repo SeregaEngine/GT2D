@@ -25,7 +25,7 @@ public:
 
 private:
     void HandleVelocity(f32 dtTime);
-    void HandlePosition(f32 dtTime) { m_vPosition += m_vVelocity * dtTime; }
+    forceinline void HandlePosition(f32 dtTime) { m_vPosition += m_vVelocity * dtTime; }
     void HandleAnimation(f32 dtTIme);
     void HandleActors();
 

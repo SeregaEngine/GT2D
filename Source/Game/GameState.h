@@ -27,7 +27,7 @@ public:
     virtual void Update(f32 dtTime) {}
     virtual void Render() {}
 
-    s32 GetID() const { return m_id; }
-    b32 IsEntered() const { return m_bEntered; }
-    lua_State* GetScript() { return m_pScript; }
+    forceinline s32 GetID() const { return m_id; }
+    forceinline b32 IsEntered() const { return m_bEntered; }
+    forceinline lua_State* GetScript() const { return m_pScript; }
 };

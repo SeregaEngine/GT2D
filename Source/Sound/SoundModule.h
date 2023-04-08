@@ -23,13 +23,13 @@ public:
 
     void UndefineSounds();
     void UndefineMusics();
-    void UndefineResources() { UndefineSounds(); UndefineMusics(); }
+    forceinline void UndefineResources() { UndefineSounds(); UndefineMusics(); }
 
     b32 PlaySound(Sound* pSound, b32 bLoop = false);
     b32 PlayMusic(Music* pMusic);
-    void StopSounds() { Mix_HaltChannel(-1); }
-    void StopMusic() { Mix_HaltMusic(); }
-    void StopSoundsAndMusic() { StopSounds(); StopMusic(); }
+    forceinline void StopSounds() { Mix_HaltChannel(-1); }
+    forceinline void StopMusic() { Mix_HaltMusic(); }
+    forceinline void StopSoundsAndMusic() { StopSounds(); StopMusic(); }
 };
 
 inline SoundModule g_soundModule;

@@ -23,6 +23,6 @@ public:
     virtual void Update(f32 dtTime) override;
     virtual void Render() override;
 
-    World& GetWorld() { return m_world; }
-    const char* GetScriptPath() const { return m_scriptPath; }
+    forceinline World& GetWorld() { return m_world; }
+    forceinline const char* GetScriptPath() const { return m_scriptPath; }
 };

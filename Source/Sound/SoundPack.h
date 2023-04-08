@@ -26,8 +26,8 @@ public:
         }
     }
 
-    Sound** GetSounds() const { return m_aSounds; }
-    s32 GetCount() const { return m_count; }
+    forceinline Sound** GetSounds() const { return m_aSounds; }
+    forceinline s32 GetCount() const { return m_count; }
 
     void Allocate(s32 count)
     {

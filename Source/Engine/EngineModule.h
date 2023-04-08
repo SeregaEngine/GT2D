@@ -16,6 +16,6 @@ public:
     EngineModule(const char* name, s32 channel) : m_moduleName(name), m_moduleChannel(channel) {}
     virtual ~EngineModule() = default;
 
-    const char* GetModuleName() const { return m_moduleName; }
-    s32 GetModuleChannel() const { return m_moduleChannel; }
+    forceinline const char* GetModuleName() const { return m_moduleName; }
+    forceinline s32 GetModuleChannel() const { return m_moduleChannel; }
 };

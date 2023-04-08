@@ -30,15 +30,15 @@ public:
     void OnKeyDown(SDL_Event& e);
 
     /** Keyboard */
-    b32 IsKeyDown_s(SDL_Scancode scan) const { return m_keyState[scan]; }
-    b32 IsKeyDown(SDL_Keycode key) const { return m_keyState[SDL_GetScancodeFromKey(key)]; }
+    forceinline b32 IsKeyDown_s(SDL_Scancode scan) const { return m_keyState[scan]; }
+    forceinline b32 IsKeyDown(SDL_Keycode key) const { return m_keyState[SDL_GetScancodeFromKey(key)]; }
 
     /** Mouse */
-    b32 IsMouseDown(Uint32 key) const { return m_mouseState & key; }
+    forceinline b32 IsMouseDown(Uint32 key) const { return m_mouseState & key; }
 
-    void GetMousePosition(s32& x, s32& y) const { x = m_mousePosX; y = m_mousePosY; }
-    s32 GetMousePosX() const { return m_mousePosX; }
-    s32 GetMousePosY() const { return m_mousePosY; }
+    forceinline void GetMousePosition(s32& x, s32& y) const { x = m_mousePosX; y = m_mousePosY; }
+    forceinline s32 GetMousePosX() const { return m_mousePosX; }
+    forceinline s32 GetMousePosY() const { return m_mousePosY; }
 };
 
 inline InputModule g_inputModule;

@@ -12,7 +12,7 @@ public:
     virtual void Handle() override;
 
 private:
-    b32 IsDone();
-    b32 IsPossible();
+    b32 IsDone() const;
+    b32 IsPossible() const;
     void HandleActor();
 };

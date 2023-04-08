@@ -10,7 +10,6 @@ class Engine final : public EngineModule
 
 public:
     Engine() : EngineModule("GT2D", CHANNEL_GT2D) {}
-    ~Engine() = default;
 
     void StartUp();
     void ShutDown();

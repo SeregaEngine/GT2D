@@ -3,10 +3,12 @@
 #include <cstring>
 #include "Game/Entity.h"
 
-static constexpr i32f TRIGGER_STRSIZE = 32;
-
 class Trigger final : public Entity
 {
+private:
+    static constexpr i32f TRIGGER_STRSIZE = 32;
+
+private:
     char m_functionName[TRIGGER_STRSIZE];
 
 public:
@@ -17,7 +19,7 @@ public:
     virtual void Update(f32 dtTime) override;
     virtual void Draw() override {} /** No drawing */
 
-    void SetFunctionName(const char* functionName) { std::strncpy(m_functionName, functionName, TRIGGER_STRSIZE); }
-    void Attach(Entity* pEntity) { m_pAttached = pEntity; }
+    forceinline void SetFunctionName(const char* functionName) { std::strncpy(m_functionName, functionName, TRIGGER_STRSIZE); }
+    forceinline void Attach(Entity* pEntity) { m_pAttached = pEntity; }
 };
 

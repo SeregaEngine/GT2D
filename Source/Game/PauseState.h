@@ -19,5 +19,5 @@ public:
     virtual void Update(f32 dtTime) override { g_scriptModule.UpdateMission(m_pScript, dtTime); }
     virtual void Render() override;
 
-    World& GetWorld() { return m_world; }
+    forceinline World& GetWorld() { return m_world; }
 };

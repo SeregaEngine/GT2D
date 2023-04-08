@@ -29,7 +29,7 @@ void GotoEntityTask::Handle()
     HandleActor();
 }
 
-b32 GotoEntityTask::IsDone()
+b32 GotoEntityTask::IsDone() const
 {
     TList<Entity*> lstEntity;
     g_collisionMgr.CheckCollision(

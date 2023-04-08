@@ -27,7 +27,8 @@ public:
     f32 m_angle;
     SDL_RendererFlip m_flip;
 
-    FRect m_hitBox; /** Relative to entity position */
+    /** Relative to entity position */
+    FRect m_hitBox;
 
     s32 m_animFrame;
     f32 m_animElapsed;
@@ -49,5 +50,5 @@ public:
     virtual void Update(f32 dtTime) {}
     virtual void Draw();
 
-    s32 GetType() const { return m_type; }
+    forceinline s32 GetType() const { return m_type; }
 };

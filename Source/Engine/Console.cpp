@@ -7,11 +7,9 @@
 static constexpr i32f CONSOLE_STRING_WIDTH = 80;
 static constexpr i32f CONSOLE_STRING_HEIGHT = 15;
 static constexpr i32f CONSOLE_BUFSIZE = (CONSOLE_STRING_WIDTH * CONSOLE_STRING_HEIGHT) + 1;
-
-static constexpr i32f CONSOLE_INPUT_INDEX = CONSOLE_STRING_WIDTH * (CONSOLE_STRING_HEIGHT - 1);
-
 static constexpr i32f LAST_BUFSIZE = CONSOLE_STRING_WIDTH + 1;
 
+static constexpr i32f CONSOLE_INPUT_INDEX = CONSOLE_STRING_WIDTH * (CONSOLE_STRING_HEIGHT - 1);
 static constexpr char CONSOLE_PROMPT[] = "> ";
 
 void Console::StartUp()
@@ -122,11 +120,7 @@ void Console::Input(i32f ch)
     case SDLK_UP:
     case SDLK_LEFT:
     case SDLK_DOWN:
-    case SDLK_RIGHT:
-    {
-        Arrow(ch);
-        return;
-    }
+    case SDLK_RIGHT:     Arrow(ch); return;
 
     default: break;
     }

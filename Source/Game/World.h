@@ -27,9 +27,9 @@ public:
     forceinline void SwitchLocation(s32 location) { m_switchLocation = location; }
     forceinline void SetGroundBounds(SRect& rect) { m_groundBounds = rect; }
 
-    void PushEntity(Entity* pEntity);
-    void RemoveEntity(Entity* pEntity);
-    void PushWeapon(Weapon* pWeapon);
+    forceinline void PushEntity(Entity* pEntity);
+    forceinline void RemoveEntity(Entity* pEntity);
+    forceinline void PushWeapon(Weapon* pWeapon);
 
     forceinline const SRect& GetGroundBounds() const { return m_groundBounds; }
     forceinline TList<Entity*>& GetEntityList() { return m_lstEntity; }
@@ -45,7 +45,7 @@ private:
     void CleanWeapons();
 };
 
-forceinline  void World::PushEntity(Entity* pEntity)
+forceinline void World::PushEntity(Entity* pEntity)
 {
     if (pEntity)
     {
@@ -53,7 +53,7 @@ forceinline  void World::PushEntity(Entity* pEntity)
     }
 }
 
-forceinline  void World::RemoveEntity(Entity* pEntity)
+forceinline void World::RemoveEntity(Entity* pEntity)
 {
     if (pEntity)
     {
@@ -61,7 +61,7 @@ forceinline  void World::RemoveEntity(Entity* pEntity)
     }
 }
 
-forceinline  void World::PushWeapon(Weapon* pWeapon)
+forceinline void World::PushWeapon(Weapon* pWeapon)
 {
     if (pWeapon)
     {
