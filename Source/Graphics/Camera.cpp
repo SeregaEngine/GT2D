@@ -24,22 +24,22 @@ void Camera::GetPosition(s32& x, s32& y)
     {
         const Vector2& vPosition = m_pAttached->m_vPosition;
 
-        x = (s32)vPosition.x - g_graphicsModule.GetScreenWidth() / 2;
+        x = (s32)(vPosition.x + 0.5f) - g_graphicsModule.GetScreenWidth() / 2;
         if (x < m_bounds.x1)
         {
             x = m_bounds.x1;
         }
-        else if (x + g_graphicsModule.GetScreenWidth() - 1 > m_bounds.x2)
+        else if (x + g_graphicsModule.GetScreenWidth() > m_bounds.x2 + 1)
         {
             x = (m_bounds.x2 + 1) - g_graphicsModule.GetScreenWidth();
         }
 
-        y = (s32)vPosition.y - g_graphicsModule.GetScreenHeight() / 2;
+        y = (s32)(vPosition.y + 0.5f) - g_graphicsModule.GetScreenHeight() / 2;
         if (y < m_bounds.y1)
         {
             y = m_bounds.y1;
         }
-        else if (y + g_graphicsModule.GetScreenHeight() - 1 > m_bounds.y2)
+        else if (y + g_graphicsModule.GetScreenHeight() > m_bounds.y2 + 1)
         {
             y = (m_bounds.y2 + 1) - g_graphicsModule.GetScreenHeight();
         }
