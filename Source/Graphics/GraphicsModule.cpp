@@ -251,10 +251,15 @@ void GraphicsModule::PushRenderElement(s32 renderMode, RenderElement* pElement)
 {
     switch (renderMode)
     {
-    case RENDER_MODE_BACKGROUND: PushStaticElement(m_queueBackground, pElement); break;
-    case RENDER_MODE_DYNAMIC:    PushDynamicElement(m_queueDynamic, pElement); break;
-    case RENDER_MODE_FOREGROUND: PushStaticElement(m_queueForeground, pElement); break;
-    case RENDER_MODE_DEBUG:      PushStaticElement(m_queueDebug, pElement); break;
+    case RENDER_MODE_BACKGROUND: QueueElement(m_queueBackground, pElement); break;
+    case RENDER_MODE_FOREGROUND: QueueElement(m_queueForeground, pElement); break;
+    case RENDER_MODE_DEBUG:      QueueElement(m_queueDebug, pElement); break;
+
+    case RENDER_MODE_DYNAMIC:
+    {
+        pElement->zIndex += pElement->dest.y;
+        QueueElement(m_queueDynamic, pElement);
+    } break;
 
     default:
     {
@@ -267,7 +272,7 @@ void GraphicsModule::PushRenderElement(s32 renderMode, RenderElement* pElement)
     }
 }
 
-void GraphicsModule::PushStaticElement(TList<RenderElement*>& queue, RenderElement* pElement)
+void GraphicsModule::QueueElement(TList<RenderElement*>& queue, RenderElement* pElement)
 {
     auto it = queue.Begin();
 
@@ -282,31 +287,6 @@ void GraphicsModule::PushStaticElement(TList<RenderElement*>& queue, RenderEleme
     for ( ; it; ++it)
     {
         if (pElement->zIndex <= it->data->zIndex)
-        {
-            queue.PushBefore(it, pElement);
-            return;
-        }
-    }
-
-    // So element's zIndex is the biggest
-    queue.PushBack(pElement);
-}
-
-void GraphicsModule::PushDynamicElement(TList<RenderElement*>& queue, RenderElement* pElement)
-{
-    auto it = queue.Begin();
-
-    // Check if there're nothing in queue
-    if (!it)
-    {
-        queue.Push(pElement);
-        return;
-    }
-
-    // Try to find place
-    for ( ; it; ++it)
-    {
-        if (pElement->dest.y <= it->data->dest.y)
         {
             queue.PushBefore(it, pElement);
             return;
