@@ -43,8 +43,8 @@ function Graphics.drawFrame(RenderMode, ZIndex, IsHUD, Rect, Texture, Row, Frame
     drawFrame(RenderMode, ZIndex, IsHUD, Rect[1], Rect[2], Rect[3], Rect[4], Texture, Row, Frame)
 end
 
-function Graphics.drawText(RenderMode, ZIndex, IsHUD, Rect, Text)
-    drawText(RenderMode, ZIndex, IsHUD, Rect[1], Rect[2], Rect[3], Rect[4], Text)
+function Graphics.drawText(RenderMode, ZIndex, IsHUD, Rect, Text, FontID)
+    drawText(RenderMode, ZIndex, IsHUD, Rect[1], Rect[2], Rect[3], Rect[4], Text, FontID or FONT_REGULAR)
 end
 
 function Graphics.fillRect(RenderMode, ZIndex, IsHUD, Rect)

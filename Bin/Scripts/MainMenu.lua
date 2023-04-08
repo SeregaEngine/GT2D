@@ -98,7 +98,7 @@ function Mission.onRender()
 
 	for i,v in ipairs(Buttons) do
 		setButtonColor(i)
-		Graphics.drawText(RENDER_MODE_FOREGROUND, 1000, true, { Buttons[i].X, Buttons[i].Y, Buttons[i].Width, BUTTON_HEIGHT }, Buttons[i].Text)
+		Graphics.drawText(RENDER_MODE_FOREGROUND, 1000, true, { Buttons[i].X, Buttons[i].Y, Buttons[i].Width, BUTTON_HEIGHT }, Buttons[i].Text, FONT_LARGE)
 	end
 end
 

@@ -79,7 +79,7 @@ void Dialog::Draw()
         g_graphicsModule.DrawText(
             m_renderMode, zIndex + 1, false,
             dest, &m_text[tempIndex - DIALOG_STRING_WIDTH],
-            FONT_GAME
+            FONT_REGULAR
         );
 
         // Recover string

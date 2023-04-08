@@ -48,7 +48,7 @@ function onRenderWithHelp()
 
     -- Text
     Graphics.setDrawColor(255, 255, 255, 160)
-    Graphics.drawText(RENDER_MODE_BACKGROUND, 50, true, { 0, SCREEN_HEIGHT-5, 35, 5 }, "WASD to move")
+    Graphics.drawText(RENDER_MODE_BACKGROUND, 50, true, { 0, SCREEN_HEIGHT-5, 35, 5 }, "WASD to move", FONT_LARGE)
 end
 
 ---- Triggers

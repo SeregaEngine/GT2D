@@ -85,7 +85,7 @@ function Mission.onRender()
 	Graphics.fillRect(RENDER_MODE_BACKGROUND, 0, true, { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT })
 
 	Graphics.setDrawColor(255, 255, 255, 255)
-	Graphics.drawText(RENDER_MODE_BACKGROUND, 1, true, { (SCREEN_WIDTH - string.len(Title)*TITLE_CHAR_WIDTH)/2, Y, string.len(Title)*TITLE_CHAR_WIDTH, TITLE_HEIGHT }, Title)
+	Graphics.drawText(RENDER_MODE_BACKGROUND, 1, true, { (SCREEN_WIDTH - string.len(Title)*TITLE_CHAR_WIDTH)/2, Y, string.len(Title)*TITLE_CHAR_WIDTH, TITLE_HEIGHT }, Title, FONT_LARGE)
 
 	local YPos = Y + TITLE_HEIGHT
 	for i,v in ipairs(Credits) do
@@ -99,7 +99,7 @@ function Mission.onRender()
 			Height = NAME_HEIGHT
 		end
 
-		Graphics.drawText(RENDER_MODE_BACKGROUND, 1, true, { (SCREEN_WIDTH - Width)/2, YPos, Width, Height }, v)
+		Graphics.drawText(RENDER_MODE_BACKGROUND, 1, true, { (SCREEN_WIDTH - Width)/2, YPos, Width, Height }, v, FONT_LARGE)
 		YPos = YPos + Height
 	end
 end

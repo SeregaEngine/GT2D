@@ -185,6 +185,13 @@ void ScriptModule::DefineSymbols(lua_State* L)
     lua_pushinteger(L, RENDER_MODE_DEBUG);
     lua_setglobal(L, "RENDER_MODE_DEBUG");
 
+    lua_pushinteger(L, FONT_REGULAR);
+    lua_setglobal(L, "FONT_REGULAR");
+    lua_pushinteger(L, FONT_LARGE);
+    lua_setglobal(L, "FONT_LARGE");
+    lua_pushinteger(L, FONT_MONOSPACE);
+    lua_setglobal(L, "FONT_MONOSPACE");
+
     lua_pushinteger(L, SDLK_w);
     lua_setglobal(L, "GTK_W");
     lua_pushinteger(L, SDLK_a);
@@ -738,7 +745,7 @@ s32 ScriptModule::_drawFrame(lua_State* L)
 
 s32 ScriptModule::_drawText(lua_State* L)
 {
-    if (!LuaExpect(L, "drawText", 8))
+    if (!LuaExpect(L, "drawText", 9))
     {
         return -1;
     }
@@ -753,8 +760,9 @@ s32 ScriptModule::_drawText(lua_State* L)
         (s32)g_graphicsModule.UnitsToPixelsY((f32)lua_tonumber(L, 7))
     };
     const char* text = lua_tostring(L, 8);
+    eFontID fontID = (eFontID)lua_tointeger(L, 9);
 
-    g_graphicsModule.DrawText(renderMode, zIndex, bHUD, dest, text);
+    g_graphicsModule.DrawText(renderMode, zIndex, bHUD, dest, text, fontID);
     return 0;
 }
 

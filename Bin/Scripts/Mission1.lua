@@ -130,10 +130,6 @@ function L1.onRender()
     Graphics.drawFrame(RENDER_MODE_BACKGROUND, 0, true, { X, 0, GW_LOCATION*2, GH_LOCATION }, Textures["Parallax1"])
     Graphics.drawFrame(RENDER_MODE_BACKGROUND, 0, true, { X-GW_LOCATION*2, 0, GW_LOCATION*2, GH_LOCATION }, Textures["Parallax1"])
 
-    -- Help
-    Graphics.setDrawColor(255, 255, 255, 255)
-    Graphics.drawText(RENDER_MODE_BACKGROUND, 1, false, { 128 - XCamera/5.0, 0, 50, 10 }, "Press space to attack")
-
     -- Background
     Graphics.drawFrame(RENDER_MODE_BACKGROUND, 2, false, { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }, Textures["Background1"], 0, 0)
     Graphics.drawFrame(RENDER_MODE_BACKGROUND, 2, false, { SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT }, Textures["Background1"], 0, 1)
@@ -280,7 +276,7 @@ function L2.onRender()
 
     -- Help
     Graphics.setDrawColor(255, 255, 255, 160)
-    Graphics.drawText(RENDER_MODE_BACKGROUND, 4, true, { 14, LOCKPICK_BOTTOM + 5, 100, 5 }, "Press space when lockpick'll be in square")
+    Graphics.drawText(RENDER_MODE_BACKGROUND, 4, true, { 14, LOCKPICK_BOTTOM + 5, 100, 5 }, "Press space when lockpick'll be in square", FONT_LARGE)
 end
 
 function L2.onRenderFaded()
@@ -434,7 +430,7 @@ function L3.onRenderBeforeTutorial()
     Graphics.drawFrame(RENDER_MODE_BACKGROUND, 0, true, { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }, Textures["Background3"], 0, 0)
 
     Graphics.setDrawColor(255, 255, 255, 168)
-    Graphics.drawText(RENDER_MODE_BACKGROUND, 1, true, { 8, SCREEN_HEIGHT - 8, 21 * 3, 8 }, "Press space to attack")
+    Graphics.drawText(RENDER_MODE_BACKGROUND, 1, true, { 8, SCREEN_HEIGHT - 8, 21 * 3, 8 }, "Press space to attack", FONT_LARGE)
 end
 
 function L3.onRenderAfterTutorial()

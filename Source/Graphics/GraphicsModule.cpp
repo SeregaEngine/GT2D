@@ -35,7 +35,8 @@ void GraphicsModule::StartUp(SDL_Window* pWindow, SDL_Renderer* pRenderer, s32 w
 
     // Open console font
     m_pConsoleFont = TTF_OpenFont("Fonts/Cascadia.ttf", 48);
-    m_pGameFont = TTF_OpenFont("Fonts/VT323-Regular.ttf", 148);
+    m_pGameFont = TTF_OpenFont("Fonts/VT323-Regular.ttf", 72);
+    m_pMenuFont = TTF_OpenFont("Fonts/VT323-Regular.ttf", 148);
 
     AddNote(PR_NOTE, "Module started");
 }
@@ -175,8 +176,18 @@ void GraphicsModule::DrawText(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Re
         return;
     }
 
+    // Get font
+    TTF_Font* pFont;
+    switch (font)
+    {
+    case FONT_REGULAR:    pFont = m_pGameFont; break;
+    case FONT_LARGE:    pFont = m_pMenuFont; break;
+    case FONT_MONOSPACE: pFont = m_pConsoleFont; break;
+    default: return;
+    }
+
     // Push element
-    PushRenderElement(renderMode, new RenderElementText(zIndex, dest, text, font == FONT_GAME ? m_pGameFont : m_pConsoleFont));
+    PushRenderElement(renderMode, new RenderElementText(zIndex, dest, text, pFont));
 }
 
 void GraphicsModule::FillRect(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Rect& dstRect)

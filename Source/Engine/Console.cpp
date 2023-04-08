@@ -64,7 +64,7 @@ void Console::Render() const
         u8 temp = m_buffer[tempIndex]; // Save start of next string that will be null terminated
         m_buffer[tempIndex] = 0;
 
-        g_graphicsModule.DrawText(RENDER_MODE_DEBUG, 998, true, dest, (const char*) &m_buffer[i * CONSOLE_STRING_WIDTH], FONT_CONSOLE);
+        g_graphicsModule.DrawText(RENDER_MODE_DEBUG, 998, true, dest, (const char*) &m_buffer[i * CONSOLE_STRING_WIDTH], FONT_MONOSPACE);
 
         m_buffer[tempIndex] = temp; // Restore
     }
