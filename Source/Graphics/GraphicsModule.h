@@ -30,7 +30,6 @@ struct Texture;
 
 class GraphicsModule final : public EngineModule
 {
-private:
     s32 m_screenWidth;
     s32 m_screenHeight;
 
@@ -94,7 +93,7 @@ public:
     forceinline Camera& GetCamera() { return m_camera; }
 
     forceinline const SDL_Color& GetDrawColor() const { return m_drawColor; }
-    forceinline void SetDrawColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a) { m_drawColor = { r, g, b, a }; }
+    forceinline void SetDrawColor(u8 r, u8 g, u8 b, u8 a) { m_drawColor = { r, g, b, a }; }
 
 private:
     void RenderQueue(const TList<RenderElement*>& queue) const;

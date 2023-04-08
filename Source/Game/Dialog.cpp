@@ -14,7 +14,7 @@ void Dialog::Init(const Vector2& vPosition, s32 width, s32 height, const Texture
     m_bCollidable = false;
 
     m_renderMode = RENDER_MODE_FOREGROUND;
-    m_zIndex = 0;
+    m_zIndex = 100;
 
     m_pAttached = nullptr;
     m_time = 0.0f;
@@ -53,11 +53,13 @@ void Dialog::Draw()
     HandlePosition();
 
     // Draw dialog box
+    s32 zIndex = m_zIndex + (s32)m_vPosition.y;
+
     SDL_Rect dest = {
         (s32)m_vPosition.x, (s32)m_vPosition.y,
         m_width, m_height
     };
-    g_graphicsModule.DrawFrame(m_renderMode, m_zIndex, false, dest, m_pTexture, 0, 0, 0.0f, m_flip);
+    g_graphicsModule.DrawFrame(m_renderMode, zIndex, false, dest, m_pTexture, 0, 0, 0.0f, m_flip);
 
     // Draw text
     dest.x += (s32)DIALOG_TEXT_MARGIN_LEFT;
@@ -75,9 +77,9 @@ void Dialog::Draw()
 
         // Draw this string line
         g_graphicsModule.DrawText(
-            m_renderMode, m_zIndex + 1, false,
+            m_renderMode, zIndex + 1, false,
             dest, &m_text[tempIndex - DIALOG_STRING_WIDTH],
-            FONT_GAME 
+            FONT_GAME
         );
 
         // Recover string
@@ -87,6 +89,12 @@ void Dialog::Draw()
         tempIndex += DIALOG_STRING_WIDTH;
         dest.y += dest.h;
     }
+}
+
+void Dialog::Run()
+{
+    m_bRunning = true;
+    HandlePosition();
 }
 
 void Dialog::SetText(const char* text)
@@ -110,7 +118,7 @@ void Dialog::SetText(const char* text)
                 {
                     break;
                 }
-                
+
                 // If we need space between words
                 if (j > 0)
                 {
@@ -142,7 +150,6 @@ void Dialog::HandlePosition()
     // X
     if (m_pAttached->m_bLookRight)
     {
-        // Try right
         m_vPosition.x = m_pAttached->m_vPosition.x + m_pAttached->m_hitBox.x2;
         if (m_vPosition.x - cameraX > g_graphicsModule.GetScreenWidth() - m_width)
         {
@@ -158,9 +165,8 @@ void Dialog::HandlePosition()
     }
     else
     {
-        // Try left
         m_vPosition.x = m_pAttached->m_vPosition.x + m_pAttached->m_hitBox.x1 - m_width;
-        if (m_vPosition.x - cameraX < m_width - 1)
+        if (m_vPosition.x - cameraX < 0)
         {
             // Turn right
             m_vPosition.x = m_pAttached->m_vPosition.x + m_pAttached->m_hitBox.x2;
@@ -187,7 +193,7 @@ i32f Dialog::WordLength(const char* text)
 
 const char* Dialog::NextWord(const char* text)
 {
-    for (; *text && *text == ' '; ++text)
+    for ( ; *text && *text == ' '; ++text)
         {}
     return text;
 }

@@ -147,4 +147,5 @@ void Car::HandleActor(s32 place)
 
     // Flip
     m_aPlaces[place]->m_flip = m_flip;
+    m_aPlaces[place]->m_bLookRight = m_flip == SDL_FLIP_NONE ? true : false;
 }

@@ -806,12 +806,12 @@ function L3.defineCutscenes()
             Pickup:setAcceleration(-0.0001, 0)
 
             return {
-                { Serega, false, AITASK_GOTO, GROUND_WIDTH + 10, GROUND_Y },
+                { Serega, false, AITASK_GOTO, GROUND_WIDTH + 100, GROUND_Y },
                 { John, true, AITASK_GOTO, GROUND_WIDTH - 50, GROUND_Y + 1 },
                 { John, false, AITASK_RUN_DIALOG, Dialog:new(GW_DIALOG, GH_DIALOG, "Like in the old days, yeah?", 2, John, Textures["DialogSquare"]) },
 
                 { John, true, AITASK_GOTO, GROUND_WIDTH, GROUND_Y + 1 },
-                { John, false, AITASK_GOTO, GROUND_WIDTH + 10, GROUND_Y + 1 },
+                { John, false, AITASK_GOTO, GROUND_WIDTH + 100, GROUND_Y + 1 },
                 { John, true, AITASK_FADE_OFF, 1000 },
                 { John, true, AITASK_FADE_IN, 1000 },
 

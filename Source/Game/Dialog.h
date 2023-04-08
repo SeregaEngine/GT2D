@@ -2,13 +2,14 @@
 
 #include "Game/Actor.h"
 
-static constexpr i32f DIALOG_STRING_WIDTH  = 20;
-static constexpr i32f DIALOG_STRING_HEIGHT = 5;
-static constexpr i32f DIALOG_STRSIZE       = DIALOG_STRING_WIDTH * DIALOG_STRING_HEIGHT;
-static constexpr i32f DIALOG_BUFSIZE       = DIALOG_STRSIZE + 1;
-
 class Dialog final : public Entity
 {
+private:
+    static constexpr i32f DIALOG_STRING_WIDTH  = 20;
+    static constexpr i32f DIALOG_STRING_HEIGHT = 5;
+    static constexpr i32f DIALOG_STRSIZE       = DIALOG_STRING_WIDTH * DIALOG_STRING_HEIGHT;
+    static constexpr i32f DIALOG_BUFSIZE       = DIALOG_STRSIZE + 1;
+
 public:
     Actor* m_pAttached;
     f32 m_time;
@@ -22,11 +23,11 @@ public:
     virtual void Update(f32 dtTime) override;
     virtual void Draw() override;
 
-    void Run() { m_bRunning = true; HandlePosition(); }
-    b32 Running() const { return m_bRunning; }
+    void Run();
+    forceinline b32 Running() const { return m_bRunning; }
 
-    void Attach(Actor* pActor) { m_pAttached = pActor; }
-    void SetTime(f32 time) { m_time = time; }
+    forceinline void Attach(Actor* pActor) { m_pAttached = pActor; }
+    forceinline void SetTime(f32 time) { m_time = time; }
     void SetText(const char* text);
 
 private:
