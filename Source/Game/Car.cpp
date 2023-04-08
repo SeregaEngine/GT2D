@@ -63,7 +63,7 @@ void Car::HandleVelocity(f32 dtTime)
     m_vVelocity += m_vAcceleration * dtTime;
 
     // X
-    if (fabsf(m_vVelocity.x) > fabsf(m_vMaxSpeed.x))
+    if (std::fabsf(m_vVelocity.x) > std::fabsf(m_vMaxSpeed.x))
     {
         m_vVelocity.x = m_vMaxSpeed.x;
         if (m_vAcceleration.x < 0)
@@ -73,7 +73,7 @@ void Car::HandleVelocity(f32 dtTime)
     }
 
     // Y
-    if (fabsf(m_vVelocity.y) > fabsf(m_vMaxSpeed.y))
+    if (std::fabsf(m_vVelocity.y) > std::fabsf(m_vMaxSpeed.y))
     {
         m_vVelocity.y = m_vMaxSpeed.y;
         if (m_vAcceleration.y < 0)

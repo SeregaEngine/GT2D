@@ -52,7 +52,7 @@ void GotoEntityTask::HandleActor()
                        m_pActor->m_vSpeed.y * ERROR_MULTIPLIER };
 
     // Move Actor according to x/y ratio
-    f32 ratio = fabsf((vEntity.x - vActor.x) / (vEntity.y - vActor.y));
+    f32 ratio = std::fabsf((vEntity.x - vActor.x) / (vEntity.y - vActor.y));
     if (ratio > DECISION_RATIO_XY)
     {
         MoveX(vActor, vEntity, vError);

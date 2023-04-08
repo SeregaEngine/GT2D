@@ -7,16 +7,16 @@ void Math::StartUp()
     for (i32f i = 0; i < 361; ++i)
     {
         f32 angle = DegToRad((f32)i);
-        m_sinLook[i] = sinf(angle);
-        m_cosLook[i] = cosf(angle);
+        m_sinLook[i] = std::sinf(angle);
+        m_cosLook[i] = std::cosf(angle);
     }
 }
 
 s32 Math::FastDist2(s32 x, s32 y)
 {
-    // Get absolute coordinates
-    x = abs(x);
-    y = abs(y);
+    // Get std::absolute coordinates
+    x = std::abs(x);
+    y = std::abs(y);
 
     // Get minimal value
     s32 min = Min(x, y);
