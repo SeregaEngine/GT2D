@@ -1,364 +1,383 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="AI">
-      <UniqueIdentifier>{c497745d-004b-4673-a460-d17fe9be3227}</UniqueIdentifier>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{26cca414-a7d5-467f-8533-17b2978ccf8f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Animation">
-      <UniqueIdentifier>{5afd1afd-3de8-4bf9-b56a-f9c4a582c959}</UniqueIdentifier>
+    <Filter Include="Source">
+      <UniqueIdentifier>{19c7659e-6b62-4331-ac50-4d4b3082a157}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Main">
+    <Filter Include="Source\Sound">
+      <UniqueIdentifier>{09796700-019a-43cd-8351-8893ae9a7589}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Script">
+      <UniqueIdentifier>{a1908b87-e187-4030-ae0b-b3ffb8d0b143}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Math">
+      <UniqueIdentifier>{4222f45a-8027-4587-865e-4db83b43d7fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Main">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Engine">
+    <Filter Include="Source\Lua Scripts">
+      <UniqueIdentifier>{cf39e093-c64c-4501-b65d-a7ade6640ad8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Lua Scripts\Internal">
+      <UniqueIdentifier>{de0a1849-d55d-4ecc-9b5f-0f5db44bbb8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Input">
+      <UniqueIdentifier>{43b1d6d5-46cb-42d1-bb99-e9ffc9c18e73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Graphics">
+      <UniqueIdentifier>{80a8d907-d30b-4926-9ee6-37e12198ce31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Game">
+      <UniqueIdentifier>{5ecdcb99-0f52-4ed0-8516-4ca6332aac5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="Game">
-      <UniqueIdentifier>{5ecdcb99-0f52-4ed0-8516-4ca6332aac5a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics">
-      <UniqueIdentifier>{80a8d907-d30b-4926-9ee6-37e12198ce31}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Input">
-      <UniqueIdentifier>{43b1d6d5-46cb-42d1-bb99-e9ffc9c18e73}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Math">
-      <UniqueIdentifier>{4222f45a-8027-4587-865e-4db83b43d7fa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Script">
-      <UniqueIdentifier>{a1908b87-e187-4030-ae0b-b3ffb8d0b143}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Sound">
-      <UniqueIdentifier>{09796700-019a-43cd-8351-8893ae9a7589}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Lua Scripts">
-      <UniqueIdentifier>{cf39e093-c64c-4501-b65d-a7ade6640ad8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Lua Scripts\Internal">
-      <UniqueIdentifier>{de0a1849-d55d-4ecc-9b5f-0f5db44bbb8a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Containers">
+    <Filter Include="Source\Containers">
       <UniqueIdentifier>{47d28868-7a62-443b-b532-1ea079f9fb1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Animation">
+      <UniqueIdentifier>{5afd1afd-3de8-4bf9-b56a-f9c4a582c959}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\AI">
+      <UniqueIdentifier>{c497745d-004b-4673-a460-d17fe9be3227}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Animation\AnimationModule.cpp">
-      <Filter>Animation</Filter>
+      <Filter>Source\Animation</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Engine\ClockManager.cpp">
-      <Filter>Engine</Filter>
+      <Filter>Source\Engine</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Engine\DebugLogManager.cpp">
-      <Filter>Engine</Filter>
+      <Filter>Source\Engine</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Engine\EngineModule.cpp">
-      <Filter>Engine</Filter>
+      <Filter>Source\Engine</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Engine\Engine.cpp">
-      <Filter>Engine</Filter>
+      <Filter>Source\Engine</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Game\Actor.cpp">
-      <Filter>Game</Filter>
+      <Filter>Source\Game</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Game\Entity.cpp">
-      <Filter>Game</Filter>
+      <Filter>Source\Game</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Game\Game.cpp">
-      <Filter>Game</Filter>
+      <Filter>Source\Game</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Game\PlayState.cpp">
-      <Filter>Game</Filter>
+      <Filter>Source\Game</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Game\World.cpp">
-      <Filter>Game</Filter>
+      <Filter>Source\Game</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Graphics\Camera.cpp">
-      <Filter>Graphics</Filter>
+      <Filter>Source\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Graphics\GraphicsModule.cpp">
-      <Filter>Graphics</Filter>
+      <Filter>Source\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Input\InputModule.cpp">
-      <Filter>Input</Filter>
+      <Filter>Source\Input</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Math\Math.cpp">
-      <Filter>Math</Filter>
+      <Filter>Source\Math</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Script\ScriptModule.cpp">
-      <Filter>Script</Filter>
+      <Filter>Source\Script</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Sound\SoundModule.cpp">
-      <Filter>Sound</Filter>
+      <Filter>Source\Sound</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\AI\GotoTask.cpp">
-      <Filter>AI</Filter>
+      <Filter>Source\AI</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Game\Trigger.cpp">
-      <Filter>Game</Filter>
+      <Filter>Source\Game</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Engine\Console.cpp">
-      <Filter>Engine</Filter>
+      <Filter>Source\Engine</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Game\Weapon.cpp">
-      <Filter>Game</Filter>
+      <Filter>Source\Game</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\AI\GotoEntityTask.cpp">
-      <Filter>AI</Filter>
+      <Filter>Source\AI</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\AI\KillTask.cpp">
-      <Filter>AI</Filter>
+      <Filter>Source\AI</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Game\Dialog.cpp">
-      <Filter>Game</Filter>
+      <Filter>Source\Game</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Game\Car.cpp">
-      <Filter>Game</Filter>
+      <Filter>Source\Game</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\AI\WaitTask.cpp">
-      <Filter>AI</Filter>
+      <Filter>Source\AI</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Game\PauseState.cpp">
-      <Filter>Game</Filter>
+      <Filter>Source\Game</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Main\main.cpp">
-      <Filter>Main</Filter>
+    <ClCompile Include="..\..\Source\Main\Main.cpp">
+      <Filter>Source\Main</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Engine\CollisionManager.cpp">
-      <Filter>Engine</Filter>
+      <Filter>Source\Engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Bin\Scripts\Mission0.lua">
-      <Filter>Lua Scripts</Filter>
+      <Filter>Source\Lua Scripts</Filter>
     </None>
     <None Include="..\..\Bin\Scripts\MissionIntro.lua">
-      <Filter>Lua Scripts</Filter>
+      <Filter>Source\Lua Scripts</Filter>
     </None>
     <None Include="..\..\Bin\Scripts\GarageBlueprint.lua">
-      <Filter>Lua Scripts</Filter>
+      <Filter>Source\Lua Scripts</Filter>
     </None>
     <None Include="..\..\Bin\Scripts\Internal\Mission.lua">
-      <Filter>Lua Scripts\Internal</Filter>
+      <Filter>Source\Lua Scripts\Internal</Filter>
     </None>
     <None Include="..\..\Bin\Scripts\Internal\Loader.lua">
-      <Filter>Lua Scripts\Internal</Filter>
+      <Filter>Source\Lua Scripts\Internal</Filter>
     </None>
     <None Include="..\..\Bin\Scripts\Internal\Saver.lua">
-      <Filter>Lua Scripts\Internal</Filter>
+      <Filter>Source\Lua Scripts\Internal</Filter>
     </None>
     <None Include="..\..\Bin\Scripts\Internal\Camera.lua">
-      <Filter>Lua Scripts\Internal</Filter>
+      <Filter>Source\Lua Scripts\Internal</Filter>
     </None>
     <None Include="..\..\Bin\Scripts\Internal\Console.lua">
-      <Filter>Lua Scripts\Internal</Filter>
+      <Filter>Source\Lua Scripts\Internal</Filter>
     </None>
     <None Include="..\..\Bin\Scripts\Internal\Cutscene.lua">
-      <Filter>Lua Scripts\Internal</Filter>
+      <Filter>Source\Lua Scripts\Internal</Filter>
     </None>
     <None Include="..\..\Bin\Scripts\Internal\Clock.lua">
-      <Filter>Lua Scripts\Internal</Filter>
+      <Filter>Source\Lua Scripts\Internal</Filter>
     </None>
     <None Include="..\..\Bin\Scripts\Internal\Graphics.lua">
-      <Filter>Lua Scripts\Internal</Filter>
+      <Filter>Source\Lua Scripts\Internal</Filter>
     </None>
     <None Include="..\..\Bin\Scripts\Internal\Input.lua">
-      <Filter>Lua Scripts\Internal</Filter>
+      <Filter>Source\Lua Scripts\Internal</Filter>
     </None>
     <None Include="..\..\Bin\Scripts\Internal\Resource.lua">
-      <Filter>Lua Scripts\Internal</Filter>
+      <Filter>Source\Lua Scripts\Internal</Filter>
     </None>
     <None Include="..\..\Bin\Scripts\Internal\Actor.lua">
-      <Filter>Lua Scripts\Internal</Filter>
+      <Filter>Source\Lua Scripts\Internal</Filter>
     </None>
     <None Include="..\..\Bin\Scripts\Internal\Car.lua">
-      <Filter>Lua Scripts\Internal</Filter>
+      <Filter>Source\Lua Scripts\Internal</Filter>
     </None>
     <None Include="..\..\Bin\Scripts\Internal\Dialog.lua">
-      <Filter>Lua Scripts\Internal</Filter>
+      <Filter>Source\Lua Scripts\Internal</Filter>
     </None>
     <None Include="..\..\Bin\Scripts\Internal\Entity.lua">
-      <Filter>Lua Scripts\Internal</Filter>
+      <Filter>Source\Lua Scripts\Internal</Filter>
     </None>
     <None Include="..\..\Bin\Scripts\Internal\Music.lua">
-      <Filter>Lua Scripts\Internal</Filter>
+      <Filter>Source\Lua Scripts\Internal</Filter>
     </None>
     <None Include="..\..\Bin\Scripts\Internal\Sound.lua">
-      <Filter>Lua Scripts\Internal</Filter>
+      <Filter>Source\Lua Scripts\Internal</Filter>
     </None>
     <None Include="..\..\Bin\Scripts\Internal\Trigger.lua">
-      <Filter>Lua Scripts\Internal</Filter>
+      <Filter>Source\Lua Scripts\Internal</Filter>
     </None>
     <None Include="..\..\Bin\Scripts\Mission1.lua">
-      <Filter>Lua Scripts</Filter>
+      <Filter>Source\Lua Scripts</Filter>
     </None>
     <None Include="..\..\Bin\Scripts\Mission2.lua">
-      <Filter>Lua Scripts</Filter>
+      <Filter>Source\Lua Scripts</Filter>
     </None>
     <None Include="..\..\Bin\Scripts\Pause.lua">
-      <Filter>Lua Scripts</Filter>
+      <Filter>Source\Lua Scripts</Filter>
     </None>
     <None Include="..\..\Bin\Scripts\MainMenu.lua">
-      <Filter>Lua Scripts</Filter>
+      <Filter>Source\Lua Scripts</Filter>
     </None>
     <None Include="..\..\Bin\Scripts\Credits.lua">
-      <Filter>Lua Scripts</Filter>
+      <Filter>Source\Lua Scripts</Filter>
     </None>
     <None Include="..\..\Bin\Scripts\Mission3.lua">
-      <Filter>Lua Scripts</Filter>
+      <Filter>Source\Lua Scripts</Filter>
     </None>
     <None Include="..\..\Bin\Scripts\Mission4.lua">
-      <Filter>Lua Scripts</Filter>
+      <Filter>Source\Lua Scripts</Filter>
     </None>
     <None Include="..\..\Bin\Scripts\Mission5.lua">
-      <Filter>Lua Scripts</Filter>
+      <Filter>Source\Lua Scripts</Filter>
     </None>
     <None Include="..\..\Bin\Scripts\Internal\ConsoleDev.lua">
-      <Filter>Lua Scripts\Internal</Filter>
+      <Filter>Source\Lua Scripts\Internal</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Animation\AnimationModule.h">
-      <Filter>Animation</Filter>
+      <Filter>Source\Animation</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Engine\ClockManager.h">
-      <Filter>Engine</Filter>
+      <Filter>Source\Engine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Engine\DebugLogManager.h">
-      <Filter>Engine</Filter>
+      <Filter>Source\Engine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Engine\EngineModule.h">
-      <Filter>Engine</Filter>
+      <Filter>Source\Engine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Engine\Engine.h">
-      <Filter>Engine</Filter>
+      <Filter>Source\Engine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Engine\Types.h">
-      <Filter>Engine</Filter>
+      <Filter>Source\Engine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Game\Actor.h">
-      <Filter>Game</Filter>
+      <Filter>Source\Game</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Game\Entity.h">
-      <Filter>Game</Filter>
+      <Filter>Source\Game</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Game\Game.h">
-      <Filter>Game</Filter>
+      <Filter>Source\Game</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Game\GameState.h">
-      <Filter>Game</Filter>
+      <Filter>Source\Game</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Game\PlayState.h">
-      <Filter>Game</Filter>
+      <Filter>Source\Game</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Game\World.h">
-      <Filter>Game</Filter>
+      <Filter>Source\Game</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Graphics\Camera.h">
-      <Filter>Graphics</Filter>
+      <Filter>Source\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Graphics\GraphicsModule.h">
-      <Filter>Graphics</Filter>
+      <Filter>Source\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Input\InputModule.h">
-      <Filter>Input</Filter>
+      <Filter>Source\Input</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Math\Math.h">
-      <Filter>Math</Filter>
+      <Filter>Source\Math</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Script\ScriptModule.h">
-      <Filter>Script</Filter>
+      <Filter>Source\Script</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Sound\SoundModule.h">
-      <Filter>Sound</Filter>
+      <Filter>Source\Sound</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\AI\AICommand.h">
-      <Filter>AI</Filter>
+      <Filter>Source\AI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\AI\AITask.h">
-      <Filter>AI</Filter>
+      <Filter>Source\AI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\AI\GotoTask.h">
-      <Filter>AI</Filter>
+      <Filter>Source\AI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Game\Trigger.h">
-      <Filter>Game</Filter>
+      <Filter>Source\Game</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Engine\Console.h">
-      <Filter>Engine</Filter>
+      <Filter>Source\Engine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Game\Weapon.h">
-      <Filter>Game</Filter>
+      <Filter>Source\Game</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Sound\Sound.h">
-      <Filter>Sound</Filter>
+      <Filter>Source\Sound</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Sound\SoundPack.h">
-      <Filter>Sound</Filter>
+      <Filter>Source\Sound</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\AI\GotoEntityTask.h">
-      <Filter>AI</Filter>
+      <Filter>Source\AI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\AI\KillTask.h">
-      <Filter>AI</Filter>
+      <Filter>Source\AI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Graphics\RenderElement.h">
-      <Filter>Graphics</Filter>
+      <Filter>Source\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Graphics\Texture.h">
-      <Filter>Graphics</Filter>
+      <Filter>Source\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Game\Dialog.h">
-      <Filter>Game</Filter>
+      <Filter>Source\Game</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Game\Car.h">
-      <Filter>Game</Filter>
+      <Filter>Source\Game</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\AI\WaitTask.h">
-      <Filter>AI</Filter>
+      <Filter>Source\AI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\AI\AnimateForTask.h">
-      <Filter>AI</Filter>
+      <Filter>Source\AI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\AI\WaitAnimationTask.h">
-      <Filter>AI</Filter>
+      <Filter>Source\AI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\AI\WaitDialogTask.h">
-      <Filter>AI</Filter>
+      <Filter>Source\AI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\AI\FadeInTask.h">
-      <Filter>AI</Filter>
+      <Filter>Source\AI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\AI\FadeOffTask.h">
-      <Filter>AI</Filter>
+      <Filter>Source\AI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\AI\PushCommandTask.h">
-      <Filter>AI</Filter>
+      <Filter>Source\AI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\AI\RunDialogTask.h">
-      <Filter>AI</Filter>
+      <Filter>Source\AI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\AI\AIState.h">
-      <Filter>AI</Filter>
+      <Filter>Source\AI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\AI\WaitTalkingTask.h">
-      <Filter>AI</Filter>
+      <Filter>Source\AI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Game\PauseState.h">
-      <Filter>Game</Filter>
+      <Filter>Source\Game</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Engine\Platform.h">
-      <Filter>Engine</Filter>
+      <Filter>Source\Engine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Engine\CollisionManager.h">
-      <Filter>Engine</Filter>
+      <Filter>Source\Engine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Containers\List.h">
-      <Filter>Containers</Filter>
+      <Filter>Source\Containers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Engine\Assert.h">
-      <Filter>Engine</Filter>
+      <Filter>Source\Engine</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="GT2D.rc">
+      <Filter>Resources</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\Icon.ico">
+      <Filter>Resources</Filter>
+    </Image>
   </ItemGroup>
 </Project>

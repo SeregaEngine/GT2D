@@ -37,9 +37,6 @@ void GraphicsModule::StartUp(SDL_Window* pWindow, SDL_Renderer* pRenderer, s32 w
     m_pConsoleFont = TTF_OpenFont("Fonts/Cascadia.ttf", 48);
     m_pGameFont = TTF_OpenFont("Fonts/VT323-Regular.ttf", 148);
 
-    // Set windows icon
-    SetWindowIcon();
-
     AddNote(PR_NOTE, "Module started");
 }
 
@@ -206,13 +203,6 @@ void GraphicsModule::DrawRect(s32 renderMode, s32 zIndex, b32 bHUD, const SDL_Re
 
     // Push element
     PushRenderElement(renderMode, new RenderElementRect(zIndex, dest, RenderElementRect::ACTION_DRAW));
-}
-
-void GraphicsModule::SetWindowIcon()
-{
-    SDL_Surface* pSurface = IMG_Load("Icon.png");
-    SDL_SetWindowIcon(m_pWindow, pSurface);
-    SDL_FreeSurface(pSurface);
 }
 
 void GraphicsModule::RenderQueue(const TList<RenderElement*>& queue) const

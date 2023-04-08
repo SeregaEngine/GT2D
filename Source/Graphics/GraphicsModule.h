@@ -97,8 +97,6 @@ public:
     forceinline void SetDrawColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a) { m_drawColor = { r, g, b, a }; }
 
 private:
-    void SetWindowIcon();
-
     void RenderQueue(const TList<RenderElement*>& queue) const;
     void CleanQueues();
     void CleanQueue(TList<RenderElement*>& queue);

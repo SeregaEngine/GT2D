@@ -5,25 +5,17 @@
 
 class Engine final : public EngineModule
 {
-public:
-    enum eExitCode
-    {
-        EC_OK = 0,
-        EC_ERROR = 1
-    };
-
-private:
     SDL_Window* m_pWindow;
     SDL_Renderer* m_pRenderer;
 
 public:
-    Engine() :
-        EngineModule("GT2D", CHANNEL_GT2D),
-        m_pWindow(nullptr), m_pRenderer(nullptr) {}
-    ~Engine() {}
+    Engine() : EngineModule("GT2D", CHANNEL_GT2D) {}
+    ~Engine() = default;
 
     void StartUp();
     void ShutDown();
+
+    /** Returns exit status */
     s32 Run();
 };
 

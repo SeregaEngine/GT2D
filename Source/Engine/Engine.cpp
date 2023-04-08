@@ -152,5 +152,5 @@ s32 Engine::Run()
 
     ShutDown();
 
-    return EC_OK;
+    return 0;
 }

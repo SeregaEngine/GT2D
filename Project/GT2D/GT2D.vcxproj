@@ -197,7 +197,7 @@
     <ClCompile Include="..\..\Source\Graphics\Camera.cpp" />
     <ClCompile Include="..\..\Source\Graphics\GraphicsModule.cpp" />
     <ClCompile Include="..\..\Source\Input\InputModule.cpp" />
-    <ClCompile Include="..\..\Source\Main\main.cpp" />
+    <ClCompile Include="..\..\Source\Main\Main.cpp" />
     <ClCompile Include="..\..\Source\Math\Math.cpp" />
     <ClCompile Include="..\..\Source\Script\ScriptModule.cpp" />
     <ClCompile Include="..\..\Source\Sound\SoundModule.cpp" />
@@ -281,6 +281,13 @@
     <ClInclude Include="..\..\Source\Sound\Sound.h" />
     <ClInclude Include="..\..\Source\Sound\SoundPack.h" />
     <ClInclude Include="..\..\Source\Sound\SoundModule.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="GT2D.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\Icon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
