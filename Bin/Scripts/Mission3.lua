@@ -64,10 +64,10 @@ Weapons["Fist"] = Resource.defineWeapon(Resource.defineAnimation(4, 3, 1000.0 / 
 Weapons["MexFist"] = Resource.defineWeapon(Anims["MexFist"], 8, 8, 10, Sounds["Punch1"], Sounds["Punch2"], Sounds["Punch3"], Sounds["Punch4"])
 Weapons["DogFist"] = Resource.defineWeapon(Anims["DogAttack"], 8, 8, 3, Sounds["DogPunch1"], Sounds["DogPunch2"], Sounds["DogPunch3"])
 
----- Mission
-L1 = {}
-L2 = {}
-L3 = {}
+---- Levels
+local L1 = {}
+local L2 = {}
+local L3 = {}
 
 function Mission.onEnter(Location)
     if Location == 1 then

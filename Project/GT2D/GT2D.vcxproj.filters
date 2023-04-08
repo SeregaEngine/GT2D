@@ -372,9 +372,6 @@
     <ClInclude Include="..\..\Source\Engine\StdHeaders.h">
       <Filter>Source\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Main\PrecompiledHeaders.h">
-      <Filter>Source\Main</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GT2D.rc">

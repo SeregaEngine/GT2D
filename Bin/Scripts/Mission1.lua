@@ -49,11 +49,11 @@ Anims["PlayerDead"] = Resource.defineAnimation(5, 3, 1000.0 / 2)
 
 Weapons["DarkLordFist"] = Resource.defineWeapon(Anims["DarkLordFist"], 8, 8, 5, Sounds["Punch1"], Sounds["Punch2"], Sounds["Punch3"], Sounds["Punch4"])
 
----- Globals
-L1 = {}
-L2 = {}
-L3 = {}
-L4 = {}
+---- Levels
+local L1 = {}
+local L2 = {}
+local L3 = {}
+local L4 = {}
 
 ---- Mission
 function Mission.onEnter(Location)

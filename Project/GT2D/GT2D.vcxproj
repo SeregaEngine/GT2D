@@ -110,7 +110,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>Main/PrecompiledHeaders.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
@@ -130,7 +130,7 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <DebugInformationFormat>None</DebugInformationFormat>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>Main/PrecompiledHeaders.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
@@ -149,8 +149,9 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>Main/PrecompiledHeaders.h</PrecompiledHeaderFile>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -173,8 +174,9 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <ExceptionHandling>false</ExceptionHandling>
       <AdditionalOptions>-D_HAS_EXCEPTIONS=0 %(AdditionalOptions)</AdditionalOptions>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>Main/PrecompiledHeaders.h</PrecompiledHeaderFile>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -291,7 +293,6 @@
     <ClInclude Include="..\..\Source\Graphics\Texture.h" />
     <ClInclude Include="..\..\Source\Graphics\RenderElement.h" />
     <ClInclude Include="..\..\Source\Input\InputModule.h" />
-    <ClInclude Include="..\..\Source\Main\PrecompiledHeaders.h" />
     <ClInclude Include="..\..\Source\Math\Math.h" />
     <ClInclude Include="..\..\Source\Script\ScriptModule.h" />
     <ClInclude Include="..\..\Source\Sound\Sound.h" />

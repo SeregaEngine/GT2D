@@ -21,9 +21,9 @@ Sounds["PickupThrottling"] = Resource.defineSound("Sounds/PickupThrottling.wav")
 Musics["Ambient2"] = Resource.defineMusic("Music/Nature.mp3")
 Musics["Morning"] = Musics["Ambient2"]
 
----- Globals
-L1 = {}
-L2 = {}
+---- Levels
+local L1 = {}
+local L2 = {}
 
 ---- Mission
 function Mission.onEnter(Location)
