@@ -7,7 +7,7 @@
 class ClockManager
 {
 private:
-    static constexpr f32 MAX_DELTA_TIME = 20.0f;
+    static constexpr f32 MAX_DELTA_TIME = 25.0f;
 
 private:
     u32 m_startTime;
