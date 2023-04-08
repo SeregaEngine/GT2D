@@ -1,7 +1,5 @@
-#include <cstdlib>
-#include <cerrno>
-#include <cstdarg>
 #include <filesystem>
+#include "Engine/StdHeaders.h"
 #include "Engine/Console.h"
 #include "Engine/DebugLogManager.h"
 #include "Engine/Assert.h"

@@ -1,4 +1,4 @@
-#include <cmath>
+#include "Engine/StdHeaders.h"
 #include "Math/Math.h"
 
 void Math::StartUp()

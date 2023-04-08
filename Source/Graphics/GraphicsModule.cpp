@@ -1,5 +1,5 @@
-#include <cstdio>
 #include "SDL_image.h"
+#include "Engine/StdHeaders.h"
 #include "Math/Math.h"
 #include "Graphics/RenderElement.h"
 #include "Graphics/Texture.h"

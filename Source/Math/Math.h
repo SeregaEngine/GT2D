@@ -1,7 +1,6 @@
 #pragma once
 
-#include <cstring>
-#include <cmath>
+#include "Engine/StdHeaders.h"
 #include "Engine/Types.h"
 #include "Engine/Platform.h"
 

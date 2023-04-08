@@ -1,7 +1,7 @@
-#include <cstring>
 #include "Graphics/GraphicsModule.h"
 #include "Script/ScriptModule.h"
 #include "Game/Game.h"
+#include "Engine/StdHeaders.h" 
 #include "Engine/Console.h"
 
 static constexpr i32f CONSOLE_STRING_WIDTH = 80;

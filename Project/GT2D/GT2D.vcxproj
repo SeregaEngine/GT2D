@@ -110,6 +110,8 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeaderFile>Main/PrecompiledHeaders.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -128,6 +130,8 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
       <DebugInformationFormat>None</DebugInformationFormat>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeaderFile>Main/PrecompiledHeaders.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -145,6 +149,8 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeaderFile>Main/PrecompiledHeaders.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -157,12 +163,18 @@
       <WarningLevel>Level3</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
+      <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <DebugInformationFormat>None</DebugInformationFormat>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <ExceptionHandling>false</ExceptionHandling>
+      <AdditionalOptions>-D_HAS_EXCEPTIONS=0 %(AdditionalOptions)</AdditionalOptions>
+      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeaderFile>Main/PrecompiledHeaders.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -183,7 +195,9 @@
     <ClCompile Include="..\..\Source\Engine\Console.cpp" />
     <ClCompile Include="..\..\Source\Engine\DebugLogManager.cpp" />
     <ClCompile Include="..\..\Source\Engine\EngineModule.cpp" />
-    <ClCompile Include="..\..\Source\Engine\Engine.cpp" />
+    <ClCompile Include="..\..\Source\Engine\Engine.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Main/PrecompiledHeaders.h</PrecompiledHeaderFile>
+    </ClCompile>
     <ClCompile Include="..\..\Source\Game\Actor.cpp" />
     <ClCompile Include="..\..\Source\Game\Car.cpp" />
     <ClCompile Include="..\..\Source\Game\Dialog.cpp" />
@@ -259,6 +273,7 @@
     <ClInclude Include="..\..\Source\Engine\EngineModule.h" />
     <ClInclude Include="..\..\Source\Engine\Engine.h" />
     <ClInclude Include="..\..\Source\Engine\Platform.h" />
+    <ClInclude Include="..\..\Source\Engine\StdHeaders.h" />
     <ClInclude Include="..\..\Source\Engine\Types.h" />
     <ClInclude Include="..\..\Source\Game\Actor.h" />
     <ClInclude Include="..\..\Source\Game\Car.h" />
@@ -276,6 +291,7 @@
     <ClInclude Include="..\..\Source\Graphics\Texture.h" />
     <ClInclude Include="..\..\Source\Graphics\RenderElement.h" />
     <ClInclude Include="..\..\Source\Input\InputModule.h" />
+    <ClInclude Include="..\..\Source\Main\PrecompiledHeaders.h" />
     <ClInclude Include="..\..\Source\Math\Math.h" />
     <ClInclude Include="..\..\Source\Script\ScriptModule.h" />
     <ClInclude Include="..\..\Source\Sound\Sound.h" />

@@ -57,7 +57,7 @@ void Engine::StartUp()
         }
 
         // Create renderer
-        if ( nullptr == (m_pRenderer = SDL_CreateRenderer(m_pWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC)) )
+        if ( nullptr == (m_pRenderer = SDL_CreateRenderer(m_pWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC)))
         {
             AddNote(PR_ERROR, "Error on creating renderer: %s", SDL_GetError());
             AssertNoEntry();

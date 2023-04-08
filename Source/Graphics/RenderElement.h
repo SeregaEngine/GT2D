@@ -1,8 +1,8 @@
 #pragma once
 
-#include <cstring>
 #include "SDL.h"
 #include "SDL_ttf.h"
+#include "Engine/StdHeaders.h" 
 #include "Engine/Types.h"
 #include "Graphics/GraphicsModule.h"
 #include "Graphics/Texture.h"

@@ -1,9 +1,8 @@
 #pragma once
 
-#include <cstdio>
-#include <cstdarg>
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+#include "Engine/StdHeaders.h"
 #include "Engine/Types.h"
 
 /** Each channel represent engine's module */

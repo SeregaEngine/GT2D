@@ -1,6 +1,6 @@
 #pragma once
 
-#include <cstring>
+#include "Engine/StdHeaders.h" 
 #include "Game/Entity.h"
 
 class Trigger final : public Entity
