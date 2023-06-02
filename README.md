@@ -9,7 +9,7 @@ It was used to create [Petrol: The Fastest](https://snowfall-eagle.itch.io/petro
 
 Watch [Petrol: The Fastest Trailer on YouTube](https://www.youtube.com/watch?v=pXLk-8X7ILQ)
 
-![Screenshot](Project/Images/Screenshot1.png)
+![Screenshot](Project/Images/PetrolTheFastest.png)
 
 ## Features
 
@@ -25,4 +25,9 @@ Watch [Petrol: The Fastest Trailer on YouTube](https://www.youtube.com/watch?v=p
 You can check out game made with this engine
 [Petrol: The Fastest on itch.io](https://snowfall-eagle.itch.io/petrol-the-fastest) and [YouTube](https://www.youtube.com/watch?v=pXLk-8X7ILQ)
 
-![Screenshot](Project/Images/Screenshot2.png)
+### Screenshots
+![Screenshot](Project/Images/Screenshot-1.png)
+![Screenshot](Project/Images/Screenshot-2.png)
+![Screenshot](Project/Images/Screenshot-3.png)
+![Screenshot](Project/Images/Screenshot-4.png)
+![Screenshot](Project/Images/Screenshot-5.png)
