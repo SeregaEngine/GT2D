@@ -44,6 +44,6 @@ To load from "Save" file you can just do Mission.switch("Scripts/Internal/Loader
 ## Petrol: The Fastest
 
 You can check out game made with this engine
-[Petrol: The Fastest on itch.io](https://snowfall-eagle.itch.io/petrol-the-fastest)
+[Petrol: The Fastest on itch.io](https://snowfall-eagle.itch.io/petrol-the-fastest) and [YouTube](https://www.youtube.com/watch?v=pXLk-8X7ILQ)
 
 ![Screenshot](Project/Images/Screenshot2.png)
