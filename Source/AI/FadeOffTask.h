@@ -29,7 +29,11 @@ public:
         }
 
         g_graphicsModule.SetDrawColor(0, 0, 0, (Uint8)m_alpha);
-        g_graphicsModule.FillRect(RENDER_MODE_FOREGROUND, 500, true, m_destRect);
+
+        // @NOTE: Dialog could has really large z-index (kConst + yPosition) and also has FOREGROUND render mode, so we need large number.
+        static constexpr s32 FADE_ZINDEX = 99999;
+        g_graphicsModule.FillRect(RENDER_MODE_FOREGROUND, FADE_ZINDEX, true, m_destRect);
+
         m_alpha += m_alphaPerMs * g_clockMgr.GetDelta();
     }
 };
