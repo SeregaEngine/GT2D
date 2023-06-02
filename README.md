@@ -29,5 +29,4 @@ You can check out game made with this engine
 ![Screenshot](Project/Images/Screenshot-1.png)
 ![Screenshot](Project/Images/Screenshot-2.png)
 ![Screenshot](Project/Images/Screenshot-3.png)
-![Screenshot](Project/Images/Screenshot-5.png)
 ![Screenshot](Project/Images/Screenshot-4.png)
