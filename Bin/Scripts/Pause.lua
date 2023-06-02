@@ -30,7 +30,6 @@ function Mission.onEnter(Location)
 	showCursor()
 
 	-- Defines
-
 	Active = BUTTON_CONTINUE_TEXT 
 end
 

@@ -36,7 +36,6 @@ GarageBlueprint.Night = Resource.defineTexture("Textures/Locations/GarageBluepri
 GarageBlueprint.TimeTicks = Clock.getTicks()
 
 function GarageBlueprint.onEnter()
-
     -- Entities
 	Fire = Actor:new(76, 36.5, GW_ACTOR, GH_ACTOR, Textures["Fire"])
 	Fire:setRenderMode(RENDER_MODE_BACKGROUND)
